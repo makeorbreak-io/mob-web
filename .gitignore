@@ -1,0 +1,19 @@
+# Based on https://www.gitignore.io/api/node
+
+### Node ###
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build
+
+# Dependency directories
+node_modules

@@ -1,0 +1,22 @@
+{
+  "env": {
+    "browser": true
+  },
+
+  "parser": "babel-eslint",
+
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+
+  "plugins": [
+    "react"
+  ],
+
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ]
+}
