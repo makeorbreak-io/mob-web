@@ -1,12 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router, Route, browserHistory } from "react-router";
 
 //
-// Components
+// Top-level components
 import App from "components/app";
 
 const router = (
-  <Router>
+  <Router history={browserHistory}>
     <Route path="/" component={App} />
   </Router>
 );

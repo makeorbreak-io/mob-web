@@ -36,22 +36,27 @@ module.exports = {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, use: "eslint-loader", enforce: "pre" },
       { test: /\.js$/, exclude: /node_modules/, use: [ "react-hot-loader/webpack", "babel-loader" ] },
-      { test: /\.json$/, loader: "json-loader" },
+      { test: /\.json$/, use: "json-loader" },
+      { test: /\.css$/, use: [ "style-loader", "css-loader" ] },
+      { test: /\.styl$/, use: [ "style-loader", "css-loader", "postcss-loader", "stylus-loader" ] },
     ],
   },
 
   resolve: {
+    extensions: [ ".js", ".json", ".styl", ".css" ],
+
     alias: {
       // files
       "environment": path.resolve(__dirname, "src", "config", "environment.js"),
 
       // absolute paths
       "app": path.resolve(__dirname, "src", "app"),
+      "assets": path.resolve(__dirname, "src", "assets"),
       "components": path.resolve(__dirname, "src", "components"),
-      "uikit": path.resolve(__dirname, "src", "components", "uikit"),
-      "util": path.resolve(__dirname, "src", "util"),
       "enhancers": path.resolve(__dirname, "src", "enhancers"),
       "redux-root": path.resolve(__dirname, "src", "redux"),
+      "uikit": path.resolve(__dirname, "src", "components", "uikit"),
+      "util": path.resolve(__dirname, "src", "util"),
     },
   },
 

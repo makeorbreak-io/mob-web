@@ -1,3 +1,6 @@
+import "assets/normalize";
+import "./styles";
+
 import React from "react";
 import { compose, setDisplayName } from "recompose";
 
