@@ -3,19 +3,21 @@ import "./styles";
 import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import { compose, setDisplayName, mapProps, setPropTypes } from "recompose";
+import { compose, setDisplayName, mapProps, setPropTypes, defaultProps } from "recompose";
 import { connect } from "react-redux";
 import { get } from "lodash";
 
 export const ErrorMessage = ({
   visible,
   error,
+  left,
+  right,
 }) => {
-  const cx = classnames("ErrorMessage", { visible });
+  const cx = classnames("ErrorMessage", { visible, left, right });
   
   return (
     <div className={cx}>
-      {error}
+      {visible && error}
     </div>
   );
 }
@@ -27,24 +29,37 @@ export default compose(
     const { form, field } = props;
 
     const { visited, touched } = get(state, `form.${form}.fields.${field}`, {});
-    const error = get(state, `form.${form}.syncErrors.${field}`, null);
     const submitFailed = get(state, `form.${form}.submitFailed`, false);
+
+    const { syncErrors, asyncErrors, submitErrors } = get(state, `form.${form}`, {});
+    const error = {
+      ...syncErrors,
+      ...asyncErrors,
+      ...submitErrors,
+    }[field];
 
     return {
       visited,
       touched,
-      error,
       submitFailed,
+      error,
     };
   }),
 
   mapProps((props) => ({
     ...props,
-    visible: ((props.visited && props.touched) || props.submitFailed),
+    visible: ((props.visited && props.touched) || props.submitFailed) && !!props.error,
   })),
 
   setPropTypes({
     form: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
+    left: PropTypes.bool.isRequired,
+    right: PropTypes.bool.isRequired,
   }),
+
+  defaultProps({
+    left: false,
+    right: false,
+  })
 )(ErrorMessage);

@@ -1,0 +1,18 @@
+@import "~components/variables"
+
+.ErrorMessage
+  display: none
+  position: relative
+  color: $red
+  font-size: 12px
+  text-indent: 11px
+
+  &.visible
+    display: inline-block
+    padding: 5px 0 10px
+
+  &.left, &.right
+    width: 50%
+
+  &.right
+    text-indent: 10px

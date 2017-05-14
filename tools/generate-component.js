@@ -1,6 +1,6 @@
 const fs = require("fs");
 const program = require("commander");
-const { snakeCase } = require("lodash");
+const { last, slice, snakeCase } = require("lodash");
 
 const stylusTemplate = 
 `@import "~components/variables"
@@ -32,9 +32,13 @@ export default compose(
 `
 program
   .arguments("<name>")
-  .action((name, opts) => {
+  .action((name) => {
+    const paths = name.split("/");
+    const pathPrefix = slice(paths, 0, paths.length - 1).join("/");
+    const componentName = last(paths);
+
     const mode = "wx";
-    const path = `src/components/${snakeCase(name)}`;
+    const path = `src/components/${pathPrefix}/${snakeCase(componentName)}`;
 
     try {
       fs.mkdirSync(path) //, (a, b, c) => console.log(a, b, c));
@@ -45,7 +49,7 @@ program
     const stylesFilename = `${path}/styles.styl`;
     try {
       const styles = fs.openSync(stylesFilename, mode);
-      fs.writeSync(styles, stylusTemplate.replace(/:name:/g, name));
+      fs.writeSync(styles, stylusTemplate.replace(/:name:/g, componentName));
       console.log(`Wrote ${stylesFilename}`);
     } catch(e) {
       console.log(`${stylesFilename} exists, skipping`);
@@ -54,7 +58,7 @@ program
     const jsFilename = `${path}/index.js`
     try {
       const js = fs.openSync(jsFilename, mode);
-      fs.writeSync(js, jsTemplate.replace(/:name:/g, name));
+      fs.writeSync(js, jsTemplate.replace(/:name:/g, componentName));
       console.log(`Wrote ${jsFilename}`);
     } catch(e) {
       console.log(`${jsFilename} exists, skipping`);

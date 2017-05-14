@@ -1,0 +1,85 @@
+@import "~components/variables"
+
+$hover = 20%
+$disabled = 70%
+ComposeButton($color)
+  &
+    background: $color
+    border-color: $color
+
+    &:hover
+      background: darken($color, $hover)
+      border-color: darken($color, $hover)
+
+    &.hollow
+      color: $color
+
+      &:hover
+        color: darken($color, $hover)
+
+    &.disabled, &.disabled:hover
+      background: lighten($color, $disabled)
+      border-color: lighten($color, $disabled)
+
+.Button
+  display: inline-block
+  padding: 0 20px
+  height: 40px
+  line-height: @height
+  border: 1px solid black
+  background: white
+  outline: none
+  color: black
+  border-radius: 3px
+  transition: all linear 200ms
+  cursor: pointer
+
+  //
+  // sizes
+  &.small
+    font-size: 12px
+
+  //
+  // behaviour
+  &.disabled
+    cursor: default
+
+  &.fakelink
+    border: none
+    text-decoration: underline
+    padding: 0
+    height: auto
+    line-height: initial
+
+  &.form
+    width: 40%
+    float: right
+
+  //
+  // dimensions
+  &.fullwidth
+    width: 100%
+
+  //
+  // colors
+  &.primary, &.success, &.warning, &.danger
+    color: white
+
+    &.hollow, &.hollow:hover
+      background: white
+
+  &.primary
+    ComposeButton($button-primary)
+
+  &.success
+    ComposeButton($button-success)
+
+  &.warning
+    ComposeButton($button-warning)
+  &.danger
+    ComposeButton($button-danger)
+
+  //
+  // children
+  .Spinner
+    vertical-align: text-bottom

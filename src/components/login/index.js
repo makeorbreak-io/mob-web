@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
-import { Field, reduxForm } from "redux-form";
-import { connect } from "react-redux";
+import { Field, reduxForm, SubmissionError } from "redux-form";
 import Promise from "bluebird";
 
 //
@@ -10,13 +9,13 @@ import Button from "uikit/button";
 import ErrorMessage from "uikit/error_message";
 
 //
-// Utils
-import request, { processSubmissionError } from "util/http";
-
-//
 // Redux
 import { setJWT } from "actions/authentication";
 import { setCurrentUser } from "actions/current_user";
+
+//
+// Utils
+import request from "util/http";
 
 //
 // Validation
@@ -29,7 +28,7 @@ const validate = (values) => {
   )(values);
 }
 
-export class Signup extends Component {
+export class Login extends Component {
 
   componentWillMount() {
     this.props.initialize({
@@ -38,12 +37,12 @@ export class Signup extends Component {
     });
   }
 
-  onSignup = (values) => {
+  onLogin = (values) => {
     const { dispatch } = this.props;
 
     return new Promise((resolve, reject) => {
-      request.post("users", {
-        user: values,
+      return request.post("login", {
+        ...values,
       })
       .then(response => {
         const { jwt, user } = response.data.data;
@@ -53,7 +52,9 @@ export class Signup extends Component {
 
         return resolve();
       })
-      .catch(error => reject(processSubmissionError(error)));
+      .catch(() => {
+        return reject(new SubmissionError({ password: "Invalid credentials" }));
+      });
     });
   }
 
@@ -61,8 +62,8 @@ export class Signup extends Component {
     const { handleSubmit, submitting } = this.props;
 
     return (
-      <div className="Signup">
-        <form onSubmit={handleSubmit(this.onSignup)}>
+      <div className="Login">
+        <form onSubmit={handleSubmit(this.onLogin)}>
           <div>
             <Field
               name="email"
@@ -71,7 +72,7 @@ export class Signup extends Component {
               placeholder="Email"
               className="fullwidth"
             />
-            <ErrorMessage form="signup" field="email" />
+            <ErrorMessage form="login" field="email" />
           </div>
 
           <div>
@@ -82,7 +83,7 @@ export class Signup extends Component {
               placeholder="Password"
               className="fullwidth"
             />
-            <ErrorMessage form="signup" field="password" />
+            <ErrorMessage form="login" field="password" />
           </div>
 
           <Button
@@ -92,7 +93,7 @@ export class Signup extends Component {
             disabled={submitting}
             loading={submitting}
           >
-            Register
+            Login
           </Button>
         </form>
 
@@ -103,12 +104,11 @@ export class Signup extends Component {
 }
 
 export default compose(
-  setDisplayName("Signup"),
-
-  connect(),
+  setDisplayName("Login"),
 
   reduxForm({
-    form: "signup",
+    form: "login",
     validate,
   }),
-)(Signup);
+)(Login);
+

@@ -38,7 +38,7 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, use: [ "react-hot-loader/webpack", "babel-loader" ] },
       { test: /\.json$/, use: "json-loader" },
       { test: /\.css$/, use: [ "style-loader", "css-loader" ] },
-      { test: /\.styl$/, use: [ "style-loader", "css-loader", "postcss-loader", "stylus-loader" ] },
+      { test: /\.styl$/, use: [ "style-loader", "css-loader", { loader: "postcss-loader", options: { sourceMap: true} }, "stylus-loader" ] },
     ],
   },
 
@@ -47,14 +47,17 @@ module.exports = {
 
     alias: {
       // files
+      "action-types": path.resolve(__dirname, "src", "redux", "action_types.js"),
       "environment": path.resolve(__dirname, "src", "config", "environment.js"),
+      "validators": path.resolve(__dirname, "src", "validators", "index.js"),
 
       // absolute paths
-      "app": path.resolve(__dirname, "src", "app"),
+      "actions": path.resolve(__dirname, "src", "redux", "actions"),
       "assets": path.resolve(__dirname, "src", "assets"),
       "components": path.resolve(__dirname, "src", "components"),
       "enhancers": path.resolve(__dirname, "src", "enhancers"),
       "redux-root": path.resolve(__dirname, "src", "redux"),
+      "root": path.resolve(__dirname, "src"),
       "uikit": path.resolve(__dirname, "src", "components", "uikit"),
       "util": path.resolve(__dirname, "src", "util"),
     },

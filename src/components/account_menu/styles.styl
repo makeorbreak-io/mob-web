@@ -1,0 +1,39 @@
+@import "~components/variables"
+
+$margin = 30px
+.AccountMenu
+  display: none
+  position: absolute
+  top: $navbar-height + $margin
+  right: $margin
+
+  &.visible
+    display: block
+
+  &:before, &:after
+    display: block
+    position: absolute
+    top: -7px
+    right: 35px
+    content: ""
+    width: 15px
+    height: @width
+    transform: rotate(45deg)
+
+  &:before
+    box-shadow: 0 0 3px 1px rgba(black, 0.3)
+    zIndex("negative")
+
+  &:after
+    background: white
+    zIndex("increment")
+
+  .content
+    width: 240px
+    padding: 20px
+    background: white
+    border: 1px solid $light-grey
+    box-shadow: 0 0 4px -1px rgba(black, 0.3)
+    border-radius: 2px
+    zIndex("account-menu")
+
