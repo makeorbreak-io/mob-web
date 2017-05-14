@@ -1,4 +1,9 @@
 //
+// app setup
+export const PERFORM_SETUP = "PERFORM_SETUP";
+export const SET_READY = "SET_READY";
+
+//
 // authentication
 export const LOGOUT = "LOGOUT";
 export const SET_JWT = "SET_JWT";
