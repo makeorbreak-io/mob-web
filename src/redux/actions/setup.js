@@ -23,7 +23,7 @@ export const setReady = createAction(SET_READY);
 
 export const performSetup = () => {
   return (dispatch) => {
-    dispatch(createAction(PERFORM_SETUP));
+    dispatch(createAction(PERFORM_SETUP)());
 
     return request
     .get("/me")

@@ -10,6 +10,7 @@ import Home from "components/home";
 import Signup from "components/signup";
 
 import AccountSettings from "components/account_settings";
+import Team from "components/team";
 
 const router = (
   <Router history={browserHistory}>
@@ -23,6 +24,8 @@ const router = (
         <Route path="account">
           <Route path="settings" component={AccountSettings} />
         </Route>
+
+        <Route path="team" component={Team} />
       </Route>
 
     </Route>
