@@ -1,7 +1,7 @@
-import "./styles"
+import "./styles";
 
 import React from "react";
-import PropTypes from "prop-types";
+import { oneOf, bool, func, string } from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 import classnames from "classnames";
 import { noop } from "lodash";
@@ -16,7 +16,7 @@ export const Button = ({
   onClick,
   className,
   children,
-  primary, success, warning, danger, hollow, fullwidth, fakelink, small, loading, form
+  primary, success, warning, danger, hollow, fullwidth, fakelink, small, loading, form,
 }) => {
   const cx = classnames("Button", className, {
     disabled, primary, success, warning, danger, hollow, fullwidth, fakelink, small, loading, form,
@@ -27,26 +27,26 @@ export const Button = ({
       { loading ? <Spinner /> : children }
     </button>
   );
-}
+};
 
 export default compose(
   setDisplayName("Button"),
 
   setPropTypes({
-    type      : PropTypes.oneOf([ "button", "submit" ]),
-    disabled  : PropTypes.bool.isRequired,
-    onClick   : PropTypes.func.isRequired,
-    className : PropTypes.string,
-    primary   : PropTypes.bool.isRequired,
-    success   : PropTypes.bool.isRequired,
-    warning   : PropTypes.bool.isRequired,
-    danger    : PropTypes.bool.isRequired,
-    hollow    : PropTypes.bool.isRequired,
-    fullwidth : PropTypes.bool.isRequired,
-    fakelink  : PropTypes.bool.isRequired,
-    small     : PropTypes.bool.isRequired,
-    form      : PropTypes.bool.isRequired,
-    loading   : PropTypes.bool.isRequired,
+    type      : oneOf([ "button", "submit" ]),
+    disabled  : bool.isRequired,
+    onClick   : func.isRequired,
+    className : string,
+    primary   : bool.isRequired,
+    success   : bool.isRequired,
+    warning   : bool.isRequired,
+    danger    : bool.isRequired,
+    hollow    : bool.isRequired,
+    fullwidth : bool.isRequired,
+    fakelink  : bool.isRequired,
+    small     : bool.isRequired,
+    form      : bool.isRequired,
+    loading   : bool.isRequired,
   }),
 
   defaultProps({

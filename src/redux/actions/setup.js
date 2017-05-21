@@ -41,5 +41,5 @@ export const performSetup = () => {
       dispatch(logout());
       dispatch(setReady(true));
     });
-  }
-}
+  };
+};

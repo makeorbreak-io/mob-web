@@ -1,4 +1,4 @@
-import "./styles"
+import "./styles";
 
 import PropTypes from "prop-types";
 import { compose, setDisplayName, getContext, lifecycle } from "recompose";
@@ -24,6 +24,6 @@ export default compose(
     componentWillReceiveProps(nextProps) {
       const { currentUser, router } = nextProps;
       if (!currentUser) router.push("/");
-    }
+    },
   }),
 )(Authenticated);

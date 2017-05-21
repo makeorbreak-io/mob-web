@@ -1,4 +1,4 @@
-import "./styles"
+import "./styles";
 
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
@@ -25,7 +25,7 @@ const validate = (values) => {
   return composeValidators(
     validatePresence("team_name", "Team name"),
   )(values);
-}
+};
 
 export class Team extends Component {
 

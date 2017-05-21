@@ -1,4 +1,4 @@
-import "./styles"
+import "./styles";
 
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
@@ -47,7 +47,7 @@ const formatDate = (value) => {
   if(!isEmpty(day))   finalValue = `${year}/${month}/${day}`;
 
   return finalValue;
-}
+};
 
 export class AccountSettings extends Component {
 

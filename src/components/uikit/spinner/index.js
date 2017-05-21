@@ -1,4 +1,4 @@
-import "./styles"
+import "./styles";
 
 import React from "react";
 import { compose, setDisplayName } from "recompose";

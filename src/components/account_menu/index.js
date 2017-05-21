@@ -60,7 +60,7 @@ export const AccountMenu = ({
       </div>
     </div>
   );
-}
+};
 
 export default compose(
   setDisplayName("AccountMenu"),

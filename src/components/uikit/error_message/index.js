@@ -20,7 +20,7 @@ export const ErrorMessage = ({
       {visible && error}
     </div>
   );
-}
+};
 
 export default compose(
   setDisplayName("ErrorMessage"),

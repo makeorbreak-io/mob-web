@@ -27,7 +27,7 @@ const validate = (values) => {
     validatePresence("email", "Email"),
     validatePresence("password", "Password"),
   )(values);
-}
+};
 
 export class Signup extends Component {
 
@@ -97,7 +97,7 @@ export class Signup extends Component {
         </form>
 
       </div>
-    )
+    );
   }
 
 }

@@ -26,5 +26,5 @@ export const updateCurrentUser = (id, params) => {
       return Promise.resolve(user);
     })
     .catch(error => Promise.reject(processSubmissionError(error)));
-  }
-}
+  };
+};

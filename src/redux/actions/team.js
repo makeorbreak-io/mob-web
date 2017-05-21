@@ -27,8 +27,8 @@ export const fetchTeam = (id) => {
       return Promise.resolve(data);
     })
     .catch(error => Promise.reject(processSubmissionError(error)));
-  }
-}
+  };
+};
 
 export const createTeam = (values) => {
   return (dispatch) => {
@@ -43,8 +43,8 @@ export const createTeam = (values) => {
       return Promise.resolve(data);
     })
     .catch(error => Promise.reject(processSubmissionError(error)));
-  }
-}
+  };
+};
 
 export const updateTeam = (id, values) => {
   return (dispatch) => {
@@ -56,8 +56,8 @@ export const updateTeam = (id, values) => {
       const { data } = response.data;
       dispatch(setTeam(data));
 
-      return Promise.resolve(data)
+      return Promise.resolve(data);
     })
     .catch(error => Promise.reject(processSubmissionError(error)));
-  }
-}
+  };
+};

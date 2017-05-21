@@ -10,7 +10,7 @@ const stylusTemplate =
 `
 
 const jsTemplate =
-`import "./styles"
+`import "./styles;"
 
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";

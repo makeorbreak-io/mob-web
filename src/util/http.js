@@ -27,6 +27,8 @@ request.interceptors.request.use(config => {
 
 export default request;
 
+//
+// Redux-Form submission errors
 export const processSubmissionError = (error) => {
   const errorList = map(error.response.data.errors, (messages, field) => {
     return { [field]: messages.join(", ") };
@@ -35,4 +37,4 @@ export const processSubmissionError = (error) => {
   const errors = reduce(errorList, merge, {});
 
   return new SubmissionError(errors);
-}
+};

@@ -21,7 +21,11 @@
   ],
 
   "rules": {
-    "no-mixed-operators": 2,
-    "react/prop-types": 0
+    "comma-dangle": [ "error", "always-multiline" ],
+    "no-mixed-operators": "error",
+    "quotes": [ "error", "double" ],
+    "semi": [ "error", "always" ],
+
+    "react/prop-types": "off"
   }
 }

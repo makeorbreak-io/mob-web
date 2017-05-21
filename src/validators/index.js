@@ -26,9 +26,9 @@ export const createValidator = (test, message) => {
       return test(values[field], opts)
         ? {}
         : { [field]: template(message)({ label, ...opts })};
-    }
-  }
-}
+    };
+  };
+};
 
 //
 // Validators

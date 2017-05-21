@@ -17,8 +17,8 @@ export const App = ({ children }) => {
         {children}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default compose(
   setDisplayName("App"),
