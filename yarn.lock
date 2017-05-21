@@ -2107,6 +2107,12 @@ file-entry-cache@^2.0.0:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
 
+file-loader@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-0.11.1.tgz#6b328ee1234a729e4e47d36375dd6d35c0e1db84"
+  dependencies:
+    loader-utils "^1.0.2"
+
 filename-regex@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/filename-regex/-/filename-regex-2.0.1.tgz#c1c4b9bee3e09725ddb106b75c1e301fe2f18b26"
@@ -2927,7 +2933,7 @@ loader-utils@^0.2.16:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-loader-utils@^1.0.2, loader-utils@^1.x:
+loader-utils@^1.0.2, loader-utils@^1.0.3, loader-utils@^1.x:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.1.0.tgz#c98aef488bcceda2ffb5e2de646d6a754429f5cd"
   dependencies:
@@ -4573,6 +4579,12 @@ supports-color@^3.1.0, supports-color@^3.1.1, supports-color@^3.2.3:
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
     has-flag "^1.0.0"
+
+svgo-loader@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/svgo-loader/-/svgo-loader-1.2.1.tgz#e255cdebf56753ff83bd28d1d7a20762c0df5130"
+  dependencies:
+    loader-utils "^1.0.3"
 
 svgo@^0.7.0:
   version "0.7.2"
