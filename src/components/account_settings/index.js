@@ -1,11 +1,10 @@
 import "./styles"
 
 import React, { Component } from "react";
-import Promise from "bluebird";
 import { compose, setDisplayName } from "recompose";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { map } from "lodash";
+import { map, filter, slice, isEmpty } from "lodash";
 
 //
 // Components
@@ -13,12 +12,8 @@ import Button from "uikit/button";
 import ErrorMessage from "uikit/error_message";
 
 //
-// HTTP
-import request, { processSubmissionError } from "util/http";
-
-//
 // Redux
-import { setCurrentUser } from "actions/current_user";
+import { updateCurrentUser } from "actions/current_user";
 
 //
 // Constants
@@ -26,33 +21,40 @@ import { EMPLOYMENT_STATUS } from "constants/account_settings";
 
 //
 // Validation
-import { composeValidators, validatePresence } from "validators";
+import {
+  composeValidators,
+  validatePresence,
+  validateDateFormat,
+} from "validators";
 
 const validate = (values) => {
   return composeValidators(
     validatePresence("first_name", "First name"),
     validatePresence("last_name", "Last name"),
     validatePresence("email", "Email"),
+    validateDateFormat("birthday", "Birthday", { format: "YYYY/MM/DD" }),
   )(values);
 };
+
+const formatDate = (value) => {
+  const numerals = filter((value || "").split(""), c => /\d/.test(c));
+  const year  = slice(numerals, 0, 4).join("");
+  const month = slice(numerals, 4, 6).join("");
+  const day   = slice(numerals, 6, 8).join("");
+
+  let finalValue = year;
+  if(!isEmpty(month)) finalValue = `${year}/${month}`;
+  if(!isEmpty(day))   finalValue = `${year}/${month}/${day}`;
+
+  return finalValue;
+}
 
 export class AccountSettings extends Component {
 
   onSubmit = (values) => {
     const { dispatch, currentUser: { id } } = this.props;
 
-    return new Promise((resolve, reject) => {
-      return request.put(`/users/${id}`, {
-        user: values
-      })
-      .then((response) => {
-        const user = response.data.data;
-        dispatch(setCurrentUser(user));
-
-        return resolve();
-      })
-      .catch(error => reject(processSubmissionError(error)));
-    });
+    return dispatch(updateCurrentUser(id, values));
   }
 
   render() {
@@ -74,7 +76,7 @@ export class AccountSettings extends Component {
           <Field name="email" component="input" type="text" placeholder="Email" className="fullwidth" />
           <ErrorMessage form="account-settings" field="email" />
 
-          <Field name="birthday" component="input" type="text" placeholder="Birthday" className="fullwidth" />
+          <Field name="birthday" component="input" type="text" placeholder="Birthday (YYYY/MM/DD)" className="fullwidth" format={formatDate} autoComplete="off" />
           <ErrorMessage form="account-settings" field="birthday" />
 
           <Field name="bio" component="textarea" placeholder="Bio" className="fullwidth" />

@@ -1,3 +1,4 @@
+import moment from "moment";
 import { map, reduce, merge, isEmpty, template } from "lodash";
 
 // Tidily compose validators for a whole set of inputs
@@ -20,26 +21,42 @@ export const composeValidators = (...validators) => {
 // Helper method to abstract validator creation implementation details,
 // and focusing on actual validation logic
 export const createValidator = (test, message) => {
-  return (field, label) => {
+  return (field, label, opts = {}) => {
     return (values) => {
-      return test(values[field])
+      return test(values[field], opts)
         ? {}
-        : { [field]: template(message)({ label })};
+        : { [field]: template(message)({ label, ...opts })};
     }
   }
 }
 
 //
 // Validators
-export const validatePresence = (field, label) => {
-  return (values) => {
-    return !isEmpty(values[field])
-      ? {}
-      : { [field]: template("${label} is required")({ label }) }
-  }
-}
 
-// export const validatePresence = createValidator(
+// createValidator is used as a shortcut to achieve more readable validators.
+// The 2 code snippets below achieve the same results
+//
+// const validatePresence = (field, label) => {
+//   return (values) => {
+//     return !isEmpty(values[field])
+//       ? {}
+//       : { [field]: template("${label} is required")({ label }) }
+//   }
+// }
+//
+// const validatePresence = createValidator(
 //   v => !isEmpty(v),
 //   "${label} is required",
 // )
+
+// Presence
+export const validatePresence = createValidator(
+  v => !isEmpty(v),
+  "${label} is required",
+);
+
+// Non-required date format validation
+export const validateDateFormat = createValidator(
+  (v, opts) => isEmpty(v) ? true : moment(v, opts.format, false).isValid(),
+  "${label} is not a valid date. Use ${format} format.",
+);
