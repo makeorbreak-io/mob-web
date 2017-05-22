@@ -10,6 +10,7 @@ import Home from "components/home";
 import Signup from "components/signup";
 
 import AccountSettings from "components/account_settings";
+import { AccountTeam } from "components/account";
 import Team from "components/team";
 
 const router = (
@@ -23,10 +24,14 @@ const router = (
       <Route component={Authenticated}>
         <Route path="account">
           <Route path="settings" component={AccountSettings} />
+          <Route path="team" component={AccountTeam} />
         </Route>
-
-        <Route path="team" component={Team} />
       </Route>
+
+      {/* Public routes */}
+      <Route path="team/:id" component={({ location }) => (
+        <Team id={location.query.id} />
+      )} />
 
     </Route>
   </Router>

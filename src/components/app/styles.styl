@@ -22,13 +22,26 @@ html, body, #app
     justify-content: center
 
 //
+// Utility classes
+.clearfix
+  &:after
+    content: ""
+    display: table
+    clear: both
+
+//
 // Forms
 form
   margin: 10px 0
+  @extend .clearfix
 
   label
     font-family: sans-serif
     margin: 5px 0
+    display: block
+
+    input
+      margin-right: 10px
 
   input
     &[type=text], &[type=password], &[type=email], &[type=number], &[type=tel]
@@ -89,7 +102,3 @@ form
   button
     &[type=submit]
       margin: 15px 0 0
-
-  .FormSectionHeader
-    padding: 25px 10px 7px 6px
-    font-size: 18px

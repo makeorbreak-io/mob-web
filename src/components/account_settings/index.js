@@ -8,8 +8,11 @@ import { map, filter, slice, isEmpty } from "lodash";
 
 //
 // Components
-import Button from "uikit/button";
-import ErrorMessage from "uikit/error_message";
+import {
+  Button,
+  ErrorMessage,
+  FormSectionHeader,
+} from "uikit";
 
 //
 // Redux
@@ -67,7 +70,7 @@ export class AccountSettings extends Component {
         <form onSubmit={handleSubmit(this.onSubmit)}>
 
           {/* Personal Info */}
-          <div className="FormSectionHeader">Personal Info</div>
+          <FormSectionHeader>Personal Info</FormSectionHeader>
           <Field name="first_name" component="input" type="text" placeholder="First name" className="left" />
           <Field name="last_name" component="input" type="text" placeholder="Last name" className="right" />
           <ErrorMessage left form="account-settings" field="first_name" />
@@ -83,7 +86,7 @@ export class AccountSettings extends Component {
           <ErrorMessage form="account-settings" field="bio" />
 
           {/* Social Media */}
-          <div className="FormSectionHeader">Social Media</div>
+          <FormSectionHeader>Social Media</FormSectionHeader>
           <Field name="github_handle" component="input" type="text" placeholder="Github handle" className="fullwidth icon github" />
           <ErrorMessage form="account-settings" field="github_handle" />
 
@@ -91,7 +94,7 @@ export class AccountSettings extends Component {
           <ErrorMessage form="account-settings" field="twitter_handle" />
 
           {/* Employment and Education */}
-          <div className="FormSectionHeader">Employement and Education</div>
+          <FormSectionHeader>Employement and Education</FormSectionHeader>
           <Field name="college" component="input" type="text" placeholder="College" className="fullwidth" />
           <ErrorMessage form="account-settings" field="college" />
 

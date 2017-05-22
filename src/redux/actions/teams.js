@@ -9,10 +9,10 @@ import {
   CREATE_TEAM,
   UPDATE_TEAM,
   FETCH_TEAM,
-  SET_TEAM,
+  ADD_TEAM,
 } from "action-types";
 
-const setTeam = createAction(SET_TEAM);
+const addTeam = createAction(ADD_TEAM);
 
 export const fetchTeam = (id) => {
   return (dispatch) => {
@@ -22,7 +22,7 @@ export const fetchTeam = (id) => {
     .get(`/teams/${id}`)
     .then(response => {
       const { data } = response.data;
-      dispatch(setTeam(data));
+      dispatch(addTeam(data));
 
       return Promise.resolve(data);
     })
@@ -38,7 +38,7 @@ export const createTeam = (values) => {
     .post("/teams", { team: values })
     .then(response => {
       const { data } = response.data;
-      dispatch(setTeam(data));
+      dispatch(addTeam(data));
 
       return Promise.resolve(data);
     })
@@ -54,7 +54,7 @@ export const updateTeam = (id, values) => {
     .put(`/teams/${id}`, { team: values })
     .then(response => {
       const { data } = response.data;
-      dispatch(setTeam(data));
+      dispatch(addTeam(data));
 
       return Promise.resolve(data);
     })

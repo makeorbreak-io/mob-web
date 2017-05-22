@@ -51,7 +51,7 @@ export const AccountMenu = ({
         {currentUser &&
           <div>
             <Link to="/account/settings">Account Settings</Link>
-            <Link to="/team">Team</Link>
+            <Link to="/account/team">Team</Link>
             <Button fakelink fullwidth small onClick={() => dispatch(logout())}>
               Logout
             </Button>

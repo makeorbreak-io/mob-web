@@ -20,4 +20,13 @@ export const UPDATE_CURRENT_USER = "UPDATE_CURRENT_USER";
 export const CREATE_TEAM = "CREATE_TEAM";
 export const UPDATE_TEAM = "UPDATE_TEAM";
 export const FETCH_TEAM = "FETCH_TEAM";
-export const SET_TEAM = "SET_TEAM";
+export const ADD_TEAM = "ADD_TEAM";
+export const REMOVE_TEAM = "REMOVE_TEAM";
+
+//
+// project
+export const CREATE_PROJECT = "CREATE_PROJECT";
+export const UPDATE_PROJECT = "UPDATE_PROJECT";
+export const FETCH_PROJECT = "FETCH_PROJECT";
+export const ADD_PROJECT = "ADD_PROJECT";
+export const REMOVE_PROJECT = "REMOVE_PROJECT";
