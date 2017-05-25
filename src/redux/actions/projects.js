@@ -30,12 +30,12 @@ export const fetchProject = (id) => {
   };
 };
 
-export const createProject = (id, values) => {
+export const createProject = (values) => {
   return (dispatch) => {
     dispatch(createAction(CREATE_PROJECT)());
 
     return request
-    .post("/projects", { id, project: values })
+    .post("/projects", { project: values })
     .then(response => {
       const { data } = response.data;
       dispatch(addProject(data));

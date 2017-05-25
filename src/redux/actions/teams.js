@@ -1,6 +1,8 @@
 import Promise from "bluebird";
 import { createAction } from "redux-actions";
 
+//
+// Util
 import request, { processSubmissionError } from "util/http";
 
 // 
@@ -11,6 +13,7 @@ import {
   FETCH_TEAM,
   ADD_TEAM,
 } from "action-types";
+import { refreshCurrentUser } from "actions/current_user";
 
 const addTeam = createAction(ADD_TEAM);
 
@@ -38,7 +41,9 @@ export const createTeam = (values) => {
     .post("/teams", { team: values })
     .then(response => {
       const { data } = response.data;
+
       dispatch(addTeam(data));
+      dispatch(refreshCurrentUser());
 
       return Promise.resolve(data);
     })

@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes } from "recompose";
 import { Field, reduxForm } from "redux-form";
+import { get } from "lodash";
 
 //
 // Components
@@ -24,7 +25,7 @@ import { composeValidators, validatePresence } from "validators";
 
 const validate = (values) => {
   return composeValidators(
-    validatePresence("team_name", "Team name"),
+    validatePresence("name", "Team name"),
   )(values);
 };
 
@@ -63,6 +64,7 @@ export class EditableTeam extends Component {
   //---------------------------------------------------------------------------
   render() {
     const { team, handleSubmit, submitting } = this.props;
+    const id = get(team, "project.id", null);
 
     const submitHandler = team ? this.updateTeam : this.createTeam;
 
@@ -71,8 +73,8 @@ export class EditableTeam extends Component {
 
         <FormSectionHeader>Team</FormSectionHeader>
         <form onSubmit={handleSubmit(submitHandler)}>
-          <Field name="team_name" component="input" type="text" placeholder="Team name" className="fullwidth" autoComplete="off" />
-          <ErrorMessage form="team" field="team_name" />
+          <Field name="name" component="input" type="text" placeholder="Team name" className="fullwidth" autoComplete="off" />
+          <ErrorMessage form="team" field="name" />
 
           <Button type="submit" form primary disabled={submitting} loading={submitting}>
             {team ? "Update team" : "Create team" }
@@ -82,7 +84,7 @@ export class EditableTeam extends Component {
         {team &&
           <div>
             <FormSectionHeader>Project</FormSectionHeader>
-            <Project id={team.id} editable />
+            <Project {...{ id, team }} editable />
           </div>
         }
       </div>

@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { map, filter, slice, isEmpty } from "lodash";
+import { map } from "lodash";
 
 //
 // Components
@@ -21,6 +21,11 @@ import { updateCurrentUser } from "actions/current_user";
 //
 // Constants
 import { EMPLOYMENT_STATUS } from "constants/account_settings";
+import { DATE_FORMAT } from "constants/date";
+
+//
+// Util
+import { formatDate } from "util/date";
 
 //
 // Validation
@@ -35,21 +40,8 @@ const validate = (values) => {
     validatePresence("first_name", "First name"),
     validatePresence("last_name", "Last name"),
     validatePresence("email", "Email"),
-    validateDateFormat("birthday", "Birthday", { format: "YYYY/MM/DD" }),
+    validateDateFormat("birthday", "Birthday", { format: DATE_FORMAT }),
   )(values);
-};
-
-const formatDate = (value) => {
-  const numerals = filter((value || "").split(""), c => /\d/.test(c));
-  const year  = slice(numerals, 0, 4).join("");
-  const month = slice(numerals, 4, 6).join("");
-  const day   = slice(numerals, 6, 8).join("");
-
-  let finalValue = year;
-  if(!isEmpty(month)) finalValue = `${year}/${month}`;
-  if(!isEmpty(day))   finalValue = `${year}/${month}/${day}`;
-
-  return finalValue;
 };
 
 export class AccountSettings extends Component {
@@ -79,7 +71,15 @@ export class AccountSettings extends Component {
           <Field name="email" component="input" type="text" placeholder="Email" className="fullwidth" />
           <ErrorMessage form="account-settings" field="email" />
 
-          <Field name="birthday" component="input" type="text" placeholder="Birthday (YYYY/MM/DD)" className="fullwidth" format={formatDate} autoComplete="off" />
+          <Field
+            name="birthday"
+            component="input"
+            type="text"
+            placeholder={`Birthday (${DATE_FORMAT})`}
+            className="fullwidth"
+            format={formatDate}
+            autoComplete="off"
+          />
           <ErrorMessage form="account-settings" field="birthday" />
 
           <Field name="bio" component="textarea" placeholder="Bio" className="fullwidth" />

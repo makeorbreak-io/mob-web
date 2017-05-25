@@ -48,7 +48,7 @@ export default compose(
 
   mapProps((props) => ({
     ...props,
-    visible: ((props.visited && props.touched) || props.submitFailed) && !!props.error,
+    visible: (props.touched || props.submitFailed) && !!props.error,
   })),
 
   setPropTypes({

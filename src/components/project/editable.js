@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { compose, setDisplayName } from "recompose";
+import PropTypes from "prop-types";
+import { compose, setDisplayName, setPropTypes } from "recompose";
 import { Field, reduxForm } from "redux-form";
+import { isArray } from "lodash";
 
 //
 // Components
@@ -26,7 +28,16 @@ const validate = (values) => {
 };
 
 //
-//
+// Technologies normalization and parsing (string <-> string[])
+const normalize = (value) => {
+  const values = (value || "").split(/\s*,\s*/);
+  return values;
+};
+
+const parse = (value) => {
+  const arr = isArray(value) ? value : [value];
+  return arr.join(", ");
+};
 
 export class EditableProject extends Component {
 
@@ -34,30 +45,28 @@ export class EditableProject extends Component {
   // Lifecycle
   //---------------------------------------------------------------------------
   componentWillMount() {
-    const { initialize, project } = this.props;
+    const { initialize, project, team } = this.props;
 
-    initialize(project);
+    initialize({ ...project, team_id: team.id });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { initialize, project } = nextProps;
+    const { initialize, project, team } = nextProps;
 
-    if (!this.props.project && nextProps.project) initialize(project);
+    if (!this.props.project && nextProps.project) initialize({ ...project, team_id: team.id });
   }
 
   //---------------------------------------------------------------------------
   // Callbacks
   //---------------------------------------------------------------------------
   createProject = (values) => {
-    const { dispatch, id } = this.props;
-
-    return dispatch(createProject(id, values));
+    return this.props.dispatch(createProject(values));
   }
 
   updateProject = (values) => {
-    const { dispatch, id } = this.props;
+    const { dispatch, project } = this.props;
 
-    return dispatch(updateProject(id, values));
+    return dispatch(updateProject(project.id, values));
   }
 
   //---------------------------------------------------------------------------
@@ -71,13 +80,15 @@ export class EditableProject extends Component {
     return (
       <div className="Project editable">
         <form onSubmit={handleSubmit(submitHandler)}>
+          <Field name="team_id" component="input" type="hidden" />
+
           <Field name="name" component="input" type="text" placeholder="Name" className="fullwidth" />
           <ErrorMessage form="project" field="name" />
 
           <Field name="description" component="textarea" placeholder="Description" className="fullwidth" />
           <ErrorMessage form="project" field="description" />
 
-          <Field name="technologies" component="input" type="text" placeholder="Technologies" className="fullwidth" />
+          <Field name="technologies" component="input" type="text" placeholder="Technologies (comma separated)" className="fullwidth" {...{ normalize, parse }} />
           <ErrorMessage form="project" field="technologies" />
 
           <label>
@@ -100,5 +111,10 @@ export default compose(
   reduxForm({
     form: "project",
     validate,
+  }),
+
+  setPropTypes({
+    project: PropTypes.object,
+    team: PropTypes.object,
   }),
 )(EditableProject);

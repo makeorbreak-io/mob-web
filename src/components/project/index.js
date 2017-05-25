@@ -20,20 +20,34 @@ export class Project extends Component {
   // Lifecycle
   //----------------------------------------------------------------------------
   componentWillMount() {
-    const { dispatch, id } = this.props;
+    this.requestProject(this.props);
+  }
 
-    if (id) dispatch(fetchProject(id));
+  componentWillReceiveProps(nextProps) {
+    const prevId = this.props.id;
+    const { id } = nextProps;
+
+    if (prevId !== id) this.requestProject(nextProps);
+  }
+
+  //----------------------------------------------------------------------------
+  // Helpers
+  //----------------------------------------------------------------------------
+  requestProject = (props) => {
+    const { id, dispatch } = props;
+
+    if (id) return dispatch(fetchProject(id));
   }
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { editable, project, id } = this.props;
+    const { editable, team, project } = this.props;
 
     return editable
-    ? <Editable {...{ id, project }} />
-    : <Static {...{ id, project }} />;
+    ? <Editable {...{ team, project }} />
+    : <Static {...{ team, project }} />;
   }
 
 }
@@ -47,6 +61,7 @@ export default compose(
 
   setPropTypes({
     id: PropTypes.string,
+    team: PropTypes.object.isRequired,
     editable: PropTypes.bool.isRequired,
   }),
 
