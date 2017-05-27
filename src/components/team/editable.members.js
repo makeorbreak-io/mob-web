@@ -66,7 +66,7 @@ export class TeamMembers extends Component {
         </ul>
 
         <form onSubmit={handleSubmit(this.inviteMember)}>
-          <Field name="members" component={Multiselect} options={users} />
+          <Field name="members" component={Multiselect} options={users} placeholder="Search users..." />
           <ErrorMessage form="new-team-member" field="email" />
 
           <Button type="submit" form primary disabled={submitting} loading={submitting}>

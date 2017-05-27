@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes } from "recompose";
 import { Field, reduxForm } from "redux-form";
-import { isArray } from "lodash";
 
 //
 // Components
@@ -10,10 +9,15 @@ import {
   Button,
   ErrorMessage,
 } from "uikit";
+import { Multiselect } from "components/fields";
 
 //
 // Redux
 import { createProject, updateProject } from "actions/projects";
+
+//
+// Constants
+import technologies from "constants/technologies";
 
 //
 // Validation
@@ -25,18 +29,6 @@ const validate = (values) => {
     validatePresence("description", "Description"),
     validatePresence("technologies", "Technologies"),
   )(values);
-};
-
-//
-// Technologies normalization and parsing (string <-> string[])
-const normalize = (value) => {
-  const values = (value || "").split(/\s*,\s*/);
-  return values;
-};
-
-const parse = (value) => {
-  const arr = isArray(value) ? value : [value];
-  return arr.join(", ");
 };
 
 export class EditableProject extends Component {
@@ -88,7 +80,7 @@ export class EditableProject extends Component {
           <Field name="description" component="textarea" placeholder="Description" className="fullwidth" />
           <ErrorMessage form="project" field="description" />
 
-          <Field name="technologies" component="input" type="text" placeholder="Technologies (comma separated)" className="fullwidth" {...{ normalize, parse }} />
+          <Field name="technologies" component={Multiselect} options={technologies} placeholder="Technologies..." />
           <ErrorMessage form="project" field="technologies" />
 
           <label>
