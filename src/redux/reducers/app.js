@@ -6,6 +6,7 @@ import jwt from "./jwt";
 import ready from "./ready";
 import teams from "./teams";
 import projects from "./projects";
+import users from "./users";
 
 export default combineReducers({
   form,
@@ -14,4 +15,5 @@ export default combineReducers({
   ready,
   teams,
   projects,
+  users,
 });

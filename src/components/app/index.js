@@ -1,4 +1,7 @@
+import "react-select/dist/react-select.css";
+
 import "assets/normalize";
+
 import "./styles";
 
 import React from "react";

@@ -1,6 +1,10 @@
 import moment from "moment";
 import { map, reduce, merge, isEmpty, template } from "lodash";
 
+//
+// Constants
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 // Tidily compose validators for a whole set of inputs
 //
 // Example:
@@ -58,5 +62,11 @@ export const validatePresence = createValidator(
 // Non-required date format validation
 export const validateDateFormat = createValidator(
   (v, opts) => isEmpty(v) ? true : moment(v, opts.format, false).isValid(),
-  "${label} is not a valid date. Use ${format} format.",
+  "${label} is not a valid date, use ${format} format",
+);
+
+// Required email address
+export const validateEmail = createValidator(
+  v => EMAIL_REGEX.test(v),
+  "${label} is not valid",
 );

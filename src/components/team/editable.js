@@ -8,6 +8,7 @@ import { get } from "lodash";
 
 //
 // Components
+import TeamMembers from "./editable.members";
 import Project from "components/project";
 import {
   Button,
@@ -80,6 +81,13 @@ export class EditableTeam extends Component {
             {team ? "Update team" : "Create team" }
           </Button>
         </form>
+
+        {team &&
+          <div>
+            <FormSectionHeader>Members</FormSectionHeader>
+            <TeamMembers team={team} />
+          </div>
+        }
 
         {team &&
           <div>
