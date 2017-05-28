@@ -82,19 +82,9 @@ export class EditableTeam extends Component {
           </Button>
         </form>
 
-        {team &&
-          <div>
-            <FormSectionHeader>Members</FormSectionHeader>
-            <TeamMembers team={team} />
-          </div>
-        }
+        {team && <TeamMembers team={team} />}
 
-        {team &&
-          <div>
-            <FormSectionHeader>Project</FormSectionHeader>
-            <Project {...{ id, team }} editable />
-          </div>
-        }
+        {team && <Project {...{ id, team }} editable />}
       </div>
     );
   }

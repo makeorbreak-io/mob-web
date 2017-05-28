@@ -8,6 +8,7 @@ import { Field, reduxForm } from "redux-form";
 import {
   Button,
   ErrorMessage,
+  FormSectionHeader,
 } from "uikit";
 import { Multiselect } from "components/fields";
 
@@ -71,6 +72,8 @@ export class EditableProject extends Component {
 
     return (
       <div className="Project editable">
+        <FormSectionHeader>Project</FormSectionHeader>
+
         <form onSubmit={handleSubmit(submitHandler)}>
           <Field name="team_id" component="input" type="hidden" />
 
