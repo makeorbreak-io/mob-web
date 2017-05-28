@@ -30,9 +30,9 @@ export const REMOVE_TEAM = "REMOVE_TEAM";
 export const REFRESH_TEAM = "REFRESH_TEAM";
 
 //
-// team members
-export const INVITE_MEMBER = "INVITE_MEMBER";
-export const ADD_MEMBER = "ADD_MEMBER";
+// team members / invites
+export const INVITE_USER_TO_TEAM = "INVITE_USER_TO_TEAM";
+export const REVOKE_INVITE = "REVOKE_INVITE";
 
 //
 // project
