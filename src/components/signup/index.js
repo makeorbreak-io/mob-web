@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import Promise from "bluebird";
 
 //
 // Components
@@ -10,13 +9,8 @@ import Button from "uikit/button";
 import ErrorMessage from "uikit/error_message";
 
 //
-// Utils
-import request, { processSubmissionError } from "util/http";
-
-//
 // Redux
-import { setJWT } from "actions/authentication";
-import { setCurrentUser } from "actions/current_user";
+import { signup } from "actions/authentication";
 
 //
 // Validation
@@ -31,30 +25,10 @@ const validate = (values) => {
 
 export class Signup extends Component {
 
-  componentWillMount() {
-    this.props.initialize({
-      email: "joao.gradim@gmail.com",
-      password: "password",
-    });
-  }
-
   onSignup = (values) => {
-    const { dispatch } = this.props;
+    const { email, password } = values;
 
-    return new Promise((resolve, reject) => {
-      request.post("users", {
-        user: values,
-      })
-      .then(response => {
-        const { jwt, user } = response.data.data;
-
-        dispatch(setJWT(jwt));
-        dispatch(setCurrentUser(user));
-
-        return resolve();
-      })
-      .catch(error => reject(processSubmissionError(error)));
-    });
+    return this.props.dispatch(signup(email, password));
   }
 
   render() {

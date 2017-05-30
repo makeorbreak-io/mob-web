@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
-import { Field, reduxForm, SubmissionError } from "redux-form";
-import Promise from "bluebird";
+import { Field, reduxForm } from "redux-form";
 
 //
 // Components
@@ -10,12 +9,7 @@ import ErrorMessage from "uikit/error_message";
 
 //
 // Redux
-import { setJWT } from "actions/authentication";
-import { setCurrentUser } from "actions/current_user";
-
-//
-// Utils
-import request from "util/http";
+import { login } from "actions/authentication";
 
 //
 // Validation
@@ -30,32 +24,8 @@ const validate = (values) => {
 
 export class Login extends Component {
 
-  componentWillMount() {
-    this.props.initialize({
-      email: "joao.gradim@gmail.com",
-      password: "password",
-    });
-  }
-
   onLogin = (values) => {
-    const { dispatch } = this.props;
-
-    return new Promise((resolve, reject) => {
-      return request.post("login", {
-        ...values,
-      })
-      .then(response => {
-        const { jwt, user } = response.data.data;
-
-        dispatch(setJWT(jwt));
-        dispatch(setCurrentUser(user));
-
-        return resolve();
-      })
-      .catch(() => {
-        return reject(new SubmissionError({ password: "Invalid credentials" }));
-      });
-    });
+    return this.props.dispatch(login(values.email, values.password));
   }
 
   render() {

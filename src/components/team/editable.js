@@ -8,7 +8,7 @@ import { get } from "lodash";
 
 //
 // Components
-import TeamMembers from "./editable.members";
+import TeamMembers from "./members";
 import Project from "components/project";
 import {
   Button,
@@ -71,7 +71,7 @@ export class EditableTeam extends Component {
 
     return (
       <div className="Team editable">
-
+        <h1>{team ? team.name : "Create a new team"}</h1>
         <FormSectionHeader>Team</FormSectionHeader>
         <form onSubmit={handleSubmit(submitHandler)}>
           <Field name="name" component="input" type="text" placeholder="Team name" className="fullwidth" autoComplete="off" />
@@ -82,7 +82,7 @@ export class EditableTeam extends Component {
           </Button>
         </form>
 
-        {team && <TeamMembers team={team} />}
+        {team && <TeamMembers team={team} editable />}
 
         {team && <Project {...{ id, team }} editable />}
       </div>

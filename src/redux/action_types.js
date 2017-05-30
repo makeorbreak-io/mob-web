@@ -5,6 +5,8 @@ export const SET_READY = "SET_READY";
 
 //
 // authentication
+export const LOGIN = "LOGIN";
+export const SIGNUP = "LOGOUT";
 export const LOGOUT = "LOGOUT";
 export const SET_JWT = "SET_JWT";
 
@@ -33,6 +35,8 @@ export const REFRESH_TEAM = "REFRESH_TEAM";
 // team members / invites
 export const INVITE_USER_TO_TEAM = "INVITE_USER_TO_TEAM";
 export const REVOKE_INVITE = "REVOKE_INVITE";
+export const ACCEPT_INVITE = "ACCEPT_INVITE";
+export const REJECT_INVITE = "REJECT_INVITE";
 
 //
 // project
@@ -41,3 +45,9 @@ export const UPDATE_PROJECT = "UPDATE_PROJECT";
 export const FETCH_PROJECT = "FETCH_PROJECT";
 export const ADD_PROJECT = "ADD_PROJECT";
 export const REMOVE_PROJECT = "REMOVE_PROJECT";
+
+//
+// notifications
+export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
+export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
+export const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";

@@ -3,6 +3,10 @@
     "browser": true
   },
 
+  "globals": {
+    "Promise": true
+  },
+
   "parser": "babel-eslint",
 
   "parserOptions": {

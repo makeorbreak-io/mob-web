@@ -73,8 +73,13 @@ module.exports = {
     // prints more readable module names in the browser console on HMR updates
     new Webpack.NamedModulesPlugin(),
 
+    // Global implicit imports
+    new Webpack.ProvidePlugin({
+      Promise: "bluebird",
+    }),
+
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src", "index.html"),
     }),
-  ]
+  ],
 };

@@ -7,8 +7,9 @@ import { isNull } from "lodash";
 
 //
 // Components
+import { Button } from "uikit";
 import AccountMenu from "components/account_menu";
-import Button from "uikit/button";
+import NotificationCenter from "components/notification_center";
 
 export class Navbar extends Component {
 
@@ -27,7 +28,7 @@ export class Navbar extends Component {
 
     return (
       <div className="Navbar">
-        <AccountMenu isOpen={menuVisible} />
+        {currentUser && <NotificationCenter />}
 
         <Button
           className="AccountMenuToggle"
@@ -38,6 +39,8 @@ export class Navbar extends Component {
           {currentUser && displayName}
           {!currentUser && "Login"}
         </Button>
+
+        <AccountMenu isOpen={menuVisible} />
       </div>
     );
   }

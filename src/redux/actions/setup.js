@@ -1,10 +1,15 @@
 import { createAction } from "redux-actions";
-import { isNull } from "lodash";
+import { each } from "lodash";
 
 //
 // Redux
-import { setCurrentUser } from "actions/current_user";
+import { refreshCurrentUser } from "actions/current_user";
 import { logout } from "actions/authentication";
+import { addNotification } from "actions/notifications";
+
+//
+// Util
+import { displayName } from "util/user";
 
 //
 // Constants
@@ -14,10 +19,6 @@ import {
 } from "action-types";
 
 //
-// Util
-import request from "util/http";
-
-//
 // Actions
 export const setReady = createAction(SET_READY);
 
@@ -25,15 +26,20 @@ export const performSetup = () => {
   return (dispatch) => {
     dispatch(createAction(PERFORM_SETUP)());
 
-    return request
-    .get("/me")
-    .then(response => {
-      const { data } = response.data;
+    return dispatch(refreshCurrentUser())
+    .then((currentUser) => {
 
-      if (isNull(data))
-        dispatch(logout());
-      else
-        dispatch(setCurrentUser(data));
+      // create initial notifications
+      each(currentUser.invitations, i => {
+        if (!i.accepted) {
+          dispatch(addNotification({
+            title: "Pending invitation",
+            message: `${displayName(i.host)} has invited you to join <link>${i.team.name}</link>`,
+            id: i.id,
+            link: "/account/team",
+          }));
+        }
+      });
 
       dispatch(setReady(true));
     })

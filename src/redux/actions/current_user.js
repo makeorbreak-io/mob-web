@@ -1,5 +1,4 @@
 import { createAction } from "redux-actions";
-import Promise from "bluebird";
 
 import request, { processSubmissionError } from "util/http";
 
@@ -38,11 +37,10 @@ export const refreshCurrentUser = () => {
     return request
     .get("/me")
     .then(response => {
-      const { data} = response.data;
-      dispatch(setCurrentUser(data));
+      const user = response.data;
+      dispatch(setCurrentUser(user));
 
-      return Promise.resolve(data);
-    })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+      return Promise.resolve(user);
+    });
   };
 };

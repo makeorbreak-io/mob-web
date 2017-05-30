@@ -1,4 +1,3 @@
-import Promise from "bluebird";
 import { createAction } from "redux-actions";
 
 //

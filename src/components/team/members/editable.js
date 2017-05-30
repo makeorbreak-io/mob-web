@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { isEmpty, each, map, filter, includes } from "lodash";
-import Promise from "bluebird";
+import { isEmpty, map, filter, includes } from "lodash";
 
 //
 // Components
@@ -13,6 +12,10 @@ import {
   FormSectionHeader,
 } from "uikit";
 import { Multiselect } from "components/fields";
+
+//
+// Util
+import { displayName } from "util/user";
 
 //
 // Redux
@@ -29,7 +32,7 @@ const validate = (values) => {
   )(values);
 };
 
-export class TeamMembers extends Component {
+export class EditableTeamMembers extends Component {
 
   state = {
     multipleSelected: false,
@@ -70,22 +73,31 @@ export class TeamMembers extends Component {
   // Render
   //---------------------------------------------------------------------------
   render() {
-    const { team, users, handleSubmit, submitting, valid } = this.props;
+    const { users, members, invites, handleSubmit, submitting, valid } = this.props;
     const { multipleSelected } = this.state;
 
     return (
       <div className="TeamMembers editable">
         <FormSectionHeader>Members</FormSectionHeader>
-        {isEmpty(team.members) && isEmpty(team.invites) &&
+        {isEmpty(members) &&
           <p className="notice">No members, invite some!</p>
         }
 
-        {!isEmpty(team.invites) && <FormSectionHeader>Pending Invites</FormSectionHeader>}
+        <ul className="Members">
+          {map(members, i => (
+            <li className="Member" key={i.id}>
+              {displayName(i.invitee)}
+              <Button fakelink onClick={() => this.revokeInvite(i.id)}>Remove from team</Button>
+            </li>
+          ))}
+        </ul>
+
+        {!isEmpty(invites) && <FormSectionHeader>Pending Invites</FormSectionHeader>}
         <ul className="Invites">
-          {map(team.invites, i => (
+          {map(invites, i => (
             <li className="Invite" key={i.id}>
-              {i.invitee.email}
-              <Button onClick={() => this.revokeInvite(i.id)} fakelink>revoke invitation</Button>
+              {displayName(i.invitee)}
+              <Button fakelink onClick={() => this.revokeInvite(i.id)}>revoke invitation</Button>
             </li>
           ))}
         </ul>
@@ -110,26 +122,20 @@ export default compose(
   // and team invites and members from suggestions
   connect((state, props) => {
     const { users, currentUser } = state;
-    const { invites, members } = props.team;
+    const { team } = props;
 
-    const invalidUserIds = [];
-    each(invites, i => invalidUserIds.push(i.invitee.id));
-    each(members, m => invalidUserIds.push(m.id));
+    const invalidUserIds = [
+      currentUser.id,
+      ...map(team.invites, "invitee.id"),
+    ];
 
     const toOption = (u) => ({
       value: u.id,
-      label: isEmpty(u.first_name) ? u.email : `${u.first_name} ${u.last_name}`,
-    });
-
-    const filtered = filter(map(users, toOption), (option) => {
-      return (
-        option.value !== currentUser.id &&
-        !includes(invalidUserIds, option.value)
-      );
+      label: displayName(u),
     });
 
     return {
-      users: filtered,
+      users: filter(map(users, toOption), o => !includes(invalidUserIds, o.value)),
     };
   }),
 
@@ -137,4 +143,4 @@ export default compose(
     form: "new-team-member",
     validate,
   }),
-)(TeamMembers);
+)(EditableTeamMembers);
