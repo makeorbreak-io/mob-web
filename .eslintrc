@@ -4,7 +4,8 @@
   },
 
   "globals": {
-    "Promise": true
+    "Promise": true,
+    "process": true
   },
 
   "parser": "babel-eslint",

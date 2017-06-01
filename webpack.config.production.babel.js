@@ -2,8 +2,6 @@ const Webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
-const HOST = process.env.HOST || "0.0.0.0";
-const PORT = process.env.port || "8080";
 const { NODE_ENV } = process.env;
 
 module.exports = {
@@ -11,12 +9,7 @@ module.exports = {
 
   context: path.resolve(__dirname, "src"),
 
-  devtool: "inline-source-map",
-
   entry: [
-    "react-hot-loader/patch",
-    `webpack-dev-server/client?http://${HOST}:${PORT}`,
-    "webpack/hot/only-dev-server",
     path.resolve(__dirname, "src", "index.js"),
   ],
 
@@ -24,13 +17,6 @@ module.exports = {
     path: path.resolve(__dirname, "build"),
     filename: "[name].bundle.js",
     publicPath: "/",
-  },
-
-  devServer: {
-    hot: true,
-    contentBase: path.resolve(__dirname, "build"),
-    publicPath: "/",
-    host: HOST,
   },
 
   module: {
@@ -68,12 +54,6 @@ module.exports = {
   },
 
   plugins: [
-    // enable HMR globally
-    new Webpack.HotModuleReplacementPlugin(),
-
-    // prints more readable module names in the browser console on HMR updates
-    new Webpack.NamedModulesPlugin(),
-
     // Global implicit imports
     new Webpack.ProvidePlugin({
       Promise: "bluebird",
