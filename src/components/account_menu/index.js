@@ -32,6 +32,7 @@ export const AccountMenu = ({
       <div className="content">
         {!currentUser &&
           <div>
+            {signup ? <h3>Register</h3> : <h3>Login</h3>}
             {signup ? <Signup /> : <Login />}
 
             <Button
