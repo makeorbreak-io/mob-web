@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "webpack-dev-server --colors --progress --history-api-fallback",
     "build": "NODE_ENV=production webpack --config webpack.config.production.babel.js -p --colors --progress",
+    "clean": "rm -rf build/*",
+    "deploy:production": "yarn run clean && yarn run build && scp -Cpr build/* deploy@app.portosummerofcode.com:/var/www/psc-web/",
     "lint": "eslint src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate-component": "babel-node ./tools/generate-component.js"

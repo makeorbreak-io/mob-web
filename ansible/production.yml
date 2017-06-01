@@ -1,0 +1,44 @@
+---
+- hosts: production
+  remote_user: deploy
+  become: yes
+
+  vars_files:
+    - vars/nginx.yml
+    - vars/certbot.yml
+
+  pre_tasks:
+    - name: Update apt repositories
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+
+    - name: Install required packages
+      apt: name={{ item }} state=present
+      with_items:
+        - git-core
+        - htop
+
+  roles:
+    - jdauphant.nginx
+    - geerlingguy.certbot
+
+  tasks:
+    - name: Create directories for `psc-web`
+      become: yes
+      file:
+        path: /var/www/psc-web/
+        state: directory
+        owner: deploy
+        group: deploy
+        mode: u=rwx,g=rwx,o=r
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
