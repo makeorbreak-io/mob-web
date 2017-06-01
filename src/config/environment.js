@@ -3,7 +3,7 @@ const env = {
 };
 
 if (process.env.NODE_ENV === "production") {
-  env.apiHost = "https://api.portosummerofcode.com";
+  env.apiHost = "https://api.portosummerofcode.com/api";
 }
 
 export default env;
