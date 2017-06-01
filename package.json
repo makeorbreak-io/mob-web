@@ -2,11 +2,13 @@
   "name": "psc-web",
   "version": "0.0.1",
   "main": "index.js",
+  "engines": { "node": "=6.7.0" },
   "repository": "git@github.com:nunopolonia/psc-web.git",
   "author": "João Gradim <joao.gradim@gmail.com>",
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --colors --progress --history-api-fallback",
+    "build": "webpack -p --colors --progress",
     "lint": "eslint src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate-component": "babel-node ./tools/generate-component.js"
