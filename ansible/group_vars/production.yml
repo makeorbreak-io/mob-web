@@ -1,1 +1,4 @@
-server_name: app.portosummerofcode.com
+primary_server_name: makeorbreak.portosummerofcode.com
+secondary_server_name: mob.portosummerofcode.com
+certificate_file_name: makeorbreak.portosummerofcode.com
+# letsencrypt certonly --agree-tos --email info@portosummerofcode.com --standalone -d makeorbreak.portosummerofcode.com -d mob.portosummerofcode.com

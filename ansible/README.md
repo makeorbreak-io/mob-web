@@ -28,7 +28,7 @@ You must be able to login with this user with ssh keys.
 
 Generate an ssh key:
 ```
-ssh-keygen -t rsa -C "covfefe@app.portosummerofcode.com"
+ssh-keygen -t rsa -C "covfefe@makeorbreak.portosummerofcode.com"
 ```
 
 Add the public key to `/home/deploy/.ssh/authorized_keys` on the remote machine.
@@ -36,13 +36,13 @@ Add the public key to `/home/deploy/.ssh/authorized_keys` on the remote machine.
 You can use this `.ssh/config` snippet to associate a particular ssh key with a remote host on the local machine.
 
 ```
-host app.portosummerofcode.com
-    Hostname app.portosummerofcode.com
+host makeorbreak.portosummerofcode.com
+    Hostname makeorbreak.portosummerofcode.com
     User deploy
     IdentityFile ~/.ssh/id_rsa_psc
 ```
 
-Test using `ssh deploy@app.portosummerofcode.com "whoami"` or something.
+Test using `ssh deploy@makeorbreak.portosummerofcode.com "whoami"` or something.
 
 #### 4. Generate a diffie-hellman key-exchange parameters file
 
@@ -62,7 +62,7 @@ Here's a tricky deal: The provisioning tasks will install certbot (letsencrypt) 
 On the local machine:
 
 ```
-$ ansible-playbook --inventory-file=ansible/inventory -l app.portosummerofcode.com --ask-sudo-pass ansible/production.yml
+$ ansible-playbook --inventory-file=ansible/inventory -l makeorbreak.portosummerofcode.com --ask-sudo-pass ansible/production.yml
 ```
 
 You will be prompted to input the deploy user password. I told you to keep it handy.
@@ -72,7 +72,7 @@ You will be prompted to input the deploy user password. I told you to keep it ha
 On the remote machine, as root:
 
 ```
-# letsencrypt certonly --agree-tos --email info@portosummerofcode.com --standalone -d app.portosummerofcode.com
+# letsencrypt certonly --agree-tos --email info@portosummerofcode.com --standalone -d makeorbreak.portosummerofcode.com
 ```
 
 This will start a stand-alone http server on the remote host, so the host can prove control of the domain. See more in https://letsencrypt.org/how-it-works/. In the end, we get ssl certificates. Yay!

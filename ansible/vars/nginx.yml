@@ -13,16 +13,29 @@ nginx_configs:
   # ssl @TODO: dhparams, ocsp stapling, fix add_header
 
 nginx_sites:
-  psc_web_http:
+  psc_web_primary_http:
     - listen 80
-    - server_name {{server_name}}
-    - return 301 https://{{server_name}}$uri
+    - server_name {{primary_server_name}}
+    - return 301 https://{{primary_server_name}}$uri
 
-  psc_web_https:
+  psc_web_primary_https:
     - listen 443 ssl
-    - server_name {{server_name}}
+    - server_name {{primary_server_name}}
     - root "/var/www/psc-web/"
     - location / { try_files $uri $uri/ /index.html; }
     - include /etc/nginx/conf.d/psc_ssl.conf
-    - ssl_certificate_key /etc/letsencrypt/live/{{server_name}}/privkey.pem
-    - ssl_certificate /etc/letsencrypt/live/{{server_name}}/fullchain.pem
+    - ssl_certificate_key /etc/letsencrypt/live/{{certificate_file_name}}/privkey.pem
+    - ssl_certificate /etc/letsencrypt/live/{{certificate_file_name}}/fullchain.pem
+
+  psc_web_secondary_http:
+    - listen 80
+    - server_name {{secondary_server_name}}
+    - return 301 https://{{secondary_server_name}}$uri
+
+  psc_web_secondary_https:
+    - listen 443 ssl
+    - server_name {{secondary_server_name}}
+    - return 301 https://{{primary_server_name}}$uri
+    - include /etc/nginx/conf.d/psc_ssl.conf
+    - ssl_certificate_key /etc/letsencrypt/live/{{certificate_file_name}}/privkey.pem
+    - ssl_certificate /etc/letsencrypt/live/{{certificate_file_name}}/fullchain.pem
