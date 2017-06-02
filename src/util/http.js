@@ -30,6 +30,8 @@ export default request;
 //
 // Redux-Form submission errors
 export const processSubmissionError = (error) => {
+  if (!error.response) return new SubmissionError(error);
+
   const errorList = map(error.response.data.errors, (messages, field) => {
     return { [field]: messages.join(", ") };
   });

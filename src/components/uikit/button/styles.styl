@@ -1,21 +1,24 @@
 @import "~components/variables"
 
 $hover = 20%
-$disabled = 70%
+$disabled = 90%
 ComposeButton($color)
   &
     background: $color
     border-color: $color
 
-    &:hover
+    &:hover, &.active
       background: darken($color, $hover)
       border-color: darken($color, $hover)
 
-    &.hollow
+    &.hollow, &.fakelink
       color: $color
 
       &:hover
         color: darken($color, $hover)
+
+    &.fakelink:hover
+      background: transparent
 
     &.disabled, &.disabled:hover
       background: lighten($color, $disabled)
@@ -23,45 +26,17 @@ ComposeButton($color)
 
 .Button
   display: inline-block
-  padding: 0 20px
+  padding: 0 40px
   height: 40px
   line-height: @height
-  border: 1px solid black
+  border: 1px solid $text-grey
   background: white
   outline: none
-  color: black
+  color: $text-grey
   border-radius: 3px
   transition: all linear 200ms
   cursor: pointer
-
-  //
-  // sizes
-  &.small
-    font-size: 12px
-    padding: 0 15px
-    height: 30px
-    line-height: @height
-
-  //
-  // behaviour
-  &.disabled
-    cursor: default
-
-  &.fakelink
-    border: none
-    text-decoration: underline
-    padding: 0
-    height: auto
-    line-height: initial
-
-  &.form
-    width: 40%
-    float: right
-
-  //
-  // dimensions
-  &.fullwidth
-    width: 100%
+  font: normal normal 400 20px Rokkitt, serif
 
   //
   // colors
@@ -73,14 +48,57 @@ ComposeButton($color)
 
   &.primary
     ComposeButton($button-primary)
-
   &.success
     ComposeButton($button-success)
-
   &.warning
     ComposeButton($button-warning)
   &.danger
     ComposeButton($button-danger)
+
+  //
+  // sizes
+  &.small
+    font-size: 12px
+    padding: 0 15px
+    height: 30px
+    line-height: @height
+
+  &.bold
+    font-weight: 600
+
+  //
+  // behaviour
+  &.disabled
+    cursor: default
+
+  &.fakelink
+    border: none
+    background: transparent
+    text-decoration: underline
+    padding: 0
+    height: auto
+    line-height: initial
+
+  &.centered
+    position: relative
+    left: 50%
+    transform: translateX(-50%)
+
+  &.form
+    margin-top: 35px
+    width: 40%
+    float: right
+    height: 50px
+    line-height: @height
+
+    &.centered
+      width: auto
+      float: none
+
+  //
+  // dimensions
+  &.fullwidth
+    width: 100% !important
 
   //
   // children

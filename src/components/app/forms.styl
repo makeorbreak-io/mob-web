@@ -1,0 +1,102 @@
+@import "./styles"
+
+//
+// Forms
+label
+  font: normal normal 400 20px Rokkitt, serif
+  text-transform: uppercase
+  margin: 10px 0 0
+  display: block
+  color: $label-grey
+
+  &.text
+    font: normal normal 400 14px sans-serif
+    text-transform: none
+
+  input
+    margin-right: 10px
+
+form
+  margin: 10px 0
+  @extend .clearfix
+
+  input, select, textarea
+    font-family: sans-serif
+    font-size: 16px
+
+  input
+    &[type=text], &[type=password], &[type=email], &[type=number], &[type=tel]
+      display: inline-block
+      margin: 5px 0
+      padding: 15px
+      border: 1px solid $light-grey
+      border-radius: 3px
+      color: $text-grey
+
+      &.fullwidth
+        width: 100%
+
+      &.left, &.right
+        width: 50%
+
+      &.left
+        border-radius: 3px 0 0 3px
+
+      &.right
+        border-radius: 0 3px 3px 0
+        border-left: none
+
+      &.icon
+        background: transparent 95% center no-repeat
+        background-size: 24px 24px
+
+        &.github
+          background-image: url("~assets/images/github-grey.svg")
+        &.twitter
+          background-image: url("~assets/images/twitter-grey.svg")
+
+      // &::placeholder
+      &::-webkit-input-placeholder
+        color: $light-grey
+
+  select
+    display: inline-block
+    height: 50px
+    margin: 5px 0
+    border: 1px solid $light-grey
+    background: none
+    border-radius: 3px
+
+    &.fullwidth
+      width: 100%
+
+  .Select
+    margin: 5px 0
+
+  textarea
+    display: inline-block
+    margin: 5px 0
+    padding: 10px
+    border: 1px solid $light-grey
+    border-radius: 3px
+    min-height: 120px
+    max-width: 100%
+
+    &.fullwidth
+      width: 100%
+
+    &::-webkit-input-placeholder
+      color: $light-grey
+
+  button
+    &[type=submit]
+      margin: 15px 0 0
+
+  p.small-notice
+    margin: 10px 0
+    color: $label-grey
+    font-size: 14px
+    font-weight: 300
+    text-align: center
+
+

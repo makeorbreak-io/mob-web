@@ -13,8 +13,8 @@ import Project from "components/project";
 import {
   Button,
   ErrorMessage,
-  FormSectionHeader,
 } from "uikit";
+import { Tabs, Tab, Panel } from "uikit/tabs";
 
 //
 // Redux
@@ -71,20 +71,25 @@ export class EditableTeam extends Component {
 
     return (
       <div className="Team editable">
-        <h1>{team ? team.name : "Create a new team"}</h1>
-        <FormSectionHeader>Team</FormSectionHeader>
-        <form onSubmit={handleSubmit(submitHandler)}>
-          <Field name="name" component="input" type="text" placeholder="Team name" className="fullwidth" autoComplete="off" />
-          <ErrorMessage form="team" field="name" />
+        <Tabs selected={0}>
+          <Tab><span>Team Settings</span></Tab>
 
-          <Button type="submit" form primary disabled={submitting} loading={submitting}>
-            {team ? "Update team" : "Create team" }
-          </Button>
-        </form>
+          <Panel>
+            <form onSubmit={handleSubmit(submitHandler)}>
+              <label htmlFor="name">Team name</label>
+              <Field id="name" name="name" component="input" type="text" placeholder="Team name" className="fullwidth" autoComplete="off" />
+              <ErrorMessage form="team" field="name" />
 
-        {team && <TeamMembers team={team} editable />}
+              <Button type="submit" form centered fullwidth primary disabled={submitting} loading={submitting}>
+                {team ? "Update team" : "Create team" }
+              </Button>
+            </form>
 
-        {team && <Project {...{ id, team }} editable />}
+            {team && <TeamMembers team={team} editable />}
+
+            {team && <Project {...{ id, team }} editable />}
+          </Panel>
+        </Tabs>
       </div>
     );
   }

@@ -3,18 +3,15 @@ import { compose, setDisplayName } from "recompose";
 import { map } from "lodash";
 
 //
-// Components
-import { FormSectionHeader } from "uikit";
-
-//
 // Util
 import { displayName } from "util/user";
 
-export const StaticTeamMembers = ({ members }) => (
+export const StaticTeamMembers = ({ team, members }) => (
 
   <div className="TeamMembers static">
-    <FormSectionHeader>Team members</FormSectionHeader>
+    <label>Team members</label>
 
+    {displayName(team.owner)} (owner)
     <ul>
       {map(members, member => (
         <li key={member.invitee.id}>

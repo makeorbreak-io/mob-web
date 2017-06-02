@@ -3,6 +3,7 @@ import { reducer as form } from "redux-form";
 
 import currentUser from "./current_user";
 import jwt from "./jwt";
+import multistep from "./multistep";
 import notifications from "./notifications";
 import ready from "./ready";
 import teams from "./teams";
@@ -13,6 +14,7 @@ export default combineReducers({
   form,
   currentUser,
   jwt,
+  multistep,
   notifications,
   ready,
   teams,

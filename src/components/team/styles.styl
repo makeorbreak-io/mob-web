@@ -1,12 +1,18 @@
 @import "~components/variables"
 
 .Team
-  width: 400px
+  width: 500px
 
 .TeamMembers
   display: block
 
+  &.static
+    label
+      margin-bottom: 20px
+
   &.editable
+    margin-top: 50px
+
     .Invites, .Members
       list-style: none
       padding: 0
@@ -17,4 +23,3 @@
 
       .Button.fakelink
         float: right
-    

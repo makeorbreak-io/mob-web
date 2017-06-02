@@ -1,19 +1,29 @@
 //
 // Dimensions
 $navbar-height = 60px
+$content-width = 1280px
+$content-side-padding = 70px
+$footer-height = 370px
+$footer-margin-top = 50px
 
 //
 // Colours
 $yellow = #ffcc00
-$dark-grey = #333
-$grey = #888
-$light-grey = #ccc
 $red = #d9534f
 
-$button-primary = #0275d8
-$button-success = #5cb85c
+$dark-grey = #637682
+$light-grey = #d0d8db
+$label-grey = #8c9fa6
+$text-grey = #2f4858
+
+$mob-purple = #5d00f3
+$mob-green = #67d3b2
+$mob-red = #ff5b72
+
+$button-primary = $mob-purple // #0275d8
+$button-success = $mob-green // #5cb85c
 $button-warning = #f0ad4e
-$button-danger = #d9534f
+$button-danger = $mob-red // #d9534f
 
 // z-index management
 zIndices = {
@@ -22,7 +32,8 @@ zIndices = {
   "base": 0,
   "increment": 1,
   "jump": 10,
-  "account-menu": 100,
+  "navbar": 100
+  "account-menu": 1000,
 }
 zIndex(id)
   z-index: zIndices[id]

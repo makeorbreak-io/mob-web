@@ -7,24 +7,61 @@ html, body, #app
   width: 100vw
   height: 100vh
   font-family: sans-serif
+  color: $text-grey
+
+#app
+  overflow-x: hidden
+  overflow-y: auto
+
+h1, h2, h3
+  font: normal normal 600 32px Rokkitt, serif
+  text-align: center
+  margin: 20px auto
+h2
+  font-size: 28px
+h3
+  font-size: 22px
+
+h4, h5, h6
+  font: normal normal 300 18px sans-serif
+  text-align: center
+  margin: 15px auto
+  color: $label-grey
+h5
+  font-size: 16px
+h6
+  font-size: 14px
 
 p
   margin: 0
   padding: 0
 
+a, a:link, a:active, a:visited
+  color: $mob-purple
+
+a:hover
+  color: darken($mob-purple, 20%)
+
 .App
+  width: 100vw
   position: relative
   top: $navbar-height
-  height: "calc(100vh - %s)" % $navbar-height
+  min-height: "calc(100vh - %s)" % $navbar-height
+  padding-bottom: $footer-height + $footer-margin-top
 
-  .content
-    width: 100%
+  .AppContent
+    width: 100vw
     height: 100%
     padding: 30px
-    overflow-y: auto
     display: flex
     align-items: flex-start
     justify-content: center
+
+  .content
+    position: relative
+    margin: 0 auto
+    width: $content-width
+    padding: 0 $content-side-padding
 
 //
 // Utility classes
@@ -33,77 +70,3 @@ p
     content: ""
     display: table
     clear: both
-
-//
-// Forms
-form
-  margin: 10px 0
-  @extend .clearfix
-
-  label
-    font-family: sans-serif
-    margin: 5px 0
-    display: block
-
-    input
-      margin-right: 10px
-
-  input
-    &[type=text], &[type=password], &[type=email], &[type=number], &[type=tel]
-      display: inline-block
-      margin: 5px 0
-      padding: 10px 10px
-      font-family: sans-serif
-      border: 1px solid $light-grey
-      border-radius: 3px
-
-      &.fullwidth
-        width: 100%
-
-      &.left, &.right
-        width: 50%
-
-      &.left
-        border-radius: 3px 0 0 3px
-
-      &.right
-        border-radius: 0 3px 3px 0
-        border-left: none
-
-      &.icon
-        background: transparent 95% center no-repeat
-        background-size: 24px 24px
-
-        &.github
-          background-image: url("~assets/images/github.svg")
-        &.twitter
-          background-image: url("~assets/images/twitter.svg")
-
-  select
-    display: inline-block
-    height: 40px
-    margin: 5px 0
-    font-family: sans-serif
-    border: 1px solid $light-grey
-    background: none
-    border-radius: 3px
-
-    &.fullwidth
-      width: 100%
-
-  textarea
-    display: inline-block
-    margin: 5px 0
-    padding: 10px
-    font-family: sans-serif
-    border: 1px solid $light-grey
-    border-radius: 3px
-    min-height: 120px
-    max-width: 100%
-
-    &.fullwidth
-      width: 100%
-
-  button
-    &[type=submit]
-      margin: 15px 0 0

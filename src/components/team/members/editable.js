@@ -9,7 +9,6 @@ import { isEmpty, map, filter, includes } from "lodash";
 import {
   Button,
   ErrorMessage,
-  FormSectionHeader,
 } from "uikit";
 import { Multiselect } from "components/fields";
 
@@ -73,26 +72,21 @@ export class EditableTeamMembers extends Component {
   // Render
   //---------------------------------------------------------------------------
   render() {
-    const { users, members, invites, handleSubmit, submitting, valid } = this.props;
+    const { team: { members, invites }, users, handleSubmit, submitting, valid } = this.props;
     const { multipleSelected } = this.state;
 
     return (
       <div className="TeamMembers editable">
-        <FormSectionHeader>Members</FormSectionHeader>
-        {isEmpty(members) &&
-          <p className="notice">No members, invite some!</p>
-        }
-
+        {!isEmpty(members) && <label>Members</label>}
         <ul className="Members">
           {map(members, i => (
             <li className="Member" key={i.id}>
-              {displayName(i.invitee)}
-              <Button fakelink onClick={() => this.revokeInvite(i.id)}>Remove from team</Button>
+              {displayName(i)}
             </li>
           ))}
         </ul>
 
-        {!isEmpty(invites) && <FormSectionHeader>Pending Invites</FormSectionHeader>}
+        {!isEmpty(invites) && <label>Pending Invites</label>}
         <ul className="Invites">
           {map(invites, i => (
             <li className="Invite" key={i.id}>
@@ -103,10 +97,11 @@ export class EditableTeamMembers extends Component {
         </ul>
 
         <form onSubmit={handleSubmit(this.inviteMembers)}>
-          <Field name="members" component={Multiselect} options={users} placeholder="Search users..." onChange={this.updateMultipleSelected} />
+          <label htmlFor="members">Invite Members</label>
+          <Field id="members" name="members" component={Multiselect} options={users} placeholder="Search users..." onChange={this.updateMultipleSelected} />
           <ErrorMessage form="members" field="email" />
 
-          <Button type="submit" form primary disabled={submitting || !valid} loading={submitting}>
+          <Button type="submit" form centered fullwidth primary disabled={submitting || !valid} loading={submitting}>
             Invite {multipleSelected ? "members" : "member"}
           </Button>
         </form>

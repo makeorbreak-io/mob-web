@@ -16,11 +16,10 @@ export const Button = ({
   onClick,
   className,
   children,
-  primary, success, warning, danger, hollow, fullwidth, fakelink, small, loading, form,
+  loading,
+  ...styles
 }) => {
-  const cx = classnames("Button", className, {
-    disabled, primary, success, warning, danger, hollow, fullwidth, fakelink, small, loading, form,
-  });
+  const cx = classnames("Button", className, { loading, disabled, ...styles });
 
   return (
     <button className={cx} {...{ type, disabled, onClick }}>
@@ -45,7 +44,9 @@ export default compose(
     fullwidth : bool.isRequired,
     fakelink  : bool.isRequired,
     small     : bool.isRequired,
+    bold      : bool.isRequired,
     form      : bool.isRequired,
+    centered  : bool.isRequired,
     loading   : bool.isRequired,
   }),
 
@@ -61,7 +62,9 @@ export default compose(
     fullwidth : false,
     fakelink  : false,
     small     : false,
+    bold      : false,
     form      : false,
+    centered  : false,
     loading   : false,
   }),
 )(Button);

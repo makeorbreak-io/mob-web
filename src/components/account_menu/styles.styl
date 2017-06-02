@@ -2,18 +2,13 @@
 
 $margin = 30px
 .AccountMenu
-  display: none
-  position: absolute
-  top: $navbar-height + $margin
-  right: $margin
-
-  &.visible
-    display: block
+  position: relative
+  zIndex("account-menu")
 
   &:before, &:after
-    display: block
+    display: none
     position: absolute
-    top: -7px
+    top: calc(100% + 20px)
     right: 35px
     content: ""
     width: 15px
@@ -28,18 +23,42 @@ $margin = 30px
     background: white
     zIndex("increment")
 
-  .content
-    width: 240px
+  &.open
+    .AccountMenuContent, &:before, &:after
+      display: block
+
+  .AccountMenuContent
+    display: none
+    position: absolute
+    top: calc(100% + 27px)
+    right: 0
+    width: 200px
     padding: 20px
     background: white
     border: 1px solid $light-grey
     box-shadow: 0 0 4px -1px rgba(black, 0.3)
     border-radius: 2px
-    zIndex("account-menu")
 
-    a
+    a, a:link, a:active, a:visited
       display: block
-      text-align: center
+      text-align: right
+      padding: 15px 5px
+      text-decoration: none
+      cursor: pointer
+      font-size: 18px
+      border-bottom: 1px solid $light-grey
+      color: $label-grey
+      transition: color 300ms ease-in-out
+
+      &:hover
+        color: $text-grey
+
+      &:first-child
+        padding-top: 5px
+      &:last-child
+        border: none
+        padding-bottom: 5px
+
 
     h3
       margin-top: 0

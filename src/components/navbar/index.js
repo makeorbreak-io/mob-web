@@ -1,15 +1,19 @@
 import "./styles";
 
 import React, { Component } from "react";
-import { compose, setDisplayName, mapProps } from "recompose";
+import { compose, setDisplayName } from "recompose";
 import { connect } from "react-redux";
-import { isNull } from "lodash";
+import { Link } from "react-router";
 
 //
 // Components
 import { Button } from "uikit";
 import AccountMenu from "components/account_menu";
 import NotificationCenter from "components/notification_center";
+
+//
+// Assets
+import logo from "assets/images/logo-purple.svg";
 
 export class Navbar extends Component {
 
@@ -23,24 +27,25 @@ export class Navbar extends Component {
   }
 
   render() {
-    const { currentUser, displayName } = this.props;
-    const { menuVisible } = this.state;
+    const { currentUser } = this.props;
 
     return (
       <div className="Navbar">
-        {currentUser && <NotificationCenter />}
+        <div className="content">
+          <h1 className="Logo">
+            <Link to="/">
+              <img src={logo} alt="Make or Break." height="60" />
+            </Link>
+          </h1>
 
-        <Button
-          className="AccountMenuToggle"
-          onClick={this.toggleAccountMenu}
-          success
-          hollow
-        >
-          {currentUser && displayName}
-          {!currentUser && "Login"}
-        </Button>
+          {/* temporarily disable logged out links in navbar */}
+          {!currentUser && false && <Link activeClassName="active" to="/"><Button primary>Home</Button></Link>}
+          {!currentUser && false && <Link activeClassName="active" to="/login"><Button primary>Sign In</Button></Link>}
+          {!currentUser && false && <Link activeClassName="active" to="/signup"><Button success bold>Sign Up</Button></Link>}
 
-        <AccountMenu isOpen={menuVisible} />
+          {currentUser && <NotificationCenter />}
+          {currentUser && <AccountMenu />}
+        </div>
       </div>
     );
   }
@@ -51,9 +56,4 @@ export default compose(
   setDisplayName("Navbar"),
 
   connect(({ currentUser }) => ({ currentUser })),
-
-  mapProps(({ currentUser }) => ({
-    currentUser,
-    displayName: isNull(currentUser) ? "" : (currentUser.first_name || currentUser.email),
-  })),
 )(Navbar);

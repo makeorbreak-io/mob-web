@@ -1,0 +1,87 @@
+@import "~components/variables"
+
+.Footer
+  position: absolute
+  bottom: 0
+  left: 0
+  height: 370px
+  width: 100vw
+
+  .FooterTop
+    height: 280px
+    padding-top: 50px
+    background: $mob-purple
+    color: white
+
+    a, a:link, a:active, a:visited
+      display: block
+      margin-bottom: 10px
+      color: white
+      font: normal normal 300 16px Rokkitt, serif
+      text-decoration: none
+
+    a:hover
+      text-decoration: underline
+
+    .content
+      display: flex
+      justify-content: center
+      align-items: flex-start
+
+    h1, h2, h3
+      text-align: left
+      margin: 0 0 15px
+      text-transform: uppercase
+
+    h3
+      padding-top: 2px
+
+    p
+      font: normal normal 300 16px Rokkitt, serif
+      max-width: 400px
+      margin: 0 0 15px
+
+      img
+        vertical-align: top
+        margin-right: 15px
+        float: left
+
+      span
+        width: 320px
+        display: inline-block
+        padding-top: 8px
+
+  .FooterBottom
+    position: relative
+    background: white
+    height: 90px
+    line-height: @height
+
+    .copyright
+      position: absolute
+      left: $content-side-padding
+      color: $label-grey
+
+    .social-media
+      position: absolute
+      right: $content-side-padding
+
+      a
+        margin-right: 30px
+
+  .FooterSection
+    flex-basis: 0
+    flex-grow: 1
+
+    &.columns
+      display: flex
+      justify-content: center
+      align-items: flex-start
+
+    .FooterSectionColumn
+      flex-basis: 0
+      flex-grow: 1
+
+      &.wide
+        flex-grow: 1.5
+

@@ -51,3 +51,12 @@ export const REMOVE_PROJECT = "REMOVE_PROJECT";
 export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
 export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
 export const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";
+
+//
+// flows
+export const ADD_FLOW = "ADD_FLOW";
+export const REMOVE_FLOW = "REMOVE_FLOW";
+export const FLOW_NEXT_STEP = "FLOW_NEXT_STEP";
+export const FLOW_PREV_STEP = "FLOW_PREV_STEP";
+export const FLOW_START = "FLOW_START";
+export const FLOW_END = "FLOW_END";

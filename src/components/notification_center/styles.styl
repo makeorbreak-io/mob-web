@@ -7,7 +7,7 @@
     position: relative
     width: 30px
     height: @width
-    background: transparent url("~assets/images/bell.svg") no-repeat center center
+    background: transparent url("~assets/images/bell-white.svg") no-repeat center center
     cursor: pointer
 
     .Counter
@@ -26,7 +26,7 @@
 
   &.with-notifications
     .Bell
-      background-image: url("~assets/images/bell-ringing.svg")
+      background-image: url("~assets/images/bell-ringing-white.svg")
 
       .Counter
         display: block
@@ -40,7 +40,7 @@
     padding: 10px
     width: 350px
     background: white
-    border: 1px solid $grey
+    border: 1px solid $light-grey
     border-radius: 3px
 
     &.visible
@@ -49,6 +49,7 @@
     .Notification
       padding: 5px
       border-bottom: 1px solid $light-grey
+      color: $text-grey
 
       &:last-child
         border: none

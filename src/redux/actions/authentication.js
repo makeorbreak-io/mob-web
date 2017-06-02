@@ -31,7 +31,7 @@ export const login = (email, password) => {
 
       return Promise.resolve(user);
     })
-    .catch(() => Promise.reject(new SubmissionError("Invalid credentials")));
+    .catch(() => Promise.reject(new SubmissionError({ password: "Invalid email / password" })));
   };
 };
 

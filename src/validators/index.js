@@ -59,6 +59,17 @@ export const validatePresence = createValidator(
   "${label} is required",
 );
 
+export const validateChecked = createValidator(
+  v => v === true,
+  "${label} must be checked",
+);
+
+// Password confirmation
+export const validateMatch = createValidator(
+  (v, opts) => v === opts.match,
+  "Passwords do not match",
+);
+
 // Non-required date format validation
 export const validateDateFormat = createValidator(
   (v, opts) => isEmpty(v) ? true : moment(v, opts.format, false).isValid(),

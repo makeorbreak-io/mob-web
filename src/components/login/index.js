@@ -35,6 +35,7 @@ export class Login extends Component {
       <div className="Login">
         <form onSubmit={handleSubmit(this.onLogin)}>
           <div>
+            <label htmlFor="email">Email</label>
             <Field
               name="email"
               component="input"
@@ -46,6 +47,7 @@ export class Login extends Component {
           </div>
 
           <div>
+            <label htmlFor="password">Password</label>
             <Field
               name="password"
               component="input"
@@ -59,11 +61,12 @@ export class Login extends Component {
           <Button
             type="submit"
             primary
-            fullwidth
+            form
+            centered
             disabled={submitting}
             loading={submitting}
           >
-            Login
+            Sign In
           </Button>
         </form>
 

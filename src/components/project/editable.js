@@ -8,13 +8,13 @@ import { Field, reduxForm } from "redux-form";
 import {
   Button,
   ErrorMessage,
-  FormSectionHeader,
 } from "uikit";
 import { Multiselect } from "components/fields";
 
 //
 // Redux
 import { createProject, updateProject } from "actions/projects";
+import { fetchTeam } from "actions/teams";
 
 //
 // Constants
@@ -27,8 +27,6 @@ import { composeValidators, validatePresence } from "validators";
 const validate = (values) => {
   return composeValidators(
     validatePresence("name", "Project name"),
-    validatePresence("description", "Description"),
-    validatePresence("technologies", "Technologies"),
   )(values);
 };
 
@@ -53,13 +51,14 @@ export class EditableProject extends Component {
   // Callbacks
   //---------------------------------------------------------------------------
   createProject = (values) => {
-    return this.props.dispatch(createProject(values));
+    const { dispatch, team } = this.props;
+    return dispatch(createProject(values)).then(dispatch(fetchTeam(team.id)));
   }
 
   updateProject = (values) => {
-    const { dispatch, project } = this.props;
+    const { dispatch, project, team } = this.props;
 
-    return dispatch(updateProject(project.id, values));
+    return dispatch(updateProject(project.id, values)).then(dispatch(fetchTeam(team.id)));
   }
 
   //---------------------------------------------------------------------------
@@ -72,26 +71,25 @@ export class EditableProject extends Component {
 
     return (
       <div className="Project editable">
-        <FormSectionHeader>Project</FormSectionHeader>
-
         <form onSubmit={handleSubmit(submitHandler)}>
           <Field name="team_id" component="input" type="hidden" />
 
+          <label htmlFor="name">Project</label>
           <Field name="name" component="input" type="text" placeholder="Name" className="fullwidth" />
           <ErrorMessage form="project" field="name" />
 
           <Field name="description" component="textarea" placeholder="Description" className="fullwidth" />
           <ErrorMessage form="project" field="description" />
 
-          <Field name="technologies" component={Multiselect} options={technologies} placeholder="Technologies..." />
+          <Field name="technologies" component={Multiselect} creatable options={technologies} placeholder="Technologies..." />
           <ErrorMessage form="project" field="technologies" />
 
-          <label>
+          <label className="text">
             <Field name="student_team" component="input" type="checkbox" placeholder="Student Team" className="fullwidth" />
             Student Team
           </label>
 
-          <Button type="submit" form primary disabled={submitting} loading={submitting}>
+          <Button type="submit" form centered fullwidth primary disabled={submitting} loading={submitting}>
             {project ? "Update Project" : "Create Project"}
           </Button>
         </form>

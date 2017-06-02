@@ -11,8 +11,8 @@ import { map } from "lodash";
 import {
   Button,
   ErrorMessage,
-  FormSectionHeader,
 } from "uikit";
+import { Tabs, Tab, Panel } from "uikit/tabs";
 
 //
 // Redux
@@ -57,62 +57,73 @@ export class AccountSettings extends Component {
 
     return (
       <div className="AccountSettings">
-        <h1>Account Settings</h1>
+        <Tabs selected={0}>
+          <Tab><span>Account settings</span></Tab>
 
-        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <Panel>
 
-          {/* Personal Info */}
-          <FormSectionHeader>Personal Info</FormSectionHeader>
-          <Field name="first_name" component="input" type="text" placeholder="First name" className="left" />
-          <Field name="last_name" component="input" type="text" placeholder="Last name" className="right" />
-          <ErrorMessage left form="account-settings" field="first_name" />
-          <ErrorMessage right form="account-settings" field="last_name" />
+            <form onSubmit={handleSubmit(this.onSubmit)}>
 
-          <Field name="email" component="input" type="text" placeholder="Email" className="fullwidth" />
-          <ErrorMessage form="account-settings" field="email" />
+              {/* Personal Info */}
+              <label htmlFor="first_name">Name</label>
+              <Field id="first_name" name="first_name" component="input" type="text" placeholder="First name" className="left" />
+              <Field name="last_name" component="input" type="text" placeholder="Last name" className="right" />
+              <ErrorMessage left form="account-settings" field="first_name" />
+              <ErrorMessage right form="account-settings" field="last_name" />
 
-          <Field
-            name="birthday"
-            component="input"
-            type="text"
-            placeholder={`Birthday (${DATE_FORMAT})`}
-            className="fullwidth"
-            format={formatDate}
-            autoComplete="off"
-          />
-          <ErrorMessage form="account-settings" field="birthday" />
+              <label htmlFor="email">Email</label>
+              <Field id="email" name="email" component="input" type="text" placeholder="Email" className="fullwidth" />
+              <ErrorMessage form="account-settings" field="email" />
 
-          <Field name="bio" component="textarea" placeholder="Bio" className="fullwidth" />
-          <ErrorMessage form="account-settings" field="bio" />
+              <label htmlFor="birthday">Birthday</label>
+              <Field
+                id="birthday"
+                name="birthday"
+                component="input"
+                type="text"
+                placeholder={DATE_FORMAT}
+                className="fullwidth"
+                format={formatDate}
+                autoComplete="off"
+              />
+              <ErrorMessage form="account-settings" field="birthday" />
 
-          {/* Social Media */}
-          <FormSectionHeader>Social Media</FormSectionHeader>
-          <Field name="github_handle" component="input" type="text" placeholder="Github handle" className="fullwidth icon github" />
-          <ErrorMessage form="account-settings" field="github_handle" />
+              <label htmlFor="bio">Short Bio</label>
+              <Field id="bio" name="bio" component="textarea" placeholder="Bio" className="fullwidth" />
+              <ErrorMessage form="account-settings" field="bio" />
 
-          <Field name="twitter_handle" component="input" type="text" placeholder="Twitter handle" className="fullwidth icon twitter" />
-          <ErrorMessage form="account-settings" field="twitter_handle" />
+              {/* Social Media */}
+              <label htmlFor="github_handle">Social Media</label>
+              <Field id="github_handle" name="github_handle" component="input" type="text" placeholder="Github handle" className="fullwidth icon github" />
+              <ErrorMessage form="account-settings" field="github_handle" />
 
-          {/* Employment and Education */}
-          <FormSectionHeader>Employement and Education</FormSectionHeader>
-          <Field name="college" component="input" type="text" placeholder="College" className="fullwidth" />
-          <ErrorMessage form="account-settings" field="college" />
+              <Field name="twitter_handle" component="input" type="text" placeholder="Twitter handle" className="fullwidth icon twitter" />
+              <ErrorMessage form="account-settings" field="twitter_handle" />
 
-          <Field name="employment_status" component="select" className="fullwidth">
-            <option value="" disabled>Employement Status</option>
-            {map(EMPLOYMENT_STATUS, (label, status) =>
-              <option key={status} value={status}>{label}</option>
-            )}
-          </Field>
-          <ErrorMessage form="account-settings" field="employment_status" />
+              {/* Employment and Education */}
+              <label htmlFor="college">Employment and Education</label>
+              <Field id="college" name="college" component="input" type="text" placeholder="College" className="fullwidth" />
+              <ErrorMessage form="account-settings" field="college" />
 
-          <Field name="company" component="input" type="text" placeholder="Company" className="fullwidth" />
-          <ErrorMessage form="account-settings" field="company" />
+              <Field name="employment_status" component="select" className="fullwidth">
+                <option value="" disabled>Employement Status</option>
+                {map(EMPLOYMENT_STATUS, (label, status) =>
+                  <option key={status} value={status}>{label}</option>
+                )}
+              </Field>
+              <ErrorMessage form="account-settings" field="employment_status" />
 
-          <Button primary form type="submit" disabled={submitting} loading={submitting}>
-            Update
-          </Button>
-        </form>
+              <Field name="company" component="input" type="text" placeholder="Company" className="fullwidth" />
+              <ErrorMessage form="account-settings" field="company" />
+
+              <Button primary form centered fullwidth type="submit" disabled={submitting} loading={submitting}>
+                Update
+              </Button>
+            </form>
+
+          </Panel>
+        </Tabs>
+
       </div>
     );
   }
