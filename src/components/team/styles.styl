@@ -6,9 +6,20 @@
 .TeamMembers
   display: block
 
+  .Members .Member,
+  .Invites .Invite
+    position: relative
+    height: 70px
+    display: flex
+    align-items: center
+    justify-content: flex-start
+
   &.static
     label
       margin-bottom: 20px
+
+    .Members
+      margin: 0 0 20px
 
   &.editable
     margin-top: 50px
@@ -16,10 +27,12 @@
     .Invites, .Members
       list-style: none
       padding: 0
+      margin-bottom: 20px;
     
     .Invite, .Member
       padding: 5px 0
       margin: 0
 
       .Button.fakelink
-        float: right
+        position: absolute
+        right: 0

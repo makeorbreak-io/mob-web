@@ -53,7 +53,7 @@ export class AccountSettings extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const { handleSubmit, submitting, submitSucceeded } = this.props;
 
     return (
       <div className="AccountSettings">
@@ -100,6 +100,9 @@ export class AccountSettings extends Component {
               <Field name="twitter_handle" component="input" type="text" placeholder="Twitter handle" className="fullwidth icon twitter" />
               <ErrorMessage form="account-settings" field="twitter_handle" />
 
+              <Field name="linkedin_url" component="input" type="text" placeholder="Linkedin URL" className="fullwidth icon linkedin" />
+              <ErrorMessage form="account-settings" field="linkedin_url" />
+
               {/* Employment and Education */}
               <label htmlFor="college">Employment and Education</label>
               <Field id="college" name="college" component="input" type="text" placeholder="College" className="fullwidth" />
@@ -116,7 +119,16 @@ export class AccountSettings extends Component {
               <Field name="company" component="input" type="text" placeholder="Company" className="fullwidth" />
               <ErrorMessage form="account-settings" field="company" />
 
-              <Button primary form centered fullwidth type="submit" disabled={submitting} loading={submitting}>
+              <Button
+                type="submit"
+                primary
+                form
+                centered
+                fullwidth
+                disabled={submitting}
+                loading={submitting}
+                submitSucceeded={submitSucceeded}
+              >
                 Update
               </Button>
             </form>

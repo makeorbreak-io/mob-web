@@ -27,6 +27,7 @@ module.exports = {
       { test: /\.css$/, use: [ "style-loader", "css-loader" ] },
       { test: /\.styl$/, use: [ "style-loader", "css-loader", { loader: "postcss-loader", options: { sourceMap: true} }, "stylus-loader" ] },
       { test: /\.svg$/, use: [ "file-loader", "svgo-loader" ] },
+      { test: /\.(jpe?g|png|gif)$/i, use: [ "url-loader?limit=10000", "img-loader" ] },
     ],
   },
 

@@ -15,10 +15,6 @@ import {
 import { Multiselect } from "components/fields";
 
 //
-// Util
-import { displayName } from "util/user";
-
-//
 // Redux
 import { inviteUserToTeam } from "actions/members";
 
@@ -94,7 +90,7 @@ export default compose(
 
     const toOption = (u) => ({
       value: u.id,
-      label: displayName(u),
+      label: u.display_name,
     });
 
     return {

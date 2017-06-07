@@ -7,8 +7,6 @@ import App from "components/app";
 import Authenticated from "core/authenticated";
 
 import Home from "components/home";
-import Login from "components/login";
-import Signup from "components/signup";
 
 import AccountSettings from "components/account_settings";
 import { AccountTeam } from "components/account";
@@ -22,9 +20,6 @@ const router = (
 
       <IndexRoute component={Home} />
 
-      <Route path="signup" component={Signup} />
-      <Route path="login" component={Login} />
-
       <Route component={Authenticated}>
 
         <Route path="welcome" component={UserOnboarding} />
@@ -37,8 +32,8 @@ const router = (
       </Route>
 
       {/* Public routes */}
-      <Route path="team/:id" component={({ location }) => (
-        <Team id={location.query.id} />
+      <Route path="team/:id" component={({ params }) => (
+        <Team id={params.id} />
       )} />
 
     </Route>

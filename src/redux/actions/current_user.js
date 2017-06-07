@@ -37,10 +37,10 @@ export const refreshCurrentUser = () => {
     return request
     .get("/me")
     .then(response => {
-      const user = response.data;
-      dispatch(setCurrentUser(user));
+      const { data } = response.data;
+      dispatch(setCurrentUser(data));
 
-      return Promise.resolve(user);
+      return Promise.resolve(data);
     });
   };
 };

@@ -8,10 +8,6 @@ import { logout } from "actions/authentication";
 import { addNotification } from "actions/notifications";
 
 //
-// Util
-import { displayName } from "util/user";
-
-//
 // Constants
 import {
   SET_READY,
@@ -27,14 +23,14 @@ export const performSetup = () => {
     dispatch(createAction(PERFORM_SETUP)());
 
     return dispatch(refreshCurrentUser())
-    .then((currentUser) => {
+    .then(currentUser => {
 
       // create initial notifications
       each(currentUser.invitations, i => {
         if (!i.accepted) {
           dispatch(addNotification({
             title: "Pending invitation",
-            message: `${displayName(i.host)} has invited you to join <link>${i.team.name}</link>`,
+            message: `${i.host.display_name} has invited you to join <link>${i.team.name}</link>`,
             id: i.id,
             link: "/account/team",
           }));
@@ -42,10 +38,14 @@ export const performSetup = () => {
       });
 
       dispatch(setReady(true));
+
+      return Promise.resolve(currentUser);
     })
-    .catch(() => {
+    .catch((error) => {
       dispatch(logout());
       dispatch(setReady(true));
+
+      return Promise.reject(error);
     });
   };
 };

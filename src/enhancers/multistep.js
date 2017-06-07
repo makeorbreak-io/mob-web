@@ -33,6 +33,7 @@ export default function(opts = {}) {
     const flow = multistep[name] || {};
 
     return {
+      initFlow: () => store.dispatch(addFlow(opts)),
       next: () => store.dispatch(flowNextStep(name)),
       prev: () => store.dispatch(flowPrevStep(name)),
       start: () => store.dispatch(flowStart(name)),

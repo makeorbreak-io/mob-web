@@ -63,6 +63,7 @@ export class Login extends Component {
             primary
             form
             centered
+            halfwidth
             disabled={submitting}
             loading={submitting}
           >

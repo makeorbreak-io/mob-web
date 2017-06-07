@@ -103,6 +103,7 @@ export class Signup extends Component {
             primary
             form
             centered
+            halfwidth
             disabled={submitting}
             loading={submitting}
           >

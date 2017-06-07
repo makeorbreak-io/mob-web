@@ -22,7 +22,10 @@ import multistep from "enhancers/multistep";
 export class UserOnboarding extends Component {
 
   componentWillMount() {
-    this.props.dispatch(fetchUsers());
+    const { dispatch, initFlow } = this.props;
+
+    dispatch(fetchUsers());
+    initFlow();
   }
 
   render() {

@@ -10,14 +10,22 @@ import teams from "./teams";
 import projects from "./projects";
 import users from "./users";
 
-export default combineReducers({
-  form,
-  currentUser,
-  jwt,
-  multistep,
-  notifications,
-  ready,
-  teams,
-  projects,
-  users,
-});
+import { LOGOUT } from "action-types";
+
+export default (state, action) => {
+  if (action.type === LOGOUT) {
+    state = { ready: true };
+  }
+
+  return combineReducers({
+    form,
+    currentUser,
+    jwt,
+    multistep,
+    notifications,
+    ready,
+    teams,
+    projects,
+    users,
+  })(state, action);
+};

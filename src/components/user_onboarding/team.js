@@ -17,10 +17,6 @@ import {
 import { createTeam } from "actions/teams";
 
 //
-// Util
-import { displayName } from "util/user";
-
-//
 // Validation
 import { composeValidators, validatePresence } from "validators";
 
@@ -42,7 +38,7 @@ export const UserOnboardingTeam = ({
 
   return (
     <div className="UserOnboarding team">
-      <h1>Nice to meet you, {displayName(currentUser)}</h1>
+      <h1>Nice to meet you, {currentUser.display_name}</h1>
       <h5>Set up the team you'll be working in at the Make or Break hackathon.</h5>
 
       <form onSubmit={handleSubmit(submitHandler)}>

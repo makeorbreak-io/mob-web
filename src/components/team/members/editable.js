@@ -9,17 +9,14 @@ import { isEmpty, map, filter, includes } from "lodash";
 import {
   Button,
   ErrorMessage,
+  Avatar,
 } from "uikit";
 import { Multiselect } from "components/fields";
 
 //
-// Util
-import { displayName } from "util/user";
-
-//
 // Redux
 import { fetchUsers } from "actions/users";
-import { inviteUserToTeam, revokeInvite } from "actions/members";
+import { inviteUserToTeam, revokeInvite, removeFromTeam } from "actions/members";
 
 //
 // Validation
@@ -64,6 +61,12 @@ export class EditableTeamMembers extends Component {
     return dispatch(revokeInvite(id, team.id));
   }
 
+  removeFromTeam = (id) => {
+    const { dispatch, team } = this.props;
+
+    return dispatch(removeFromTeam(id, team.id));
+  }
+
   updateMultipleSelected = (ev) => {
     this.setState({ multipleSelected: !isEmpty(ev[1]) });
   }
@@ -72,25 +75,28 @@ export class EditableTeamMembers extends Component {
   // Render
   //---------------------------------------------------------------------------
   render() {
-    const { team: { members, invites }, users, handleSubmit, submitting, valid } = this.props;
+    const { team, users, memberLimitReached, handleSubmit, submitting, valid } = this.props;
     const { multipleSelected } = this.state;
 
     return (
       <div className="TeamMembers editable">
-        {!isEmpty(members) && <label>Members</label>}
+        {!isEmpty(team.members) && <label>Members</label>}
         <ul className="Members">
-          {map(members, i => (
-            <li className="Member" key={i.id}>
-              {displayName(i)}
+          {map(team.members, m => (
+            <li className="Member" key={m.id}>
+              <Avatar user={m} />
+              {m.display_name}
+              <Button fakelink onClick={() => this.removeFromTeam(m.id)}>remove member</Button>
             </li>
           ))}
         </ul>
 
-        {!isEmpty(invites) && <label>Pending Invites</label>}
+        {!isEmpty(team.invites) && <label>Pending Invites</label>}
         <ul className="Invites">
-          {map(invites, i => (
+          {map(team.invites, i => (
             <li className="Invite" key={i.id}>
-              {displayName(i.invitee)}
+              <Avatar user={{}} />
+              {i.invitee.display_name}
               <Button fakelink onClick={() => this.revokeInvite(i.id)}>revoke invitation</Button>
             </li>
           ))}
@@ -101,9 +107,22 @@ export class EditableTeamMembers extends Component {
           <Field id="members" name="members" component={Multiselect} options={users} placeholder="Search users..." onChange={this.updateMultipleSelected} />
           <ErrorMessage form="members" field="email" />
 
-          <Button type="submit" form centered fullwidth primary disabled={submitting || !valid} loading={submitting}>
+          <Button type="submit" form centered fullwidth primary disabled={submitting || !valid || memberLimitReached} loading={submitting}>
             Invite {multipleSelected ? "members" : "member"}
           </Button>
+
+          {memberLimitReached &&
+            <p className="small-notice">
+              Teams can only have a maximum of 4 members.<br />
+              Please remove some members or revoke invites to invite other people.
+            </p>
+          }
+
+          {!valid && !memberLimitReached && !submitting &&
+            <p className="small-notice">
+              Please select at least one user before inviting.
+            </p>
+          }
         </form>
       </div>
     );
@@ -126,11 +145,14 @@ export default compose(
 
     const toOption = (u) => ({
       value: u.id,
-      label: displayName(u),
+      label: u.display_name,
     });
+
+    const memberLimitReached = (team.invites.length + team.members.length) >= 3;
 
     return {
       users: filter(map(users, toOption), o => !includes(invalidUserIds, o.value)),
+      memberLimitReached,
     };
   }),
 

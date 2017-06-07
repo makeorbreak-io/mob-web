@@ -84,11 +84,6 @@ export class EditableProject extends Component {
           <Field name="technologies" component={Multiselect} creatable options={technologies} placeholder="Technologies..." />
           <ErrorMessage form="project" field="technologies" />
 
-          <label className="text">
-            <Field name="student_team" component="input" type="checkbox" placeholder="Student Team" className="fullwidth" />
-            Student Team
-          </label>
-
           <Button type="submit" form centered fullwidth primary disabled={submitting} loading={submitting}>
             {project ? "Update Project" : "Create Project"}
           </Button>

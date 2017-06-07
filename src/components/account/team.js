@@ -1,34 +1,41 @@
 import React from "react";
-import { compose, setDisplayName, mapProps } from "recompose";
-import { get, isEmpty, map, filter, find } from "lodash";
+import { compose, setDisplayName } from "recompose";
+import { get, isEmpty, map } from "lodash";
 import { connect } from "react-redux";
 
 //
 // Components
+import { Tabs, Tab, Panel } from "uikit/tabs";
 import Team from "components/team";
 import Invitation from "components/invitation";
 
-export const AccountTeam = ({
-  currentUser,
-  hasPendingInvitations,
-  acceptedInvitation,
-}) => {
-  if (hasPendingInvitations) {
-    return (
-      <div className="AccountTeam">
-        <h1>You have pending invitations</h1>
-        <h3>If you wish to create a team, you must reject all invitations first.</h3>
+//
+// Constants
+import { TEAM_ROLES } from "constants/user";
 
-        {map(currentUser.invitations, i => <Invitation key={i.id} invitation={i} />)}
-      </div>
-    );
-  }
-
-  const teamId = acceptedInvitation ? acceptedInvitation.team.id : get(currentUser, "team.id");
+export const AccountTeam = ({ currentUser }) => {
+  const teamId = get(currentUser, "team.id");
+  const teamRole = get(currentUser, "team.role");
+  const isInTeam = !isEmpty(teamId);
 
   return (
-    <div className="AccountTeam">
-      <Team id={teamId} editable={isEmpty(acceptedInvitation)} />
+    <div className="AccountTeam" style={{ width: 500 }}>
+      {!isEmpty(currentUser.invitations) &&
+        <Tabs>
+          <Tab><span>Pending Invites</span></Tab>
+
+          <Panel>
+            {isInTeam && <p className="small-notice">If you wish to accept any of these invites, you must first delete your team, along with its members and project.</p>}
+            {!isInTeam && <p className="small-notice">If you wish to create a team, you must reject all invitations first.</p>}
+
+            {map(currentUser.invitations, i => <Invitation key={i.id} invitation={i} disabled={!isEmpty(teamId)} />)}
+          </Panel>
+        </Tabs>
+      }
+
+      {isEmpty(currentUser.invitations) &&
+        <Team id={teamId} editable={teamRole === TEAM_ROLES.OWNER} />
+      }
     </div>
   );
 };
@@ -37,14 +44,4 @@ export default compose(
   setDisplayName("AccountTeam"),
 
   connect(({ currentUser }) => ({ currentUser })),
-
-  mapProps(props => {
-    const { currentUser: { team, invitations }} = props;
-
-    return {
-      ...props,
-      hasPendingInvitations: isEmpty(team) && !isEmpty(filter(invitations, { accepted: false })),
-      acceptedInvitation: find(invitations, { accepted: true }),
-    };
-  }),
 )(AccountTeam);

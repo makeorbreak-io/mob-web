@@ -15,10 +15,6 @@ import { Button } from "uikit";
 // Redux
 import { logout } from "actions/authentication";
 
-//
-// Util
-import { displayName } from "util/user";
-
 export class AccountMenu extends Component {
   state = {
     open: false,
@@ -46,7 +42,7 @@ export class AccountMenu extends Component {
     return (
       <div className={cx}>
         <Button success className="AccountMenuToggle" onClick={() => this.setState({ open: !open })}>
-          {displayName(currentUser)}
+          {currentUser.display_name}
         </Button>
 
         <div className="AccountMenuContent">

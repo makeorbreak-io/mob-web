@@ -13,7 +13,7 @@ export default function(state = {}, action) {
     return { ...state, [payload.id]: payload };
 
   case REMOVE_TEAM:
-    return omit(state, payload.id);
+    return omit(state, payload);
 
   default:
     return state;

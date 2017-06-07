@@ -7,14 +7,19 @@ import request, { processSubmissionError } from "util/http";
 // 
 // Redux
 import {
+  FETCH_TEAM,
   CREATE_TEAM,
   UPDATE_TEAM,
-  FETCH_TEAM,
+  DELETE_TEAM,
   ADD_TEAM,
+  REMOVE_TEAM,
 } from "action-types";
 import { refreshCurrentUser } from "actions/current_user";
 
+const failureCallback = (error) => Promise.reject(processSubmissionError(error));
+
 const addTeam = createAction(ADD_TEAM);
+const removeTeam = createAction(REMOVE_TEAM);
 
 export const fetchTeam = (id) => {
   return (dispatch) => {
@@ -28,7 +33,7 @@ export const fetchTeam = (id) => {
 
       return Promise.resolve(data);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(failureCallback);
   };
 };
 
@@ -46,7 +51,7 @@ export const createTeam = (values) => {
 
       return Promise.resolve(data);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(failureCallback);
   };
 };
 
@@ -62,6 +67,21 @@ export const updateTeam = (id, values) => {
 
       return Promise.resolve(data);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(failureCallback);
+  };
+};
+
+export const deleteTeam = (id) => {
+  return (dispatch) => {
+    dispatch(createAction(DELETE_TEAM)());
+
+    return request
+    .delete(`/teams/${id}`)
+    .then(() => {
+      dispatch(removeTeam(id));
+
+      return Promise.resolve();
+    })
+    .catch(failureCallback);
   };
 };

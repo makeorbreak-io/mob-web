@@ -18,7 +18,7 @@ import { Tabs, Tab, Panel } from "uikit/tabs";
 
 //
 // Redux
-import { createTeam, updateTeam } from "actions/teams";
+import { createTeam, updateTeam, deleteTeam } from "actions/teams";
 
 //
 // Validation
@@ -51,13 +51,24 @@ export class EditableTeam extends Component {
   // Callbacks
   //---------------------------------------------------------------------------
   createTeam = (values) => {
-    return this.props.dispatch(createTeam(values));
+    const { dispatch } = this.props;
+
+    return dispatch(createTeam(values));
   }
 
   updateTeam = (values) => {
     const { dispatch, team } = this.props;
 
     return dispatch(updateTeam(team.id, values));
+  }
+
+  deleteTeam = () => {
+    const { dispatch, change, untouch, team } = this.props;
+
+    // dispatch(reset());
+    dispatch(change("name", ""));
+    dispatch(untouch("name"));
+    return dispatch(deleteTeam(team.id));
   }
 
   //---------------------------------------------------------------------------
@@ -88,6 +99,16 @@ export class EditableTeam extends Component {
             {team && <TeamMembers team={team} editable />}
 
             {team && <Project {...{ id, team }} editable />}
+
+            {team &&
+              <div className="danger-zone">
+                <Button form fullwidth centered danger onClick={this.deleteTeam}>
+                  Delete "{team.name}" team
+                </Button>
+
+                <p>Delete this team, and all of its memberships, invites, and projects.</p>
+              </div>
+            }
           </Panel>
         </Tabs>
       </div>

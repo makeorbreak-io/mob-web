@@ -24,16 +24,17 @@ export const SET_USERS = "SET_USERS";
 
 //
 // team
+export const FETCH_TEAM = "FETCH_TEAM";
 export const CREATE_TEAM = "CREATE_TEAM";
 export const UPDATE_TEAM = "UPDATE_TEAM";
-export const FETCH_TEAM = "FETCH_TEAM";
+export const DELETE_TEAM = "DELETE_TEAM";
 export const ADD_TEAM = "ADD_TEAM";
 export const REMOVE_TEAM = "REMOVE_TEAM";
-export const REFRESH_TEAM = "REFRESH_TEAM";
 
 //
 // team members / invites
 export const INVITE_USER_TO_TEAM = "INVITE_USER_TO_TEAM";
+export const REMOVE_FROM_TEAM = "REMOVE_FROM_TEAM";
 export const REVOKE_INVITE = "REVOKE_INVITE";
 export const ACCEPT_INVITE = "ACCEPT_INVITE";
 export const REJECT_INVITE = "REJECT_INVITE";
