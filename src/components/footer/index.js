@@ -48,6 +48,7 @@ export class Footer extends Component {
               <div className="FooterSectionColumn">
                 <h3>Resources</h3>
 
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/portosummerofcode/rules">Competition Rules</a>
                 <a target="_blank" rel="noopener noreferrer" href="https://portosummerofcode.com/blog/">Blog</a>
                 <a target="_blank" rel="noopener noreferrer" href="mailto:info@portosummerofcode.com">Contact</a>
               </div>
