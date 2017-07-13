@@ -34,7 +34,7 @@ export const AccountTeam = ({ currentUser }) => {
       }
 
       {isEmpty(currentUser.invitations) &&
-        <Team id={teamId} editable={teamRole === TEAM_ROLES.OWNER} />
+        <Team id={teamId} editable={!teamId || teamRole === TEAM_ROLES.OWNER} />
       }
     </div>
   );
