@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { isEmpty, map, filter, includes } from "lodash";
+import { isEmpty, map, filter, includes, get } from "lodash";
 
 //
 // Components
@@ -16,7 +16,11 @@ import { Multiselect } from "components/fields";
 //
 // Redux
 import { fetchUsers } from "actions/users";
-import { inviteUserToTeam, revokeInvite, removeFromTeam } from "actions/members";
+import { inviteUserToTeam, inviteUserByEmail, revokeInvite, removeFromTeam } from "actions/members";
+
+//
+// Constants
+import { EMAIL_REGEX } from "constants/validators";
 
 //
 // Validation
@@ -51,7 +55,11 @@ export class EditableTeamMembers extends Component {
     dispatch(reset());
 
     return Promise.all(
-      map(values.members, ({ value: id }) => dispatch(inviteUserToTeam(id)))
+      map(values.members, ({ label, value }) => {
+        return label === value
+          ? dispatch(inviteUserByEmail(value))
+          : dispatch(inviteUserToTeam(value));
+      })
     );
   }
 
@@ -96,7 +104,7 @@ export class EditableTeamMembers extends Component {
           {map(team.invites, i => (
             <li className="Invite" key={i.id}>
               <Avatar user={{}} />
-              {i.invitee.display_name}
+              {get(i, "invitee.display_name", i.email)}
               <Button fakelink onClick={() => this.revokeInvite(i.id)}>revoke invitation</Button>
             </li>
           ))}
@@ -104,7 +112,16 @@ export class EditableTeamMembers extends Component {
 
         <form onSubmit={handleSubmit(this.inviteMembers)}>
           <label htmlFor="members">Invite Members</label>
-          <Field id="members" name="members" component={Multiselect} options={users} placeholder="Search users..." onChange={this.updateMultipleSelected} />
+          <Field
+            id="members"
+            name="members"
+            component={Multiselect}
+            options={users}
+            placeholder="Search users or use an email..."
+            onChange={this.updateMultipleSelected}
+            isValidNewOption={({ label }) => EMAIL_REGEX.test(label)}
+            creatable
+          />
           <ErrorMessage form="members" field="email" />
 
           <Button type="submit" form centered fullwidth primary disabled={submitting || !valid || memberLimitReached} loading={submitting}>

@@ -3,7 +3,7 @@ import { map, reduce, merge, isEmpty, template } from "lodash";
 
 //
 // Constants
-const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import { EMAIL_REGEX } from "constants/validators";
 
 // Tidily compose validators for a whole set of inputs
 //

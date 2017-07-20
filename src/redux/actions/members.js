@@ -8,6 +8,7 @@ import request, { processSubmissionError } from "util/http";
 // Redux
 import {
   INVITE_USER_TO_TEAM,
+  INVITE_USER_BY_EMAIL,
   REMOVE_FROM_TEAM,
   REVOKE_INVITE,
 } from "action-types";
@@ -22,6 +23,26 @@ export const inviteUserToTeam = (userId) => {
     .post("/invites", {
       invite: {
         invitee_id: userId,
+      },
+    })
+    .then(response => {
+      const { data } = response.data;
+
+      return dispatch(fetchTeam(data.team.id))
+      .then(() => Promise.resolve(data));
+    })
+    .catch(error => Promise.reject(processSubmissionError(error)));
+  };
+};
+
+export const inviteUserByEmail = (email) => {
+  return (dispatch) => {
+    dispatch(createAction(INVITE_USER_BY_EMAIL)());
+
+    return request
+    .post("/invites", {
+      invite: {
+        email,
       },
     })
     .then(response => {

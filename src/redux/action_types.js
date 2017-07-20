@@ -34,6 +34,7 @@ export const REMOVE_TEAM = "REMOVE_TEAM";
 //
 // team members / invites
 export const INVITE_USER_TO_TEAM = "INVITE_USER_TO_TEAM";
+export const INVITE_USER_BY_EMAIL = "INVITE_USER_BY_EMAIL";
 export const REMOVE_FROM_TEAM = "REMOVE_FROM_TEAM";
 export const REVOKE_INVITE = "REVOKE_INVITE";
 export const ACCEPT_INVITE = "ACCEPT_INVITE";
