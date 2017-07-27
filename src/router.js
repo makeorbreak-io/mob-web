@@ -6,8 +6,14 @@ import { Router, Route, IndexRoute, browserHistory } from "react-router";
 import App from "components/app";
 import Authenticated from "core/authenticated";
 
+//
+//
 import Home from "components/home";
+import { StandaloneLogin } from "components/login";
+import { StandaloneSignup } from "components/signup";
 
+//
+// App-level components
 import AccountSettings from "components/account_settings";
 import { AccountTeam } from "components/account";
 import Team from "components/team";
@@ -35,6 +41,9 @@ const router = (
       <Route path="team/:id" component={({ params }) => (
         <Team id={params.id} />
       )} />
+
+      <Route path="signin" component={StandaloneLogin} />
+      <Route path="signup" component={StandaloneSignup} />
 
       {/* Temporary: external redirects */}
       <Route path="/rules" component={() => {

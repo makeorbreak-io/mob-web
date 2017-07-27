@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { compose, setDisplayName } from "recompose";
+import PropTypes from "prop-types";
+import { compose, setDisplayName, getContext } from "recompose";
 import { Field, reduxForm } from "redux-form";
 
 //
 // Components
 import Button from "uikit/button";
 import ErrorMessage from "uikit/error_message";
+import { Tabs, Tab, Panel } from "uikit/tabs";
 
 //
 // Redux
@@ -25,7 +27,9 @@ const validate = (values) => {
 export class Login extends Component {
 
   onLogin = (values) => {
-    return this.props.dispatch(login(values.email, values.password));
+    const { dispatch, router } = this.props;
+    return dispatch(login(values.email, values.password))
+    .then(() => router.push("/"));
   }
 
   render() {
@@ -80,9 +84,34 @@ export class Login extends Component {
 export default compose(
   setDisplayName("Login"),
 
+  getContext({
+    router: PropTypes.object.isRequired,
+  }),
+
   reduxForm({
     form: "login",
     validate,
   }),
 )(Login);
 
+export const StandaloneLogin = compose(
+  setDisplayName("StandaloneLogin"),
+
+  getContext({
+    router: PropTypes.object.isRequired,
+  }),
+
+  reduxForm({
+    form: "login",
+    validate,
+  }),
+)((props) => (
+  <div className="Home">
+    <Tabs>
+      <Tab><span>Sign In</span></Tab>
+      <Panel>
+        <Login {...props} />
+      </Panel>
+    </Tabs>
+  </div>
+));

@@ -8,10 +8,6 @@ import classnames from "classnames";
 import onClickOutside from "react-onclickoutside";
 
 //
-// Components
-import { Button } from "uikit";
-
-//
 // Redux
 import { logout } from "actions/authentication";
 
@@ -41,9 +37,9 @@ export class AccountMenu extends Component {
 
     return (
       <div className={cx}>
-        <Button success className="AccountMenuToggle" onClick={() => this.setState({ open: !open })}>
+        <span className="AccountMenuToggle" onClick={() => this.setState({ open: !open })}>
           {currentUser.display_name}
-        </Button>
+        </span>
 
         <div className="AccountMenuContent">
           <Link to="/account/settings" onClick={this.close}>Account Settings</Link>

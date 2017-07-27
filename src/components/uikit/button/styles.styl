@@ -8,21 +8,21 @@ ComposeButton($color)
     border-color: $color
 
     &:hover, &.active
-      background: darken($color, $hover)
-      border-color: darken($color, $hover)
+      background: lighten($color, $hover)
+      border-color: lighten($color, $hover)
 
     &.hollow, &.fakelink
       color: $color
 
       &:hover
-        color: darken($color, $hover)
+        color: lighten($color, $hover)
 
     &.fakelink:hover
       background: transparent
 
     &.disabled, &.disabled:hover
-      background: lighten($color, $disabled)
-      border-color: lighten($color, $disabled)
+      background: $button-disabled // lighten($color, $disabled)
+      border-color: $button-disabled // lighten($color, $disabled)
 
 .Button
   display: inline-block
@@ -36,7 +36,7 @@ ComposeButton($color)
   border-radius: 3px
   transition: all linear 200ms
   cursor: pointer
-  font: normal normal 400 20px Rokkitt, serif
+  font: normal normal 500 16px Poppins, sans-serif
 
   //
   // colors
@@ -46,6 +46,9 @@ ComposeButton($color)
     &.hollow, &.hollow:hover
       background: white
 
+  &.cta
+    color: $mob-purple
+
   &.primary
     ComposeButton($button-primary)
   &.success
@@ -54,6 +57,8 @@ ComposeButton($color)
     ComposeButton($button-warning)
   &.danger
     ComposeButton($button-danger)
+  &.cta
+    ComposeButton($yellow)
 
   //
   // sizes

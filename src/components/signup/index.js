@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 // Components
 import Button from "uikit/button";
 import ErrorMessage from "uikit/error_message";
+import { Tabs, Tab, Panel } from "uikit/tabs";
 
 //
 // Redux
@@ -131,3 +132,30 @@ export default compose(
     router: PropTypes.object.isRequired,
   }),
 )(Signup);
+
+export const StandaloneSignup = compose(
+  setDisplayName("StandaloneSignup"),
+
+  connect(),
+
+  reduxForm({
+    form: "signup",
+    validate,
+  }),
+
+  getContext({
+    router: PropTypes.object.isRequired,
+  }),
+)((props) => (
+  <div className="Home">
+    <Tabs>
+      <Tab>
+        <span>Want to join our event?</span>
+        <span>Sign Up</span>
+      </Tab>
+      <Panel>
+        <Signup {...props} />
+      </Panel>
+    </Tabs>
+  </div>
+));

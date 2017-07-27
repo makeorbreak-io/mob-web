@@ -109,7 +109,7 @@ export class AccountSettings extends Component {
               <ErrorMessage form="account-settings" field="college" />
 
               <Field name="employment_status" component="select" className="fullwidth">
-                <option value="" disabled>Employement Status</option>
+                <option value="" disabled>Employment Status</option>
                 {map(EMPLOYMENT_STATUS, (label, status) =>
                   <option key={status} value={status}>{label}</option>
                 )}

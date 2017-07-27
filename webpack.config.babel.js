@@ -11,7 +11,7 @@ module.exports = {
 
   context: path.resolve(__dirname, "src"),
 
-  devtool: "inline-source-map",
+  devtool: "eval-source-map",
 
   entry: [
     "react-hot-loader/patch",

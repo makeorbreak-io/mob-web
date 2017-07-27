@@ -38,10 +38,8 @@ export class Navbar extends Component {
             </Link>
           </h1>
 
-          {/* temporarily disable logged out links in navbar */}
-          {!currentUser && false && <Link activeClassName="active" to="/"><Button primary>Home</Button></Link>}
-          {!currentUser && false && <Link activeClassName="active" to="/login"><Button primary>Sign In</Button></Link>}
-          {!currentUser && false && <Link activeClassName="active" to="/signup"><Button success bold>Sign Up</Button></Link>}
+          {!currentUser && <Link activeClassName="active" to="/signin"><Button primary>Sign In</Button></Link>}
+          {!currentUser && <Link activeClassName="active" to="/signup"><Button cta>Apply Now</Button></Link>}
 
           {currentUser && <NotificationCenter />}
           {currentUser && <AccountMenu />}

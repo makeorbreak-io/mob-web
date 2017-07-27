@@ -96,7 +96,11 @@ export class EditableTeam extends Component {
               </Button>
             </form>
 
+            <hr />
+
             {team && <TeamMembers team={team} editable />}
+
+            <hr />
 
             {team && <Project {...{ id, team }} editable />}
 
