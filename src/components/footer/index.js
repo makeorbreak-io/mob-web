@@ -24,7 +24,7 @@ export class Footer extends Component {
                 <span>
                   Make or Break is a 3-day tech fest with prizes, workshops, gadgets, food, and more.
                   <br />
-                  Brought to you by the Porto Summer of Code team!
+                  Brought to you by the Porto Summer of Code team and co-organized by <a href="http://alumniei.fe.up.pt/" target="_blank" rel="noopener noreferrer">AlumniEI-FEUP</a>
                 </span>
               </p>
             </div>
@@ -66,7 +66,7 @@ export class Footer extends Component {
               <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/portosummerofcode/">
                 <img height="20" src={fb} alt="Porto Summer of Code Faceook page" />
               </a>
-              <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/portosummercode">
+              <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/portosummercode/">
                 <img height="20" src={twitter} alt="Porto Summer of Code Twitter account" />
               </a>
             </div>

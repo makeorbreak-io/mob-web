@@ -1,13 +1,14 @@
 @import "~components/variables"
 
 .Navbar
-  position: fixed
-  top: 0
   width: 100%
   height: $navbar-height
   background: $mob-purple
   color: white
   zIndex("navbar")
+
+  &.green
+    background: $mob-green
 
   .content
     height: 100%
@@ -22,7 +23,7 @@
     margin: 0
     padding: 0
     position: absolute
-    top: 0
+    top: 6px
     left: $content-side-padding
 
 .AccountMenuToggle

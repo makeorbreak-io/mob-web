@@ -106,7 +106,7 @@ export const StandaloneLogin = compose(
     validate,
   }),
 )((props) => (
-  <div className="Home">
+  <div className="narrow-container">
     <Tabs>
       <Tab><span>Sign In</span></Tab>
       <Panel>

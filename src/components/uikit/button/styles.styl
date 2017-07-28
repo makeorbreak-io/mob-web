@@ -25,11 +25,12 @@ ComposeButton($color)
       border-color: $button-disabled // lighten($color, $disabled)
 
 .Button
+  position: relative
   display: inline-block
   padding: 0 40px
   height: 40px
-  line-height: @height
-  border: 1px solid $text-grey
+  line-height: @height - 2px
+  border: 1px solid transparent
   background: white
   outline: none
   color: $text-grey
@@ -40,16 +41,16 @@ ComposeButton($color)
 
   //
   // colors
-  &.primary, &.success, &.warning, &.danger
+  &.primary, &.success, &.warning, &.danger, &.nobg
     color: white
 
     &.hollow, &.hollow:hover
       background: white
 
   &.cta
-    color: $mob-purple
+    color: $yellow
 
-  &.primary
+  &.primary, &.cta
     ComposeButton($button-primary)
   &.success
     ComposeButton($button-success)
@@ -57,8 +58,8 @@ ComposeButton($color)
     ComposeButton($button-warning)
   &.danger
     ComposeButton($button-danger)
-  &.cta
-    ComposeButton($yellow)
+  &.nobg
+    ComposeButton(transparent)
 
   //
   // sizes
@@ -66,10 +67,37 @@ ComposeButton($color)
     font-size: 16px
     padding: 0 15px
     height: 30px
-    line-height: @height
+    line-height: @height - 2px
+
+  &.large
+    font-size: 22px
+    height: 65px
+    line-height: @height - 2px
+    padding: 0 80px
 
   &.bold
     font-weight: 600
+
+  //
+  // visual styles
+  &.framed
+    &:before, &:after
+      position: absolute
+      line-height: normal
+      font-size: 35px
+
+    &:before
+      content: "┌"
+      top: -33px
+      left: -25px
+
+    &:after
+      content: "┘"
+      bottom: -33px
+      right: -25px
+
+  &.straight
+    border-radius: 0
 
   //
   // behaviour

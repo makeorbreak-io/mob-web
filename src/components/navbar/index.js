@@ -1,7 +1,9 @@
 import "./styles";
 
 import React, { Component } from "react";
-import { compose, setDisplayName } from "recompose";
+import PropTypes from "prop-types";
+import classnames from "classnames";
+import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 
@@ -13,7 +15,7 @@ import NotificationCenter from "components/notification_center";
 
 //
 // Assets
-import logo from "assets/images/logo-purple.svg";
+import logo from "assets/images/mob-logo-white.svg";
 
 export class Navbar extends Component {
 
@@ -27,18 +29,19 @@ export class Navbar extends Component {
   }
 
   render() {
-    const { currentUser } = this.props;
+    const { currentUser, green } = this.props;
+    const cx = classnames("Navbar", { green });
 
     return (
-      <div className="Navbar">
+      <div className={cx}>
         <div className="content">
           <h1 className="Logo">
             <Link to="/">
-              <img src={logo} alt="Make or Break." height="60" />
+              <img src={logo} alt="Make or Break." height="26" />
             </Link>
           </h1>
 
-          {!currentUser && <Link activeClassName="active" to="/signin"><Button primary>Sign In</Button></Link>}
+          {!currentUser && <Link activeClassName="active" to="/signin"><Button nobg>Sign In</Button></Link>}
           {!currentUser && <Link activeClassName="active" to="/signup"><Button cta>Apply Now</Button></Link>}
 
           {currentUser && <NotificationCenter />}
@@ -54,4 +57,12 @@ export default compose(
   setDisplayName("Navbar"),
 
   connect(({ currentUser }) => ({ currentUser })),
+
+  setPropTypes({
+    green: PropTypes.bool.isRequired,
+  }),
+
+  defaultProps({
+    green: false,
+  }),
 )(Navbar);

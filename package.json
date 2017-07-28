@@ -9,7 +9,7 @@
   "author": "João Gradim <joao.gradim@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --colors --progress --history-api-fallback",
+    "start": "webpack-dev-server --colors --progress --history-api-fallback",
     "build": "NODE_ENV=production webpack --config webpack.config.production.babel.js -p --colors --progress",
     "clean": "rm -rf build/*",
     "copy:production": "rsync -az --force --delete --progress -e \"ssh -p22\" ./build/ deploy@makeorbreak.portosummerofcode.com:/var/www/psc-web/",

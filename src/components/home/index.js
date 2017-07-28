@@ -7,9 +7,7 @@ import { connect } from "react-redux";
 
 //
 // Components
-import { Tabs, Tab, Panel } from "uikit/tabs";
-import Login from "components/login";
-import Signup from "components/signup";
+import Landing from "components/landing";
 
 export class Home extends Component {
 
@@ -29,20 +27,7 @@ export class Home extends Component {
           </h5>
         </div>
       )
-    : (
-        <div className="Home">
-          <Tabs>
-            <Tab><span>Sign In</span></Tab>
-            <Tab>
-              <span>Want to join our event?</span>
-              <span>Sign Up</span>
-            </Tab>
-
-            <Panel><Login /></Panel>
-            <Panel><Signup /></Panel>
-          </Tabs>
-        </div>
-      );
+    : <Landing />;
   }
 
 }

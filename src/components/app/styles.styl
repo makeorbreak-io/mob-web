@@ -6,7 +6,6 @@
 html, body, #app
   width: 100vw
   height: 100vh
-  // font-family: Poppins, sans-serif
   font: normal normal 400 14px Asap, sans-serif
   color: $text-grey
 
@@ -15,7 +14,7 @@ html, body, #app
   overflow-y: auto
 
 h1, h2, h3
-  font: normal normal 600 32px Rokkitt, serif
+  font: normal normal 600 32px Poppins, serif
   text-align: center
   margin: 20px auto
 h2
@@ -34,8 +33,12 @@ h6
   font-size: 14px
 
 p
-  margin: 0
+  margin: 20px 0
   padding: 0
+  font-weight: 400
+  font-size: 16px
+  line-height: 25px
+  color: $dark-grey
 
 a, a:link, a:active, a:visited
   color: $mob-purple
@@ -51,7 +54,6 @@ hr
 .App
   width: 100vw
   position: relative
-  top: $navbar-height
   min-height: "calc(100vh - %s)" % $navbar-height
   padding-bottom: $footer-height + $footer-margin-top
 
@@ -72,6 +74,12 @@ hr
 //
 // Global styles
 // (create these sparingly)
+
+.narrow-container
+  position: relative
+  width: 435px
+  padding-top: 50px
+
 p.small-notice
   margin: 10px 0
   color: $label-grey

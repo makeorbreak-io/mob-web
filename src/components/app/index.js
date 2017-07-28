@@ -7,16 +7,18 @@ import "./forms";
 
 import React from "react";
 import { compose, setDisplayName } from "recompose";
+import { connect } from "react-redux";
+import { isEmpty } from "lodash";
 
 //
 // Components
 import Navbar from "components/navbar";
 import Footer from "components/footer";
 
-export const App = ({ children }) => {
+export const App = ({ children, location: { pathname }, currentUser }) => {
   return (
     <div className="App">
-      <Navbar />
+      <Navbar green={pathname === "/" && isEmpty(currentUser)} />
 
       <div className="AppContent">
         {children}
@@ -29,4 +31,6 @@ export const App = ({ children }) => {
 
 export default compose(
   setDisplayName("App"),
+
+  connect(({ currentUser }) => ({ currentUser })),
 )(App);
