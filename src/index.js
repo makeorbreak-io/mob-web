@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
+import Raven from "raven-js";
 
 //
 // Components
@@ -13,7 +14,15 @@ import router from "./router";
 import store from "redux-root/store";
 import { performSetup } from "actions/setup";
 
+//
+// Config
+import env from "environment";
+
+// init redux
 store.dispatch(performSetup());
+
+// init Sentry error logging
+Raven.config(env.sentryEndpoint).install();
 
 render(
   (
