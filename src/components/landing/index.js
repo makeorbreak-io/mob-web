@@ -23,16 +23,18 @@ import sponsori2s from "assets/images/sponsor-i2s.svg";
 import sponsorBlip from "assets/images/sponsor-blip.svg";
 import sponsorSemasio from "assets/images/sponsor-semasio.svg";
 import sponsorMindera from "assets/images/sponsor-mindera.png";
+import sponsorAlientech from "assets/images/sponsor-alientech.svg";
 
 const SPONSORS = [
-  { src: sponsorLiberty , url: "http://www.libertyseguros.pt/" },
-  { src: sponsorCMP     , url: "http://www.cm-porto.pt/" },
-  { src: sponsorCisco   , url: "http://www.cisco.com/c/pt_pt/index.html" },
-  { src: sponsorDoist   , url: "https://doist.com/" },
-  { src: sponsori2s     , url: "http://www.i2s.pt/index/" },
-  { src: sponsorBlip    , url: "http://www.blip.pt/" },
-  { src: sponsorSemasio , url: "http://www.semasio.com/" },
-  { src: sponsorMindera , url: "https://www.mindera.com/" },
+  { src: sponsorLiberty   , url: "http://www.libertyseguros.pt/" },
+  { src: sponsorCMP       , url: "http://www.cm-porto.pt/" },
+  { src: sponsorCisco     , url: "http://www.cisco.com/c/pt_pt/index.html" },
+  { src: sponsorDoist     , url: "https://doist.com/" },
+  { src: sponsori2s       , url: "http://www.i2s.pt/index/" },
+  { src: sponsorBlip      , url: "http://www.blip.pt/" },
+  { src: sponsorSemasio   , url: "http://www.semasio.com/" },
+  { src: sponsorMindera   , url: "https://www.mindera.com/" },
+  { src: sponsorAlientech , url: "https://www.alientech.pt/" },
 ];
 
 export class Landing extends Component {
