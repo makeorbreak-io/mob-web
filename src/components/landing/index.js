@@ -160,7 +160,7 @@ export class Landing extends Component {
         <section id="join-event">
           <div className="content">
             <div className="video">
-              {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/DYTZIlz8pK4?rel=0&amp;showinfo=0" frameBorder="0" allowFullScreen /> */}
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/DYTZIlz8pK4?rel=0&amp;showinfo=0" frameBorder="0" allowFullScreen />
             </div>
 
             <p className="coming-soon">
