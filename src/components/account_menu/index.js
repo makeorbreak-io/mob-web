@@ -11,6 +11,10 @@ import onClickOutside from "react-onclickoutside";
 // Redux
 import { logout } from "actions/authentication";
 
+//
+// constants
+import { ADMIN } from "constants/roles";
+
 export class AccountMenu extends Component {
   state = {
     open: false,
@@ -44,6 +48,7 @@ export class AccountMenu extends Component {
         <div className="AccountMenuContent">
           <Link to="/account/settings" onClick={this.close}>Account Settings</Link>
           <Link to="/account/team" onClick={this.close}>Team</Link>
+          {currentUser.role === ADMIN && <Link to="/admin" onClick={this.close}>Admin</Link>}
           <Link onClick={() => dispatch(logout())}>Logout</Link>
         </div>
       </div>

@@ -62,3 +62,13 @@ export const FLOW_NEXT_STEP = "FLOW_NEXT_STEP";
 export const FLOW_PREV_STEP = "FLOW_PREV_STEP";
 export const FLOW_START = "FLOW_START";
 export const FLOW_END = "FLOW_END";
+
+//
+// Admin
+export const FETCH_USERS_ADMIN = "FETCH_USERS_ADMIN";
+export const SET_USERS_ADMIN = "SET_USERS_ADMIN";
+export const DELETE_USER_ADMIN = "DELETE_USER_ADMIN";
+export const SET_USER_ROLE_ADMIN = "SET_USER_ROLE_ADMIN";
+
+export const FETCH_STATS_ADMIN = "FETCH_STATS_ADMIN";
+export const SET_STATS_ADMIN = "SET_STATS_ADMIN";

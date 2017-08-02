@@ -10,6 +10,8 @@ import teams from "./teams";
 import projects from "./projects";
 import users from "./users";
 
+import admin from "./admin";
+
 import { LOGOUT } from "action-types";
 
 export default (state, action) => {
@@ -27,5 +29,7 @@ export default (state, action) => {
     teams,
     projects,
     users,
+
+    admin,
   })(state, action);
 };

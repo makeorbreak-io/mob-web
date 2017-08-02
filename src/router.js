@@ -5,6 +5,7 @@ import { Router, Route, IndexRoute, browserHistory } from "react-router";
 // Top-level components
 import App from "components/app";
 import Authenticated from "core/authenticated";
+import Authorized from "core/authorized";
 
 //
 //
@@ -14,11 +15,15 @@ import { StandaloneSignup } from "components/signup";
 
 //
 // App-level components
+import UserOnboarding from "components/user_onboarding";
 import AccountSettings from "components/account_settings";
 import { AccountTeam } from "components/account";
 import Team from "components/team";
 
-import UserOnboarding from "components/user_onboarding";
+//
+// Admin components
+import AdminDashboard from "components/admin/dashboard";
+import UserList from "components/admin/user_list";
 
 const router = (
   <Router history={browserHistory}>
@@ -33,6 +38,14 @@ const router = (
         <Route path="account">
           <Route path="settings" component={AccountSettings} />
           <Route path="team" component={AccountTeam} />
+        </Route>
+
+        {/* Admin routes */}
+        <Route component={Authorized}>
+          <Route path="admin">
+            <IndexRoute component={AdminDashboard} />
+            <Route path="users" component={UserList} />
+          </Route>
         </Route>
 
       </Route>

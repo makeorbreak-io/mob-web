@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { oneOf, bool, func, string, number } from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 import classnames from "classnames";
-import { noop, omit } from "lodash";
+import { noop, omit, isNull } from "lodash";
 
 //
 // Components
@@ -29,10 +29,21 @@ export class Button extends Component {
   }
 
   //----------------------------------------------------------------------------
+  // Callbacks
+  //----------------------------------------------------------------------------
+  handleClick = () => {
+    const { confirmation, onClick } = this.props;
+
+    if (isNull(confirmation)) return onClick();
+
+    return window.confirm(confirmation) ? onClick() : null;
+  }
+
+  //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { type, disabled, onClick, className, children, loading, ...styles } = this.props;
+    const { type, disabled, className, children, loading, ...styles } = this.props;
     const { showSuccess } = this.state;
 
     const cx = classnames("Button", className, { loading, disabled, ...omit(styles, "feedbackDuration") });
@@ -42,7 +53,7 @@ export class Button extends Component {
     if (showSuccess) content = "Updated! ✔";
 
     return (
-      <button className={cx} {...{ type, disabled, onClick }}>
+      <button className={cx} onClick={this.handleClick} {...{ type, disabled }}>
         {content}
       </button>
     );
@@ -76,6 +87,7 @@ export default compose(
     loading          : bool.isRequired,
     submitSucceeded  : bool.isRequired,
     feedbackDuration : number.isRequired, // milliseconds
+    confirmation     : string,
   }),
 
   defaultProps({
@@ -101,5 +113,6 @@ export default compose(
     loading          : false,
     submitSucceeded  : false,
     feedbackDuration : 3000,
+    confirmation     : null,
   }),
 )(Button);
