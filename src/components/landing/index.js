@@ -22,6 +22,7 @@ import sponsorDoist from "assets/images/sponsor-doist.svg";
 import sponsori2s from "assets/images/sponsor-i2s.svg";
 import sponsorBlip from "assets/images/sponsor-blip.svg";
 import sponsorSemasio from "assets/images/sponsor-semasio.svg";
+import sponsorLoM from "assets/images/sponsor-lom.svg";
 import sponsorMindera from "assets/images/sponsor-mindera.png";
 import sponsorAlientech from "assets/images/sponsor-alientech.svg";
 
@@ -33,6 +34,7 @@ const SPONSORS = [
   { src: sponsori2s       , url: "http://www.i2s.pt/index/" },
   { src: sponsorBlip      , url: "http://www.blip.pt/" },
   { src: sponsorSemasio   , url: "http://www.semasio.com/" },
+  { src: sponsorLoM       , url: "https://lifeonmars.pt/" },
   { src: sponsorMindera   , url: "https://www.mindera.com/" },
   { src: sponsorAlientech , url: "https://www.alientech.pt/" },
 ];
