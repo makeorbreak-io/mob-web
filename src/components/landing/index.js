@@ -51,7 +51,7 @@ export class Landing extends Component {
         <div className="LandingHero">
           <div className="content">
             <h2>September 8th - 10th, 2017</h2>
-            <h1>Create, Code and<br />Learn with us in Porto</h1>
+            <h1>Create, code, and<br />learn with us in Porto</h1>
             <h3>Join us in the playground of the future for 3 days</h3>
 
             <Link to="/signup"><Button straight cta large>Apply Now</Button></Link>

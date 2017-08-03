@@ -44,13 +44,6 @@ const router = (
 
       <Route path="signin" component={StandaloneLogin} />
       <Route path="signup" component={StandaloneSignup} />
-
-      {/* Temporary: external redirects */}
-      <Route path="/rules" component={() => {
-        window.location = "https://github.com/portosummerofcode/rules";
-        return null;
-      }} />
-
     </Route>
   </Router>
 );
