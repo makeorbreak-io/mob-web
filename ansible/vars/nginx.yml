@@ -26,6 +26,7 @@ nginx_sites:
     - include /etc/nginx/conf.d/psc_ssl.conf
     - ssl_certificate_key /etc/letsencrypt/live/{{certificate_file_name}}/privkey.pem
     - ssl_certificate /etc/letsencrypt/live/{{certificate_file_name}}/fullchain.pem
+    - rewrite ^/rules/?$ https://github.com/portosummerofcode/rules permanent
 
   psc_web_secondary_http:
     - listen 80
@@ -39,3 +40,4 @@ nginx_sites:
     - include /etc/nginx/conf.d/psc_ssl.conf
     - ssl_certificate_key /etc/letsencrypt/live/{{certificate_file_name}}/privkey.pem
     - ssl_certificate /etc/letsencrypt/live/{{certificate_file_name}}/fullchain.pem
+    - rewrite ^/rules/?$ https://github.com/portosummerofcode/rules permanent
