@@ -15,8 +15,9 @@ import landingSchedule from "assets/images/landing-schedule@2x.jpg";
 // import landingJoinEvent from "assets/images/landing-join-event@2x.jpg";
 import landingSponsors from "assets/images/landing-sponsors@2x.jpg";
 
-import sponsorLiberty from "assets/images/sponsor-liberty.svg";
 import sponsorCMP from "assets/images/sponsor-cmp.svg";
+import sponsorScaleUpPorto from "assets/images/sponsor-scale-up-porto.svg";
+import sponsorLiberty from "assets/images/sponsor-liberty.svg";
 import sponsorCisco from "assets/images/sponsor-cisco.svg";
 import sponsorDoist from "assets/images/sponsor-doist.svg";
 import sponsori2s from "assets/images/sponsor-i2s.svg";
@@ -27,16 +28,17 @@ import sponsorMindera from "assets/images/sponsor-mindera.png";
 import sponsorAlientech from "assets/images/sponsor-alientech.svg";
 
 const SPONSORS = [
-  { src: sponsorLiberty   , url: "http://www.libertyseguros.pt/" },
-  { src: sponsorCMP       , url: "http://www.cm-porto.pt/" },
-  { src: sponsorCisco     , url: "http://www.cisco.com/c/pt_pt/index.html" },
-  { src: sponsorDoist     , url: "https://doist.com/" },
-  { src: sponsori2s       , url: "http://www.i2s.pt/index/" },
-  { src: sponsorBlip      , url: "http://www.blip.pt/" },
-  { src: sponsorSemasio   , url: "http://www.semasio.com/" },
-  { src: sponsorLoM       , url: "https://lifeonmars.pt/" },
-  { src: sponsorMindera   , url: "https://www.mindera.com/" },
-  { src: sponsorAlientech , url: "https://www.alientech.pt/" },
+  { src: sponsorCMP          , url: "http://www.cm-porto.pt/" },
+  { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/" },
+  { src: sponsorLiberty      , url: "http://www.libertyseguros.pt/" },
+  { src: sponsorCisco        , url: "http://www.cisco.com/c/pt_pt/index.html" },
+  { src: sponsorDoist        , url: "https://doist.com/" },
+  { src: sponsori2s          , url: "http://www.i2s.pt/index/" },
+  { src: sponsorBlip         , url: "http://www.blip.pt/" },
+  { src: sponsorSemasio      , url: "http://www.semasio.com/" },
+  { src: sponsorLoM          , url: "https://lifeonmars.pt/" },
+  { src: sponsorMindera      , url: "https://www.mindera.com/" },
+  { src: sponsorAlientech    , url: "https://www.alientech.pt/" },
 ];
 
 export class Landing extends Component {

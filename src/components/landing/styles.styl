@@ -279,14 +279,24 @@
         right: 0
 
       ul
-        margin-top: 100px
+        margin-top: 50px
         text-align: left
 
         li
           display: inline-block
           width: 25%
-          margin-bottom: 100px
+          margin-bottom: 80px
           vertical-align: middle
+
+          &:first-child
+            margin-left: 12.5%
+          &:nth-child(3)
+            margin-right: 12.5%
+          &:nth-child(4)
+            margin-left: 25%
+          &:nth-child(5)
+            margin-right: 25%
+
 
           &:nth-last-child(2)
             margin-left: 25%
