@@ -28,8 +28,8 @@ import sponsorMindera from "assets/images/sponsor-mindera.png";
 import sponsorAlientech from "assets/images/sponsor-alientech.svg";
 
 const SPONSORS = [
-  { src: sponsorCMP          , url: "http://www.cm-porto.pt/" },
   { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/" },
+  { src: sponsorCMP          , url: "http://www.cm-porto.pt/" },
   { src: sponsorLiberty      , url: "http://www.libertyseguros.pt/" },
   { src: sponsorCisco        , url: "http://www.cisco.com/c/pt_pt/index.html" },
   { src: sponsorDoist        , url: "https://doist.com/" },
