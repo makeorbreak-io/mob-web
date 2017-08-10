@@ -1,0 +1,30 @@
+@import "~components/mixins"
+
++mobile()
+  .Navbar
+    &.logged-in .Logo
+      display: none
+
+    .content
+      padding: 0 10px
+      justify-content: space-between
+
+      .Button
+        padding: 0 10px
+
+    .Logo
+      position: relative
+      top: -17px
+      left: initial
+      padding-left: 10px
+      height: 20px
+
+      a
+        display: block
+
+      img
+        height: 18px
+
+    a.signup
+      display: none
+

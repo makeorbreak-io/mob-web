@@ -1,4 +1,5 @@
 import "./styles";
+import "./styles.responsive";
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -6,6 +7,7 @@ import classnames from "classnames";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 import { connect } from "react-redux";
 import { Link } from "react-router";
+import { isEmpty } from "lodash";
 
 //
 // Components
@@ -30,7 +32,10 @@ export class Navbar extends Component {
 
   render() {
     const { currentUser, green } = this.props;
-    const cx = classnames("Navbar", { green });
+    const cx = classnames("Navbar", {
+      green,
+      "logged-in": !isEmpty(currentUser),
+    });
 
     return (
       <div className={cx}>
@@ -41,8 +46,8 @@ export class Navbar extends Component {
             </Link>
           </h1>
 
-          {!currentUser && <Link activeClassName="active" to="/signin"><Button nobg>Sign In</Button></Link>}
-          {!currentUser && <Link activeClassName="active" to="/signup"><Button cta>Apply Now</Button></Link>}
+          {!currentUser && <Link activeClassName="active" className="login" to="/signin"><Button nobg>Sign In</Button></Link>}
+          {!currentUser && <Link activeClassName="active" className="signup" to="/signup"><Button cta>Apply Now</Button></Link>}
 
           {currentUser && <NotificationCenter />}
           {currentUser && <AccountMenu />}

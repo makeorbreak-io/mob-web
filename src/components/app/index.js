@@ -4,6 +4,7 @@ import "react-select/dist/react-select.css";
 
 import "./styles";
 import "./forms";
+import "./styles.responsive";
 
 import React from "react";
 import { compose, setDisplayName } from "recompose";

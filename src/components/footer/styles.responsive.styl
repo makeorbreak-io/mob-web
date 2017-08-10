@@ -1,0 +1,55 @@
+@import "~components/mixins"
+
++mobile()
+  .Footer
+    position: relative
+    height: auto
+    margin-top: 30px
+
+    .FooterTop
+      height: auto
+
+      .content
+        display: block
+
+      h1
+        font-size: 22px
+
+      p
+        img
+          display: none
+        span
+          width: auto
+
+    .FooterSection.columns
+      padding-bottom: 20px
+
+      .FooterSectionColumn
+        h3
+          font-size: 18px
+
+        &:first-of-type
+          display: none
+
+    .FooterBottom
+      .content
+        display: flex
+        justify-content: space-between
+        align-items: center
+
+      .copyright, .social-media
+        position: relative
+        left: initial
+        right: initial
+        text-align: center
+
+        a
+          display: inline-block
+          margin: 12px 20px 0
+
++mobile-small()
+  .Footer .FooterBottom
+    .copyright
+      font-size: 12px
+    .social-media a
+      margin: 12px 10px 0

@@ -1,4 +1,5 @@
 import "./styles";
+import "./styles.responsive";
 
 import React, { Component } from "react";
 import { Link } from "react-router";
@@ -58,7 +59,9 @@ export class Landing extends Component {
             <h1>Create, code, and<br />learn with us in Porto</h1>
             <h3>Join us in the playground of the future for 3 days</h3>
 
-            <Link to="/signup"><Button straight cta large>Apply Now</Button></Link>
+            <Link to="/signup" className="signup">
+              <Button straight cta large onClick={this.scrollToTop}>Apply Now</Button>
+            </Link>
 
             <nav className="LandingSections">
               <ul>
@@ -85,7 +88,9 @@ export class Landing extends Component {
             <p>We've got everything you need to get your creative juices flowing: amazing mentors, yummy food, and a kickass chill-out zone!</p>
             <p><br />Please check the <a href="/rules" target="_blank" rel="noopener noreferrer">regulation</a> before applying.</p>
 
-            <Link to="/signup"><Button straight primary hollow large onClick={this.scrollToTop}>Apply Now</Button></Link>
+            <Link to="/signup" className="signup">
+              <Button straight primary hollow large onClick={this.scrollToTop}>Apply Now</Button>
+            </Link>
 
             <div className="image">
               <img src={landingHackathon} width="465" />
@@ -191,7 +196,7 @@ export class Landing extends Component {
               {SPONSORS.map(({ src, url }) => (
                 <li key={src.toString()}>
                   <a href={url} target="_blank" rel="noopener noreferrer">
-                    <img src={src} width="150" />
+                    <img src={src} />
                   </a>
                 </li>
               ))}

@@ -1,4 +1,5 @@
 import "./styles";
+import "./styles.responsive";
 
 import React, { Component } from "react";
 import { Link } from "react-router";

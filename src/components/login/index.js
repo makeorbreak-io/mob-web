@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, getContext } from "recompose";
 import { Field, reduxForm } from "redux-form";
+import { Link } from "react-router";
 
 //
 // Components
@@ -74,6 +75,10 @@ export class Login extends Component {
             Sign In
           </Button>
         </form>
+
+        <p className="small-notice">
+          Don't have an account? <Link to="/signup">Sign up</Link>
+        </p>
 
       </div>
     );

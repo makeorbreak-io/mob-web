@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, getContext } from "recompose";
 import { Field, reduxForm } from "redux-form";
+import { Link } from "react-router";
 import { connect } from "react-redux";
 
 //
@@ -111,6 +112,10 @@ export class Signup extends Component {
             Sign Up
           </Button>
         </form>
+
+        <p className="small-notice">
+          Already have an account? <Link to="/signin">Sign in</Link>
+        </p>
 
       </div>
     );
