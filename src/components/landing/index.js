@@ -25,6 +25,7 @@ import sponsorBlip from "assets/images/sponsor-blip.svg";
 import sponsorSemasio from "assets/images/sponsor-semasio.svg";
 import sponsorLoM from "assets/images/sponsor-lom.svg";
 import sponsorMindera from "assets/images/sponsor-mindera.png";
+import sponsorHapibot from "assets/images/sponsor-hapibot.svg";
 import sponsorAlientech from "assets/images/sponsor-alientech.svg";
 
 const SPONSORS = [
@@ -38,6 +39,7 @@ const SPONSORS = [
   { src: sponsorSemasio      , url: "http://www.semasio.com/" },
   { src: sponsorLoM          , url: "https://lifeonmars.pt/" },
   { src: sponsorMindera      , url: "https://www.mindera.com/" },
+  { src: sponsorHapibot      , url: "https://www.hapibot.com/" },
   { src: sponsorAlientech    , url: "https://www.alientech.pt/" },
 ];
 
