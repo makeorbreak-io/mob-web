@@ -41,11 +41,9 @@ export const performSetup = () => {
 
       return Promise.resolve(currentUser);
     })
-    .catch((error) => {
+    .catch(() => {
       dispatch(logout());
       dispatch(setReady(true));
-
-      return Promise.reject(error);
     });
   };
 };
