@@ -17,6 +17,12 @@ import { fetchUsersAdmin, deleteUserAdmin, setUserRoleAdmin } from "actions/admi
 // constants
 import { ADMIN, PARTICIPANT } from "constants/roles";
 
+//
+// assets
+import github from "assets/images/github-grey.svg";
+import twitter from "assets/images/twitter-grey.svg";
+import linkedin from "assets/images/linkedin-grey.svg";
+
 export class UserList extends Component {
 
   componentDidMount() {
@@ -41,18 +47,20 @@ export class UserList extends Component {
         <DataTable
           source={users}
           search={[ "display_name", "role", "team.name" ]}
-          labels={[ "Avatar" , "Name"         , "Role" , "Team" , "GitHub"        , "Twitter"        , "LinkedIn"     , "Joined"      , "Actions" ]}
-          sorter={[ null     , "display_name" , "role" , "team" , "github_handle" , "twitter_handle" , "linkedin_url" , "inserted_at" , null ]}
-          filter={[ null     , null           , null   , null   , null            , null             , null           , null          , null ]}
+          labels={[ "Avatar" , "Name"         , "Role" , "Team" , "Social" , "Joined"      , "Actions" ]}
+          sorter={[ null     , "display_name" , "role" , "team" , null     , "inserted_at" , null ]}
+          filter={[ null     , null           , null   , null   , null     , null          , null ]}
           render={user => (
             <tr key={user.id}>
               <td><Avatar user={user} /></td>
               <td>{user.display_name}</td>
               <td>{user.role}</td>
               <td>{user.team && user.team.name}</td>
-              <td>{user.github_handle}</td>
-              <td>{user.twitter_handle}</td>
-              <td>{user.linkedin_url}</td>
+              <td className="social">
+                {user.github_handle &&  <img src={github} title={user.github_handle} />}
+                {user.twitter_handle && <img src={twitter} title={user.twitter_handle} />}
+                {user.linkedin_url &&   <img src={linkedin} title={user.linkedin_url} />}
+              </td>
               <td>{moment(user.inserted_at).format("DD/MM/YYYY")}</td>
               <td>
                 <Button
