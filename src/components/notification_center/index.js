@@ -5,6 +5,7 @@ import classnames from "classnames";
 import { compose, setDisplayName } from "recompose";
 import { connect } from "react-redux";
 import { isEmpty } from "lodash";
+import onClickOutside from "react-onclickoutside";
 
 //
 // Components
@@ -28,6 +29,10 @@ export class NotificationCenter extends Component {
     const isOpen = isEmpty(notifications) ? false : !this.state.isOpen;
 
     this.setState({ isOpen });
+  }
+
+  handleClickOutside = () => {
+    this.setState({ isOpen: false });
   }
 
   //----------------------------------------------------------------------------
@@ -66,4 +71,6 @@ export default compose(
   setDisplayName("NotificationCenter"),
 
   connect(({ notifications }) => ({ notifications })),
+
+  onClickOutside,
 )(NotificationCenter);

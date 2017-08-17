@@ -14,6 +14,8 @@ import {
   PERFORM_SETUP,
 } from "action-types";
 
+import { TSHIRT_SIZE_NOTIFICATION_ID } from "constants/notifications";
+
 //
 // Actions
 export const setReady = createAction(SET_READY);
@@ -42,7 +44,7 @@ export const performSetup = () => {
         dispatch(addNotification({
           title: "T-Shirt size",
           message: "Make sure you <link>select your t-shirt size</link>!",
-          id: currentUser.id,
+          id: TSHIRT_SIZE_NOTIFICATION_ID,
           link: "/profile",
         }));
       }
