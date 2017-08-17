@@ -22,6 +22,7 @@ import { updateCurrentUser } from "actions/current_user";
 // Constants
 import { EMPLOYMENT_STATUS } from "constants/account_settings";
 import { DATE_FORMAT } from "constants/date";
+import { TSHIRT_SIZES } from "constants/user";
 
 //
 // Util
@@ -41,6 +42,7 @@ const validate = (values) => {
     validatePresence("last_name", "Last name"),
     validatePresence("email", "Email"),
     validateDateFormat("birthday", "Birthday", { format: DATE_FORMAT }),
+    validatePresence("tshirt_size", "T-Shirt size"),
   )(values);
 };
 
@@ -74,6 +76,15 @@ export class AccountSettings extends Component {
               <label htmlFor="email">Email</label>
               <Field id="email" name="email" component="input" type="text" placeholder="Email" className="fullwidth" />
               <ErrorMessage form="account-settings" field="email" />
+
+              <label htmlFor="tshirt_size">T-Shirt Size</label>
+              <Field id="tshirt_size" name="tshirt_size" component="select" className="fullwidth">
+                <option value="" disabled>Choose your t-shirt size</option>
+                {TSHIRT_SIZES.map(size =>
+                  <option key={size} value={size}>{size}</option>
+                )}
+              </Field>
+              <ErrorMessage form="user-onboarding-name" field="tshirt_size" />
 
               <label htmlFor="birthday">Birthday</label>
               <Field

@@ -22,8 +22,13 @@ const validate = (values) => {
   return composeValidators(
     validatePresence("first_name", "First name"),
     validatePresence("last_name", "Last name"),
+    validatePresence("tshirt_size", "T-Shirt size"),
   )(values);
 };
+
+//
+// constants
+import { TSHIRT_SIZES } from "constants/user";
 
 export const UserOnboardingName = ({
   dispatch,
@@ -47,6 +52,15 @@ export const UserOnboardingName = ({
         <label htmlFor="last_name">Last name</label>
         <Field id="last_name" name="last_name" component="input" type="text" placeholder="Type your last name" className="fullwidth" />
         <ErrorMessage form="user-onboarding-name" field="last_name" />
+
+        <label htmlFor="tshirt_size">T-Shirt Size</label>
+        <Field id="tshirt_size" name="tshirt_size" component="select" className="fullwidth">
+          <option value="" disabled>Choose your t-shirt size</option>
+          {TSHIRT_SIZES.map(size =>
+            <option key={size} value={size}>{size}</option>
+          )}
+        </Field>
+        <ErrorMessage form="user-onboarding-name" field="tshirt_size" />
 
         <Button
           type="submit"

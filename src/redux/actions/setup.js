@@ -1,5 +1,5 @@
 import { createAction } from "redux-actions";
-import { each } from "lodash";
+import { each, isEmpty } from "lodash";
 
 //
 // Redux
@@ -25,7 +25,7 @@ export const performSetup = () => {
     return dispatch(refreshCurrentUser())
     .then(currentUser => {
 
-      // create initial notifications
+      // pending invitations
       each(currentUser.invitations, i => {
         if (!i.accepted) {
           dispatch(addNotification({
@@ -36,6 +36,16 @@ export const performSetup = () => {
           }));
         }
       });
+
+      // no t-shirt size selected
+      if (isEmpty(currentUser.tshirt_size)) {
+        dispatch(addNotification({
+          title: "T-Shirt size",
+          message: "Make sure you <link>select your t-shirt size</link>!",
+          id: currentUser.id,
+          link: "/profile",
+        }));
+      }
 
       dispatch(setReady(true));
 

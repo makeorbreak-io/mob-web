@@ -46,14 +46,15 @@ export class UserList extends Component {
       <div className="UserList">
         <DataTable
           source={users}
-          search={[ "display_name", "role", "team.name" ]}
-          labels={[ "Avatar" , "Name"         , "Role" , "Team" , "Social" , "Joined"      , "Actions" ]}
-          sorter={[ null     , "display_name" , "role" , "team" , null     , "inserted_at" , null ]}
-          filter={[ null     , null           , null   , null   , null     , null          , null ]}
+          search={[ "display_name", "role", "tshirt_size" ]}
+          labels={[ "Avatar" , "Name"         , "T-Shirt"     , "Role" , "Team" , "Social" , "Joined"      , "Actions" ]}
+          sorter={[ null     , "display_name" , "tshirt_size" , "role" , "team" , null     , "inserted_at" , null ]}
+          filter={[ null     , null           , null          , null   , null   , null     , null          , null ]}
           render={user => (
             <tr key={user.id}>
               <td><Avatar user={user} /></td>
               <td>{user.display_name}</td>
+              <td>{user.tshirt_size}</td>
               <td>{user.role}</td>
               <td>{user.team && user.team.name}</td>
               <td className="social">
