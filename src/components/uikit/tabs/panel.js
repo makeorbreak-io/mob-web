@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 
-export const Panel = ({ isSelected, children }) => {
-  const cx = classnames("Panel", { selected: isSelected });
+export const Panel = ({ isSelected, children, className }) => {
+  const cx = classnames("Panel", className, { selected: isSelected });
 
   return (
     <div className={cx}>
@@ -18,6 +18,7 @@ export default compose(
 
   setPropTypes({
     isSelected: PropTypes.bool.isRequired,
+    className: PropTypes.string,
   }),
 
   defaultProps({

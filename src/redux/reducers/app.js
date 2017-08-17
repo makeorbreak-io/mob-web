@@ -9,6 +9,7 @@ import ready from "./ready";
 import teams from "./teams";
 import projects from "./projects";
 import users from "./users";
+import workshops from "./workshops";
 
 import admin from "./admin";
 
@@ -29,6 +30,7 @@ export default (state, action) => {
     teams,
     projects,
     users,
+    workshops,
 
     admin,
   })(state, action);

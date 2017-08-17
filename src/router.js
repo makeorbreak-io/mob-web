@@ -24,6 +24,8 @@ import Team from "components/team";
 // Admin components
 import AdminDashboard from "components/admin/dashboard";
 import UserList from "components/admin/user_list";
+import AdminWorkshops from "components/admin/workshops";
+import AdminEditWorkshop from "components/admin/workshops/edit";
 
 const router = (
   <Router history={browserHistory}>
@@ -45,7 +47,10 @@ const router = (
         <Route component={Authorized}>
           <Route path="admin">
             <IndexRoute component={AdminDashboard} />
+
             <Route path="users" component={UserList} />
+            <Route path="workshops" component={AdminWorkshops} />
+            <Route path="workshops/:slug" component={AdminEditWorkshop} />
           </Route>
         </Route>
 

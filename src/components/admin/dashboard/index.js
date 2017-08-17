@@ -19,7 +19,7 @@ export class Dashboard extends Component {
   render() {
     if (isEmpty(this.props.stats)) return null;
 
-    const { stats: { users, teams } } = this.props;
+    const { stats: { users, teams, workshops } } = this.props;
 
     return (
       <div className="AdminDashboard">
@@ -47,23 +47,30 @@ export class Dashboard extends Component {
               </div>
             </div>
 
-            {/*
             <div className="section">
               <h2><Link to="/admin/projects">Projects</Link></h2>
 
-              <div className="stat">
-                <span className="number">18</span> total projects
-              </div>
-
-              <div className="stat">
-                <span className="number">10</span> accepted projects
-              </div>
-
-              <div className="stat">
-                <span className="number">8</span> submitted projects
-              </div>
+              coming soon
             </div>
-            */}
+
+
+            <div className="section fullwidth">
+              <h2>
+                <Link to="/admin/workshops">Workshops</Link>
+              </h2>
+
+              <ul>
+                {workshops.map(({ slug, name, participants, participant_limit }) => (
+                  <li key={slug}>
+                    <Link to={`/admin/workshops/${slug}`}>{name}</Link>
+                    <span className="number wide">
+                      {participants} / {participant_limit}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
 
           </div>
         </div>

@@ -10,14 +10,22 @@
     display: flex
     justify-content: space-around
     align-items: stretch
+    flex-wrap: wrap
     padding: 25px
 
     .section
-      width: 30%
+      width: calc(100% / 3)
       padding: 0 30px
+      margin-bottom: 30px
       border-left: 2px solid $mob-purple
       font-size: 20px
       line-height: 1.5
+
+      &.wide
+        width: 50%
+
+      &.fullwidth
+        width: 100%
 
       h2
         margin-top: 0
@@ -31,3 +39,7 @@
         width: 35px
         margin-right: 5px
         text-align: right
+
+        &.wide
+          width: auto
+          margin-left: 20px
