@@ -60,7 +60,7 @@ export class AccountSettings extends Component {
     return (
       <div className="AccountSettings">
         <Tabs selected={0}>
-          <Tab><span>Account settings</span></Tab>
+          <Tab><span>Profile</span></Tab>
 
           <Panel>
 

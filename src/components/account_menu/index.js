@@ -46,7 +46,7 @@ export class AccountMenu extends Component {
         </span>
 
         <div className="AccountMenuContent">
-          <Link to="/account/settings" onClick={this.close}>Account Settings</Link>
+          <Link to="/profile" onClick={this.close}>Account Settings</Link>
           <Link to="/account/team" onClick={this.close}>Team</Link>
           {currentUser.role === ADMIN && <Link to="/admin" onClick={this.close}>Admin</Link>}
           <Link onClick={() => dispatch(logout())}>Logout</Link>

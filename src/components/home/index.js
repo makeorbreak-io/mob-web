@@ -19,13 +19,15 @@ export class Home extends Component {
     ? (
         <div className="Home">
           <h1>Welcome to Make or Break!</h1>
-          <h4>There's not a lot going on yet...</h4>
-          <h5>...but don't worry! We're working hard to bring you the best experience possible. Stay tuned!</h5>
-
-          <h5>
-            In the meantime, you can head over to your <Link to="/account/settings">account settings</Link>,
-            or check out your <Link to="/account/team">team</Link>.
-          </h5>
+          <p>
+            Head over to your <Link to="/profile">profile</Link> and fill it out, help us to know you better!
+          </p>
+          <p>
+            Check out your <Link to="/account/team">team</Link>, and invite your friends!
+          </p>
+          <p>
+            Workshops are coming soon!
+          </p>
         </div>
       )
     : <Landing />;

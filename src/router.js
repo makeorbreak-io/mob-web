@@ -35,8 +35,9 @@ const router = (
 
         <Route path="welcome" component={UserOnboarding} />
 
+        <Route path="profile" component={AccountSettings} />
+
         <Route path="account">
-          <Route path="settings" component={AccountSettings} />
           <Route path="team" component={AccountTeam} />
         </Route>
 
