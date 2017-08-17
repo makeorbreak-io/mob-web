@@ -106,7 +106,7 @@ export class EditableTeam extends Component {
 
             {team &&
               <div className="danger-zone">
-                <Button form fullwidth centered danger onClick={this.deleteTeam}>
+                <Button form fullwidth centered danger confirmation="Really delete team?" onClick={this.deleteTeam}>
                   Delete "{team.name}" team
                 </Button>
 
