@@ -6,12 +6,12 @@ import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import { Link } from "react-router";
 import { map } from "lodash";
-import ReactMarkdown from "react-markdown";
 
 //
 // components
 import WorkshopForm, { validate } from "./form";
 import { Tabs, Tab, Panel } from "uikit/tabs";
+import Workshop from "components/workshop";
 
 //
 // redux
@@ -40,12 +40,17 @@ export class AdminWorkshops extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { workshops, values, handleSubmit, submitting, submitSucceeded } = this.props;
+    const { workshops, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
 
     return (
       <div className="AdminWorkshops">
         <Tabs selected={0}>
-          <Tab><span>Workshops</span></Tab>
+          <Tab>
+            <span>
+              <span className="left"><Link to="/admin">← Back to Admin</Link></span>
+              Workshops
+            </span>
+          </Tab>
 
           <Panel className="clearfix">
 
@@ -68,16 +73,14 @@ export class AdminWorkshops extends Component {
 
             <div className="preview">
               <h1>Preview</h1>
-              <h2>{values.name}</h2>
 
-              <h6>Summary</h6>
-              <ReactMarkdown source={values.summary} />
-
-              <h6>Description</h6>
-              <ReactMarkdown source={values.description} />
-
-              <h6>Speaker</h6>
-              <ReactMarkdown source={values.speaker} />
+              <Workshop
+                workshop={formValues}
+                showSummary
+                showDescription
+                showSpeaker
+                debug
+              />
             </div>
 
           </Panel>
@@ -99,6 +102,6 @@ export default compose(
 
   connect(({ workshops, form }) => ({
     workshops,
-    values: form.newWorkshop.values || {},
+    formValues: form.newWorkshop.values || {},
   })),
 )(AdminWorkshops);

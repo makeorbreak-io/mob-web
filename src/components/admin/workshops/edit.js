@@ -4,12 +4,13 @@ import { compose, setDisplayName, getContext } from "recompose";
 import { reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { find, isEmpty } from "lodash";
-import ReactMarkdown from "react-markdown";
+import { Link } from "react-router";
 
 //
 // components
 import WorkshopForm, { validate } from "./form";
 import { Tabs, Tab, Panel } from "uikit/tabs";
+import Workshop from "components/workshop";
 
 //
 // redux
@@ -23,15 +24,25 @@ export class AdminEditWorkshop extends Component {
   componentWillMount() {
     const { initialize, workshop, dispatch } = this.props;
 
-    if (!isEmpty(workshop))
+    if (!isEmpty(workshop)) {
+      workshop.participant_limit = workshop.participant_limit.toString();
+      workshop.year = workshop.year.toString();
+
       initialize(workshop);
-    else
+    }
+    else {
       dispatch(fetchWorkshops());
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (isEmpty(this.props.workshop) && !isEmpty(nextProps.workshop)) {
-      this.props.initialize(nextProps.workshop);
+    const { workshop } = nextProps;
+
+    if (isEmpty(this.props.workshop) && !isEmpty(workshop)) {
+      workshop.participant_limit = workshop.participant_limit.toString();
+      workshop.year = workshop.year.toString();
+
+      this.props.initialize(workshop);
     }
   }
 
@@ -39,7 +50,7 @@ export class AdminEditWorkshop extends Component {
   // Event Handlers
   //----------------------------------------------------------------------------
   updateWorkshop = (values) => {
-    this.props.dispatch(updateWorkshop(values.slug, values));
+    return this.props.dispatch(updateWorkshop(values.slug, values));
   }
 
   deleteWorkshop = () => {
@@ -53,7 +64,7 @@ export class AdminEditWorkshop extends Component {
   // Event Handlers
   //----------------------------------------------------------------------------
   render() {
-    const { workshop, values, handleSubmit, submitting, submitSucceeded } = this.props;
+    const { workshop, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
 
     if (isEmpty(workshop))
       return <div>"Loading..."</div>;
@@ -61,10 +72,17 @@ export class AdminEditWorkshop extends Component {
     return (
       <div className="AdminWorkshops">
         <Tabs selected={0}>
-          <Tab><span>Edit Workshop "{workshop.name}"</span></Tab>
+          <Tab>
+            <span>
+              <span className="left"><Link to="/admin/workshops">← Back to Workshops</Link></span>
+              Edit Workshop "{workshop.name}"
+            </span>
+          </Tab>
 
           <Panel className="clearfix">
-            <h3>Edit workshop</h3>
+            <h3>
+              Edit workshop
+            </h3>
 
             <WorkshopForm
               {...{ handleSubmit, submitting, submitSucceeded }}
@@ -76,16 +94,14 @@ export class AdminEditWorkshop extends Component {
 
             <div className="preview">
               <h1>Preview</h1>
-              <h2>{values.name}</h2>
 
-              <h6>Summary</h6>
-              <ReactMarkdown source={values.summary} />
-
-              <h6>Description</h6>
-              <ReactMarkdown source={values.description} />
-
-              <h6>Speaker</h6>
-              <ReactMarkdown source={values.speaker} />
+              <Workshop
+                workshop={formValues}
+                showSummary
+                showDescription
+                showSpeaker
+                debug
+              />
             </div>
 
           </Panel>
@@ -109,6 +125,6 @@ export default compose(
 
   connect(({ workshops, form }, props) => ({
     workshop: find(workshops, w => w.slug === props.params.slug),
-    values: form.editWorkshop.values || {},
+    formValues: form.editWorkshop.values || {},
   })),
 )(AdminEditWorkshop);
