@@ -78,7 +78,6 @@ export class Workshop extends Component {
               centered
               onClick={() => this.toggleAttendance(inWorkshop)}
               disabled={updating || debug || !canJoin}
-              disabled={false}
               loading={updating}
               confirmation={inWorkshop ? "Really leave workshop?" : null}
             >
