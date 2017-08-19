@@ -3,9 +3,13 @@ import { noop } from "lodash";
 
 import request, { processSubmissionError } from "util/http";
 
+import { refreshCurrentUser } from "actions/current_user";
+
 import {
   FETCH_WORKSHOPS,
   SET_WORKSHOPS,
+  JOIN_WORKSHOP,
+  LEAVE_WORKSHOP,
   CREATE_WORKSHOP,
   UPDATE_WORKSHOP,
   DELETE_WORKSHOP,
@@ -13,12 +17,14 @@ import {
 
 export const setWorkshops = createAction(SET_WORKSHOPS);
 
-export const fetchWorkshops = () => {
+export const fetchWorkshops = (opts = {}) => {
+  const o = { ...{ admin: false }, ...opts };
+
   return (dispatch) => {
     dispatch(createAction(FETCH_WORKSHOPS)());
 
     return request
-    .get("/admin/workshops")
+    .get(`${o.admin ? "/admin" : ""}/workshops`)
     .then(response => {
       const workshops = response.data.data;
 
@@ -30,6 +36,41 @@ export const fetchWorkshops = () => {
   };
 };
 
+export const joinWorkshop = (slug) => {
+  return (dispatch) => {
+
+    return request
+    .post(`/workshops/${slug}/join`)
+    .then(response => {
+      const workshop = response.data.data;
+
+      dispatch(createAction(JOIN_WORKSHOP)(slug));
+      dispatch(refreshCurrentUser());
+
+      return Promise.resolve(workshop);
+    })
+    .catch(error => Promise.reject(processSubmissionError(error)));
+  };
+};
+
+export const leaveWorkshop = (slug) => {
+  return (dispatch) => {
+    return request
+    .delete(`/workshops/${slug}/leave`)
+    .then(response => {
+      const workshop = response.data.data;
+
+      dispatch(createAction(LEAVE_WORKSHOP)(slug));
+      dispatch(refreshCurrentUser());
+
+      return Promise.resolve(workshop);
+    });
+  };
+};
+
+//
+// Admin actions
+//
 export const createWorkshop = (params) => {
   return (dispatch) => {
 

@@ -14,6 +14,8 @@ import { composeValidators, validatePresence } from "validators";
 export const validate = (values) => {
   return composeValidators(
     validatePresence("slug", "Slug"),
+    validatePresence("short_date", "Short date"),
+    validatePresence("short_speaker", "Short speaker"),
     validatePresence("name", "Name"),
     validatePresence("summary", "Summary"),
     validatePresence("description", "Description"),
@@ -36,6 +38,14 @@ export const WorkshopForm = ({
     <label htmlFor="slug">Slug</label>
     <Field id="slug" name="slug" component="input" type="text" placeholder="Slug" className="fullwidth" />
     <ErrorMessage form={form} field="slug" />
+
+    <label htmlFor="short_date">Short Date</label>
+    <Field id="short_date" name="short_date" component="input" type="text" placeholder="Short Date" className="fullwidth" />
+    <ErrorMessage form={form} field="short_date" />
+
+    <label htmlFor="short_speaker">ShortSpeaker</label>
+    <Field id="short_speaker" name="short_speaker" component="input" type="text" placeholder="ShortSpeaker" className="fullwidth" />
+    <ErrorMessage form={form} field="short_speaker" />
 
     <label htmlFor="name">Name</label>
     <Field id="name" name="name" component="input" type="text" placeholder="Name"  className="fullwidth"/>

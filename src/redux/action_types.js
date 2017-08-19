@@ -67,6 +67,8 @@ export const FLOW_END = "FLOW_END";
 // workshops
 export const FETCH_WORKSHOPS = "FETCH_WORKSHOPS";
 export const SET_WORKSHOPS = "SET_WORKSHOPS";
+export const JOIN_WORKSHOP = "JOIN_WORKSHOP";
+export const LEAVE_WORKSHOP = "LEAVE_WORKSHOP";
 export const CREATE_WORKSHOP = "CREATE_WORKSHOP"; // admin action only
 export const UPDATE_WORKSHOP = "UPDATE_WORKSHOP"; // admin action only
 export const DELETE_WORKSHOP = "DELETE_WORKSHOP"; // admin action only

@@ -6,9 +6,23 @@
   h1, h2, h3, h4, h5, h6
     text-align: left
 
-  p
+  .attending-badge
+    display: inline-block
+    margin-left: 10px
+    padding: 5px 10px
     font-size: 16px
-    color: $text-grey
+    background: $orange
+    color: white
+    border-radius: 5px
+    vertical-align: text-bottom
+
+  .actions
+    margin-top: 50px
+    p
+      font-size: 14px
+      color: $label-grey
+      text-align: center
+      margin: 0
 
   ul
     list-style: disc
@@ -17,3 +31,7 @@
     li
       font-size: 16px
       color: $text-grey
+
+  .actions
+    .Button
+      width: 50%

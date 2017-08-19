@@ -23,7 +23,7 @@ export class AdminWorkshops extends Component {
   // Lifecycle
   //----------------------------------------------------------------------------
   componentDidMount() {
-    this.props.dispatch(fetchWorkshops());
+    this.props.dispatch(fetchWorkshops({ admin: true }));
   }
 
   //----------------------------------------------------------------------------
