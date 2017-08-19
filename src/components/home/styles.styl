@@ -2,8 +2,41 @@
 
 .Home
   position: relative
-  width: 480px
-  padding-top: 50px
+  width: 580px
 
-  p
-    text-align: center
+  h2, h3
+    text-align: left
+
+  dl
+    font-size: 16px
+
+    dt, dd
+      float: left
+      margin-bottom: 10px
+    dt
+      width: 30%
+    dd
+      width: 70%
+
+      .warning
+        color: $red
+
+  .workshops
+    list-style: disc
+    padding-left: 20px
+    .workshop
+      color: $mob-purple
+      font-size: 20px
+      line-height: 1.5
+      margin-bottom: 10px
+      cursor: pointer
+
+      .attending-badge
+        display: inline-block
+        background: $orange
+        color: white
+        margin-left: 10px
+        padding: 3px 6px
+        font-size: 12px
+        vertical-align: middle
+        border-radius: 3px

@@ -27,7 +27,7 @@ export const updateCurrentUser = (id, params) => {
     })
     .then(response => {
       const { data } = response.data;
-      dispatch(setCurrentUser(data));
+      dispatch(refreshCurrentUser());
 
       if (!isEmpty(response.data.data.tshirt_size)) {
         dispatch(removeNotification(TSHIRT_SIZE_NOTIFICATION_ID));

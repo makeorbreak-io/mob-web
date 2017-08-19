@@ -9,13 +9,8 @@ import { Tabs, Tab, Panel } from "uikit/tabs";
 import Team from "components/team";
 import Invitation from "components/invitation";
 
-//
-// Constants
-import { TEAM_ROLES } from "constants/user";
-
 export const AccountTeam = ({ currentUser }) => {
   const teamId = get(currentUser, "team.id");
-  const teamRole = get(currentUser, "team.role");
   const isInTeam = !isEmpty(teamId);
 
   return (
@@ -34,7 +29,7 @@ export const AccountTeam = ({ currentUser }) => {
       }
 
       {isEmpty(currentUser.invitations) &&
-        <Team id={teamId} editable={!teamId || teamRole === TEAM_ROLES.OWNER} />
+        <Team id={teamId} editable />
       }
     </div>
   );

@@ -2,19 +2,43 @@ import "./styles";
 import "./styles.responsive";
 
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router";
-import { compose, setDisplayName } from "recompose";
+import { compose, setDisplayName, getContext } from "recompose";
+import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
+import { map, get, isEmpty } from "lodash";
 
 //
 // Components
-import { Button } from "uikit";
+import { Button, Modal, ErrorMessage } from "uikit";
+import Workshop from "components/workshop";
+
+//
+// redux
+import { fetchWorkshops } from "actions/workshops";
+
+//
+// api actions
+import { getInviteToSlack } from "api/slack";
+
+//
+// utils
+import { sortedWorkshops, openWorkshop } from "util/workshops";
+
+//
+// validation
+import { composeValidators, validateEmail, validatePresence } from "validators";
 
 //
 // Assets
 import landingHackathon from "assets/images/landing-hackathon@2x.jpg";
 import landingSchedule from "assets/images/landing-schedule@2x.jpg";
-// import landingJoinEvent from "assets/images/landing-join-event@2x.jpg";
 import landingSponsors from "assets/images/landing-sponsors@2x.jpg";
+
+import prizeSwitch from "assets/images/prize-switch.jpg";
+import prizeMonitor from "assets/images/prize-monitor.jpg";
+import prizeOculusRift from "assets/images/prize-oculus-rift.jpg";
 
 import sponsorCMP from "assets/images/sponsor-cmp.svg";
 import sponsorScaleUpPorto from "assets/images/sponsor-scale-up-porto.svg";
@@ -29,10 +53,18 @@ import sponsorMindera from "assets/images/sponsor-mindera.png";
 import sponsorHapibot from "assets/images/sponsor-hapibot.svg";
 import sponsorAlientech from "assets/images/sponsor-alientech.svg";
 
+import slackMarkWhite from "assets/images/slack-white.svg";
+
+const PRIZES = [
+  { image: prizeSwitch     , title: "Funny"    , prize: "Nintendo Switch (Grey) + Splatoon 2" },
+  { image: prizeMonitor    , title: "Useful"   , prize: "Dell UltraSharp 27 Monitor (U2715H)" },
+  { image: prizeOculusRift , title: "Hardcore" , prize: "Oculus Rift + Touch" },
+];
+
 const SPONSORS = [
   { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/" },
-  { src: sponsorCMP          , url: "http://www.cm-porto.pt/" },
   { src: sponsorLiberty      , url: "http://www.libertyseguros.pt/" },
+  { src: sponsorCMP          , url: "http://www.cm-porto.pt/" },
   { src: sponsorCisco        , url: "http://www.cisco.com/c/pt_pt/index.html" },
   { src: sponsorDoist        , url: "https://doist.com/" },
   { src: sponsori2s          , url: "http://www.i2s.pt/index/" },
@@ -44,13 +76,72 @@ const SPONSORS = [
   { src: sponsorAlientech    , url: "https://www.alientech.pt/" },
 ];
 
+// validation rules
+const validate = (values) => {
+  return composeValidators(
+    validatePresence("email", "Email address"),
+    validateEmail("email", "Email address"),
+  )(values);
+};
+
 export class Landing extends Component {
 
+  state = {
+    openWorkshop: openWorkshop(),
+  }
+
+  //----------------------------------------------------------------------------
+  // Lifecycle
+  //----------------------------------------------------------------------------
+  componentDidMount() {
+    this.props.dispatch(fetchWorkshops());
+
+    window.addEventListener("hashchange", this.handleHashChange);
+
+    // scroll to element if hash is used
+    const { hash } = window.location;
+    if (!isEmpty(hash)) {
+      const node = document.querySelector(hash);
+      node  && node.scrollIntoView();
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("hashchange", this.handleHashChange);
+  }
+
+  //----------------------------------------------------------------------------
+  // Event handlers
+  //----------------------------------------------------------------------------
   scrollToTop() {
     document.querySelector("#app").scrollTop = 0;
   }
 
+  openWorkshop = (slug) => {
+    this.setState({ openWorkshop: slug });
+    window.location.hash = `#workshop-${slug}`;
+  }
+
+  closeWorkshop = () => {
+    this.setState({ openWorkshop: null });
+    this.props.router.push(window.location.pathname);
+  }
+
+  getSlackInvite = (values) => {
+    return getInviteToSlack(values.email);
+  }
+
+  handleHashChange = () => {
+    this.setState({ openWorkshop: openWorkshop() });
+  }
+
+  //----------------------------------------------------------------------------
+  // Render
+  //----------------------------------------------------------------------------
   render() {
+    const { workshops, handleSubmit, submitting, submitSucceeded, valid } = this.props;
+    const { openWorkshop } = this.state;
+
     return (
       <div className="Landing">
         <div className="LandingHero">
@@ -62,6 +153,7 @@ export class Landing extends Component {
             <Link to="/signup" className="signup">
               <Button straight cta large onClick={this.scrollToTop}>Apply Now</Button>
             </Link>
+            <span className="open-until">Registration is open until September 2nd</span>
 
             <nav className="LandingSections">
               <ul>
@@ -106,16 +198,26 @@ export class Landing extends Component {
             <h2>Learn from the best while having fun</h2>
 
             <p>
-              Make or Break is all about learning.
+              Make or Break is all about learning different subjects, from hardware to software, from recreational to serious.
             </p>
             <p>
               Prepare yourself for 3 days of workshops with amazing people working in the industry.
             </p>
-            <p>
-              Take your participation one step further and learn different subjects, from hardware to software, from recreational to serious.
-            </p>
 
-            <p className="coming-soon">Workshops to be announced soon</p>
+            <ul className="workshops">
+              {sortedWorkshops(workshops).map(workshop => (
+                <li
+                  key={workshop.slug}
+                  className="workshop"
+                  onClick={() => this.openWorkshop(workshop.slug)}
+                >
+                  <span className="date">{workshop.short_date}</span>
+                  <span className="name">{workshop.name}</span>
+                  <span className="speaker">with: {workshop.short_speaker}</span>
+                  <span className="caret">&gt;</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
         {/* END WORKSHOPS */}
@@ -142,12 +244,44 @@ export class Landing extends Component {
                   <h5>Check-In</h5>
                   <p>Welcome kits</p>
                 </dd>
+
+                <dt>14:30</dt>
+                <dd>
+                  <h5>{get(workshops, "unity3d-gamedev.name")}</h5>
+                  <p>Workshop</p>
+                </dd>
+
+                <dt>17:30</dt>
+                <dd>
+                  <h5>{get(workshops, "3d-printing.name")}</h5>
+                  <p>Workshop</p>
+                </dd>
               </dl>
             </div>
 
             <div className="day">
               <h3>Day 2 - September 9th</h3>
               <h4>Work and workshops all day</h4>
+
+              <dl className="clearfix">
+                <dt>10:30</dt>
+                <dd>
+                  <h5>{get(workshops, "iot.name")}</h5>
+                  <p>Workshop</p>
+                </dd>
+
+                <dt>14:30</dt>
+                <dd>
+                  <h5>{get(workshops, "devops.name")}</h5>
+                  <p>Workshop</p>
+                </dd>
+
+                <dt>17:30</dt>
+                <dd>
+                  <h5>{get(workshops, "design.name")}</h5>
+                  <p>Workshop</p>
+                </dd>
+              </dl>
             </div>
 
             <div className="day">
@@ -155,6 +289,12 @@ export class Landing extends Component {
               <h4>Final work stretch and hack fair</h4>
 
               <dl className="clearfix">
+                <dt>10:30</dt>
+                <dd>
+                  <h5>{get(workshops, "hardware-maintenance.name")}</h5>
+                  <p>Workshop</p>
+                </dd>
+
                 <dt>15:30</dt>
                 <dd>
                   <h5>Hack Fair</h5>
@@ -175,20 +315,88 @@ export class Landing extends Component {
             </div>
 
             <p className="coming-soon">
-              Join us while registration is open!
+              Join us while registration is open until September 2nd!
             </p>
             <p className="coming-soon">
               At <a href="https://goo.gl/maps/TeB6jEH1h962" target="_blank" rel="noopener noreferrer">Palácio dos Correios</a>, on September 8, 9, and 10
             </p>
 
-            <Link to="/signup"><Button straight primary hollow large onClick={this.scrollToTop}>Apply Now</Button></Link>
+            <Link to="/signup" className="apply">
+              <Button straight primary hollow large onClick={this.scrollToTop}>Apply Now</Button>
+            </Link>
           </div>
         </section>
         {/* END JOIN_EVENT */}
 
+        {/* JOIN_SLACK */}
+        <section id="join-slack">
+          <div className="content">
+            <h1>It's dangerous to go alone!</h1>
+
+            <p>
+              <a href="https://github.com/portosummerofcode/rules#1-man-teams" target="_blank" rel="noreferrer noopener">You can't apply to Make or Break alone</a>.
+              However, you can join our Slack community and form a team with other lone rangers!
+              Get your invite here:
+            </p>
+
+            <form onSubmit={handleSubmit(this.getSlackInvite)}>
+              <Field id="email" name="email" component="input" type="text" placeholder="Email address" className="fullwidth" />
+              <ErrorMessage form="slackInvite" field="email" />
+
+              <Button
+                type="submit"
+                primary
+                form
+                centered
+                fullwidth
+                disabled={submitting || !valid}
+                loading={submitting}
+                submitSucceeded={submitSucceeded}
+                feedbackLabel="Invite sent!"
+              >
+                Send invite to join our Slack
+                <img src={slackMarkWhite} height="50" />
+              </Button>
+            </form>
+          </div>
+        </section>
+        {/* END JOIN_SLACK */}
+
+        {/* PRIZES */}
+        <section id="prizes">
+          <div className="content">
+            <h1>[+] prizes</h1>
+            <h2>Amazing prizes for the best projects</h2>
+
+            <p>
+              Make sure your project shines in at least one of our 3 categories: funny, useful, or hardcore!
+              <br />
+              We will award 3 different teams (one per category) and each member will get a prize.
+              <br />
+              Don't forget to read our <a href="/rules" target="_blank" rel="noopener noreferrer">rulebook</a>.
+            </p>
+
+            <div className="prizes">
+              {PRIZES.map(({ image, title, prize }) => (
+                <div key={title} className="prize">
+                  <img src={image} alt={prize} />
+                  <h3>{title}</h3>
+                  <span>{prize}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="separator">
+              <div className="ball" />
+            </div>
+          </div>
+        </section>
+        {/* END PRIZES */}
+
         {/* SPONSORS */}
         <section id="sponsors">
           <div className="content">
+
             <h1>! sponsors</h1>
             <h2>We have amazing partners and sponsors once again</h2>
 
@@ -230,6 +438,23 @@ export class Landing extends Component {
           </div>
         </section>
         {/* END SHARE */}
+
+        {/* workshop modals */}
+        {map(workshops, workshop => (
+          <Modal
+            key={workshop.slug}
+            isOpen={openWorkshop === workshop.slug}
+            title={workshop.name}
+            onRequestClose={this.closeWorkshop}
+          >
+            <Workshop
+              workshop={workshop}
+              showSummary
+              showDescription
+              showSpeaker
+            />
+          </Modal>
+        ))}
       </div>
     );
   }
@@ -238,4 +463,15 @@ export class Landing extends Component {
 
 export default compose(
   setDisplayName("Landing"),
+
+  getContext({
+    router: PropTypes.object.isRequired,
+  }),
+
+  connect(({ workshops }) => ({ workshops })),
+
+  reduxForm({
+    form: "slackInvite",
+    validate,
+  }),
 )(Landing);

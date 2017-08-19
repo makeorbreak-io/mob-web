@@ -15,7 +15,7 @@
     a.signup
       display: block
       width: 100%
-      margin: 50px auto 70px
+      margin: 50px auto 0
 
       .Button
         width: 100%
@@ -23,6 +23,14 @@
 
     .LandingHero
       height: auto
+
+      .content
+        padding-bottom: 70px
+
+      .open-until
+        margin: 10px 0
+        display: block
+        text-align: center
 
       h1
         font-size: 24px
@@ -61,9 +69,20 @@
           text-align: left
         p
           width: auto
-        p.coming-soon
-          text-align: center
-          margin: 30px auto 0
+
+        .workshops
+          .workshop
+            width: 100%
+            border: 1px solid $light-grey !important
+            border-bottom: none !important
+            padding: 0 20px
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+            justify-content: center
+
+            &:last-child
+              border-bottom: 1px solid $light-grey !important
 
       //--------------------------------------------------------------- Schedule
       &#schedule-section
@@ -87,7 +106,33 @@
       &#join-event
         display: none
 
-      //--------------------------------------------------------------- Join Event
+      //--------------------------------------------------------------- Join Slack
+      &#join-slack
+        .content
+          width: 90%
+          padding-left: 10px
+          padding-right: 10px
+
+      //--------------------------------------------------------------- Prizes
+      &#prizes
+        .content
+          padding-bottom: 0
+
+          .separator
+            display: none
+
+          .prizes
+            margin: 0 auto 20px
+            flex-wrap: wrap
+
+            .prize
+              width: 100%
+              margin-top: 30px
+
+              img
+                width: 60%
+
+      //--------------------------------------------------------------- Sponsors
       &#sponsors
         .content
           width: 90%

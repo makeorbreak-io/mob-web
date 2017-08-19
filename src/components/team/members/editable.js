@@ -17,6 +17,7 @@ import { Multiselect } from "components/fields";
 // Redux
 import { fetchUsers } from "actions/users";
 import { inviteUserToTeam, inviteUserByEmail, revokeInvite, removeFromTeam } from "actions/members";
+import { refreshCurrentUser } from "actions/current_user";
 
 //
 // Constants
@@ -60,7 +61,7 @@ export class EditableTeamMembers extends Component {
           ? dispatch(inviteUserByEmail(value))
           : dispatch(inviteUserToTeam(value));
       })
-    );
+    ).finally(() => dispatch(refreshCurrentUser()));
   }
 
   revokeInvite = (id) => {
@@ -83,8 +84,10 @@ export class EditableTeamMembers extends Component {
   // Render
   //---------------------------------------------------------------------------
   render() {
-    const { team, users, memberLimitReached, handleSubmit, submitting, valid } = this.props;
+    const { team, users, currentUser, memberLimitReached, handleSubmit, submitting, valid, formValues } = this.props;
     const { multipleSelected } = this.state;
+
+    const canInvite = !memberLimitReached && (formValues.members.length + team.members.length + team.invites.length <= 4);
 
     return (
       <div className="TeamMembers editable">
@@ -94,7 +97,16 @@ export class EditableTeamMembers extends Component {
             <li className="Member" key={m.id}>
               <Avatar user={m} />
               {m.display_name}
-              <Button fakelink onClick={() => this.removeFromTeam(m.id)}>remove member</Button>
+              {team.applied &&
+                <Button
+                  danger
+                  fakelink
+                  onClick={() => this.removeFromTeam(m.id)}
+                  confirmation={team.members.length === 1 ? "You are about the delete the last member of the team. If you do so, the team will be deleted." : null}
+                >
+                  {m.id === currentUser.id ? "leave team" : "remove member"}
+                </Button>
+              }
             </li>
           ))}
         </ul>
@@ -105,7 +117,7 @@ export class EditableTeamMembers extends Component {
             <li className="Invite" key={i.id}>
               <Avatar user={{}} />
               {get(i, "invitee.display_name", i.email)}
-              <Button fakelink onClick={() => this.revokeInvite(i.id)}>revoke invitation</Button>
+              <Button danger fakelink onClick={() => this.revokeInvite(i.id)}>revoke invitation</Button>
             </li>
           ))}
         </ul>
@@ -124,11 +136,19 @@ export class EditableTeamMembers extends Component {
           />
           <ErrorMessage form="members" field="email" />
 
-          <Button type="submit" form centered fullwidth primary disabled={submitting || !valid || memberLimitReached} loading={submitting}>
+          <Button
+            type="submit"
+            form
+            centered
+            fullwidth
+            primary
+            disabled={submitting || !valid || memberLimitReached || !canInvite}
+            loading={submitting}
+          >
             Invite {multipleSelected ? "members" : "member"}
           </Button>
 
-          {memberLimitReached &&
+          {(memberLimitReached || !canInvite) &&
             <p className="small-notice">
               Teams can only have a maximum of 4 members.<br />
               Please remove some members or revoke invites to invite other people.
@@ -149,6 +169,11 @@ export class EditableTeamMembers extends Component {
 export default compose(
   setDisplayName("EditableTeamMembers"),
 
+  reduxForm({
+    form: "new-team-member",
+    validate,
+  }),
+
   // fetch list of all users from store, remove current user
   // and team invites and members from suggestions
   connect((state, props) => {
@@ -165,16 +190,13 @@ export default compose(
       label: u.display_name,
     });
 
-    const memberLimitReached = (team.invites.length + team.members.length) >= 3;
+    const memberLimitReached = (team.invites.length + team.members.length) >= 4;
 
     return {
       users: filter(map(users, toOption), o => !includes(invalidUserIds, o.value)),
       memberLimitReached,
+      currentUser,
+      formValues: state.form["new-team-member"].values || { members: [] },
     };
-  }),
-
-  reduxForm({
-    form: "new-team-member",
-    validate,
   }),
 )(EditableTeamMembers);

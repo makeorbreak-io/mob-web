@@ -43,14 +43,14 @@ export class Button extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { type, disabled, className, children, loading, ...styles } = this.props;
+    const { type, disabled, className, children, loading, feedbackLabel, ...styles } = this.props;
     const { showSuccess } = this.state;
 
     const cx = classnames("Button", className, { loading, disabled, ...omit(styles, "feedbackDuration") });
 
     let content = children;
     if (loading) content = <Spinner />;
-    if (showSuccess) content = "Updated! ✔";
+    if (showSuccess) content = feedbackLabel;
 
     return (
       <button className={cx} onClick={this.handleClick} {...{ type, disabled }}>
@@ -87,6 +87,7 @@ export default compose(
     loading          : bool.isRequired,
     submitSucceeded  : bool.isRequired,
     feedbackDuration : number.isRequired, // milliseconds
+    feedbackLabel    : string.isRequired,
     confirmation     : string,
   }),
 
@@ -113,6 +114,7 @@ export default compose(
     loading          : false,
     submitSucceeded  : false,
     feedbackDuration : 3000,
+    feedbackLabel    : "Updated! ✔",
     confirmation     : null,
   }),
 )(Button);

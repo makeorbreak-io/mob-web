@@ -3,7 +3,12 @@
 .Workshop
   position: relative
 
-  h1, h2, h3, h4, h5, h6
+  .banner
+    height: 160px
+    background-size: cover
+    background-position: center center
+
+  h1, h2, h3, h4, h5, h6, p
     text-align: left
 
   .attending-badge
@@ -16,13 +21,30 @@
     border-radius: 5px
     vertical-align: text-bottom
 
+
   .actions
     margin-top: 50px
+
+    &.hidden, .hidden
+      display: none
+
+    .Button
+      width: 70%
+
     p
       font-size: 14px
       color: $label-grey
       text-align: center
-      margin: 0
+      margin: 10px 0
+
+      &.notice
+        max-width: 80%
+        margin: 0 auto
+        text-align: left
+
+    label
+      max-width: 80%
+      margin: 10px auto
 
   ul
     list-style: disc
@@ -31,7 +53,3 @@
     li
       font-size: 16px
       color: $text-grey
-
-  .actions
-    .Button
-      width: 50%

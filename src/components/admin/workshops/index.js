@@ -5,7 +5,6 @@ import { compose, setDisplayName } from "recompose";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import { Link } from "react-router";
-import { map } from "lodash";
 
 //
 // components
@@ -16,6 +15,10 @@ import Workshop from "components/workshop";
 //
 // redux
 import { fetchWorkshops, createWorkshop } from "actions/workshops";
+
+//
+// util
+import { sortedWorkshops } from "util/workshops";
 
 export class AdminWorkshops extends Component {
 
@@ -57,9 +60,9 @@ export class AdminWorkshops extends Component {
             <h3>Current workshops</h3>
             <ul>
             </ul>
-            {map(workshops, ({ slug, name }) => (
+            {sortedWorkshops(workshops).map(({ slug, name, short_date }) => (
               <li key={slug}>
-                <Link to={`/admin/workshops/${slug}`}>{name}</Link>
+                <Link to={`/admin/workshops/${slug}`}>{name} ({short_date})</Link>
               </li>
             ))}
 

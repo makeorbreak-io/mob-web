@@ -1,5 +1,26 @@
 @import "~components/variables"
 
+.framed
+  $frame-width = 4px
+
+  &:before, &:after
+    content: ""
+    position: absolute
+    width: 83px
+    height: 153px
+
+  &:before
+    left: -($frame-width)
+    top: -($frame-width)
+    border-left: $frame-width solid $yellow
+    border-top: @border-left
+
+  &:after
+    right: -($frame-width)
+    bottom: -($frame-width)
+    border-right: $frame-width solid $mob-purple
+    border-bottom: @border-right
+
 .Landing
   width: calc(100% + 60px)
   margin: -30px
@@ -30,6 +51,11 @@
     h3
       color: white
       margin-bottom: 60px
+
+    .open-until
+      display: block
+      margin: 10px 0 0 11px
+      color: white
 
   .LandingSections
     position: absolute
@@ -130,6 +156,90 @@
         margin-right: auto
         width: 650px
 
+      .workshops
+        position: relative
+        display: flex
+        flex-wrap: wrap
+        margin: 80px 0 30px
+        @extend .framed
+
+        .workshop
+          position: relative
+          display: flex
+          flex-direction: column
+          justify-content: baseline
+          align-items: flex-start
+          width: 50%
+          border: 1px solid $light-grey
+          height: 280px
+          padding: 70px 30px 0
+
+          $highlight-height = 35px
+
+          &:before, &:after
+            content: ""
+            display: none
+            position: absolute
+            width: 40%
+            height: $highlight-height
+            background: $mob-green
+
+          &:before
+            left: -1px
+            bottom: -($highlight-height)
+
+          &:after
+            right: -1px
+            top: -($highlight-height)
+
+          &:hover
+            background: $mob-green
+            border-color: $mob-green
+            cursor: pointer
+
+            &:before, &:after
+              display: block
+
+            .date
+              color: $mob-purple
+            .name, .caret
+              color: #ffe200
+            .speaker
+              color: white
+
+          &:nth-child(even)
+            border-left: none
+          &:nth-child(n + 3)
+            border-top: none
+
+          .date, .name
+            font-family: Poppins
+            text-transform: uppercase
+            font-weight: 700
+
+          .date
+            margin-bottom: 10px
+            color: $orange
+            font-size: 16px
+
+          .name
+            margin-bottom: 5px
+            color: $mob-purple
+            font-size: 20px
+            cursor: pointer
+
+          .speaker
+            text-transform: uppercase
+            color: $label-grey
+
+          .caret
+            content: ">"
+            position: absolute
+            right: 30px
+            bottom: 30px
+            color: $orange
+            font: normal normal 600 32px Poppins, sans-serif
+
     //--------------------------------------------------------------- Schedule
     &#schedule-section
       $text-indent = 30px
@@ -223,11 +333,11 @@
 
     //--------------------------------------------------------------- Join Event
     &#join-event
-      margin-bottom: 50px
 
       .content
         padding-left: 595px
         text-align: center
+        min-height: 500px
 
       .video
         position: absolute
@@ -261,11 +371,126 @@
         &:last-of-type
           margin-bottom: 50px
 
+    //--------------------------------------------------------------- Join Slack
+    &#join-slack
+      margin: 0 0 20px
+
+      .content
+        padding: 60px 0 70px
+        max-width: 960px
+        @extend .framed
+
+        p
+          text-align: center
+          margin: 30px auto
+
+        form
+          max-width: 550px
+          margin: 0 auto
+
+          .Button.form
+            margin-top: 10px
+
+            img
+              vertical-align: -19px
+
+    //--------------------------------------------------------------- Sponsors
+    &#prizes
+      .content
+        position: relative
+        padding-bottom: 120px
+
+        .separator
+          $width = 1px
+          position: absolute
+          bottom: 0
+          left: 19%
+          width: "calc(74% - %s)" % ($content-side-padding * 2)
+          height: $width
+          background-image: linear-gradient(to right, $orange, $mob-green, $mob-purple)
+          zIndex("jump")
+
+          &:before, &:after
+            content: ""
+            display: block
+            position: absolute
+            width: $width
+
+          &:before
+            bottom: 0
+            left: -($width)
+            height: 60px
+            background: $orange
+
+          &:after
+            top: 0
+            right: -($width)
+            height: 142px
+            // background: $mob-purple
+            background-image: linear-gradient(to bottom, $mob-purple, $mob-green 60%)
+
+          .ball
+            position: absolute
+            left: -7px
+            top: -71px
+            width: 13px
+            height: @width
+            border: 1px solid $orange
+            border-radius: 50%
+
+            &:after
+              content: ""
+              position: absolute
+              left: 2px
+              top: 2px
+              display: block
+              width: 7px
+              height: @width
+              background: $orange
+              border-radius: 50%
+
+      h1, h2
+        text-align: left
+
+      h2
+        margin-bottom: 50px
+
+      p
+        width: auto
+        line-height: 1.8
+
+      .prizes
+        margin: 100px auto 20px
+        display: flex
+        align-items: flex-end
+        justify-content: space-between
+
+        .prize
+          width: 30%
+          text-align: center
+
+          img
+            max-width: 100%
+            max-height: 200px
+
+          h3
+            color: $mob-green
+            text-transform: uppercase
+          &:first-child h3
+            color: $orange
+          &:last-child h3
+            color: $mob-purple
+
+          span
+            font-size: 16px
+
     //--------------------------------------------------------------- Sponsors
     &#sponsors
       .content
+        position: relative
         min-height: 800px
         padding-right: 420px
+
 
       h1, h2
         text-align: left

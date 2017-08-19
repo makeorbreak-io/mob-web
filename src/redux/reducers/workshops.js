@@ -1,4 +1,4 @@
-import { filter } from "lodash";
+import { omit, clone, reduce } from "lodash";
 
 import {
   SET_WORKSHOPS,
@@ -9,43 +9,30 @@ import {
   LEAVE_WORKSHOP,
 } from "action-types";
 
-export default function workshops(state = [], action) {
+export default function workshops(state = {}, action) {
   const { type, payload } = action;
+  const clonedState = clone(state);
 
   switch (type) {
     case SET_WORKSHOPS:
-      return payload;
+      return reduce(payload, (all, ws) => ({ ...all, [ws.slug]: ws }), {});
 
     case CREATE_WORKSHOP:
-      return [ ...state, payload ];
+      return { ...state, [payload.slug]: payload };
 
     case UPDATE_WORKSHOP:
-      return state.map(workshop => {
-        return workshop.slug === payload.slug
-        ? payload
-        : workshop;
-      });
+      return { ...state, [payload.slug]: payload };
 
     case DELETE_WORKSHOP:
-      return filter(state, workshop => workshop.slug !== payload);
+      return omit(state, payload);
 
     case JOIN_WORKSHOP:
-      return state.map(workshop => {
-        if (workshop.slug === payload) {
-          workshop.participants++;
-        }
-
-        return workshop;
-      });
+      clonedState[payload].participants++;
+      return clonedState;
 
     case LEAVE_WORKSHOP:
-      return state.map(workshop => {
-        if (workshop.slug === payload) {
-          workshop.participants--;
-        }
-
-        return workshop;
-      });
+      clonedState[payload].participants--;
+      return clonedState;
 
     default:
       return state;

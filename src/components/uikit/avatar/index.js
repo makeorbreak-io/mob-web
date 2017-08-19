@@ -21,7 +21,7 @@ export default compose(
 
   setPropTypes({
     user: PropTypes.shape({
-      gravatar_hash: PropTypes.string.isRequired,
+      gravatar_hash: PropTypes.string,
     }).isRequired,
   }),
 )(Avatar);

@@ -19,6 +19,7 @@ import { Tabs, Tab, Panel } from "uikit/tabs";
 //
 // Redux
 import { createTeam, updateTeam, deleteTeam } from "actions/teams";
+import { refreshCurrentUser } from "actions/current_user";
 
 //
 // Validation
@@ -53,22 +54,25 @@ export class EditableTeam extends Component {
   createTeam = (values) => {
     const { dispatch } = this.props;
 
-    return dispatch(createTeam(values));
+    return dispatch(createTeam(values))
+    .finally(() => dispatch(refreshCurrentUser()));
   }
 
   updateTeam = (values) => {
     const { dispatch, team } = this.props;
 
-    return dispatch(updateTeam(team.id, values));
+    return dispatch(updateTeam(team.id, values))
+    .finally(() => dispatch(refreshCurrentUser()));
   }
 
   deleteTeam = () => {
     const { dispatch, change, untouch, team } = this.props;
 
-    // dispatch(reset());
     dispatch(change("name", ""));
     dispatch(untouch("name"));
-    return dispatch(deleteTeam(team.id));
+
+    return dispatch(deleteTeam(team.id))
+    .finally(() => dispatch(refreshCurrentUser()));
   }
 
   //---------------------------------------------------------------------------
@@ -106,7 +110,14 @@ export class EditableTeam extends Component {
 
             {team &&
               <div className="danger-zone">
-                <Button form fullwidth centered danger confirmation="Really delete team?" onClick={this.deleteTeam}>
+                <Button
+                  form
+                  fullwidth
+                  centered
+                  danger
+                  confirmation="Are you sure you want to delete your team?"
+                  onClick={this.deleteTeam}
+                >
                   Delete "{team.name}" team
                 </Button>
 

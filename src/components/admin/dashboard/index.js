@@ -43,7 +43,10 @@ export class Dashboard extends Component {
               <h2><Link to="/admin/teams">Teams</Link></h2>
 
               <div className="stat">
-                <span className="number">{teams.total}</span> teams
+                <span className="number">{teams.applied}</span> confirmed teams
+              </div>
+              <div className="stat">
+                <span className="number">{teams.total}</span> total teams
               </div>
             </div>
 

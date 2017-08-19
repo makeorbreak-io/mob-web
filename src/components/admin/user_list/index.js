@@ -7,7 +7,7 @@ import moment from "moment";
 
 //
 // components
-import { DataTable, Avatar, Button } from "uikit";
+import { DataTable, Avatar, Button, Modal } from "uikit";
 
 //
 // redux
@@ -18,17 +18,33 @@ import { fetchUsersAdmin, deleteUserAdmin, setUserRoleAdmin } from "actions/admi
 import { ADMIN, PARTICIPANT } from "constants/roles";
 
 //
+// utils
+import { toCSV } from "util/users";
+
+//
 // assets
 import github from "assets/images/github-grey.svg";
 import twitter from "assets/images/twitter-grey.svg";
 import linkedin from "assets/images/linkedin-grey.svg";
 
+const MODAL_CSV = "MODAL_CSV";
+
 export class UserList extends Component {
 
+  state = {
+    openModal: null,
+  }
+
+  //----------------------------------------------------------------------------
+  // Lifecycle
+  //----------------------------------------------------------------------------
   componentDidMount() {
     this.props.dispatch(fetchUsersAdmin());
   }
 
+  //----------------------------------------------------------------------------
+  // Event handlers
+  //----------------------------------------------------------------------------
   toggleRole = (user) => {
     const role = user.role === ADMIN ? PARTICIPANT : ADMIN;
 
@@ -39,11 +55,41 @@ export class UserList extends Component {
     this.props.dispatch(deleteUserAdmin(id));
   }
 
+  openModal = (modal) => {
+    this.setState({ openModal: modal });
+  }
+
+  closeModal = () => {
+    this.setState({ openModal: null });
+  }
+
+  //----------------------------------------------------------------------------
+  // Render
+  //----------------------------------------------------------------------------
   render() {
     const { users } = this.props;
+    const { openModal } = this.state;
 
     return (
       <div className="UserList">
+
+        <div className="tools">
+          <Button
+            primary
+            onClick={() => this.openModal(MODAL_CSV)}
+          >
+            Users CSV list
+          </Button>
+
+          <Modal
+            title="Users (CSV)"
+            isOpen={openModal === MODAL_CSV}
+            onRequestClose={this.closeModal}
+          >
+            <pre>{toCSV(users)}</pre>
+          </Modal>
+        </div>
+
         <DataTable
           source={users}
           search={[ "display_name", "role", "tshirt_size" ]}
