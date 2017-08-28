@@ -29,6 +29,10 @@ import AdminEditWorkshop from "components/admin/workshops/edit";
 import AdminTeams from "components/admin/teams";
 import AdminProjects from "components/admin/projects";
 
+//
+//
+import ParticipationCertificate from "components/participation_certificate";
+
 const router = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
@@ -68,6 +72,10 @@ const router = (
       <Route path="signin" component={StandaloneLogin} />
       <Route path="signup" component={StandaloneSignup} />
     </Route>
+
+    <Route path="/participation-certificate" component={(props) =>
+      <ParticipationCertificate idNumber={props.location.query.id_number} print />
+    }/>
   </Router>
 );
 

@@ -52,6 +52,7 @@
     "axios": "^0.16.1",
     "bluebird": "^3.5.0",
     "classnames": "^2.2.5",
+    "jsbarcode": "^3.8.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
