@@ -29,7 +29,7 @@ import linkedin from "assets/images/linkedin-grey.svg";
 
 const MODAL_CSV = "MODAL_CSV";
 
-export class UserList extends Component {
+export class AdminUsers extends Component {
 
   state = {
     openModal: null,
@@ -71,7 +71,7 @@ export class UserList extends Component {
     const { openModal } = this.state;
 
     return (
-      <div className="UserList">
+      <div className="AdminUsers">
 
         <div className="tools">
           <Button
@@ -139,7 +139,7 @@ export class UserList extends Component {
 }
 
 export default compose(
-  setDisplayName("UserList"),
+  setDisplayName("AdminUsers"),
 
   connect(({ admin: { users } }) => ({ users })),
-)(UserList);
+)(AdminUsers);

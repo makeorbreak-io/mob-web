@@ -23,7 +23,7 @@ import Team from "components/team";
 //
 // Admin components
 import AdminDashboard from "components/admin/dashboard";
-import UserList from "components/admin/user_list";
+import AdminUsers from "components/admin/users";
 import AdminWorkshops from "components/admin/workshops";
 import AdminEditWorkshop from "components/admin/workshops/edit";
 
@@ -48,7 +48,7 @@ const router = (
           <Route path="admin">
             <IndexRoute component={AdminDashboard} />
 
-            <Route path="users" component={UserList} />
+            <Route path="users" component={AdminUsers} />
             <Route path="workshops" component={AdminWorkshops} />
             <Route path="workshops/:slug" component={AdminEditWorkshop} />
           </Route>
