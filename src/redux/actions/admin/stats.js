@@ -7,9 +7,9 @@ import {
   SET_STATS_ADMIN,
 } from "action-types";
 
-export const setStatsAdmin = createAction(SET_STATS_ADMIN);
+export const setStats= createAction(SET_STATS_ADMIN);
 
-export const fetchStatsAdmin = () => {
+export const fetchStats = () => {
   return (dispatch) => {
     dispatch(createAction(FETCH_STATS_ADMIN)());
 
@@ -18,7 +18,7 @@ export const fetchStatsAdmin = () => {
     .then(response => {
       const { data } = response.data;
 
-      dispatch(setStatsAdmin(data));
+      dispatch(setStats(data));
 
       return Promise.resolve(data);
     })

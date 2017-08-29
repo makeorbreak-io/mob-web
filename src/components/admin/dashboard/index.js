@@ -8,12 +8,12 @@ import { isEmpty } from "lodash";
 
 //
 // redux
-import { fetchStatsAdmin } from "actions/admin/stats";
+import { fetchStats } from "actions/admin/stats";
 
 export class Dashboard extends Component {
 
   componentDidMount() {
-    this.props.dispatch(fetchStatsAdmin());
+    this.props.dispatch(fetchStats());
   }
 
   render() {
