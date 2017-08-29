@@ -52,13 +52,16 @@ export class EditableProject extends Component {
   //---------------------------------------------------------------------------
   createProject = (values) => {
     const { dispatch, team } = this.props;
-    return dispatch(createProject(values)).then(dispatch(fetchTeam(team.id)));
+
+    const technologies = values.technologies.map(t => t.value);
+    return dispatch(createProject({ ...values, technologies })).then(dispatch(fetchTeam(team.id)));
   }
 
   updateProject = (values) => {
     const { dispatch, project, team } = this.props;
 
-    return dispatch(updateProject(project.id, values)).then(dispatch(fetchTeam(team.id)));
+    const technologies = values.technologies.map(t => t.value);
+    return dispatch(updateProject(project.id, { ...values, technologies })).then(dispatch(fetchTeam(team.id)));
   }
 
   //---------------------------------------------------------------------------
