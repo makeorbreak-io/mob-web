@@ -23,7 +23,10 @@ export const FETCH_USERS = "FETCH_USERS";
 export const SET_USERS = "SET_USERS";
 
 //
-// team
+// teams
+export const FETCH_TEAMS = "FETCH_TEAMS";
+export const SET_TEAMS = "SET_TEAMS";
+export const CLEAR_TEAMS = "CLEAR_TEAMS";
 export const FETCH_TEAM = "FETCH_TEAM";
 export const CREATE_TEAM = "CREATE_TEAM";
 export const UPDATE_TEAM = "UPDATE_TEAM";
@@ -41,7 +44,10 @@ export const ACCEPT_INVITE = "ACCEPT_INVITE";
 export const REJECT_INVITE = "REJECT_INVITE";
 
 //
-// project
+// projects
+export const FETCH_PROJECTS = "FETCH_PROJECTS";
+export const SET_PROJECTS = "SET_PROJECTS";
+export const CLEAR_PROJECTS = "CLEAR_PROJECTS";
 export const CREATE_PROJECT = "CREATE_PROJECT";
 export const UPDATE_PROJECT = "UPDATE_PROJECT";
 export const FETCH_PROJECT = "FETCH_PROJECT";

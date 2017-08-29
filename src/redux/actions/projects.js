@@ -5,13 +5,37 @@ import request, { processSubmissionError } from "util/http";
 // 
 // Redux
 import {
+  FETCH_PROJECTS,
+  SET_PROJECTS,
+  CLEAR_PROJECTS,
   CREATE_PROJECT,
   UPDATE_PROJECT,
   FETCH_PROJECT,
   ADD_PROJECT,
 } from "action-types";
 
+const setProjects = createAction(SET_PROJECTS);
 const addProject = createAction(ADD_PROJECT);
+
+export const fetchProjects = (opts = {}) => {
+  const o = { ...{ admin: false }, ...opts };
+
+  return (dispatch) => {
+    dispatch(createAction(FETCH_PROJECTS)());
+
+    return request
+    .get(`${o.admin ? "/admin" : ""}/projects`)
+    .then(response => {
+      const { data } = response.data;
+      dispatch(setProjects(data));
+
+      return Promise.resolve(data);
+    })
+    .catch(e => Promise.reject(e));
+  };
+};
+
+export const clearProjects = createAction(CLEAR_PROJECTS);
 
 export const fetchProject = (id) => {
   return (dispatch) => {

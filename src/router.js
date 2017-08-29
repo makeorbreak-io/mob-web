@@ -26,6 +26,8 @@ import AdminDashboard from "components/admin/dashboard";
 import AdminUsers from "components/admin/users";
 import AdminWorkshops from "components/admin/workshops";
 import AdminEditWorkshop from "components/admin/workshops/edit";
+import AdminTeams from "components/admin/teams";
+import AdminProjects from "components/admin/projects";
 
 const router = (
   <Router history={browserHistory}>
@@ -51,6 +53,8 @@ const router = (
             <Route path="users" component={AdminUsers} />
             <Route path="workshops" component={AdminWorkshops} />
             <Route path="workshops/:slug" component={AdminEditWorkshop} />
+            <Route path="teams" component={AdminTeams} />
+            <Route path="projects" component={AdminProjects} />
           </Route>
         </Route>
 
