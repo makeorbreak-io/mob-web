@@ -51,6 +51,8 @@ import sponsorSemasio from "assets/images/sponsor-semasio.svg";
 import sponsorLoM from "assets/images/sponsor-lom.svg";
 import sponsorMindera from "assets/images/sponsor-mindera.png";
 import sponsorHapibot from "assets/images/sponsor-hapibot.svg";
+import sponsorCP from "assets/images/sponsor-cp.svg";
+import sponsorUP from "assets/images/sponsor-up.svg";
 import sponsorAlientech from "assets/images/sponsor-alientech.svg";
 
 import slackMarkWhite from "assets/images/slack-white.svg";
@@ -62,18 +64,20 @@ const PRIZES = [
 ];
 
 const SPONSORS = [
-  { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/" },
-  { src: sponsorLiberty      , url: "http://www.libertyseguros.pt/" },
-  { src: sponsorCMP          , url: "http://www.cm-porto.pt/" },
-  { src: sponsorCisco        , url: "http://www.cisco.com/c/pt_pt/index.html" },
-  { src: sponsorDoist        , url: "https://doist.com/" },
-  { src: sponsori2s          , url: "http://www.i2s.pt/index/" },
-  { src: sponsorBlip         , url: "http://www.blip.pt/" },
-  { src: sponsorSemasio      , url: "http://www.semasio.com/" },
-  { src: sponsorLoM          , url: "https://lifeonmars.pt/" },
-  { src: sponsorMindera      , url: "https://www.mindera.com/" },
-  { src: sponsorHapibot      , url: "https://www.hapibot.com/" },
-  { src: sponsorAlientech    , url: "https://www.alientech.pt/" },
+  { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/"                 , className: "scale-up" },
+  { src: sponsorLiberty      , url: "http://www.libertyseguros.pt/"           , className: "liberty" },
+  { src: sponsorCisco        , url: "http://www.cisco.com/c/pt_pt/index.html" , className: "cisco" },
+  { src: sponsorDoist        , url: "https://doist.com/"                      , className: "doist" },
+  { src: sponsori2s          , url: "http://www.i2s.pt/index/"                , className: "i2s" },
+  { src: sponsorBlip         , url: "http://www.blip.pt/"                     , className: "blip" },
+  { src: sponsorSemasio      , url: "http://www.semasio.com/"                 , className: "semasio" },
+  { src: sponsorLoM          , url: "https://lifeonmars.pt/"                  , className: "lom" },
+  { src: sponsorMindera      , url: "https://www.mindera.com/"                , className: "mindera" },
+  { src: sponsorHapibot      , url: "https://www.hapibot.com/"                , className: "hapibot" },
+  { src: sponsorAlientech    , url: "https://www.alientech.pt/"               , className: "alientech" },
+  { src: sponsorCP           , url: "https://www.cp.pt/"                      , className: "cp" },
+  { src: sponsorUP           , url: "https://www.up.pt/"                      , className: "up" },
+  { src: sponsorCMP          , url: "http://www.cm-porto.pt/"                 , className: "cmp" },
 ];
 
 // validation rules
@@ -401,8 +405,8 @@ export class Landing extends Component {
             <h2>We have amazing partners and sponsors once again</h2>
 
             <ul>
-              {SPONSORS.map(({ src, url }) => (
-                <li key={src.toString()}>
+              {SPONSORS.map(({ src, url, className }) => (
+                <li key={src.toString()} className={className}>
                   <a href={url} target="_blank" rel="noopener noreferrer">
                     <img src={src} />
                   </a>

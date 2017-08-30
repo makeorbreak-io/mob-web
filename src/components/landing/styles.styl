@@ -394,7 +394,7 @@
             img
               vertical-align: -19px
 
-    //--------------------------------------------------------------- Sponsors
+    //--------------------------------------------------------------- Prizes
     &#prizes
       .content
         position: relative
@@ -513,17 +513,18 @@
           margin-bottom: 80px
           vertical-align: middle
 
-          &:first-child
-            margin-left: 12.5%
-          &:nth-child(3)
-            margin-right: 12.5%
-          &:nth-child(4)
+          &.scale-up, &.cisco
             margin-left: 25%
-          &:nth-child(5)
+          &.liberty, &.doist
             margin-right: 25%
-
-          &:nth-last-child(3)
+          &.mindera, &.cp
             margin-left: 12.5%
+
+          &.cp, &.up, &.cmp
+            margin-top: 80px
+
+          // &:nth-last-child(3)
+          //   margin-left: 12.5%
 
           a img
             width: 150px
