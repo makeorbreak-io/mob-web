@@ -1,6 +1,6 @@
 import { createAction } from "redux-actions";
 
-import request, { processSubmissionError } from "util/http";
+import request, { requestFailed } from "util/http";
 
 import {
   FETCH_USERS,
@@ -22,6 +22,6 @@ export const fetchUsers = () => {
 
       return Promise.resolve(data);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(requestFailed);
   };
 };

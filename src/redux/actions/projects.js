@@ -1,6 +1,6 @@
 import { createAction } from "redux-actions";
 
-import request, { processSubmissionError } from "util/http";
+import request, { requestFailed, submissionFailed } from "util/http";
 
 // 
 // Redux
@@ -31,7 +31,7 @@ export const fetchProjects = (opts = {}) => {
 
       return Promise.resolve(data);
     })
-    .catch(e => Promise.reject(e));
+    .catch(requestFailed);
   };
 };
 
@@ -49,7 +49,7 @@ export const fetchProject = (id) => {
 
       return Promise.resolve(data);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(requestFailed);
   };
 };
 
@@ -65,7 +65,7 @@ export const createProject = (values) => {
 
       return Promise.resolve(data);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
 
@@ -81,6 +81,6 @@ export const updateProject = (id, values) => {
 
       return Promise.resolve(data);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };

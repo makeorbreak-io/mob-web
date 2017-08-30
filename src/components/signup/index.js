@@ -7,8 +7,7 @@ import { connect } from "react-redux";
 
 //
 // Components
-import Button from "uikit/button";
-import ErrorMessage from "uikit/error_message";
+import { Button, ErrorMessage } from "uikit";
 import { Tabs, Tab, Panel } from "uikit/tabs";
 
 //

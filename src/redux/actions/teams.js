@@ -2,7 +2,7 @@ import { createAction } from "redux-actions";
 
 //
 // Util
-import request, { processSubmissionError } from "util/http";
+import request, { requestFailed, submissionFailed } from "util/http";
 
 // 
 // Redux
@@ -18,8 +18,6 @@ import {
   REMOVE_TEAM,
 } from "action-types";
 import { refreshCurrentUser } from "actions/current_user";
-
-const failureCallback = (error) => Promise.reject(processSubmissionError(error));
 
 const setTeams = createAction(SET_TEAMS);
 const addTeam = createAction(ADD_TEAM);
@@ -39,7 +37,7 @@ export const fetchTeams = (opts = {}) => {
 
       return Promise.resolve(data);
     })
-    .catch(e => Promise.reject(e));
+    .catch(requestFailed);
   };
 };
 
@@ -57,7 +55,7 @@ export const fetchTeam = (id) => {
 
       return Promise.resolve(data);
     })
-    .catch(failureCallback);
+    .catch(requestFailed);
   };
 };
 
@@ -75,7 +73,7 @@ export const createTeam = (values) => {
 
       return Promise.resolve(data);
     })
-    .catch(failureCallback);
+    .catch(submissionFailed);
   };
 };
 
@@ -93,7 +91,7 @@ export const updateTeam = (id, values, opts = {}) => {
 
       return Promise.resolve(data);
     })
-    .catch(failureCallback);
+    .catch(submissionFailed);
   };
 };
 
@@ -110,6 +108,6 @@ export const deleteTeam = (id, opts = {}) => {
 
       return Promise.resolve();
     })
-    .catch(failureCallback);
+    .catch(submissionFailed);
   };
 };

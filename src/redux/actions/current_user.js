@@ -1,7 +1,7 @@
 import { createAction } from "redux-actions";
 import { isEmpty } from "lodash";
 
-import request, { processSubmissionError } from "util/http";
+import request, { submissionFailed, ignoreFailure } from "util/http";
 
 import { removeNotification } from "actions/notifications";
 
@@ -35,7 +35,7 @@ export const updateCurrentUser = (id, params) => {
 
       return Promise.resolve(data);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
 
@@ -50,6 +50,7 @@ export const refreshCurrentUser = () => {
       dispatch(setCurrentUser(data));
 
       return Promise.resolve(data);
-    });
+    })
+    .catch(ignoreFailure);
   };
 };

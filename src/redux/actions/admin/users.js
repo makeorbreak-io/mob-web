@@ -1,7 +1,6 @@
 import { createAction } from "redux-actions";
-import { noop } from "lodash";
 
-import request, { processSubmissionError } from "util/http";
+import request, { requestFailed, ignoreFailure } from "util/http";
 
 import {
   FETCH_USERS_ADMIN,
@@ -25,7 +24,7 @@ export const fetchUsersAdmin = () => {
 
       return Promise.resolve(data);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(requestFailed);
   };
 };
 
@@ -34,7 +33,7 @@ export const deleteUserAdmin = (id) => {
     return request
     .delete(`/admin/users/${id}`)
     .then(() => dispatch(createAction(DELETE_USER_ADMIN)(id)))
-    .catch(noop);
+    .catch(ignoreFailure);
   };
 };
 
@@ -43,6 +42,6 @@ export const setUserRoleAdmin = (id, role) => {
     return request
     .put(`/admin/users/${id}`, { user: { role } })
     .then(() => dispatch(createAction(SET_USER_ROLE_ADMIN)({ id, role })))
-    .catch(noop);
+    .catch(ignoreFailure);
   };
 };

@@ -1,7 +1,6 @@
 import { createAction } from "redux-actions";
-import { noop } from "lodash";
 
-import request, { processSubmissionError } from "util/http";
+import request, { ignoreFailure, submissionFailed } from "util/http";
 
 import { refreshCurrentUser } from "actions/current_user";
 
@@ -32,7 +31,7 @@ export const fetchWorkshops = (opts = {}) => {
 
       return Promise.resolve(workshops);
     })
-    .catch(noop);
+    .catch(ignoreFailure);
   };
 };
 
@@ -49,7 +48,7 @@ export const joinWorkshop = (slug) => {
 
       return Promise.resolve(workshop);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
 
@@ -64,7 +63,8 @@ export const leaveWorkshop = (slug) => {
       dispatch(refreshCurrentUser());
 
       return Promise.resolve(workshop);
-    });
+    })
+    .catch(ignoreFailure);
   };
 };
 
@@ -84,7 +84,7 @@ export const createWorkshop = (params) => {
 
       return Promise.resolve(workshop);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
 
@@ -101,7 +101,7 @@ export const updateWorkshop = (slug, params) => {
 
       return Promise.resolve(workshop);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
 
@@ -113,6 +113,6 @@ export const deleteWorkshop = (slug) => {
     .then(() => {
       dispatch(createAction(DELETE_WORKSHOP)(slug));
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };

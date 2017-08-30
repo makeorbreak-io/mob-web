@@ -2,7 +2,7 @@ import { createAction } from "redux-actions";
 
 //
 // Util
-import request, { processSubmissionError } from "util/http";
+import request, { submissionFailed } from "util/http";
 
 //
 // Redux
@@ -24,7 +24,7 @@ export const acceptInvite = (id) => {
       dispatch(refreshCurrentUser());
       dispatch(removeNotification(id));
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
 
@@ -39,6 +39,6 @@ export const rejectInvite = (id) => {
       dispatch(refreshCurrentUser());
       dispatch(removeNotification(id));
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };

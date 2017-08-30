@@ -2,7 +2,7 @@ import { createAction } from "redux-actions";
 
 //
 // Util
-import request, { processSubmissionError } from "util/http";
+import request, { submissionFailed } from "util/http";
 
 //
 // Redux
@@ -31,7 +31,7 @@ export const inviteUserToTeam = (userId) => {
       return dispatch(fetchTeam(data.team.id))
       .then(() => Promise.resolve(data));
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
 
@@ -51,7 +51,7 @@ export const inviteUserByEmail = (email) => {
       return dispatch(fetchTeam(data.team.id))
       .then(() => Promise.resolve(data));
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
 
@@ -62,7 +62,7 @@ export const revokeInvite = (id, teamId) => {
     return request
     .delete(`/invites/${id}`)
     .then(() => dispatch(fetchTeam(teamId)))
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
 
@@ -78,6 +78,6 @@ export const removeFromTeam = (id, teamId) => {
 
       return Promise.resolve();
     })
-    .catch(error => Promise.reject(error));
+    .catch(submissionFailed);
   };
 };

@@ -3,7 +3,7 @@ import { SubmissionError } from "redux-form";
 
 //
 // util
-import request, { processSubmissionError } from "util/http";
+import request, { submissionFailed } from "util/http";
 
 import {
   LOGIN,
@@ -31,7 +31,7 @@ export const login = (email, password) => {
 
       return Promise.resolve(user);
     })
-    .catch(() => Promise.reject(new SubmissionError({ password: "Invalid email / password" })));
+    .catch(() => Promise.reject(new SubmissionError({ password: "Invalid email or password" })));
   };
 };
 
@@ -49,6 +49,6 @@ export const signup = (email, password) => {
 
       return Promise.resolve(user);
     })
-    .catch(error => Promise.reject(processSubmissionError(error)));
+    .catch(submissionFailed);
   };
 };
