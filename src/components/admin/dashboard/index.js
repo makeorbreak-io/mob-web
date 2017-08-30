@@ -19,7 +19,7 @@ export class Dashboard extends Component {
   render() {
     if (isEmpty(this.props.stats)) return null;
 
-    const { stats: { users, teams, workshops } } = this.props;
+    const { stats: { users, teams, workshops, projects } } = this.props;
 
     return (
       <div className="AdminDashboard">
@@ -53,7 +53,9 @@ export class Dashboard extends Component {
             <div className="section">
               <h2><Link to="/admin/projects">Projects</Link></h2>
 
-              coming soon
+              <div className="stat">
+                <span className="number">{projects.total}</span> projects
+              </div>
             </div>
 
 
