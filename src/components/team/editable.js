@@ -106,7 +106,7 @@ export class EditableTeam extends Component {
 
             {team && <hr />}
 
-            {team && <Project {...{ id, team }} editable />}
+            {team && <Project {...{ id, team }} project={team.project} editable />}
 
             {team &&
               <div className="danger-zone">

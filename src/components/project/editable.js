@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes } from "recompose";
 import { Field, reduxForm } from "redux-form";
+import { reduce, isString } from "lodash";
 
 //
 // Components
@@ -53,15 +54,21 @@ export class EditableProject extends Component {
   createProject = (values) => {
     const { dispatch, team } = this.props;
 
-    const technologies = values.technologies.map(t => t.value);
-    return dispatch(createProject({ ...values, technologies })).then(dispatch(fetchTeam(team.id)));
+    const technologies = isString(values.technologies[0])
+      ? values.technologies
+      : values.technologies.map(t => t.value);
+
+    return dispatch(createProject({ ...values, technologies })).then(dispatch(() => fetchTeam(team.id)));
   }
 
   updateProject = (values) => {
     const { dispatch, project, team } = this.props;
 
-    const technologies = values.technologies.map(t => t.value);
-    return dispatch(updateProject(project.id, { ...values, technologies })).then(dispatch(fetchTeam(team.id)));
+    const technologies = isString(values.technologies[0])
+      ? values.technologies
+      : values.technologies.map(t => t.value);
+
+    return dispatch(updateProject(project.id, { ...values, technologies })).then(() => dispatch(fetchTeam(team.id)));
   }
 
   //---------------------------------------------------------------------------
@@ -71,6 +78,9 @@ export class EditableProject extends Component {
     const { project, handleSubmit, submitting } = this.props;
 
     const submitHandler = project ? this.updateProject : this.createProject;
+    const technologiesOptions = project
+      ? [ ...technologies, ...reduce(project.technologies, (all, t) => ([ ...all, { label: t, value: t } ]), []) ]
+      : technologies;
 
     return (
       <div className="Project editable">
@@ -84,7 +94,7 @@ export class EditableProject extends Component {
           <Field name="description" component="textarea" placeholder="Description" className="fullwidth" />
           <ErrorMessage form="project" field="description" />
 
-          <Field name="technologies" component={Multiselect} creatable options={technologies} placeholder="Technologies..." />
+          <Field name="technologies" component={Multiselect} creatable options={technologiesOptions} placeholder="Technologies..." />
           <ErrorMessage form="project" field="technologies" />
 
           <Button type="submit" form centered fullwidth primary disabled={submitting} loading={submitting}>
