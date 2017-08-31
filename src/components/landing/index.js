@@ -8,6 +8,7 @@ import { compose, setDisplayName, getContext } from "recompose";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import { map, get, isEmpty } from "lodash";
+import ReactTooltip from "react-tooltip";
 
 //
 // Components
@@ -36,49 +37,10 @@ import landingHackathon from "assets/images/landing-hackathon@2x.jpg";
 import landingSchedule from "assets/images/landing-schedule@2x.jpg";
 import landingSponsors from "assets/images/landing-sponsors@2x.jpg";
 
-import prizeSwitch from "assets/images/prize-switch.jpg";
-import prizeMonitor from "assets/images/prize-monitor.jpg";
-import prizeOculusRift from "assets/images/prize-oculus-rift.jpg";
-
-import sponsorCMP from "assets/images/sponsor-cmp.svg";
-import sponsorScaleUpPorto from "assets/images/sponsor-scale-up-porto.svg";
-import sponsorLiberty from "assets/images/sponsor-liberty.svg";
-import sponsorCisco from "assets/images/sponsor-cisco.svg";
-import sponsorDoist from "assets/images/sponsor-doist.svg";
-import sponsori2s from "assets/images/sponsor-i2s.svg";
-import sponsorBlip from "assets/images/sponsor-blip.svg";
-import sponsorSemasio from "assets/images/sponsor-semasio.svg";
-import sponsorLoM from "assets/images/sponsor-lom.svg";
-import sponsorMindera from "assets/images/sponsor-mindera.png";
-import sponsorHapibot from "assets/images/sponsor-hapibot.svg";
-import sponsorCP from "assets/images/sponsor-cp.svg";
-import sponsorUP from "assets/images/sponsor-up.svg";
-import sponsorAlientech from "assets/images/sponsor-alientech.svg";
-
 import slackMarkWhite from "assets/images/slack-white.svg";
 
-const PRIZES = [
-  { image: prizeSwitch     , title: "Funny"    , prize: "Nintendo Switch (Grey) + Splatoon 2" },
-  { image: prizeMonitor    , title: "Useful"   , prize: "Dell UltraSharp 27 Monitor (U2715H)" },
-  { image: prizeOculusRift , title: "Hardcore" , prize: "Oculus Rift + Touch" },
-];
-
-const SPONSORS = [
-  { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/"                 , className: "scale-up" },
-  { src: sponsorLiberty      , url: "http://www.libertyseguros.pt/"           , className: "liberty" },
-  { src: sponsorCisco        , url: "http://www.cisco.com/c/pt_pt/index.html" , className: "cisco" },
-  { src: sponsorDoist        , url: "https://doist.com/"                      , className: "doist" },
-  { src: sponsori2s          , url: "http://www.i2s.pt/index/"                , className: "i2s" },
-  { src: sponsorBlip         , url: "http://www.blip.pt/"                     , className: "blip" },
-  { src: sponsorSemasio      , url: "http://www.semasio.com/"                 , className: "semasio" },
-  { src: sponsorLoM          , url: "https://lifeonmars.pt/"                  , className: "lom" },
-  { src: sponsorMindera      , url: "https://www.mindera.com/"                , className: "mindera" },
-  { src: sponsorHapibot      , url: "https://www.hapibot.com/"                , className: "hapibot" },
-  { src: sponsorAlientech    , url: "https://www.alientech.pt/"               , className: "alientech" },
-  { src: sponsorCP           , url: "https://www.cp.pt/"                      , className: "cp" },
-  { src: sponsorUP           , url: "https://www.up.pt/"                      , className: "up" },
-  { src: sponsorCMP          , url: "http://www.cm-porto.pt/"                 , className: "cmp" },
-];
+import SPONSORS from "./sponsors";
+import PRIZES from "./prizes";
 
 // validation rules
 const validate = (values) => {
@@ -101,17 +63,19 @@ export class Landing extends Component {
     this.props.dispatch(fetchWorkshops());
 
     window.addEventListener("hashchange", this.handleHashChange);
+    document.querySelector("#app").addEventListener("scroll", this.hideTooltips);
 
     // scroll to element if hash is used
     const { hash } = window.location;
     if (!isEmpty(hash)) {
       const node = document.querySelector(hash);
-      node  && node.scrollIntoView();
+      node && node.scrollIntoView();
     }
   }
 
   componentWillUnmount() {
     window.removeEventListener("hashchange", this.handleHashChange);
+    document.querySelector("#app").removeEventListener("scroll", this.hideTooltips);
   }
 
   //----------------------------------------------------------------------------
@@ -139,6 +103,10 @@ export class Landing extends Component {
     this.setState({ openWorkshop: openWorkshop() });
   }
 
+  hideTooltips = () => {
+    ReactTooltip.hide();
+  }
+
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
@@ -147,7 +115,7 @@ export class Landing extends Component {
     const { openWorkshop } = this.state;
 
     return (
-      <div className="Landing">
+      <div className="Landing" onClick={this.hideTooltips}>
         <div className="LandingHero">
           <div className="content">
             <h2>September 8th - 10th, 2017</h2>
@@ -405,8 +373,13 @@ export class Landing extends Component {
             <h2>We have amazing partners and sponsors once again</h2>
 
             <ul>
-              {SPONSORS.map(({ src, url, className }) => (
-                <li key={src.toString()} className={className}>
+              {SPONSORS.map(({ src, url, className, description }) => (
+                <li
+                  id={className}
+                  key={src.toString()}
+                  className={className}
+                  data-tip={description}
+                >
                   <a href={url} target="_blank" rel="noopener noreferrer">
                     <img src={src} />
                   </a>
@@ -459,6 +432,15 @@ export class Landing extends Component {
             />
           </Modal>
         ))}
+
+        <ReactTooltip
+          effect="solid"
+          event="mouseover"
+          eventOff="click"
+          className="sponsor-tooltip"
+          offset={{ left: 20 }}
+          html
+        />
       </div>
     );
   }
