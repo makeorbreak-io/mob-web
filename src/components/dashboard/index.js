@@ -145,10 +145,10 @@ export class Dashboard extends Component {
                 <form onSubmit={this.applyTeam}>
                   <h3>Your team is not yet confirmed for the hackathon</h3>
 
-                  <label>
+                  <label className="checkbox">
                     <span className="required">*</span>
                     <input type="checkbox" id="teamDisclaimer" name="teamDisclaimer" checked={teamDisclaimer} onChange={e => this.setState({ teamDisclaimer: e.target.checked })} />
-                    We ({map(team.members, "display_name").join(", ")}) are committing to attend the Make or Break hackathon and will do everything in our power to do so
+                    <span>We ({map(team.members, "display_name").join(", ")}) are committing to attend the Make or Break hackathon and will do everything in our power to do so</span>
                   </label>
 
                   <Button
@@ -198,6 +198,8 @@ export class Dashboard extends Component {
               <Button
                 primary
                 fullwidth
+                form
+                centered
                 disabled={slackError !== null}
                 onClick={this.sendSlackInvite}
               >

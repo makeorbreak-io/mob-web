@@ -25,10 +25,7 @@ export class NotificationCenter extends Component {
   // Callbacks
   //----------------------------------------------------------------------------
   toggleList = () => {
-    const { notifications } = this.props;
-    const isOpen = isEmpty(notifications) ? false : !this.state.isOpen;
-
-    this.setState({ isOpen });
+    this.setState({ isOpen: !this.state.isOpen });
   }
 
   handleClickOutside = () => {
@@ -57,6 +54,12 @@ export class NotificationCenter extends Component {
         </div>
 
         <div className={listCx}>
+          {notifications.length === 0 &&
+            <Notification
+              title="No Notifications"
+              message="You have no notifications!"
+            />
+          }
           {notifications.map(notification => (
             <Notification key={notification.id} {...notification} />
           ))}

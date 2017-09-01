@@ -82,7 +82,7 @@ export class Workshop extends Component {
       hidden: (!showForm || isEmpty(workshop) || isEmpty(currentUser)) && !inWorkshop,
     });
 
-    const checkboxCx = classnames({
+    const checkboxCx = classnames("checkbox", {
       hidden: inWorkshop,
     });
 
@@ -125,13 +125,13 @@ export class Workshop extends Component {
           <label className={checkboxCx}>
             <span className="required">*</span>
             <input type="checkbox" id="disclaimer1" name="disclaimer1" checked={disclaimer1} onChange={e => this.setState({ disclaimer1: e.target.checked })} />
-            I am committing to attend this workshop and will do everything in my power to do so
+            <span>I am committing to attend this workshop and will do everything in my power to do so</span>
           </label>
 
           <label className={checkboxCx}>
             <span className="required">*</span>
             <input type="checkbox" id="disclaimer2" name="disclaimer2" checked={disclaimer2} onChange={e => this.setState({ disclaimer2: e.target.checked })} />
-            I will leave the workshop as soon as possible if for some reason I can't make it
+            <span>I will leave the workshop as soon as possible if for some reason I can't make it</span>
           </label>
 
           <Button

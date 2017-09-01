@@ -1,5 +1,6 @@
 import React from "react";
-import { compose, setDisplayName } from "recompose";
+import PropTypes from "prop-types";
+import { compose, setDisplayName, setPropTypes } from "recompose";
 
 //
 // Util
@@ -23,4 +24,10 @@ export const Notification = ({
 
 export default compose(
   setDisplayName("Notification"),
+
+  setPropTypes({
+    title: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    link: PropTypes.string,
+  }),
 )(Notification);

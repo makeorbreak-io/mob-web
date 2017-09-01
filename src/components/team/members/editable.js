@@ -97,7 +97,7 @@ export class EditableTeamMembers extends Component {
             <li className="Member" key={m.id}>
               <Avatar user={m} />
               {m.display_name}
-              {team.applied &&
+              {!team.applied &&
                 <Button
                   danger
                   fakelink
