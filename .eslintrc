@@ -5,7 +5,8 @@
 
   "globals": {
     "Promise": true,
-    "process": true
+    "process": true,
+    "Instascan": true
   },
 
   "parser": "babel-eslint",

@@ -48,7 +48,7 @@ export class Tabs extends Component {
   // Render
   //---------------------------------------------------------------------------
   render() {
-    const { green, small, showIndex } = this.props;
+    const { green, small, showIndex, className } = this.props;
     const { selected } = isNull(this.props.selected) ? this.state : this.props;
 
     const indicatorWidth = 100 / this.Tabs.length;
@@ -57,7 +57,7 @@ export class Tabs extends Component {
       left: `${indicatorWidth * selected}%`,
     };
 
-    const cx = classnames("Tabs", {
+    const cx = classnames("Tabs", className, {
       green,
       small,
       "show-index": showIndex,
@@ -85,6 +85,7 @@ export default compose(
     green: PropTypes.bool.isRequired,
     small: PropTypes.bool.isRequired,
     selected: PropTypes.number,
+    className: PropTypes.string,
   }),
 
   defaultProps({

@@ -4,16 +4,18 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
 import { connect } from "react-redux";
-import { isEmpty, filter } from "lodash";
+import { isEmpty, filter, map, groupBy } from "lodash";
 
 //
 // components
 import { Tabs, Tab, Panel } from "uikit/tabs";
+import { Button } from "uikit";
 
 //
 // redux
 import { fetchStats } from "actions/admin/stats";
 import { fetchUsersAdmin } from "actions/admin/users";
+import { fetchVotingStatus, openVoting, closeVoting } from "actions/admin/voting_status";
 
 export class Dashboard extends Component {
 
@@ -22,12 +24,19 @@ export class Dashboard extends Component {
 
     dispatch(fetchStats());
     dispatch(fetchUsersAdmin());
+    dispatch(fetchVotingStatus());
+  }
+
+  toggleVotingStatus = () => {
+    const { votingStatus, dispatch } = this.props;
+
+    dispatch(votingStatus ? closeVoting() : openVoting());
   }
 
   render() {
     if (isEmpty(this.props.stats)) return null;
 
-    const { stats: { users, teams, workshops, projects } } = this.props;
+    const { stats: { users, teams, workshops, projects }, votingStatus } = this.props;
     const workshopOnlyUsers = filter(this.props.users, user => (
       ((!user.team) || (user.team && !user.team.applied)) && (user.workshops.length > 0)
     )).length;
@@ -73,6 +82,53 @@ export class Dashboard extends Component {
                     </tbody>
                   </table>
 
+                </div>
+
+                <div className="section fullwidth">
+                  <h2>
+                    <Link to="/admin/paper-votes">Paper Votes</Link>
+                  </h2>
+
+                  <ul className="unredeemed-paper-votes">
+                    <li><h2>Unredeemed paper votes</h2></li>
+                    {map(groupBy(votingStatus.unredeemed_paper_votes, "category_name"), (votes, category) => (
+                      <li>
+                        {category}: {votes.length}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="section fullwidth">
+                  <h2>Voting: {votingStatus.voting_status}</h2>
+
+                  <Button
+                    primary
+                    danger={votingStatus.voting_status === "started"}
+                    disabled={votingStatus.voting_status === "ended"}
+                    large
+                    onClick={this.toggleVotingStatus}
+                  >
+                    {votingStatus === "not_started" ? "Open voting" : "Close voting"}
+                  </Button>
+
+                  <div>
+                    <ul className="missing-voters">
+                      <li><h2>Missing Voters</h2></li>
+
+                      {votingStatus.missing_voters.map(({ team, users }) => (
+                        <li key={team.id}>
+                          <h3>Team: {team.name}</h3>
+                          <ul>
+                            {users.map(user => (
+                              <li key={user.id}>{user.display_name}</li>
+                            ))}
+                          </ul>
+                        </li>
+                      ))}
+                    </ul>
+
+                  </div>
                 </div>
 
               </div>
@@ -172,5 +228,5 @@ export class Dashboard extends Component {
 export default compose(
   setDisplayName("Dashboard"),
 
-  connect(({ admin: { stats, users } }) => ({ stats, users })),
+  connect(({ admin: { stats, users, votingStatus } }) => ({ stats, users, votingStatus })),
 )(Dashboard);

@@ -19,6 +19,7 @@ import Workshop from "components/workshop";
 import { fetchWorkshops } from "actions/workshops";
 import { updateTeam } from "actions/teams";
 import { refreshCurrentUser } from "actions/current_user";
+import { infoBegin } from "actions/voting";
 
 //
 // api actions
@@ -38,6 +39,8 @@ const validate = (values) => {
   )(values);
 };
 
+const VOTING_INFO_MODAL = "VOTING_INFO_MODAL";
+
 export class Dashboard extends Component {
 
   state = {
@@ -52,6 +55,7 @@ export class Dashboard extends Component {
   //----------------------------------------------------------------------------
   componentDidMount() {
     this.props.dispatch(fetchWorkshops());
+    this.props.dispatch(infoBegin());
 
     window.addEventListener("hashchange", this.handleHashChange);
   }
@@ -77,6 +81,14 @@ export class Dashboard extends Component {
     const { valid, formValues } = this.props;
 
     valid && window.open(`/participation-certificate?id_number=${formValues.id_number}`);
+  }
+
+  openVotingInfoModal = () => {
+    this.setState({ openModal: VOTING_INFO_MODAL });
+  }
+
+  closeVotingInfoModal = () => {
+    this.setState({ openModal: null });
   }
 
   applyTeam = (ev) => {
@@ -108,7 +120,7 @@ export class Dashboard extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { currentUser, currentUser: { team }, workshops, handleSubmit } = this.props;
+    const { currentUser, currentUser: { team }, workshops, voting, handleSubmit } = this.props;
     const { openModal, teamDisclaimer, applying, slackError } = this.state;
 
     const isParticipating = (team && team.applied) || currentUser.workshops.length > 0;
@@ -135,6 +147,9 @@ export class Dashboard extends Component {
                   <span className="warning">T-shirt size not set!<br />We'll assume your size is L.</span>
                 }
               </dd>
+
+              {currentUser.voter_identity && <dt>Voter Identity</dt>}
+              {currentUser.voter_identity && <dd>{currentUser.voter_identity}</dd>}
             </dl>
 
             <hr />
@@ -172,6 +187,14 @@ export class Dashboard extends Component {
                   <Link to="/account/team">Create one</Link> or request an invite from one of your friends.
                 </p>
               }
+            </div>
+
+            <hr />
+            <h2>Public voting info</h2>
+            <div>
+              <Button primary large onClick={this.openVotingInfoModal}>
+                View public voting information
+              </Button>
             </div>
 
             <hr />
@@ -242,6 +265,14 @@ export class Dashboard extends Component {
           </Panel>
         </Tabs>
 
+        <Modal
+          isOpen={openModal === VOTING_INFO_MODAL}
+          title="Public Voting Info"
+          onRequestClose={this.closeVotingInfoModal}
+        >
+          <pre><code>{JSON.stringify(voting, null, 4)}</code></pre>
+        </Modal>
+
         {map(workshops, workshop => (
           <Modal
             key={workshop.slug}
@@ -276,9 +307,10 @@ export default compose(
     validate,
   }),
 
-  connect(({ currentUser, workshops, form }) => ({
+  connect(({ currentUser, workshops, voting, form }) => ({
     currentUser,
     workshops,
+    voting,
     formValues: form["participation-certificate"].values || {},
   })),
 )(Dashboard);

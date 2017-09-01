@@ -41,7 +41,7 @@ ComposeButton($color)
 
   //
   // colors
-  &.primary, &.success, &.warning, &.danger, &.nobg
+  &.primary, &.success, &.warning, &.danger, &.nobg, &.orange
     color: white
 
     &.hollow, &.hollow:hover
@@ -60,6 +60,8 @@ ComposeButton($color)
     ComposeButton($button-danger)
   &.nobg
     ComposeButton(transparent)
+  &.orange
+    ComposeButton($orange)
 
   //
   // sizes

@@ -11,12 +11,12 @@ import { DataTable, Button } from "uikit";
 
 //
 // redux
-import { fetchTeams, clearTeams, updateTeam, deleteTeam } from "actions/teams";
+import { fetchTeams, clearTeams, updateTeam, deleteTeam, disqualifyTeam } from "actions/teams";
 import { removeFromTeam } from "actions/members";
 
 //
 // api
-import { syncInvites, createTeamRepo, addTeamToRepo } from "api/admin";
+import { syncInvites } from "api/admin";
 
 export class AdminTeams extends Component {
 
@@ -38,8 +38,16 @@ export class AdminTeams extends Component {
     return this.props.dispatch(updateTeam(id, { applied }, { admin: true }));
   }
 
+  makeEligible = (id) => {
+    return this.props.dispatch(updateTeam(id, { eligible: true }, { admin: true }));
+  }
+
   deleteTeam = (id) => {
     return this.props.dispatch(deleteTeam(id, { admin: true }));
+  }
+
+  disqualifyTeam = (id) => {
+    return this.props.dispatch(disqualifyTeam(id));
   }
 
   removeMember = (id, teamId) => {
@@ -117,18 +125,20 @@ export class AdminTeams extends Component {
                   primary
                   small
                   fullwidth
-                  onClick={() => createTeamRepo(team.id)}
+                  disabled={team.eligible}
+                  onClick={() => this.makeEligible(team.id)}
                 >
-                  Create repo
+                  Make eligible
                 </Button>
 
                 <Button
-                  primary
+                  danger
                   small
                   fullwidth
-                  onClick={() => addTeamToRepo(team.id)}
+                  disabled={!!team.disqualified_at}
+                  onClick={() => this.disqualifyTeam(team.id)}
                 >
-                  Add team to repo
+                  Disqualify
                 </Button>
               </td>
             </tr>
