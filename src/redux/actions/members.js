@@ -66,12 +66,14 @@ export const revokeInvite = (id, teamId) => {
   };
 };
 
-export const removeFromTeam = (id, teamId) => {
+export const removeFromTeam = (id, teamId, opts = {}) => {
+  const o = { ...{ admin: false }, ...opts };
+
   return (dispatch) => {
     dispatch(createAction(REMOVE_FROM_TEAM)());
 
     return request
-    .delete(`/teams/${teamId}/remove/${id}`)
+    .delete(`${o.admin ? "/admin" : ""}/teams/${teamId}/remove/${id}`)
     .then(() => {
       dispatch(fetchTeam(teamId));
       dispatch(refreshCurrentUser());
