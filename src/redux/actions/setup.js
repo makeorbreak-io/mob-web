@@ -14,7 +14,10 @@ import {
   PERFORM_SETUP,
 } from "action-types";
 
-import { TSHIRT_SIZE_NOTIFICATION_ID } from "constants/notifications";
+import {
+  TSHIRT_SIZE_NOTIFICATION_ID,
+  PRIZE_ORDER_NOTIFICATION_ID,
+} from "constants/notifications";
 
 //
 // Actions
@@ -26,6 +29,7 @@ export const performSetup = () => {
 
     return dispatch(refreshCurrentUser())
     .then(currentUser => {
+      const { team } = currentUser;
 
       // pending invitations
       each(currentUser.invitations, i => {
@@ -46,6 +50,15 @@ export const performSetup = () => {
           message: "Make sure you <link>select your t-shirt size</link>!",
           id: TSHIRT_SIZE_NOTIFICATION_ID,
           link: "/profile",
+        }));
+      }
+
+      if (team && team.applied && isEmpty(team.prize_preference)) {
+        dispatch(addNotification({
+          title: "Prize order preference",
+          message: "Make sure you <link>select your team's prize order preferences</link>!",
+          id: PRIZE_ORDER_NOTIFICATION_ID,
+          link: "/account/team",
         }));
       }
 

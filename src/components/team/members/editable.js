@@ -100,11 +100,11 @@ export class EditableTeamMembers extends Component {
               {!team.applied &&
                 <Button
                   danger
-                  fakelink
+                  small
                   onClick={() => this.removeFromTeam(m.id)}
                   confirmation={team.members.length === 1 ? "You are about the delete the last member of the team. If you do so, the team will be deleted." : null}
                 >
-                  {m.id === currentUser.id ? "leave team" : "remove member"}
+                  {m.id === currentUser.id ? "leave" : "remove"}
                 </Button>
               }
             </li>
@@ -117,7 +117,13 @@ export class EditableTeamMembers extends Component {
             <li className="Invite" key={i.id}>
               <Avatar user={{}} />
               {get(i, "invitee.display_name", i.email)}
-              <Button danger fakelink onClick={() => this.revokeInvite(i.id)}>revoke invitation</Button>
+              <Button
+                danger
+                small
+                onClick={() => this.revokeInvite(i.id)}
+              >
+                cancel
+              </Button>
             </li>
           ))}
         </ul>
