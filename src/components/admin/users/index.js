@@ -3,6 +3,7 @@ import "./styles";
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { connect } from "react-redux";
+import { filter } from "lodash";
 import moment from "moment";
 
 //
@@ -27,7 +28,8 @@ import github from "assets/images/github-grey.svg";
 import twitter from "assets/images/twitter-grey.svg";
 import linkedin from "assets/images/linkedin-grey.svg";
 
-const MODAL_CSV = "MODAL_CSV";
+const MODAL_CSV_ALL_USERS = "MODAL_CSV_ALL_USERS";
+const MODAL_CSV_NO_TEAM_USERS = "MODAL_CSV_NO_TEAM_USERS";
 
 export class AdminUsers extends Component {
 
@@ -70,23 +72,35 @@ export class AdminUsers extends Component {
     const { users } = this.props;
     const { openModal } = this.state;
 
+    const noTeamUsers = filter(users, user => user.team === null || user.team.applied === false);
+
     return (
       <div className="AdminUsers">
 
         <div className="tools">
-          <Button
-            primary
-            onClick={() => this.openModal(MODAL_CSV)}
-          >
-            Users CSV list
+          <h3>CSV Lists:</h3>
+          <Button primary onClick={() => this.openModal(MODAL_CSV_ALL_USERS)}>
+            All users
           </Button>
 
           <Modal
-            title="Users (CSV)"
-            isOpen={openModal === MODAL_CSV}
+            title="All Users (CSV)"
+            isOpen={openModal === MODAL_CSV_ALL_USERS}
             onRequestClose={this.closeModal}
           >
             <pre>{toCSV(users)}</pre>
+          </Modal>
+
+          <Button primary onClick={() => this.openModal(MODAL_CSV_NO_TEAM_USERS)}>
+            Users without team / team not applied
+          </Button>
+
+          <Modal
+            title="Users without team / team not applied (CSV)"
+            isOpen={openModal === MODAL_CSV_NO_TEAM_USERS}
+            onRequestClose={this.closeModal}
+          >
+            <pre>{toCSV(noTeamUsers)}</pre>
           </Modal>
         </div>
 
