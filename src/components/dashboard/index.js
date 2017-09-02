@@ -141,30 +141,7 @@ export class Dashboard extends Component {
             <h2><Link to="/account/team">Team {team && `- ${team.name}`}</Link></h2>
             <div className="team">
               {team && team.applied && <h3>Your team is confirmed for the hackathon!</h3>}
-              {team && !team.applied &&
-                <form onSubmit={this.applyTeam}>
-                  <h3>Your team is not yet confirmed for the hackathon</h3>
-
-                  <label className="checkbox">
-                    <span className="required">*</span>
-                    <input type="checkbox" id="teamDisclaimer" name="teamDisclaimer" checked={teamDisclaimer} onChange={e => this.setState({ teamDisclaimer: e.target.checked })} />
-                    <span>We ({map(team.members, "display_name").join(", ")}) are committing to attend the Make or Break hackathon and will do everything in our power to do so</span>
-                  </label>
-
-                  <Button
-                    type="submit"
-                    primary
-                    fullwidth
-                    form
-                    disabled={applying || !teamDisclaimer || team.members.length <= 1}
-                  >
-                    Confirm presence in hackathon
-                  </Button>
-                  {team.members.length <= 1 &&
-                    <p className="small-notice">You can't apply alone. Invite some friends, or find a team in our Slack community!</p>
-                  }
-                </form>
-              }
+              {team && !team.applied && <h4>Registrations for the hackathon are now closed.</h4>}
               {!team &&
                 <p>
                   You are not a part of a team yet!
