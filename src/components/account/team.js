@@ -20,7 +20,7 @@ export const AccountTeam = ({ currentUser }) => {
           <Tab><span>Pending Invites</span></Tab>
 
           <Panel>
-            {isInTeam && <p className="small-notice">If you wish to accept any of these invites, you must first delete your team, along with its members and project.</p>}
+            {isInTeam && <p className="small-notice">If you wish to accept any of these invites, you must first: leave your team, or delete your team, along with its members and project.</p>}
             {!isInTeam && <p className="small-notice">If you wish to create a team, you must reject all invitations first.</p>}
 
             {map(currentUser.invitations, i => <Invitation key={i.id} invitation={i} disabled={!isEmpty(teamId)} />)}
@@ -28,9 +28,7 @@ export const AccountTeam = ({ currentUser }) => {
         </Tabs>
       }
 
-      {isEmpty(currentUser.invitations) &&
-        <Team id={teamId} editable />
-      }
+      <Team id={teamId} editable />
     </div>
   );
 };
