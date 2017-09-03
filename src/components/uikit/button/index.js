@@ -14,6 +14,8 @@ export class Button extends Component {
 
   state = {
     showSuccess: false,
+    loading: false,
+    disabled: false,
   }
 
   //----------------------------------------------------------------------------
@@ -34,17 +36,27 @@ export class Button extends Component {
   handleClick = () => {
     const { confirmation, onClick } = this.props;
 
-    if (isNull(confirmation)) return onClick();
+    if (!isNull(confirmation) && !window.confirm(confirmation)) return null;
 
-    return window.confirm(confirmation) ? onClick() : null;
+    const result = onClick();
+
+    if (result.then) {
+      this.setState({ loading: true, disabled: true });
+      result.finally(() => {
+        this.setState({ loading: false, disabled: false });
+      });
+    }
   }
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { type, disabled, className, children, loading, feedbackLabel, ...styles } = this.props;
+    const { type, className, children, feedbackLabel, ...styles } = this.props;
     const { showSuccess } = this.state;
+
+    const disabled = this.props.disabled || this.state.disabled;
+    const loading  = this.props.loading  || this.state.loading;
 
     const cx = classnames("Button", className, { loading, disabled, ...omit(styles, "feedbackDuration") });
 

@@ -14,6 +14,10 @@ import { DataTable, Button } from "uikit";
 import { fetchTeams, clearTeams, updateTeam, deleteTeam } from "actions/teams";
 import { removeFromTeam } from "actions/members";
 
+//
+// api
+import { syncInvites } from "api/admin";
+
 export class AdminTeams extends Component {
 
   //----------------------------------------------------------------------------
@@ -30,8 +34,8 @@ export class AdminTeams extends Component {
   //----------------------------------------------------------------------------
   // Event Handlers
   //----------------------------------------------------------------------------
-  deApplyTeam = (id) => {
-    return this.props.dispatch(updateTeam(id, { applied: false }, { admin: true }));
+  setApplied = (id, applied) => {
+    return this.props.dispatch(updateTeam(id, { applied }, { admin: true }));
   }
 
   deleteTeam = (id) => {
@@ -50,14 +54,18 @@ export class AdminTeams extends Component {
 
     return (
       <div className="AdminTeams">
+
+        <div className="tools">
+          <Button primary onClick={syncInvites}>Fix invites</Button>
+        </div>
+
         <DataTable
           source={teams}
-          labels={[ "Name" , "Applied" , "Project" , "Members" , "Invites", "Actions" ]}
-          sorter={[ "name" , "applied" , null      , null      , null     , null ]}
+          labels={[ "Name" , "Project" , "Members" , "Invites", "Actions" ]}
+          sorter={[ "name" , null      , null      , null     , null ]}
           render={team => (
             <tr key={team.id}>
               <td>{team.name}</td>
-              <td>{team.applied.toString()}</td>
               <td>{(team.project && team.project.name)}</td>
               <td>
                 <ul>
@@ -86,14 +94,14 @@ export class AdminTeams extends Component {
               </td>
               <td>
                 <Button
-                  danger
+                  danger={team.applied}
+                  primary={!team.applied}
                   small
                   fullwidth
-                  disabled={!team.applied}
-                  confirmation={`Really de-apply ${team.name} from the hackathon?`}
-                  onClick={() => this.deApplyTeam(team.id)}
+                  confirmation={`Really ${team.applied ? "remove" : "add"} ${team.name} ${team.applied ? "from" : "to"} the hackathon?`}
+                  onClick={() => this.setApplied(team.id, !team.applied)}
                 >
-                  De-Apply
+                  {team.applied ? "De-apply" : "Apply"}
                 </Button>
                 <Button
                   danger
