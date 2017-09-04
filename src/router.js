@@ -28,6 +28,7 @@ import AdminWorkshops from "components/admin/workshops";
 import AdminEditWorkshop from "components/admin/workshops/edit";
 import AdminTeams from "components/admin/teams";
 import AdminProjects from "components/admin/projects";
+import CheckIn from "components/admin/check_in";
 
 //
 //
@@ -54,6 +55,10 @@ const router = (
           <Route path="admin">
             <IndexRoute component={AdminDashboard} />
 
+            {/* Logistics */}
+            <Route path="checkin" component={CheckIn} />
+
+            {/* Analytics */}
             <Route path="users" component={AdminUsers} />
             <Route path="workshops" component={AdminWorkshops} />
             <Route path="workshops/:slug" component={AdminEditWorkshop} />

@@ -5,6 +5,7 @@ import {
   SET_USERS_ADMIN,
   DELETE_USER_ADMIN,
   SET_USER_ROLE_ADMIN,
+  SET_USER_CHECKED_IN_ADMIN,
 } from "action-types";
 
 export default function(state = [], action) {
@@ -20,6 +21,13 @@ export default function(state = [], action) {
   case SET_USER_ROLE_ADMIN:
     return map(state, (user) => {
       if (user.id === payload.id) user.role = payload.role;
+
+      return user;
+    });
+
+  case SET_USER_CHECKED_IN_ADMIN:
+    return map(state, (user) => {
+      if (user.id === payload.id) user.checked_in = payload.checked_in;
 
       return user;
     });

@@ -1,0 +1,33 @@
+@import "~components/mixins"
+
++tablet()
+  .DataTable
+    .search, .search-bar
+      height: 45px
+
+    .search
+      padding-top: 5px
+
+    .search-bar
+      input
+        font-size: 16px
+
+    table
+      td
+        padding: 5px 10px
+
+        // &, button
+        //   font-size: 1.2vw !important
+
+        // button
+        //   padding: 0.01vw 0.4vw !important
+
+        &.desktop
+          display: none
+        &.mobile
+          display: table-cell
+
+        .sort-controls, .filter-controls
+          button
+            padding: 3px 2px
+            margin-left: 3px

@@ -1,6 +1,7 @@
+@import "~components/variables"
+
 //
 // media queries
-
 mobile()
   @media screen and (max-width: 480px), screen and (orientation: landscape) and (max-width: 740px)
     {block}
@@ -10,9 +11,9 @@ mobile-small()
     {block}
 
 tablet()
-  @media screen and (max-width: 960px)
+  @media screen and (max-width: $content-width)
     {block}
 
 desktop()
-  @media screen and (min-width: 961px)
+  @media screen and (min-width: ($content-width + 1px))
     {block}
