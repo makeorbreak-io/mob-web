@@ -40,7 +40,7 @@ export class Button extends Component {
 
     const result = onClick();
 
-    if (result.then) {
+    if (result && result.then) {
       this.setState({ loading: true, disabled: true });
       result.finally(() => {
         this.setState({ loading: false, disabled: false });

@@ -30,6 +30,7 @@ import linkedin from "assets/images/linkedin-grey.svg";
 
 const MODAL_CSV_ALL_USERS = "MODAL_CSV_ALL_USERS";
 const MODAL_CSV_NO_TEAM_USERS = "MODAL_CSV_NO_TEAM_USERS";
+const MODAL_CSV_PARTICIPATING_USERS = "MODAL_CSV_PARTICIPATING_USERS";
 
 export class AdminUsers extends Component {
 
@@ -73,6 +74,7 @@ export class AdminUsers extends Component {
     const { openModal } = this.state;
 
     const noTeamUsers = filter(users, user => user.team === null || user.team.applied === false);
+    const participatingUsers = filter(users, user => ((user.team && user.team.applied) || (user.workshops.length > 0)));
 
     return (
       <div className="AdminUsers">
@@ -101,6 +103,18 @@ export class AdminUsers extends Component {
             onRequestClose={this.closeModal}
           >
             <pre>{toCSV(noTeamUsers)}</pre>
+          </Modal>
+
+          <Button primary onClick={() => this.openModal(MODAL_CSV_PARTICIPATING_USERS)}>
+            Participating Users
+          </Button>
+
+          <Modal
+            title="Participating users (hackathon / workshops)"
+            isOpen={openModal === MODAL_CSV_PARTICIPATING_USERS}
+            onRequestClose={this.closeModal}
+          >
+            <pre>{toCSV(participatingUsers)}</pre>
           </Modal>
         </div>
 
