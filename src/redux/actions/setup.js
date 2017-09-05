@@ -17,6 +17,7 @@ import {
 import {
   TSHIRT_SIZE_NOTIFICATION_ID,
   PRIZE_ORDER_NOTIFICATION_ID,
+  GITHUB_ACCOUNT_NOTIFICATION_ID,
 } from "constants/notifications";
 
 //
@@ -53,12 +54,23 @@ export const performSetup = () => {
         }));
       }
 
+      // no prize preferences set
       if (team && team.applied && isEmpty(team.prize_preference)) {
         dispatch(addNotification({
           title: "Prize order preference",
           message: "Make sure you <link>select your team's prize order preferences</link>!",
           id: PRIZE_ORDER_NOTIFICATION_ID,
           link: "/account/team",
+        }));
+      }
+
+      // no github account present
+      if (team && team.applied && isEmpty(currentUser.github_handle)) {
+        dispatch(addNotification({
+          title: "Github username",
+          message: "Make sure you <link>add your github handle to your profile</link>, so we're able to provide you and your team with a repository for the project.",
+          id: GITHUB_ACCOUNT_NOTIFICATION_ID,
+          link: "/profile",
         }));
       }
 
