@@ -208,6 +208,13 @@ export class Dashboard extends Component {
               <p className="small-notice">{slackError}</p>
             </div>
 
+            <hr />
+            <h2>Where to stay</h2>
+            <p>
+              We have selected a number of places you can stay while attending Make or Break (<a href="https://www.google.com/url?q=https://goo.gl/maps/4RVxXsChe2G2&sa=D&ust=1504627735136000&usg=AFQjCNHc9pRXOgwwePuaaHdwsX2KL3-l9A" target="_blank" rel="noopener noreferrer">location</a>).
+              Check them out <a href="https://goo.gl/Bw2Svc" target="_blank" rel="noopener noreferrer">here</a>!
+            </p>
+
             {isParticipating &&
               <div>
                 <hr />
