@@ -1,9 +1,10 @@
 import "./styles";
+import "./styles.responsive";
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
-import { noop, clone, filter, pick, values, isEmpty, has, reduce } from "lodash";
+import { noop, clone, filter, isEmpty, has, reduce, orderBy, get } from "lodash";
 import classnames from "classnames";
 
 //
@@ -92,7 +93,7 @@ export class DataTable extends Component {
 
     const regexp = new RegExp(query || ".", "i");
     return filter(source, item => {
-      const searchString = values(pick(item, search)).join("");
+      const searchString = reduce(search, (str, prop) => `${str}|${get(item, prop)}`, "");
       const isMatch      = regexp.test(searchString);
 
       const isVisible = isEmpty(filters) || reduce(
@@ -111,16 +112,14 @@ export class DataTable extends Component {
 
     if (!sortKey) return this.filteredItems;
 
-    return this.filteredItems.sort((a, b) => (
-      sortDir === "asc" ? a[sortKey] >= b[sortKey] : a[sortKey] <= b[sortKey]
-    ));
+    return orderBy(this.filteredItems, [ sortKey ], [ sortDir ]);
   }
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { labels, sorter, filter, render } = this.props;
+    const { labels, mobile, sorter, filter, render } = this.props;
     const { sortKey, sortDir, query, searchVisible, filters } = this.state;
 
     const searchBarCx = classnames("search-bar", {
@@ -145,9 +144,16 @@ export class DataTable extends Component {
               {labels.map((label, i) => {
                 const s = sorter[i];
                 const f = filter[i];
+                const m = mobile[i];
+
+                // if this.props.mobile is an empty array, show all columns, regardless of device
+                const cx = classnames({
+                  desktop: m === undefined || m === false,
+                  mobile:  m === undefined || m === true,
+                });
 
                 return (
-                  <td key={i}>
+                  <td key={i} className={cx}>
                     {label}
 
                     { /* sort controls */ }
@@ -209,6 +215,7 @@ export default compose(
     search: PropTypes.arrayOf(PropTypes.string).isRequired,
     sorter: PropTypes.arrayOf(PropTypes.string).isRequired,
     filter: PropTypes.arrayOf(PropTypes.string).isRequired,
+    mobile: PropTypes.arrayOf(PropTypes.bool).isRequired,
     render: PropTypes.func.isRequired,
   }),
 
@@ -218,6 +225,7 @@ export default compose(
     labels: [],
     sorter: [],
     filter: [],
+    mobile: [],
     render: noop,
   }),
 )(DataTable);

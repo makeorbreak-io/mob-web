@@ -7,6 +7,7 @@ import {
   SET_USERS_ADMIN,
   DELETE_USER_ADMIN,
   SET_USER_ROLE_ADMIN,
+  SET_USER_CHECKED_IN_ADMIN,
 } from "action-types";
 
 export const setUsersAdmin = createAction(SET_USERS_ADMIN);
@@ -42,6 +43,37 @@ export const setUserRoleAdmin = (id, role) => {
     return request
     .put(`/admin/users/${id}`, { user: { role } })
     .then(() => dispatch(createAction(SET_USER_ROLE_ADMIN)({ id, role })))
+    .catch(ignoreFailure);
+  };
+};
+
+const setUserCheckedIn = createAction(SET_USER_CHECKED_IN_ADMIN);
+export const checkInUser = (id) => {
+  return (dispatch) => {
+    return request
+    .post(`/admin/checkin/${id}`)
+    .then(response => {
+      const { data } = response.data;
+
+      dispatch(setUserCheckedIn(data));
+
+      return Promise.resolve(data);
+    })
+    .catch(ignoreFailure);
+  };
+};
+
+export const removeUserCheckIn = (id) => {
+  return (dispatch) => {
+    return request
+    .delete(`/admin/checkin/${id}`)
+    .then(response => {
+      const { data } = response.data;
+
+      dispatch(setUserCheckedIn(data));
+
+      return Promise.resolve(data);
+    })
     .catch(ignoreFailure);
   };
 };

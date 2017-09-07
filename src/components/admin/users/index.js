@@ -2,9 +2,9 @@ import "./styles";
 
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
+import { Link } from "react-router";
 import { connect } from "react-redux";
 import { filter } from "lodash";
-import moment from "moment";
 
 //
 // components
@@ -20,7 +20,7 @@ import { ADMIN, PARTICIPANT } from "constants/roles";
 
 //
 // utils
-import { toCSV } from "util/users";
+import { toCSV, emailCSVSelector } from "util/users";
 
 //
 // assets
@@ -31,6 +31,8 @@ import linkedin from "assets/images/linkedin-grey.svg";
 const MODAL_CSV_ALL_USERS = "MODAL_CSV_ALL_USERS";
 const MODAL_CSV_NO_TEAM_USERS = "MODAL_CSV_NO_TEAM_USERS";
 const MODAL_CSV_PARTICIPATING_USERS = "MODAL_CSV_PARTICIPATING_USERS";
+const MODAL_CRED_LIST_HACKATHON = "MODAL_CRED_LIST_HACKATHON";
+const MODAL_CRED_LIST_WORKSHOPS = "MODAL_CRED_LIST_WORKSHOPS";
 
 export class AdminUsers extends Component {
 
@@ -75,13 +77,20 @@ export class AdminUsers extends Component {
 
     const noTeamUsers = filter(users, user => user.team === null || user.team.applied === false);
     const participatingUsers = filter(users, user => ((user.team && user.team.applied) || (user.workshops.length > 0)));
+    const hackathonUsers = filter(users, user => user.team && user.team.applied);
+    const workshopOnlyUsers = filter(users, user => (user.workshops.length > 0 && (!user.team || (user.team && !user.team.applied))));
 
     return (
       <div className="AdminUsers">
 
         <div className="tools">
+          <span className="left"><Link to="/admin">← Back to Admin</Link></span>
+        </div>
+
+        <div className="tools">
+
           <h3>CSV Lists:</h3>
-          <Button primary onClick={() => this.openModal(MODAL_CSV_ALL_USERS)}>
+          <Button small primary onClick={() => this.openModal(MODAL_CSV_ALL_USERS)}>
             All users
           </Button>
 
@@ -90,10 +99,10 @@ export class AdminUsers extends Component {
             isOpen={openModal === MODAL_CSV_ALL_USERS}
             onRequestClose={this.closeModal}
           >
-            <pre>{toCSV(users)}</pre>
+            <pre>{toCSV(users, emailCSVSelector)}</pre>
           </Modal>
 
-          <Button primary onClick={() => this.openModal(MODAL_CSV_NO_TEAM_USERS)}>
+          <Button small primary onClick={() => this.openModal(MODAL_CSV_NO_TEAM_USERS)}>
             Users without team / team not applied
           </Button>
 
@@ -102,10 +111,10 @@ export class AdminUsers extends Component {
             isOpen={openModal === MODAL_CSV_NO_TEAM_USERS}
             onRequestClose={this.closeModal}
           >
-            <pre>{toCSV(noTeamUsers)}</pre>
+            <pre>{toCSV(noTeamUsers, emailCSVSelector)}</pre>
           </Modal>
 
-          <Button primary onClick={() => this.openModal(MODAL_CSV_PARTICIPATING_USERS)}>
+          <Button small primary onClick={() => this.openModal(MODAL_CSV_PARTICIPATING_USERS)}>
             Participating Users
           </Button>
 
@@ -114,30 +123,61 @@ export class AdminUsers extends Component {
             isOpen={openModal === MODAL_CSV_PARTICIPATING_USERS}
             onRequestClose={this.closeModal}
           >
-            <pre>{toCSV(participatingUsers)}</pre>
+            <pre>{toCSV(participatingUsers, emailCSVSelector)}</pre>
+          </Modal>
+
+          <Button small primary onClick={() => this.openModal(MODAL_CRED_LIST_HACKATHON)}>
+            Hackathon users
+          </Button>
+
+          <Modal
+            title="Hackathon users"
+            isOpen={openModal === MODAL_CRED_LIST_HACKATHON}
+            onRequestClose={this.closeModal}
+          >
+            <pre>{toCSV(hackathonUsers, [ ["Name", "display_name"], [ "Team", "team.name" ] ])}</pre>
+          </Modal>
+
+          <Button small primary onClick={() => this.openModal(MODAL_CRED_LIST_WORKSHOPS)}>
+            Workshop users
+          </Button>
+
+          <Modal
+            title="Workshop users"
+            isOpen={openModal === MODAL_CRED_LIST_WORKSHOPS}
+            onRequestClose={this.closeModal}
+          >
+            <pre>{toCSV(workshopOnlyUsers, [ ["Name", "display_name"] ])}</pre>
           </Modal>
         </div>
 
         <DataTable
           source={users}
           search={[ "display_name", "role", "tshirt_size" ]}
-          labels={[ "Avatar" , "Name"         , "T-Shirt"     , "Role" , "Team" , "Social" , "Joined"      , "Actions" ]}
-          sorter={[ null     , "display_name" , "tshirt_size" , "role" , "team" , null     , "inserted_at" , null ]}
-          filter={[ null     , null           , null          , null   , null   , null     , null          , null ]}
+          labels={[ "Avatar" , "Name"         , "Email" , "T-Shirt" , "Workshops" , "Team" , "Social" , "Actions" ]}
+          mobile={[ false    , true           , true    , true      , false       , true   , true     , true ]}
+          sorter={[ null     , "display_name" , "email" , null      , null        , "team" , null     , null ]}
+          filter={[ null     , null           , null    , null      , null        , null   , null     , null ]}
           render={user => (
-            <tr key={user.id}>
-              <td><Avatar user={user} /></td>
-              <td>{user.display_name}</td>
-              <td>{user.tshirt_size}</td>
-              <td>{user.role}</td>
-              <td>{user.team && user.team.name}</td>
-              <td className="social">
+            <tr key={user.id} className={user.role}>
+              <td className="desktop"><Avatar user={user} /></td>
+              <td className="mobile">{user.display_name}</td>
+              <td className="mobile">{user.email}</td>
+              <td className="mobile">{user.tshirt_size}</td>
+              <td className="desktop">
+                {(user.workshops).map(({ slug }) => (
+                  <div key={slug}>
+                    <span className="tag purple">{slug}</span>
+                  </div>
+                ))}
+              </td>
+              <td className="mobile">{user.team && user.team.name}</td>
+              <td className="social mobile">
                 {user.github_handle &&  <img src={github} title={user.github_handle} />}
                 {user.twitter_handle && <img src={twitter} title={user.twitter_handle} />}
                 {user.linkedin_url &&   <img src={linkedin} title={user.linkedin_url} />}
               </td>
-              <td>{moment(user.inserted_at).format("DD/MM/YYYY")}</td>
-              <td>
+              <td className="mobile">
                 <Button
                   primary
                   small
@@ -145,7 +185,7 @@ export class AdminUsers extends Component {
                   confirmation={`Really make ${user.display_name} a ${user.role === ADMIN ? "participant" : "admin"}?`}
                   onClick={() => this.toggleRole(user)}
                 >
-                  {user.role === ADMIN ? "Make participant" : "Make admin" }
+                  {user.role === ADMIN ? "Make participant" : "⚠️ Make admin ⚠️" }
                 </Button>
                 <Button
                   danger

@@ -10,13 +10,24 @@ import { Link } from "react-router";
 // components
 import WorkshopForm, { validate } from "./form";
 import { Tabs, Tab, Panel } from "uikit/tabs";
+import { Button, Modal } from "uikit";
 import Workshop from "components/workshop";
 
 //
 // redux
 import { fetchWorkshops, updateWorkshop, deleteWorkshop } from "actions/workshops";
 
+//
+// util
+import { toCSV, emailCSVSelector } from "util/users";
+
+const MODAL_EMAIL_LIST = "MODAL_EMAIL_LIST";
+
 export class AdminEditWorkshop extends Component {
+
+  state = {
+    openModal: null,
+  }
 
   //----------------------------------------------------------------------------
   // Lifecycle
@@ -31,7 +42,7 @@ export class AdminEditWorkshop extends Component {
       initialize(workshop);
     }
     else {
-      dispatch(fetchWorkshops());
+      dispatch(fetchWorkshops({ admin: true }));
     }
   }
 
@@ -60,22 +71,47 @@ export class AdminEditWorkshop extends Component {
     .then(() => router.push("/admin/workshops"));
   }
 
+  openModal = (id) => {
+    this.setState({ openModal: id });
+  }
+
+  closeModal = () => {
+    this.setState({ openModal: null });
+  }
+
   //----------------------------------------------------------------------------
   // Event Handlers
   //----------------------------------------------------------------------------
   render() {
     const { workshop, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
+    const { openModal } = this.state;
 
     if (isEmpty(workshop))
       return <div>"Loading..."</div>;
 
     return (
       <div className="AdminWorkshops">
+        <Modal
+          isOpen={openModal === MODAL_EMAIL_LIST}
+          title={`Email list for "${workshop.name}"`}
+          onRequestClose={this.closeModal}
+        >
+          <pre>{toCSV(workshop.attendees, emailCSVSelector)}</pre>
+        </Modal>
         <Tabs selected={0}>
           <Tab>
             <span>
               <span className="left"><Link to="/admin/workshops">← Back to Workshops</Link></span>
-              Edit Workshop "{workshop.name}"
+              Edit "{workshop.name}"
+              <span className="right">
+                <Button
+                  small
+                  primary
+                  onClick={() => this.openModal(MODAL_EMAIL_LIST)}
+                >
+                  Email List
+                </Button>
+              </span>
             </span>
           </Tab>
 
