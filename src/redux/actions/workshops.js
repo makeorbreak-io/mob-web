@@ -116,3 +116,33 @@ export const deleteWorkshop = (slug) => {
     .catch(submissionFailed);
   };
 };
+
+//
+// check in / presence
+export const confirmPresenceInWorkshop = (workshopSlug, userId) => {
+  return (dispatch) => {
+    return request
+    .post(`/admin/workshops/${workshopSlug}/checkin/${userId}`)
+    .then(response => {
+      const workshop = response.data.data;
+      dispatch(createAction(UPDATE_WORKSHOP)(workshop));
+
+      return Promise.resolve(workshop);
+    })
+    .catch(ignoreFailure);
+  };
+};
+
+export const removePresenceFromWorkshop = (workshopSlug, userId) => {
+  return (dispatch) => {
+    return request
+    .delete(`/admin/workshops/${workshopSlug}/checkin/${userId}`)
+    .then(response => {
+      const workshop = response.data.data;
+      dispatch(createAction(UPDATE_WORKSHOP)(workshop));
+
+      return Promise.resolve(workshop);
+    })
+    .catch(ignoreFailure);
+  };
+};

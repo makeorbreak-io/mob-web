@@ -29,6 +29,7 @@ import AdminEditWorkshop from "components/admin/workshops/edit";
 import AdminTeams from "components/admin/teams";
 import AdminProjects from "components/admin/projects";
 import CheckIn from "components/admin/check_in";
+import WorkshopCheckIn from "components/admin/workshop_check_in";
 
 //
 //
@@ -57,6 +58,7 @@ const router = (
 
             {/* Logistics */}
             <Route path="checkin" component={CheckIn} />
+            <Route path="checkin/workshop/:slug" component={WorkshopCheckIn} />
 
             {/* Analytics */}
             <Route path="users" component={AdminUsers} />

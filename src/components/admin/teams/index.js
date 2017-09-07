@@ -16,7 +16,7 @@ import { removeFromTeam } from "actions/members";
 
 //
 // api
-import { syncInvites } from "api/admin";
+import { syncInvites, createTeamRepo, addTeamToRepo } from "api/admin";
 
 export class AdminTeams extends Component {
 
@@ -111,6 +111,24 @@ export class AdminTeams extends Component {
                   onClick={() => this.deleteTeam(team.id)}
                 >
                   Delete Team
+                </Button>
+
+                <Button
+                  primary
+                  small
+                  fullwidth
+                  onClick={() => createTeamRepo(team.id)}
+                >
+                  Create repo
+                </Button>
+
+                <Button
+                  primary
+                  small
+                  fullwidth
+                  onClick={() => addTeamToRepo(team.id)}
+                >
+                  Add team to repo
                 </Button>
               </td>
             </tr>

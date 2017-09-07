@@ -59,15 +59,14 @@ export class Dashboard extends Component {
                   </table>
                 </div>
 
-                {/*
                 <div className="section fullwidth">
                   <h2>Workshop Presences</h2>
 
                   <table className="stats">
                     <tbody>
-                      {workshops.map(({ slug, name, participants, participant_limit }) => (
+                      {workshops.map(({ slug, name, participants }) => (
                         <tr key={slug}>
-                          <td>{participants} / {participant_limit}</td>
+                          <td>NaN / {participants}</td>
                           <td><Link to={`/admin/checkin/workshop/${slug}`}>{name}</Link></td>
                         </tr>
                       ))}
@@ -75,7 +74,6 @@ export class Dashboard extends Component {
                   </table>
 
                 </div>
-                */}
 
               </div>
             </Panel>
