@@ -1,3 +1,5 @@
+import "./styles.responsive";
+
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
@@ -42,16 +44,19 @@ export class WorkshopCheckIn extends Component {
           <span className="left"><Link to="/admin">← Back to Admin</Link></span>
         </div>
 
+        <h1>Check-In: {workshop.name}</h1>
+
         <DataTable
           source={orderBy(workshop.attendees, [ "display_name" ], [ "asc" ])}
           search={[ "display_name", "email" ]}
           labels={[ "Name"         , "Email" , "Actions" ]}
           sorter={[ "display_name" , null    , null ]}
+          mobile={[ true           , false   , true ]}
           render={user => (
             <tr key={user.id} className={user.role}>
-              <td>{user.display_name}</td>
-              <td>{user.email}</td>
-              <td>
+              <td className="mobile">{user.display_name}</td>
+              <td className="desktop">{user.email}</td>
+              <td className="mobile">
                 <Button
                   primary={!user.checked_in}
                   danger={user.checked_in}

@@ -1,26 +1,30 @@
 @import "~components/mixins"
 
+$border-width = 5px
+
 +tablet()
   .DataTable
+    margin-top: 15px
+
     .search, .search-bar
       height: 45px
 
     .search
-      padding-top: 5px
+      display: none
 
     .search-bar
+      position: relative
+      left: $border-width
+      width: "calc(100% - %s)" % ($border-width * 2)
+
       input
         font-size: 16px
 
     table
+      width: 100%
+
       td
         padding: 5px 10px
-
-        // &, button
-        //   font-size: 1.2vw !important
-
-        // button
-        //   padding: 0.01vw 0.4vw !important
 
         &.desktop
           display: none

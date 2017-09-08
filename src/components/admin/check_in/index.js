@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
 import { connect } from "react-redux";
-import { filter } from "lodash";
+import { filter, orderBy } from "lodash";
 
 //
 // components
@@ -43,7 +43,7 @@ export class CheckIn extends Component {
         </div>
 
         <DataTable
-          source={participatingUsers}
+          source={orderBy(participatingUsers, [ "display_name" ], [ "asc" ])}
           search={[ "display_name", "email", "team.name" ]}
           labels={[ "Name"         , "Email" , "T-shirt" , "Team" , "WP" , "Actions" ]}
           sorter={[ "display_name" , null    , null      , null   , null , null ]}

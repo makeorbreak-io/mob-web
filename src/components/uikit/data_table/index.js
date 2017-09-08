@@ -134,6 +134,7 @@ export class DataTable extends Component {
             ref={input => (this.searchInput = input)}
             type="text"
             value={query || ""}
+            placeholder="Search table..."
             onChange={this.handleSearchChange}
             onKeyDown={this.handleSearchKeyDown}
           />
