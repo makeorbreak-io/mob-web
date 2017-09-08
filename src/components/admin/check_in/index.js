@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
 import { connect } from "react-redux";
-import { filter, orderBy } from "lodash";
+import { filter, orderBy, last } from "lodash";
 
 //
 // components
@@ -45,8 +45,8 @@ export class CheckIn extends Component {
         <DataTable
           source={orderBy(participatingUsers, [ "display_name" ], [ "asc" ])}
           search={[ "display_name", "email", "team.name" ]}
-          labels={[ "Name"         , "Email" , "T-shirt" , "Team" , "WP" , "Actions" ]}
-          sorter={[ "display_name" , null    , null      , null   , null , null ]}
+          labels={[ "Name"         , "Email" , "T-shirt" , "Team" , "WP" , "GitHub" , "Actions" ]}
+          sorter={[ "display_name" , null    , null      , null   , null , null     ,null ]}
           render={user => (
             <tr key={user.id} className={user.role}>
               <td>{user.display_name}</td>
@@ -54,6 +54,7 @@ export class CheckIn extends Component {
               <td>{user.tshirt_size}</td>
               <td>{user.team && user.team.name}</td>
               <td>{welcomePack(user)}</td>
+              <td>{user.github_handle && last(user.github_handle.split("/"))}</td>
               <td>
                 <Button
                   primary={!user.checked_in}
