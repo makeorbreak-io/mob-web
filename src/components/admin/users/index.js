@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
 import { connect } from "react-redux";
-import { filter } from "lodash";
+import { filter, last } from "lodash";
 
 //
 // components
@@ -173,9 +173,11 @@ export class AdminUsers extends Component {
               </td>
               <td className="mobile">{user.team && user.team.name}</td>
               <td className="social mobile">
-                {user.github_handle &&  <img src={github} title={user.github_handle} />}
-                {user.twitter_handle && <img src={twitter} title={user.twitter_handle} />}
-                {user.linkedin_url &&   <img src={linkedin} title={user.linkedin_url} />}
+                <ul>
+                  {user.github_handle &&  <li><img src={github} title={user.github_handle} />{last(user.github_handle.split("/"))}</li>}
+                  {user.twitter_handle && <li><img src={twitter} title={user.twitter_handle} /></li>}
+                  {user.linkedin_url &&   <li><img src={linkedin} title={user.linkedin_url} /></li>}
+                </ul>
               </td>
               <td className="mobile">
                 <Button
