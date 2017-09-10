@@ -3,7 +3,7 @@ import {
   SET_VOTING_INFO_BEGIN,
 } from "action-types";
 
-export default function voting(state = {}, action) {
+export default function votingInfoBegin(state = {}, action) {
   const { type, payload } = action;
 
   switch (type) {

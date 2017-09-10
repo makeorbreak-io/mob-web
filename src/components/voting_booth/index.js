@@ -117,7 +117,7 @@ export class VotingBooth extends Component {
   render() {
     const { teams, handleSubmit, submitting, valid, formValues } = this.props;
     const options = map(teams, team => ({
-      label: `${team.name} - ${team.project && team.project.name}`,
+      label: `${team.name}`,
       value: team.id,
     }));
 

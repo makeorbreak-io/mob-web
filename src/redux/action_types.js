@@ -83,6 +83,8 @@ export const DELETE_WORKSHOP = "DELETE_WORKSHOP"; // admin action only
 // voting
 export const FETCH_VOTING_INFO_BEGIN = "FETCH_VOTING_INFO_BEGIN";
 export const SET_VOTING_INFO_BEGIN = "SET_VOTING_INFO_BEGIN";
+export const FETCH_VOTING_INFO_END = "FETCH_VOTING_INFO_END";
+export const SET_VOTING_INFO_END = "SET_VOTING_INFO_END";
 
 //
 // Admin

@@ -10,7 +10,8 @@ import teams from "./teams";
 import projects from "./projects";
 import users from "./users";
 import workshops from "./workshops";
-import voting from "./voting";
+import votingInfoBegin from "./voting_info_begin";
+import votingInfoEnd from "./voting_info_end";
 
 import admin from "./admin";
 
@@ -32,7 +33,8 @@ export default (state, action) => {
     projects,
     users,
     workshops,
-    voting,
+    votingInfoBegin,
+    votingInfoEnd,
 
     admin,
   })(state, action);

@@ -19,7 +19,7 @@ import Workshop from "components/workshop";
 import { fetchWorkshops } from "actions/workshops";
 import { updateTeam } from "actions/teams";
 import { refreshCurrentUser } from "actions/current_user";
-import { infoBegin } from "actions/voting";
+import { infoBegin, infoEnd } from "actions/voting";
 
 //
 // api actions
@@ -39,7 +39,8 @@ const validate = (values) => {
   )(values);
 };
 
-const VOTING_INFO_MODAL = "VOTING_INFO_MODAL";
+const VOTING_INFO_BEGIN_MODAL = "VOTING_INFO_BEGIN_MODAL";
+const VOTING_INFO_END_MODAL = "VOTING_INFO_END_MODAL";
 
 export class Dashboard extends Component {
 
@@ -56,6 +57,7 @@ export class Dashboard extends Component {
   componentDidMount() {
     this.props.dispatch(fetchWorkshops());
     this.props.dispatch(infoBegin());
+    this.props.dispatch(infoEnd());
 
     window.addEventListener("hashchange", this.handleHashChange);
   }
@@ -83,8 +85,8 @@ export class Dashboard extends Component {
     valid && window.open(`/participation-certificate?id_number=${formValues.id_number}`);
   }
 
-  openVotingInfoModal = () => {
-    this.setState({ openModal: VOTING_INFO_MODAL });
+  openVotingInfoModal = (id) => {
+    this.setState({ openModal: id });
   }
 
   closeVotingInfoModal = () => {
@@ -120,7 +122,7 @@ export class Dashboard extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { currentUser, currentUser: { team }, workshops, voting, handleSubmit } = this.props;
+    const { currentUser, currentUser: { team }, workshops, votingInfoBegin, votingInfoEnd, handleSubmit } = this.props;
     const { openModal, teamDisclaimer, applying, slackError } = this.state;
 
     const isParticipating = (team && team.applied) || currentUser.workshops.length > 0;
@@ -191,9 +193,13 @@ export class Dashboard extends Component {
 
             <hr />
             <h2>Public voting info</h2>
-            <div>
-              <Button primary large onClick={this.openVotingInfoModal}>
-                View public voting information
+            <div className="public-info">
+              <Button primary fullwidth large onClick={() => this.openVotingInfoModal(VOTING_INFO_BEGIN_MODAL)}>
+                Public voting information (begin)
+              </Button>
+
+              <Button primary fullwidth large onClick={() => this.openVotingInfoModal(VOTING_INFO_END_MODAL)}>
+                Public voting information (end)
               </Button>
             </div>
 
@@ -266,11 +272,19 @@ export class Dashboard extends Component {
         </Tabs>
 
         <Modal
-          isOpen={openModal === VOTING_INFO_MODAL}
-          title="Public Voting Info"
+          isOpen={openModal === VOTING_INFO_BEGIN_MODAL}
+          title="Public Voting Info (Begin)"
           onRequestClose={this.closeVotingInfoModal}
         >
-          <pre><code>{JSON.stringify(voting, null, 4)}</code></pre>
+          <pre><code>{JSON.stringify(votingInfoBegin, null, 4)}</code></pre>
+        </Modal>
+
+        <Modal
+          isOpen={openModal === VOTING_INFO_END_MODAL}
+          title="Public Voting Info (End)"
+          onRequestClose={this.closeVotingInfoModal}
+        >
+          <pre><code>{JSON.stringify(votingInfoEnd, null, 4)}</code></pre>
         </Modal>
 
         {map(workshops, workshop => (
@@ -307,10 +321,11 @@ export default compose(
     validate,
   }),
 
-  connect(({ currentUser, workshops, voting, form }) => ({
+  connect(({ currentUser, workshops, votingInfoBegin, votingInfoEnd, form }) => ({
     currentUser,
     workshops,
-    voting,
+    votingInfoBegin,
+    votingInfoEnd,
     formValues: form["participation-certificate"].values || {},
   })),
 )(Dashboard);
