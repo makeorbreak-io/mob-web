@@ -41,6 +41,10 @@ export class Dashboard extends Component {
       ((!user.team) || (user.team && !user.team.applied)) && (user.workshops.length > 0)
     )).length;
 
+    const missingVoters = filter(votingStatus.missing_voters, missingVoter => (
+      missingVoter.team.applied && missingVoter.team.eligible && !missingVoter.team.disqualified_at
+    ));
+
     return (
       <div className="AdminDashboard">
         <div className="content">
@@ -92,7 +96,7 @@ export class Dashboard extends Component {
                   <ul className="unredeemed-paper-votes">
                     <li><h2>Unredeemed paper votes</h2></li>
                     {map(groupBy(votingStatus.unredeemed_paper_votes, "category_name"), (votes, category) => (
-                      <li>
+                      <li key={category}>
                         {category}: {votes.length}
                       </li>
                     ))}
@@ -116,7 +120,7 @@ export class Dashboard extends Component {
                     <ul className="missing-voters">
                       <li><h2>Missing Voters</h2></li>
 
-                      {votingStatus.missing_voters.map(({ team, users }) => (
+                      {missingVoters.map(({ team, users }) => (
                         <li key={team.id}>
                           <h3>Team: {team.name}</h3>
                           <ul>
