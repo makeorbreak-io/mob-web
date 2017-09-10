@@ -30,7 +30,7 @@ export class Dashboard extends Component {
   toggleVotingStatus = () => {
     const { votingStatus, dispatch } = this.props;
 
-    dispatch(votingStatus ? closeVoting() : openVoting());
+    dispatch(votingStatus.voting_status === "not_started" ? openVoting() : closeVoting());
   }
 
   render() {
@@ -109,7 +109,7 @@ export class Dashboard extends Component {
                     large
                     onClick={this.toggleVotingStatus}
                   >
-                    {votingStatus === "not_started" ? "Open voting" : "Close voting"}
+                    {votingStatus.voting_status === "not_started" ? "Open voting" : "Close voting"}
                   </Button>
 
                   <div>
