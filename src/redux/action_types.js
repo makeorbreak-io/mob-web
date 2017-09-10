@@ -80,6 +80,11 @@ export const UPDATE_WORKSHOP = "UPDATE_WORKSHOP"; // admin action only
 export const DELETE_WORKSHOP = "DELETE_WORKSHOP"; // admin action only
 
 //
+// voting
+export const FETCH_VOTING_INFO_BEGIN = "FETCH_VOTING_INFO_BEGIN";
+export const SET_VOTING_INFO_BEGIN = "SET_VOTING_INFO_BEGIN";
+
+//
 // Admin
 export const FETCH_USERS_ADMIN = "FETCH_USERS_ADMIN";
 export const SET_USERS_ADMIN = "SET_USERS_ADMIN";
@@ -89,3 +94,6 @@ export const SET_USER_CHECKED_IN_ADMIN = "SET_USER_CHECKED_IN_ADMIN";
 
 export const FETCH_STATS_ADMIN = "FETCH_STATS_ADMIN";
 export const SET_STATS_ADMIN = "SET_STATS_ADMIN";
+
+export const FETCH_VOTING_STATUS = "FETCH_VOTING_STATUS";
+export const SET_VOTING_STATUS = "SET_VOTING_STATUS";

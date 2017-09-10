@@ -10,6 +10,7 @@ import teams from "./teams";
 import projects from "./projects";
 import users from "./users";
 import workshops from "./workshops";
+import voting from "./voting";
 
 import admin from "./admin";
 
@@ -31,6 +32,7 @@ export default (state, action) => {
     projects,
     users,
     workshops,
+    voting,
 
     admin,
   })(state, action);

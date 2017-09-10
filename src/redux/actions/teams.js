@@ -111,3 +111,18 @@ export const deleteTeam = (id, opts = {}) => {
     .catch(submissionFailed);
   };
 };
+
+export const disqualifyTeam = (id) => {
+  return (dispatch) => {
+
+    return request
+    .post(`/admin/teams/${id}/disqualify`)
+    .then(response => {
+      const { data } = response.data;
+      dispatch(addTeam(data));
+
+      return Promise.resolve(data);
+    })
+    .catch(submissionFailed);
+  };
+};

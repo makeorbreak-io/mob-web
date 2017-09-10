@@ -1,0 +1,41 @@
+@import "~components/variables"
+
+.VotingBooth
+  position: relative
+
+  .mobile
+    display: none
+  .desktop
+    display: block
+
+  form button[type="submit"]
+    width: 60%
+    display: block
+    margin: 20px auto
+
+  table
+    thead td
+      text-align: center
+      font-size: 18px
+      font-weight: 600
+
+    td
+      padding: 5px 10px
+
+      &.position
+        font-size: 18px
+        font-weight: 600
+
+      &.select
+        min-width: 260px
+
+        .Select-value
+          padding-right: 45px
+
+        .Select-clear-zone
+          vertical-align: baseline
+
+    tbody
+      td
+        text-align: center
+      

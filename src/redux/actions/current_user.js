@@ -54,3 +54,27 @@ export const refreshCurrentUser = () => {
     .catch(ignoreFailure);
   };
 };
+
+//------------------------------------------------------------------------------
+// Voting
+//------------------------------------------------------------------------------
+export const getVotes = () => {
+  return () => {
+    return request
+    .get("/voting/vote")
+    .then(response => {
+      const votes = response.data;
+      return Promise.resolve(votes);
+    })
+    .catch(() => {});
+  };
+};
+
+export const vote = (votes) => {
+  return () => {
+    return request
+    .post("/voting/vote", { votes })
+    .then(() => {})
+    .catch(() => {});
+  };
+};

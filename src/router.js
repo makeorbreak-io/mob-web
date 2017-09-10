@@ -8,17 +8,19 @@ import Authenticated from "core/authenticated";
 import Authorized from "core/authorized";
 
 //
-//
+// Public components
 import Home from "components/home";
 import { StandaloneLogin } from "components/login";
 import { StandaloneSignup } from "components/signup";
 
 //
-// App-level components
+// Participant components
 import UserOnboarding from "components/user_onboarding";
 import AccountSettings from "components/account_settings";
 import { AccountTeam } from "components/account";
 import Team from "components/team";
+import ParticipationCertificate from "components/participation_certificate";
+import VotingBooth from "components/voting_booth";
 
 //
 // Admin components
@@ -30,10 +32,11 @@ import AdminTeams from "components/admin/teams";
 import AdminProjects from "components/admin/projects";
 import CheckIn from "components/admin/check_in";
 import WorkshopCheckIn from "components/admin/workshop_check_in";
+import PaperVotes from "components/admin/paper_votes";
+import PrintablePaperVote from "components/admin/paper_votes/printable";
 
 //
 //
-import ParticipationCertificate from "components/participation_certificate";
 
 const router = (
   <Router history={browserHistory}>
@@ -51,6 +54,8 @@ const router = (
           <Route path="team" component={AccountTeam} />
         </Route>
 
+        <Route path="vote" component={VotingBooth} />
+
         {/* Admin routes */}
         <Route component={Authorized}>
           <Route path="admin">
@@ -59,6 +64,7 @@ const router = (
             {/* Logistics */}
             <Route path="checkin" component={CheckIn} />
             <Route path="checkin/workshop/:slug" component={WorkshopCheckIn} />
+            <Route path="paper-votes" component={PaperVotes} />
 
             {/* Analytics */}
             <Route path="users" component={AdminUsers} />
@@ -83,6 +89,11 @@ const router = (
     <Route path="/participation-certificate" component={(props) =>
       <ParticipationCertificate idNumber={props.location.query.id_number} print />
     }/>
+
+    <Route path="/print-paper-vote" component={({ location: { query }})=>
+      <PrintablePaperVote id={query.id} category={query.category} />
+    }/>
+
   </Router>
 );
 

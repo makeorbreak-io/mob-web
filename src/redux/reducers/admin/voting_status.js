@@ -1,16 +1,14 @@
 import {
-  FETCH_STATS_ADMIN,
-  SET_STATS_ADMIN,
+  SET_VOTING_STATUS,
 } from "action-types";
 
-export default function(state = {}, action) {
+export default function(state = false, action) {
   const { payload, type } = action;
 
   switch (type) {
-    case SET_STATS_ADMIN:
+    case SET_VOTING_STATUS:
       return payload;
 
-    case FETCH_STATS_ADMIN:
     default:
       return state;
   }
