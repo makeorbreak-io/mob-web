@@ -53,11 +53,11 @@ export class AdminUsers extends Component {
   toggleRole = (user) => {
     const role = user.role === ADMIN ? PARTICIPANT : ADMIN;
 
-    this.props.dispatch(setUserRoleAdmin(user.id, role));
+    return this.props.dispatch(setUserRoleAdmin(user.id, role));
   }
 
   removeUser = (id) => {
-    this.props.dispatch(deleteUserAdmin(id));
+    return this.props.dispatch(deleteUserAdmin(id));
   }
 
   openModal = (modal) => {
@@ -153,7 +153,7 @@ export class AdminUsers extends Component {
 
         <DataTable
           source={users}
-          search={[ "display_name", "role", "tshirt_size" ]}
+          search={[ "display_name", "role", "tshirt_size", "team.name" ]}
           labels={[ "Avatar" , "Name"         , "Email" , "T-Shirt" , "Workshops" , "Team" , "Social" , "Actions" ]}
           mobile={[ false    , true           , true    , true      , false       , true   , true     , true ]}
           sorter={[ null     , "display_name" , "email" , null      , null        , "team" , null     , null ]}
@@ -184,11 +184,13 @@ export class AdminUsers extends Component {
                   primary
                   small
                   fullwidth
+                  disableFeedback
                   confirmation={`Really make ${user.display_name} a ${user.role === ADMIN ? "participant" : "admin"}?`}
                   onClick={() => this.toggleRole(user)}
                 >
                   {user.role === ADMIN ? "Make participant" : "⚠️ Make admin ⚠️" }
                 </Button>
+
                 <Button
                   danger
                   small

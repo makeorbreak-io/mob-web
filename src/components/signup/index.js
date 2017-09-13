@@ -7,7 +7,11 @@ import { connect } from "react-redux";
 
 //
 // Components
-import { Button, ErrorMessage } from "uikit";
+import {
+  Button,
+  buttonPropsFromReduxForm,
+  ErrorMessage,
+} from "uikit";
 import { Tabs, Tab, Panel } from "uikit/tabs";
 
 //
@@ -46,7 +50,7 @@ export class Signup extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const { handleSubmit } = this.props;
 
     return (
       <div className="Signup">
@@ -100,13 +104,13 @@ export class Signup extends Component {
           </div>
 
           <Button
+            {...buttonPropsFromReduxForm(this.props)}
             type="submit"
             primary
             form
             centered
-            halfwidth
-            disabled={submitting}
-            loading={submitting}
+            fullwidth
+            feedbackFailureLabel="Error creating account"
           >
             Sign Up
           </Button>

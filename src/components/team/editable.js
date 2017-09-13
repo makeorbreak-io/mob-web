@@ -9,7 +9,13 @@ import { isEmpty, isString, reduce } from "lodash";
 //
 // Components
 import TeamMembers from "./members";
-import { Button, ErrorMessage, SortableList } from "uikit";
+import Project from "components/project";
+import {
+  Button,
+  buttonPropsFromReduxForm,
+  ErrorMessage,
+  SortableList,
+} from "uikit";
 import { Tabs, Tab, Panel } from "uikit/tabs";
 import { Multiselect } from "components/fields";
 
@@ -99,7 +105,7 @@ export class EditableTeam extends Component {
   // Render
   //---------------------------------------------------------------------------
   render() {
-    const { team, handleSubmit, submitting } = this.props;
+    const { team, handleSubmit } = this.props;
 
     const prizePreferences = team && !isEmpty(team.prize_preference)
       ? team.prize_preference
@@ -140,7 +146,16 @@ export class EditableTeam extends Component {
                 </div>
               }
 
-              <Button type="submit" form centered fullwidth primary disabled={submitting} loading={submitting}>
+              <Button
+                {...buttonPropsFromReduxForm(this.props)}
+                type="submit"
+                form
+                centered
+                fullwidth
+                primary
+                feedbackSuccessLabel={team ? "Team updated!" : "Team created!" }
+                feedbackFailureLabel={team ? "Error updating team" : "Error creating team" }
+              >
                 {team ? "Update team" : "Create team" }
               </Button>
             </form>

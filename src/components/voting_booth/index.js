@@ -10,7 +10,7 @@ import { map, times, capitalize, reject, orderBy, reduce, isString } from "lodas
 //
 // components
 import { Tabs, Tab, Panel } from "uikit/tabs";
-import { Button } from "uikit";
+import { Button, buttonPropsFromReduxForm, ErrorMessage } from "uikit";
 import { Select } from "components/fields";
 
 //
@@ -77,7 +77,7 @@ export class VotingBooth extends Component {
       }, []);
     });
 
-    this.props.dispatch(vote(votes));
+    return this.props.dispatch(vote(votes));
   }
 
   //----------------------------------------------------------------------------
@@ -115,7 +115,7 @@ export class VotingBooth extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { teams, handleSubmit, submitting, valid, formValues } = this.props;
+    const { teams, handleSubmit, valid, formValues } = this.props;
     const options = map(teams, team => ({
       label: `${team.name}`,
       value: team.id,
@@ -183,14 +183,18 @@ export class VotingBooth extends Component {
           </Tabs>
 
           <Button
+            {...buttonPropsFromReduxForm(this.props)}
             type="submit"
             primary
             large
-            loading={submitting}
+            feedbackSuccessLabel="Voted!"
+            feedbackFailureLabel="Voting failed"
             disabled={!valid}
           >
             Cast Votes!
           </Button>
+
+          <ErrorMessage form="voting-booth" field="error" />
         </form>
 
       </div>

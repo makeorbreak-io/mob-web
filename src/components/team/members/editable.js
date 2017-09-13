@@ -8,6 +8,7 @@ import { isEmpty, map, filter, includes, get } from "lodash";
 // Components
 import {
   Button,
+  buttonPropsFromReduxForm,
   ErrorMessage,
   Avatar,
 } from "uikit";
@@ -143,13 +144,15 @@ export class EditableTeamMembers extends Component {
           <ErrorMessage form="members" field="email" />
 
           <Button
+            {...buttonPropsFromReduxForm(this.props)}
             type="submit"
             form
             centered
             fullwidth
             primary
             disabled={submitting || !valid || memberLimitReached || !canInvite}
-            loading={submitting}
+            feedbackSuccessLabel="Members invited!"
+            feedbackFailureLabel="Error inviting members"
           >
             Invite {multipleSelected ? "members" : "member"}
           </Button>

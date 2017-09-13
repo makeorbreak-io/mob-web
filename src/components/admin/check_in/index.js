@@ -60,6 +60,7 @@ export class CheckIn extends Component {
                   primary={!user.checked_in}
                   danger={user.checked_in}
                   small
+                  disableFeedback
                   onClick={() => this.toggleCheckIn(user)}
                   confirmation={user.checked_in ? `Really remove check in for ${user.display_name}?` : null}
                 >

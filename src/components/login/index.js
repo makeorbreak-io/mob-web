@@ -6,7 +6,11 @@ import { Link } from "react-router";
 
 //
 // Components
-import { Button, ErrorMessage } from "uikit";
+import {
+  Button,
+  buttonPropsFromReduxForm,
+  ErrorMessage,
+} from "uikit";
 import { Tabs, Tab, Panel } from "uikit/tabs";
 
 //
@@ -33,7 +37,7 @@ export class Login extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const { handleSubmit } = this.props;
 
     return (
       <div className="Login">
@@ -63,13 +67,13 @@ export class Login extends Component {
           </div>
 
           <Button
+            {...buttonPropsFromReduxForm(this.props)}
             type="submit"
             primary
             form
             centered
-            halfwidth
-            disabled={submitting}
-            loading={submitting}
+            fullwidth
+            feedbackFailureLabel="Error signing in"
           >
             Sign In
           </Button>

@@ -10,6 +10,7 @@ import { map } from "lodash";
 // Components
 import {
   Button,
+  buttonPropsFromReduxForm,
   ErrorMessage,
 } from "uikit";
 import { Tabs, Tab, Panel } from "uikit/tabs";
@@ -55,7 +56,7 @@ export class AccountSettings extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting, submitSucceeded } = this.props;
+    const { handleSubmit } = this.props;
 
     return (
       <div className="AccountSettings">
@@ -131,14 +132,12 @@ export class AccountSettings extends Component {
               <ErrorMessage form="account-settings" field="company" />
 
               <Button
+                {...buttonPropsFromReduxForm(this.props)}
                 type="submit"
                 primary
                 form
                 centered
                 fullwidth
-                disabled={submitting}
-                loading={submitting}
-                submitSucceeded={submitSucceeded}
               >
                 Update
               </Button>

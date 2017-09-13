@@ -66,7 +66,7 @@ export const getVotes = () => {
       const votes = response.data;
       return Promise.resolve(votes);
     })
-    .catch(() => {});
+    .catch(ignoreFailure);
   };
 };
 
@@ -75,6 +75,6 @@ export const vote = (votes) => {
     return request
     .post("/voting/vote", { votes })
     .then(() => {})
-    .catch(() => {});
+    .catch(submissionFailed);
   };
 };
