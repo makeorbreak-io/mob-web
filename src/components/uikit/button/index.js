@@ -5,10 +5,15 @@ import { oneOf, bool, func, string, number } from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 import classnames from "classnames";
 import { noop, omit, isNull } from "lodash";
+import { connect } from "react-redux";
 
 //
 // Components
 import Spinner from "uikit/spinner";
+
+//
+// redux
+import { addToast } from "actions/toaster";
 
 export class Button extends Component {
 
@@ -23,9 +28,22 @@ export class Button extends Component {
   // Lifecycle
   //----------------------------------------------------------------------------
   componentWillReceiveProps(nextProps) {
-    const { loading, submitSucceeded, submitFailed } = nextProps;
+    const {
+      loading,
+      submitSucceeded,
+      submitFailed,
+      feedbackSuccessLabel,
+      feedbackFailureLabel,
+      dispatch,
+    } = nextProps;
 
     if (this.props.loading && !loading) {
+      if (!this.inViewport()) {
+        dispatch(addToast({
+          content: (submitSucceeded && feedbackSuccessLabel) || (submitFailed && feedbackFailureLabel),
+        }));
+      }
+
       this.setState({
         showSuccess: submitSucceeded,
         showFailure: submitFailed,
@@ -70,6 +88,23 @@ export class Button extends Component {
     });
   }
 
+  // https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
+  inViewport = () => {
+    if (!this.node) return;
+
+    const { top, left, bottom, right } = this.node.getBoundingClientRect();
+    const { innerHeight, innerWidth } = window;
+    const { documentElement: { clientHeight, clientWidth } } = document;
+
+    return (
+      top >=0 &&
+      left >= 0 &&
+      bottom <= (innerHeight || clientHeight) &&
+      right <= (innerWidth || clientWidth)
+    );
+  }
+
+  //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
@@ -91,7 +126,12 @@ export class Button extends Component {
     if (showFailure) content = feedbackFailureLabel;
 
     return (
-      <button className={cx} onClick={this.handleClick} {...{ type, disabled }}>
+      <button
+        ref={node => this.node = node}
+        className={cx}
+        onClick={this.handleClick}
+        {...{ type, disabled }}
+      >
         {content}
       </button>
     );
@@ -163,4 +203,6 @@ export default compose(
     disableFeedback      : false,
     confirmation         : null,
   }),
+
+  connect(),
 )(Button);

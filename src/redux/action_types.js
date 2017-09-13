@@ -50,6 +50,12 @@ export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
 export const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";
 
 //
+// toasts
+export const ADD_TOAST = "ADD_TOAST";
+export const REMOVE_TOAST = "REMOVE_TOAST";
+export const CLEAR_TOASTS = "CLEAR_TOASTS";
+
+//
 // flows
 export const ADD_FLOW = "ADD_FLOW";
 export const REMOVE_FLOW = "REMOVE_FLOW";
