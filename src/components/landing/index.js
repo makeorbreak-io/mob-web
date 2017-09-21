@@ -7,7 +7,7 @@ import { Link } from "react-router";
 import { compose, setDisplayName, getContext } from "recompose";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import { map, get, isEmpty } from "lodash";
+import { map, isEmpty } from "lodash";
 import ReactTooltip from "react-tooltip";
 
 //
@@ -25,7 +25,7 @@ import { getInviteToSlack } from "api/slack";
 
 //
 // utils
-import { sortedWorkshops, openWorkshop } from "util/workshops";
+import { openWorkshop } from "util/workshops";
 
 //
 // validation
@@ -33,14 +33,13 @@ import { composeValidators, validateEmail, validatePresence } from "validators";
 
 //
 // Assets
-import landingHackathon from "assets/images/landing-hackathon@2x.jpg";
-import landingSchedule from "assets/images/landing-schedule@2x.jpg";
-import landingSponsors from "assets/images/landing-sponsors@2x.jpg";
-
+import landingSponsors from "assets/images/img_sponsors_photo_with_yellow@2x.jpg";
+import thankYou from "assets/images/2nd_photo@2x.png";
 import slackMarkWhite from "assets/images/slack-white.svg";
+import hackathon from "assets/images/img_wireframe_color@2x.png";
+import separatorImage from "assets/images/img_mid_photo@2x.jpg";
 
 import SPONSORS from "./sponsors";
-import PRIZES from "./prizes";
 
 // validation rules
 const validate = (values) => {
@@ -118,193 +117,81 @@ export class Landing extends Component {
       <div className="Landing" onClick={this.hideTooltips}>
         <div className="LandingHero">
           <div className="content">
-            <h2>September 8th - 10th, 2017</h2>
+            <h2>It happened September 8th - 10th, 2017</h2>
             <h1>Create, code, and<br />learn with us in Porto</h1>
-            <h3>Join us in the playground of the future for 3 days</h3>
+            <h3>For 3 days you've joined join us in the playground for the future</h3>
 
-            <Link to="/signup" className="signup">
-              <Button straight cta large onClick={this.scrollToTop}>Apply Now</Button>
-            </Link>
-            <span className="open-until">Registration is open until September 2nd</span>
-
-            <nav className="LandingSections">
-              <ul>
-                <li className="hackathon"><a href="#hackathon">Hackathon</a></li>
-                <li className="workshops"><a href="#workshops">Workshops</a></li>
-                <li className="schedule"><a href="#schedule">Schedule</a></li>
-              </ul>
-            </nav>
+            <a href="#join-slack" className="signup">
+              <Button straight large inactive disabled>Apply Now</Button>
+            </a>
+            <span className="open-until">Registration is closed. Please try again next year!</span>
+            <a href="#get-notified">Notify Me When Registrations Open Again</a>
           </div>
         </div>
+
+        {/* THANKYOU */}
+        <section id="thanks">
+          <div className="content">
+            <h1>&lt;&gt; thank you</h1>
+            <h3>
+              You've worked, played and stayed up all night. <br />
+              Coded, made friends along the way and learned.
+            </h3>
+            <h3>
+              Thank you for being part of this year's event.
+              <br/>
+              You made it!
+            </h3>
+            <h3>
+              We hope to see you here again next year!
+            </h3>
+
+            <div className="image">
+              <img src={thankYou} width="465" />
+            </div>
+          </div>
+        </section>
+        {/* END THANKYOU */}
 
         {/* HACKATHON */}
         <section id="hackathon">
           <div className="content">
-            <h1>&lt;&gt; hackathon</h1>
-            <h2>A different kind of hackathon</h2>
+            <div className="info">
+              <h1>&lt;&gt; hackathon</h1>
+              <h2>A different kind of hackathon</h2>
 
-            <p>Make or Break is 3 days of fun and learning, for everyone.<br />Step out of your comfort zone and join us and many other developers.</p>
-            <p>The competition has 2 main phases:</p>
-            <ul>
-              <li>Make: 2 days to develop a software project (maybe add some hardware 🤓)</li>
-              <li>Break: showcase your project to all participants in a small fair</li>
-            </ul>
-            <p>We've got everything you need to get your creative juices flowing: amazing mentors, yummy food, and a kickass chill-out zone!</p>
-            <p><br />Please check the <a href="/rules" target="_blank" rel="noopener noreferrer">regulation</a> before applying.</p>
+              <p>Make or Break is 3 days of fun and learning, for everyone.<br />Step out of your comfort zone and join us and many other developers.</p>
+              <p>The competition has 2 main phases:</p>
+              <ul>
+                <li>Make: 2 days to develop a software project (maybe add some hardware 🤓)</li>
+                <li>Break: showcase your project to all participants in a small fair</li>
+              </ul>
+              <p>We've got everything you need to get your creative juices flowing: amazing mentors, yummy food, and a kickass chill-out zone!</p>
+              <p><br />Please check the <a href="/rules" target="_blank" rel="noopener noreferrer">regulation</a> before applying.</p>
 
-            <Link to="/signup" className="signup">
-              <Button straight primary hollow large onClick={this.scrollToTop}>Apply Now</Button>
-            </Link>
-
+              <a href="#get-notified">
+                <Button straight primary hollow large>Notify Me</Button>
+              </a>
+              <div className="notify">Let me know when the registration opens again.</div>
+            </div>
             <div className="image">
-              <img src={landingHackathon} width="465" />
+              <img src={hackathon} width="465" />
             </div>
           </div>
         </section>
         {/* END HACKATHON */}
 
-        {/* WORKSHOPS */}
-        <section id="workshops">
-          <div className="content">
-            <h1>{"//"} workshops</h1>
-            <h2>Learn from the best while having fun</h2>
-
-            <p>
-              Make or Break is all about learning different subjects, from hardware to software, from recreational to serious.
-            </p>
-            <p>
-              Prepare yourself for 3 days of workshops with amazing people working in the industry.
-            </p>
-
-            <ul className="workshops">
-              {sortedWorkshops(workshops).map(workshop => (
-                <li
-                  key={workshop.slug}
-                  className="workshop"
-                  onClick={() => this.openWorkshop(workshop.slug)}
-                >
-                  <span className="date">{workshop.short_date}</span>
-                  <span className="name">{workshop.name}</span>
-                  <span className="speaker">with: {workshop.short_speaker}</span>
-                  <span className="caret">&gt;</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* SEPARATOR */}
+        <section id="separator">
+          <img src={separatorImage} alt=""/>
         </section>
-        {/* END WORKSHOPS */}
-
-        {/* SCHEDULE */}
-        <section id="schedule-section">
-          <div className="content">
-            <div className="image">
-              <img src={landingSchedule} />
-            </div>
-
-            <a className="anchor" id="schedule" />
-
-            <h1>&#123;&#125; schedule (wip)</h1>
-            <h2>It's a non-stop 3-day marathon!</h2>
-
-            <div className="day">
-              <h3>Day 1 - September 8th</h3>
-              <h4>Welcome, work, and workshops</h4>
-
-              <dl className="clearfix">
-                <dt>09:00-12:00</dt>
-                <dd>
-                  <h5>Check-In</h5>
-                  <p>Welcome kits</p>
-                </dd>
-
-                <dt>14:30</dt>
-                <dd>
-                  <h5>{get(workshops, "unity3d-gamedev.name")}</h5>
-                  <p>Workshop</p>
-                </dd>
-
-                <dt>17:30</dt>
-                <dd>
-                  <h5>{get(workshops, "3d-printing.name")}</h5>
-                  <p>Workshop</p>
-                </dd>
-              </dl>
-            </div>
-
-            <div className="day">
-              <h3>Day 2 - September 9th</h3>
-              <h4>Work and workshops all day</h4>
-
-              <dl className="clearfix">
-                <dt>10:30</dt>
-                <dd>
-                  <h5>{get(workshops, "iot.name")}</h5>
-                  <p>Workshop</p>
-                </dd>
-
-                <dt>14:30</dt>
-                <dd>
-                  <h5>{get(workshops, "devops.name")}</h5>
-                  <p>Workshop</p>
-                </dd>
-
-                <dt>17:30</dt>
-                <dd>
-                  <h5>{get(workshops, "design.name")}</h5>
-                  <p>Workshop</p>
-                </dd>
-              </dl>
-            </div>
-
-            <div className="day">
-              <h3>Day 3 - September 10th</h3>
-              <h4>Final work stretch and hack fair</h4>
-
-              <dl className="clearfix">
-                <dt>10:30</dt>
-                <dd>
-                  <h5>{get(workshops, "hardware-maintenance.name")}</h5>
-                  <p>Workshop</p>
-                </dd>
-
-                <dt>15:30</dt>
-                <dd>
-                  <h5>Hack Fair</h5>
-                  <p>Showcase of developed projects</p>
-                </dd>
-              </dl>
-            </div>
-
-          </div>
-        </section>
-        {/* END SCHEDULE */}
-
-        {/* JOIN_EVENT */}
-        <section id="join-event">
-          <div className="content">
-            <div className="video">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/DYTZIlz8pK4?rel=0&amp;showinfo=0" frameBorder="0" allowFullScreen />
-            </div>
-
-            <p className="coming-soon">
-              Join us while registration is open until September 2nd!
-            </p>
-            <p className="coming-soon">
-              At <a href="https://goo.gl/maps/TeB6jEH1h962" target="_blank" rel="noopener noreferrer">Palácio dos Correios</a>, on September 8, 9, and 10
-            </p>
-
-            <Link to="/signup" className="apply">
-              <Button straight primary hollow large onClick={this.scrollToTop}>Apply Now</Button>
-            </Link>
-          </div>
-        </section>
-        {/* END JOIN_EVENT */}
+        {/* END SEPARATOR */}
 
         {/* JOIN_SLACK */}
         <section id="join-slack">
           <div className="content">
             <h1>It's dangerous to go alone!</h1>
-
+            <h2>A different kind of hackathon...</h2>
             <p>
               <a href="https://github.com/portosummerofcode/rules#1-man-teams" target="_blank" rel="noreferrer noopener">You can't apply to Make or Break alone</a>.
               However, you can join our Slack community and form a team with other lone rangers!
@@ -334,45 +221,68 @@ export class Landing extends Component {
         </section>
         {/* END JOIN_SLACK */}
 
-        {/* PRIZES */}
-        <section id="prizes">
+        {/* GET_NOTIFIED */}
+        <section id="get-notified">
           <div className="content">
-            <h1>[+] prizes</h1>
-            <h2>Amazing prizes for the best projects</h2>
-
-            <p>
-              Make sure your project shines in at least one of our 3 categories: funny, useful, or hardcore!
-              <br />
-              We will award 3 different teams (one per category) and each member will get a prize.
-              <br />
-              Don't forget to read our <a href="/rules" target="_blank" rel="noopener noreferrer">rulebook</a>.
-            </p>
-
-            <div className="prizes">
-              {PRIZES.map(({ image, title, prize }) => (
-                <div key={title} className="prize">
-                  <img src={image} alt={prize} />
-                  <h3>{title}</h3>
-                  <span>{prize}</span>
+          <h1 className="header-subscription">Get notified</h1>
+          <p>Join our mailing list to receive updates on Make or Break's 2018 edition</p>
+          <div id="mc_embed_signup">
+            <form action="//portosummerofcode.us8.list-manage.com/subscribe/post?u=1b6e195ef5bf93f16b5c4c5a4&amp;id=c59d1784a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" className="validate" target="_blank" noValidate>
+                <div id="mc_embed_signup_scroll">
+                  <input type="email" name="EMAIL" className="email" id="mce-EMAIL" placeholder="Email address" required />
+                  <div style={{ position: "absolute", left: -5000 + "px" }} aria-hidden="true">
+                    <input type="text" name="b_1b6e195ef5bf93f16b5c4c5a4_c59d1784a4" tabIndex="-1" value="" />
+                  </div>
+                  <div className="clear">
+                    <button type="submit" name="subscribe" id="mc-embedded-subscribe" className="Button primary form centered fullwidth">Subscribe</button>
+                  </div>
                 </div>
-              ))}
-            </div>
-
-            <div className="separator">
-              <div className="ball" />
-            </div>
+            </form>
+          </div>
           </div>
         </section>
-        {/* END PRIZES */}
+        {/* END GET_NOTIFIED */}
 
         {/* SPONSORS */}
         <section id="sponsors">
           <div className="content">
 
-            <h1>! sponsors</h1>
-            <h2>We have amazing partners and sponsors once again</h2>
+            <h1>call for sponsors</h1>
+            <h2>Why you should join us</h2>
 
-            <ul>
+            <p>Join us in 2018 for another edition of Make or Break. This time, we’ll be back earlier with an even better event.</p>
+            <p>Our goals are the same as always:</p>
+
+            <ul className="sponsors-reasons">
+              <li>galvanize Porto's tech scene, giving back to the city and country that made us the persons and professional we are;</li>
+              <li>improve our culture, as we encourage all kinds of developers to participate, specially students, helping them achieve their full potential, and provide better opportunities to the newer generations;</li>
+              <li>have all the players in one place at the same time: students, educators, professionals, entrepreneurs, politicians, educational institutions, organizations, companies... it all starts here;</li>
+              <li>bridge the divide between developers and companies, by enabling businesses to become active participants and supporters of the tech community of the city.</li>
+            </ul>
+
+            <p>We'll have (even better):</p>
+
+            <ul className="sponsors-reasons">
+              <li>Hackathon with hack fair</li>
+              <li>Workshops</li>
+              <li>Side activities like board-games and video-games</li>
+              <li>A larger audience</li>
+            </ul>
+
+            <p>Some surprises may include:</p>
+
+            <ul className="sponsors-reasons">
+              <li>Talks</li>
+              <li>Tech booths</li>
+              <li>Meetups</li>
+              <li>Pre-event activities</li>
+            </ul>
+            <Link to="mailto:info@portosummerofcode.com" className="signup">
+              <Button straight primary hollow large>Become a Sponsor</Button>
+            </Link>
+
+            <h3>2017 edition sponsors</h3>
+            <ul className="sponsors-list">
               {SPONSORS.map(({ src, url, className, description }) => (
                 <li
                   id={className}

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="462" height="462" viewBox="0 0 462 462">
+  <defs>
+    <rect id="a" width="462" height="462" rx="23"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd" opacity=".703">
+    <mask id="b" fill="white">
+      <use xlink:href="#a"/>
+    </mask>
+    <rect width="460" height="460" x="1" y="1" stroke="#62D4B2" stroke-width="2" rx="23"/>
+    <g stroke="#62D4B2" stroke-width="2" mask="url(#b)">
+      <g transform="translate(2.075 51.507)">
+        <rect width="454" height="1" x="1.925" y="1.493" rx=".5"/>
+        <rect width="70" height="70" x="69.925" y="383.493" rx="4"/>
+        <rect width="70" height="70" x="151.925" y="383.493" rx="4"/>
+        <rect width="70" height="70" x="239.925" y="383.493" rx="4"/>
+        <rect width="70" height="70" x="327.925" y="383.493" rx="4"/>
+      </g>
+    </g>
+    <rect width="130.292" height="13.747" x="166" y="400" stroke="#62D4B2" stroke-width="2" mask="url(#b)" rx="6.874"/>
+    <g mask="url(#b)">
+      <g transform="translate(39.075 80.448)">
+        <rect width="83.8" height="39.8" x="1.821" y="1.952" stroke="#62D4B2" stroke-width="2" rx="4"/>
+        <rect width="48.6" height="20" x="162.421" y="12.952" stroke="#62D4B2" stroke-width="2" rx="4"/>
+        <rect width="48.6" height="20" x="219.621" y="12.952" stroke="#62D4B2" stroke-width="2" rx="4"/>
+        <rect width="48.6" height="20" x="276.821" y="12.952" stroke="#62D4B2" stroke-width="2" rx="4"/>
+        <rect width="48.6" height="20" x="336.221" y="12.952" stroke="#62D4B2" stroke-width="2" rx="4"/>
+        <g transform="translate(0 62.06)">
+          <rect width="157.255" height="142.806" x="1" y="1" stroke="#62D4B2" stroke-width="2" rx="4"/>
+          <rect width="71.552" height="71.552" x="1" y="157.299" stroke="#62D4B2" stroke-width="2" rx="4"/>
+          <rect width="71.552" height="71.552" x="88.343" y="157.299" stroke="#62D4B2" stroke-width="2" rx="4"/>
+        </g>
+        <g opacity=".2" transform="translate(177.985 62.06)">
+          <rect width="132.292" height="15.747" x=".441" fill="#62D4B2" rx="7.874"/>
+          <rect width="199.916" height="15.747" x=".441" y="22.496" fill="#62D4B2" rx="7.874"/>
+          <rect width="199.916" height="15.747" x=".441" y="44.992" fill="#62D4B2" rx="7.874"/>
+          <rect width="199.916" height="15.747" x=".441" y="67.488" fill="#62D4B2" rx="7.874"/>
+          <rect width="199.916" height="15.747" x=".441" y="89.984" fill="#62D4B2" rx="7.874"/>
+        </g>
+        <rect width="105.731" height="29.881" x="268.925" y="186.179" fill="#62D4B2" opacity=".35" rx="4"/>
+      </g>
+    </g>
+    <g stroke="#62D4B2" stroke-width="2" transform="translate(5 .4)">
+      <path d="M442,1 L442,15 L456,15 L456,8 C456,4.13400675 452.865993,1 449,1 L442,1 Z"/>
+      <rect width="14" height="14" x="428" y="1"/>
+      <rect width="14" height="14" x="414" y="1"/>
+      <rect width="386" height="17" x="66" y="30" rx="2"/>
+      <rect width="14" height="14" x="1" y="31.6" rx="2"/>
+      <rect width="14" height="14" x="21" y="31.6" rx="2"/>
+      <rect width="14" height="14" x="41" y="31.6" rx="2"/>
+    </g>
+    <polyline stroke="#62D4B2" stroke-width="2" points="1.5 23 9 23 28.291 3.709 122 3.709 138.932 23 460.509 23"/>
+  </g>
+</svg>

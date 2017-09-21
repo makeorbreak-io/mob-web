@@ -144,6 +144,7 @@ export default compose(
   setPropTypes({
     type                 : oneOf([ "button", "submit" ]),
     disabled             : bool.isRequired,
+    inactive             : bool.isRequired,
     onClick              : func.isRequired,
     className            : string,
     primary              : bool.isRequired,
@@ -176,6 +177,7 @@ export default compose(
   defaultProps({
     type                 : "button",
     disabled             : false,
+    inactive             : false,
     onClick              : noop,
     primary              : false,
     success              : false,
