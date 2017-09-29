@@ -83,6 +83,10 @@ export class Login extends Component {
           Don't have an account? <Link to="/signup">Sign up</Link>
         </p>
 
+        <p className="small-notice">
+          Forgot your password? <Link to="/recover-password">Recover it</Link>
+        </p>
+
       </div>
     );
   }

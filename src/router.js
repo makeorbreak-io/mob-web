@@ -12,6 +12,8 @@ import Authorized from "core/authorized";
 import Home from "components/home";
 import { StandaloneLogin } from "components/login";
 import { StandaloneSignup } from "components/signup";
+import RecoverPassword from "components/recover_password";
+import ResetPassword from "components/reset_password";
 
 //
 // Participant components
@@ -82,6 +84,8 @@ const router = (
 
       <Route path="signin" component={StandaloneLogin} />
       <Route path="signup" component={StandaloneSignup} />
+      <Route path="recover-password" component={RecoverPassword} />
+      <Route path="recover-password/:token" component={ResetPassword} />
     </Route>
 
     <Route path="/participation-certificate" component={(props) =>

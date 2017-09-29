@@ -9,7 +9,6 @@ import { isEmpty, isString, reduce } from "lodash";
 //
 // Components
 import TeamMembers from "./members";
-import Project from "components/project";
 import {
   Button,
   buttonPropsFromReduxForm,
