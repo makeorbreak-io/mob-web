@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import { Button } from "uikit";
 import { Tabs, Tab, Panel } from "uikit/tabs";
 import TeamMembers from "./members";
-import Project from "components/project";
 
 //
 // Redux
@@ -18,8 +17,6 @@ import { removeFromTeam } from "actions/members";
 export const StaticTeam = ({ team, currentUser, dispatch }) => {
   if (!team) return null;
 
-  const id = get(team, "project.id", null);
-
   return (
     <div className="Team static">
       <Tabs selected={0}>
@@ -27,7 +24,14 @@ export const StaticTeam = ({ team, currentUser, dispatch }) => {
 
         <Panel>
           <TeamMembers team={team} />
-          <Project {...{ id, team }} />
+
+          {team.project_name &&
+            <div className="Team-project">
+              <label>Project</label>
+              {team.project_name}
+            </div>
+          }
+
 
           {currentUser && get(currentUser, "team.id") === team.id &&
             <div className="danger-zone">

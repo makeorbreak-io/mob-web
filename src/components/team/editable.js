@@ -4,19 +4,23 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes } from "recompose";
 import { Field, reduxForm } from "redux-form";
-import { get, isEmpty } from "lodash";
+import { isEmpty, isString, reduce } from "lodash";
 
 //
 // Components
 import TeamMembers from "./members";
-import Project from "components/project";
 import { Button, ErrorMessage, SortableList } from "uikit";
 import { Tabs, Tab, Panel } from "uikit/tabs";
+import { Multiselect } from "components/fields";
 
 //
 // Redux
 import { createTeam, updateTeam, deleteTeam } from "actions/teams";
 import { refreshCurrentUser } from "actions/current_user";
+
+//
+// Constants
+import technologies from "constants/technologies";
 
 //
 // Validation
@@ -66,7 +70,11 @@ export class EditableTeam extends Component {
   updateTeam = (values) => {
     const { dispatch, team } = this.props;
 
-    return dispatch(updateTeam(team.id, values))
+    const technologies = isString(values.technologies[0])
+      ? values.technologies
+      : values.technologies.map(t => t.value);
+
+    return dispatch(updateTeam(team.id, { ...values, technologies }))
     .finally(() => dispatch(refreshCurrentUser()));
   }
 
@@ -94,8 +102,15 @@ export class EditableTeam extends Component {
     const { team, handleSubmit, submitting } = this.props;
 
     const prizePreferences = team && !isEmpty(team.prize_preference)
-    ? team.prize_preference
-    : [ "hardcore", "funny", "useful" ];
+      ? team.prize_preference
+      : [ "hardcore", "funny", "useful" ];
+
+    const technologiesOptions = team && team.technologies
+      ? [
+          ...technologies,
+          ...reduce(team.technologies, (all, t) => ([ ...all, { label: t, value: t }]), []),
+        ]
+      : technologies;
 
     const submitHandler = team ? this.updateTeam : this.createTeam;
 
@@ -109,6 +124,21 @@ export class EditableTeam extends Component {
               <label htmlFor="name">Team name</label>
               <Field id="name" name="name" component="input" type="text" placeholder="Team name" className="fullwidth" autoComplete="off" />
               <ErrorMessage form="team" field="name" />
+
+              {team &&
+                <div>
+                  <label htmlFor="project_name">Project name</label>
+                  <Field id="project_name" name="project_name" component="input" type="text" placeholder="Project name" className="fullwidth" autoComplete="off" />
+                  <ErrorMessage form="team" field="project_name" />
+
+                  <label htmlFor="project_desc">Project description</label>
+                  <Field id="project_desc" name="project_desc" component="textarea" placeholder="Project description" className="fullwidth" autoComplete="off" />
+                  <ErrorMessage form="team" field="project_desc" />
+
+                  <Field name="technologies" component={Multiselect} creatable options={technologiesOptions} placeholder="Technologies..." />
+                  <ErrorMessage form="team" field="technologies" />
+                </div>
+              }
 
               <Button type="submit" form centered fullwidth primary disabled={submitting} loading={submitting}>
                 {team ? "Update team" : "Create team" }
@@ -140,13 +170,6 @@ export class EditableTeam extends Component {
                     />
                   </div>
                 }
-
-                <hr/ >
-                <Project
-                  id={get(team, "project.id", null)}
-                  team={team}
-                  editable
-                />
 
                 <hr />
                 <div className="danger-zone">

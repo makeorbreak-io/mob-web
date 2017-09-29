@@ -36,7 +36,7 @@ export class Dashboard extends Component {
   render() {
     if (isEmpty(this.props.stats)) return null;
 
-    const { stats: { users, teams, workshops, projects }, votingStatus } = this.props;
+    const { stats: { users, teams, workshops }, votingStatus } = this.props;
     const workshopOnlyUsers = filter(this.props.users, user => (
       ((!user.team) || (user.team && !user.team.applied)) && (user.workshops.length > 0)
     )).length;
@@ -188,16 +188,6 @@ export class Dashboard extends Component {
                 </div>
 
                 <div className="section">
-                  <h2><Link to="/admin/projects">Projects</Link></h2>
-
-                  <table className="stats">
-                    <tbody>
-                      <tr>
-                        <td>{projects.total}</td>
-                        <td>projects</td>
-                      </tr>
-                    </tbody>
-                  </table>
                 </div>
 
 

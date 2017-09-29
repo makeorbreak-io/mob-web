@@ -44,17 +44,6 @@ export const ACCEPT_INVITE = "ACCEPT_INVITE";
 export const REJECT_INVITE = "REJECT_INVITE";
 
 //
-// projects
-export const FETCH_PROJECTS = "FETCH_PROJECTS";
-export const SET_PROJECTS = "SET_PROJECTS";
-export const CLEAR_PROJECTS = "CLEAR_PROJECTS";
-export const CREATE_PROJECT = "CREATE_PROJECT";
-export const UPDATE_PROJECT = "UPDATE_PROJECT";
-export const FETCH_PROJECT = "FETCH_PROJECT";
-export const ADD_PROJECT = "ADD_PROJECT";
-export const REMOVE_PROJECT = "REMOVE_PROJECT";
-
-//
 // notifications
 export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
 export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
