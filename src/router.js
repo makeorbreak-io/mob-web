@@ -29,7 +29,6 @@ import AdminUsers from "components/admin/users";
 import AdminWorkshops from "components/admin/workshops";
 import AdminEditWorkshop from "components/admin/workshops/edit";
 import AdminTeams from "components/admin/teams";
-import AdminProjects from "components/admin/projects";
 import CheckIn from "components/admin/check_in";
 import WorkshopCheckIn from "components/admin/workshop_check_in";
 import PaperVotes from "components/admin/paper_votes";
@@ -71,7 +70,6 @@ const router = (
             <Route path="workshops" component={AdminWorkshops} />
             <Route path="workshops/:slug" component={AdminEditWorkshop} />
             <Route path="teams" component={AdminTeams} />
-            <Route path="projects" component={AdminProjects} />
           </Route>
         </Route>
 
