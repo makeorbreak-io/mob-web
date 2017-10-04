@@ -47,7 +47,7 @@ export class Navbar extends Component {
           </h1>
 
           {!currentUser && <Link activeClassName="active" className="login" to="/signin"><Button nobg>Sign In</Button></Link>}
-          {!currentUser && <Link activeClassName="active" className="signup" to="/signup"><Button cta>Apply Now</Button></Link>}
+          {!currentUser && <a href="#get-notified" className="signup"><Button cta>Notify Me</Button></a>}
 
           {currentUser && <NotificationCenter />}
           {currentUser && <AccountMenu />}

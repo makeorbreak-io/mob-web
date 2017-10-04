@@ -70,7 +70,7 @@
 
     .open-until
       display: block
-      margin: 10px 0 0 11px
+      margin: 10px 0 5px
       color: white
 
   .LandingSections
@@ -132,8 +132,23 @@
       letter-spacing: 1px
       text-transform: uppercase
 
+    //--------------------------------------------------------------- Thanks
+    &#thanks
+      h1, h3
+        text-align: left
+
+      h3
+        color: $dark-grey
+
+      .image
+        position: absolute
+        top: -170px
+        right: 0
+
     //--------------------------------------------------------------- Hackathon
     &#hackathon
+      padding-top: 250px
+
       h1, h2
         text-align: left
 
@@ -146,246 +161,49 @@
         li
           margin-bottom: 5px
 
+      .content
+        display: flex
+        flex-direction: row-reverse
+        align-items: center
+
+        .info
+          margin-left: auto
+
+      .notify
+        margin-top: 5px
+        font-size: 12px
+        color: $label-grey
+
       .Button
         margin-top: 30px
 
       .image
-        position: absolute
-        top: -170px
-        right: 0
+        position: absolute;
+        top: -45px;
+        left: 75px;
 
         &:before
-          position: absolute
           content: ""
-          background: $yellow
-          width: 100%
-          height: 90%
-          bottom: -45px
-          left: -45px
-          zIndex("negative")
-
-    //--------------------------------------------------------------- Workshops
-    &#workshops
-      p
-        text-align: center
-        margin-left: auto
-        margin-right: auto
-        width: 650px
-
-      .workshops
-        position: relative
-        display: flex
-        flex-wrap: wrap
-        margin: 80px 0 30px
-        @extend .framed
-
-        .workshop
-          position: relative
-          display: flex
-          flex-direction: column
-          justify-content: baseline
-          align-items: flex-start
-          width: 50%
-          border: 1px solid $light-grey
-          height: 280px
-          padding: 70px 30px 0
-
-          $highlight-height = 35px
-
-          &:before, &:after
-            content: ""
-            display: none
-            position: absolute
-            width: 40%
-            height: $highlight-height
-            background: $mob-green
-
-          &:before
-            left: -1px
-            bottom: -($highlight-height)
-
-          &:after
-            right: -1px
-            top: -($highlight-height)
-
-          &:hover
-            background: $mob-green
-            border-color: $mob-green
-            cursor: pointer
-
-            &:before, &:after
-              display: block
-
-            .date
-              color: $mob-purple
-            .name, .caret
-              color: #ffe200
-            .speaker
-              color: white
-
-          &:nth-child(even)
-            border-left: none
-          &:nth-child(n + 3)
-            border-top: none
-
-          .date, .name
-            font-family: Poppins
-            text-transform: uppercase
-            font-weight: 700
-
-          .date
-            margin-bottom: 10px
-            color: $orange
-            font-size: 16px
-
-          .name
-            margin-bottom: 5px
-            color: $mob-purple
-            font-size: 20px
-            cursor: pointer
-
-          .speaker
-            text-transform: uppercase
-            color: $label-grey
-
-          .caret
-            content: ">"
-            position: absolute
-            right: 30px
-            bottom: 30px
-            color: $orange
-            font: normal normal 600 32px Poppins, sans-serif
-
-    //--------------------------------------------------------------- Schedule
-    &#schedule-section
-      $text-indent = 30px
-
-      .content
-        background: transparent url("~assets/images/landing-vr-with-paths@2x.png") no-repeat right bottom
-        background-size: 50%
-
-      .image
-        position: relative
-        margin-bottom: 100px
-
-        &:before
+          background: url("~assets/images/path_1.svg")
+          width: 94px
+          height: 102px
           position: absolute
-          content: ""
-          background: $yellow
-          width: 500px
-          height: 30px
-          top: -(@height)
-          right: 0
-
-        img
-          width: 100%
-
-      h1, h2
-        text-align: left
-        text-indent: $text-indent
-
-      h1
-        padding-top: 20px
-
-      h2
-        margin-bottom: 60px
-
-      h3
-        text-align: left
-        color: $orange
-        text-transform: uppercase
-        letter-spacing: 1px
-        margin-bottom: 0
-        margin-top: 20px
-
-      h4
-        text-align: left
-        color: $label-grey
-        margin: 0 auto 25px
-        font-family: Poppins, sans-serif
-
-      .day
-        padding-left: $text-indent
-        margin-bottom: 50px
-
-        dl
-          width: 500px
-          overflow: hidden
-
-          dt, dd
-            display: block
-            float: left
-            margin-bottom: 30px
-
-            &:last-of-type
-              margin-bottom: 0
-
-            *
-              width: auto
-
-          dt
-            width: 40%
-            clear: left
-            color: $darker-grey
-            font-size: 16px
-            font-weight: 500
-
-          dd
-            width: 60%
-
-          h5
-            margin: 0
-            text-align: left
-            color: $mob-purple
-            text-transform: uppercase
-            font-weight: 600
-            font-size: 16px
-            letter-spacing: 1px
-
-          p
-            margin: 0
-            font-size: 14px
-            color: $label-grey
-
-    //--------------------------------------------------------------- Join Event
-    &#join-event
-
-      .content
-        padding-left: 595px
-        text-align: center
-        min-height: 500px
-
-      .video
-        position: absolute
-        left: 0
-        top: 0
-        width: 560px
-        height: 420px
-        padding-top: 50px
-        background: $mob-purple url("~assets/images/landing-join-event@2x.jpg") no-repeat center center
-        background-size: cover
+          top: 50px
+          left: -130px
 
         &:after
           content: ""
+          background: url("~assets/images/path_2.svg")
+          height: 89px
+          width: 330px
           position: absolute
-          background: $yellow
-          width: 85%
-          height: 60px
-          bottom: -(@height)
-          left: 0
+          bottom: -95px
+          left: 235px
 
-      p
-        font: normal normal 700 42px/1.3 Poppins, sans-serif
-        text-transform: none
-        text-align: left
-        color: $mob-purple
-        margin: 0 auto
-
-        &:first-of-type
-          padding-top: 85px
-          margin-bottom: 20px
-        &:last-of-type
-          margin-bottom: 50px
+    //--------------------------------------------------------------- Separator
+    &#separator
+      img
+        width: 100%
 
     //--------------------------------------------------------------- Join Slack
     &#join-slack
@@ -394,7 +212,6 @@
       .content
         padding: 60px 0 70px
         max-width: 960px
-        @extend .framed
 
         p
           text-align: center
@@ -410,102 +227,30 @@
             img
               vertical-align: -19px
 
-    //--------------------------------------------------------------- Prizes
-    &#prizes
-      .content
-        position: relative
-        padding-bottom: 120px
-
-        .separator
-          $width = 1px
-          position: absolute
-          bottom: 0
-          left: 19%
-          width: "calc(74% - %s)" % ($content-side-padding * 2)
-          height: $width
-          background-image: linear-gradient(to right, $orange, $mob-green, $mob-purple)
-          zIndex("jump")
-
-          &:before, &:after
-            content: ""
-            display: block
-            position: absolute
-            width: $width
-
-          &:before
-            bottom: 0
-            left: -($width)
-            height: 60px
-            background: $orange
-
-          &:after
-            top: 0
-            right: -($width)
-            height: 142px
-            // background: $mob-purple
-            background-image: linear-gradient(to bottom, $mob-purple, $mob-green 60%)
-
-          .ball
-            position: absolute
-            left: -7px
-            top: -71px
-            width: 13px
-            height: @width
-            border: 1px solid $orange
-            border-radius: 50%
-
-            &:after
-              content: ""
-              position: absolute
-              left: 2px
-              top: 2px
-              display: block
-              width: 7px
-              height: @width
-              background: $orange
-              border-radius: 50%
-
-      h1, h2
-        text-align: left
-
-      h2
-        margin-bottom: 50px
+    //--------------------------------------------------------------- Get Notified
+    &#get-notified
+      padding-top: 50px
 
       p
-        width: auto
-        line-height: 1.8
+        margin: 30px auto
+        text-align: center
 
-      .prizes
-        margin: 100px auto 20px
-        display: flex
-        align-items: flex-end
-        justify-content: space-between
+      form
+          max-width: 550px
+          margin: 0 auto
 
-        .prize
-          width: 30%
-          text-align: center
+          input.email
+            width: 100%
+            margin-right 15px
 
-          img
-            max-width: 100%
-            max-height: 200px
-
-          h3
-            color: $mob-green
-            text-transform: uppercase
-          &:first-child h3
-            color: $orange
-          &:last-child h3
-            color: $mob-purple
-
-          span
-            font-size: 16px
-
+          button
+            margin-top: 10px
     //--------------------------------------------------------------- Sponsors
     &#sponsors
       .content
         position: relative
         min-height: 800px
-        padding-right: 420px
+        padding-right: 470px
 
 
       h1, h2
@@ -514,36 +259,49 @@
       h2
         font-size: 18px
 
+      h3
+        margin-top: 75px
+        text-align: left
+        color: $mob-green
+        font-size: 16px
+        text-transform: uppercase
+
       .image
         position: absolute
         top: 0
         right: 0
 
-      ul
-        margin-top: 50px
-        text-align: left
+      .sponsors-reasons
+        line-height: 1.4
+        font-size: 16px
+        color: $dark-grey
+        list-style-type: disc
+        padding-left: 20px
 
         li
-          display: inline-block
-          width: 25%
-          margin-bottom: 80px
-          vertical-align: middle
+          margin-bottom: 5px
 
-          &.scale-up, &.cisco
-            margin-left: 25%
-          &.liberty, &.doist
-            margin-right: 25%
-          &.mindera, &.cp
-            margin-left: 12.5%
+      .sponsors-list
+        display: flex
+        flex-wrap: wrap
+        align-items: center
+        margin-top: -30px
+        margin-right: -30px
 
-          &.cp, &.up, &.cmp
-            margin-top: 80px
+        li
+          margin-top: 30px
+          margin-right: 30px
+          opacity: 0.4
 
           // &:nth-last-child(3)
           //   margin-left: 12.5%
 
           a img
-            width: 150px
+            width: 120px
+
+      .signup
+        button
+          margin-top: 50px
 
     //--------------------------------------------------------------- Share
     &#share
