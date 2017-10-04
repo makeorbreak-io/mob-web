@@ -7,6 +7,7 @@ import multistep from "./multistep";
 import notifications from "./notifications";
 import ready from "./ready";
 import teams from "./teams";
+import toaster from "./toaster";
 import users from "./users";
 import workshops from "./workshops";
 import votingInfoBegin from "./voting_info_begin";
@@ -29,6 +30,7 @@ export default (state, action) => {
     notifications,
     ready,
     teams,
+    toaster,
     users,
     workshops,
     votingInfoBegin,

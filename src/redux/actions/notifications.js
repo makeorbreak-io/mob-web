@@ -5,7 +5,7 @@ import {
   ADD_NOTIFICATION,
   REMOVE_NOTIFICATION,
   CLEAR_NOTIFICATIONS,
-} from "redux-root/action_types";
+} from "action-types";
 
 export const addNotification = createAction(ADD_NOTIFICATION, (params = {}) => {
   return {

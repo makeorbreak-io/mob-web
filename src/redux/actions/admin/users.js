@@ -43,7 +43,7 @@ export const setUserRoleAdmin = (id, role) => {
     return request
     .put(`/admin/users/${id}`, { user: { role } })
     .then(() => dispatch(createAction(SET_USER_ROLE_ADMIN)({ id, role })))
-    .catch(ignoreFailure);
+    .catch(requestFailed);
   };
 };
 

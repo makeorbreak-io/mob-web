@@ -15,6 +15,7 @@ import { isEmpty } from "lodash";
 // Components
 import Navbar from "components/navbar";
 import Footer from "components/footer";
+import { Toaster } from "uikit";
 
 export const App = ({ children, location: { pathname }, currentUser }) => {
   return (
@@ -24,6 +25,8 @@ export const App = ({ children, location: { pathname }, currentUser }) => {
       <div className="AppContent">
         {children}
       </div>
+
+      <Toaster />
 
       <Footer />
     </div>

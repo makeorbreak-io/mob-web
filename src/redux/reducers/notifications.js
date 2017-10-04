@@ -7,13 +7,18 @@ import {
 } from "action-types";
 
 export default function notifications(state = [], action) {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
   case ADD_NOTIFICATION:
-    return [ ...state, action.payload ];
+    return [ ...state, payload ];
+
   case REMOVE_NOTIFICATION:
-    return reject(state, { id: action.payload });
+    return reject(state, { id: payload });
+
   case CLEAR_NOTIFICATIONS:
     return [];
+
   default:
     return state;
   }
