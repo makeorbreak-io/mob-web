@@ -135,7 +135,7 @@ export class Landing extends Component {
             <h1>&lt;&gt; thank you</h1>
             <h3>
               You've worked, played and stayed up all night. <br />
-              Coded, made friends along the way and learned.
+              Coded, made friends along the way, and learned.
             </h3>
             <h3>
               Thank you for being part of this year's event.
