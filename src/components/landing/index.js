@@ -254,7 +254,7 @@ export class Landing extends Component {
             <p>Our goals are the same as always:</p>
 
             <ul className="sponsors-reasons">
-              <li>galvanize Porto's tech scene, giving back to the city and country that made us the persons and professional we are;</li>
+              <li>galvanize Porto's tech scene, giving back to the city and country that made us the persons and professionals we are;</li>
               <li>improve our culture, as we encourage all kinds of developers to participate, specially students, helping them achieve their full potential, and provide better opportunities to the newer generations;</li>
               <li>have all the players in one place at the same time: students, educators, professionals, entrepreneurs, politicians, educational institutions, organizations, companies... it all starts here;</li>
               <li>bridge the divide between developers and companies, by enabling businesses to become active participants and supporters of the tech community of the city.</li>

@@ -64,7 +64,7 @@ export class ResetPassword extends Component {
                     type="submit"
                     feedbackLabel="Password recovered!"
                   >
-                    Recover password
+                    Reset password
                   </Button>
                 </div>
               </form>
