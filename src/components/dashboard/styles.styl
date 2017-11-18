@@ -2,46 +2,32 @@
 
 .Dashboard
   position: relative
-  width: 580px
+  width: 100%
+
+  hr
+    margin: 40px 0
 
   h2, h3, h4
     text-align: left
 
-  dl
-    font-size: 16px
+    .tag
+      vertical-align: middle
+      padding: 0
+      width: 30px
+      height: @width
+      line-height: @height
+      border-radius: 50%
+      text-align: center
 
-    dt, dd
-      float: left
-      margin-bottom: 10px
-    dt
-      width: 30%
-    dd
-      width: 70%
-      word-wrap: break-word
+  .team
+    h3
+      text-align: center
+      font-size: 18px
+      color: $orange
 
-      .warning
-        color: $red
-
-  .public-info .Button
-    margin-bottom: 10px
-
-  .workshops
-    list-style: disc
-    padding-left: 20px
-    .workshop
-      color: $mob-purple
-      font-size: 20px
-      line-height: 1.5
-      margin-bottom: 10px
-      cursor: pointer
-
-      .attending-badge
-        display: inline-block
-        background: $orange
-        color: white
-        margin-left: 10px
-        padding: 3px 6px
-        font-size: 12px
-        vertical-align: middle
-        border-radius: 3px
-
+    label.checkbox
+      text-transform: none
+      font-size: 14px
+      font-weight: normal
+      letter-spacing: initial
+      color: $text-grey

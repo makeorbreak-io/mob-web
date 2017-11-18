@@ -4,6 +4,8 @@
   box-sizing: border-box
 
 html, body, #app
+  margin: 0
+  padding: 0
   width: 100vw
   height: 100vh
   font: normal normal 400 14px Asap, sans-serif
@@ -40,6 +42,12 @@ p
   line-height: 25px
   color: $dark-grey
 
+i
+  font-style: italic
+
+b
+  font-weight: 500
+
 a, a:link, a:active, a:visited
   color: $mob-purple
 
@@ -57,22 +65,47 @@ table
 .App
   width: 100vw
   position: relative
-  min-height: "calc(100vh - %s)" % $navbar-height
-  padding-bottom: $footer-height + $footer-margin-top
+  min-height: 100vh
+  padding-bottom: $footer-height
 
   .AppContent
     width: 100vw
     height: 100%
-    padding: 30px
     display: flex
     align-items: flex-start
     justify-content: center
+    background: #e9e9e9
+    transition: transform $page-transition-ms ease-in-out, opacity $page-transition-ms ease-in-out
+
+    &.fade-out
+      transform: scale3d(.99, .99, 1)
+      opacity: 0
 
   .content
     position: relative
     margin: 0 auto
     width: $content-width
     padding: 0 $content-side-padding
+
+    &.white
+      background: white
+      min-height: "calc(100vh - %s - %s)" % ($footer-height $navbar-height)
+      box-shadow: 0 0 6px 2px rgba(black, 0.2)
+      padding-bottom: 50px
+
+    &.columns
+      display: flex
+      justify-content: space-between
+
+      > div
+        padding: 200px 20px
+
+        &:first-child
+          width: 30%
+          background: blue
+        &:last-child
+          width: 67%
+          background: green
 
 //
 // Global styles
@@ -82,6 +115,7 @@ table
   position: relative
   width: 435px
   padding-top: 50px
+  margin: 0 auto
 
 p.small-notice
   margin: 10px 0
@@ -142,3 +176,6 @@ p.small-notice
     content: ""
     display: table
     clear: both
+
+.hidden
+  display: none

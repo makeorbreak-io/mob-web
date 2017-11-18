@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { isEmpty, map, filter, includes, get } from "lodash";
+import { isEmpty, map, get } from "lodash";
+import classnames from "classnames";
 
 //
 // Components
@@ -16,8 +17,7 @@ import { Multiselect } from "components/fields";
 
 //
 // Redux
-import { fetchUsers } from "actions/users";
-import { inviteUserToTeam, inviteUserByEmail, revokeInvite, removeFromTeam } from "actions/members";
+import { inviteUserByEmail, revokeInvite, removeFromTeam } from "actions/members";
 import { refreshCurrentUser } from "actions/current_user";
 
 //
@@ -43,25 +43,15 @@ export class EditableTeamMembers extends Component {
   //---------------------------------------------------------------------------
   // Callbacks
   //---------------------------------------------------------------------------
-  componentWillMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchUsers());
-  }
-
-  //---------------------------------------------------------------------------
-  // Callbacks
-  //---------------------------------------------------------------------------
   inviteMembers = (values) => {
     const { dispatch, reset } = this.props;
 
     dispatch(reset());
 
     return Promise.all(
-      map(values.members, ({ label, value }) => {
-        return label === value
-          ? dispatch(inviteUserByEmail(value))
-          : dispatch(inviteUserToTeam(value));
-      })
+      map(values.members, ({ value }) =>
+        dispatch(inviteUserByEmail(value))
+      )
     ).finally(() => dispatch(refreshCurrentUser()));
   }
 
@@ -85,10 +75,11 @@ export class EditableTeamMembers extends Component {
   // Render
   //---------------------------------------------------------------------------
   render() {
-    const { team, users, currentUser, memberLimitReached, handleSubmit, submitting, valid, formValues } = this.props;
+    const { team, currentUser, memberLimitReached, handleSubmit, submitting, valid, formValues, editing } = this.props;
     const { multipleSelected } = this.state;
 
     const canInvite = !memberLimitReached && (formValues.members.length + team.members.length + team.invites.length <= 4);
+    const inviteCx = classnames({ hidden: !editing });
 
     return (
       <div className="TeamMembers editable">
@@ -98,7 +89,7 @@ export class EditableTeamMembers extends Component {
             <li className="Member" key={m.id}>
               <Avatar user={m} />
               {m.display_name}
-              {!team.applied &&
+              {!team.applied && editing &&
                 <Button
                   danger
                   small
@@ -129,26 +120,22 @@ export class EditableTeamMembers extends Component {
           ))}
         </ul>
 
-        <form onSubmit={handleSubmit(this.inviteMembers)}>
+        <form onSubmit={handleSubmit(this.inviteMembers)} className={inviteCx}>
           <label htmlFor="members">Invite Members</label>
           <Field
             id="members"
             name="members"
             component={Multiselect}
-            options={users}
-            placeholder="Search users or use an email..."
+            placeholder="Invite users by email..."
             onChange={this.updateMultipleSelected}
             isValidNewOption={({ label }) => EMAIL_REGEX.test(label)}
+            noResultsText={null}
+            arrowRenderer={() => {}}
             creatable
           />
-          <ErrorMessage form="members" field="email" />
-
           <Button
             {...buttonPropsFromReduxForm(this.props)}
             type="submit"
-            form
-            centered
-            fullwidth
             primary
             disabled={submitting || !valid || memberLimitReached || !canInvite}
             feedbackSuccessLabel="Members invited!"
@@ -156,6 +143,9 @@ export class EditableTeamMembers extends Component {
           >
             Invite {multipleSelected ? "members" : "member"}
           </Button>
+
+          <ErrorMessage form="members" field="email" />
+
 
           {(memberLimitReached || !canInvite) &&
             <p className="small-notice">
@@ -186,23 +176,12 @@ export default compose(
   // fetch list of all users from store, remove current user
   // and team invites and members from suggestions
   connect((state, props) => {
-    const { users, currentUser } = state;
+    const { currentUser } = state;
     const { team } = props;
-
-    const invalidUserIds = [
-      currentUser.id,
-      ...map(team.invites, "invitee.id"),
-    ];
-
-    const toOption = (u) => ({
-      value: u.id,
-      label: u.display_name,
-    });
 
     const memberLimitReached = (team.invites.length + team.members.length) >= 4;
 
     return {
-      users: filter(map(users, toOption), o => !includes(invalidUserIds, o.value)),
       memberLimitReached,
       currentUser,
       formValues: state.form["new-team-member"].values || { members: [] },

@@ -33,7 +33,7 @@ export class Login extends Component {
   onLogin = (values) => {
     const { dispatch, router } = this.props;
     return dispatch(login(values.email, values.password))
-    .then(() => router.push("/"));
+    .then(() => router.push("/dashboard"));
   }
 
   render() {
@@ -118,12 +118,14 @@ export const StandaloneLogin = compose(
     validate,
   }),
 )((props) => (
-  <div className="narrow-container">
-    <Tabs>
-      <Tab><span>Sign In</span></Tab>
-      <Panel>
-        <Login {...props} />
-      </Panel>
-    </Tabs>
+  <div className="content white">
+    <div className="narrow-container">
+      <Tabs>
+        <Tab><span>Sign In</span></Tab>
+        <Panel>
+          <Login {...props} />
+        </Panel>
+      </Tabs>
+    </div>
   </div>
 ));

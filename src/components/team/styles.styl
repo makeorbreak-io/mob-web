@@ -24,7 +24,24 @@
     background: $orange
 
 .Team
-  width: 500px
+  width: 100%
+
+  h2
+    display: flex
+    align-items: center
+
+    .status
+      font-size: 18px
+      color: $label-grey
+      margin-left: 10px
+
+    .actions
+      margin-left: auto
+      .Button
+        margin-left: 10px
+
+  > form .Button
+    display: none
 
   .prize-order-preferences
     padding-bottom: 10px
@@ -51,8 +68,6 @@
       margin: 0 0 20px
 
   &.editable
-    margin-top: 50px
-
     .Invites, .Members
       list-style: none
       padding: 0
@@ -67,3 +82,22 @@
         right: 0
         top: 20px
         width: 110px
+
+    form
+      .Select, .Button
+        display: inline-block
+        vertical-align: top
+      .Select
+        width: 65%
+        margin: 0
+
+        .Select-arrow-zone
+          display: none
+
+        .Select-clear-zone
+          padding: 0 15px
+        
+      .Button
+        width: 32%
+        margin-left: 3%
+        margin-top: 0

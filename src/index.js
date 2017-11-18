@@ -17,12 +17,18 @@ import { performSetup } from "actions/setup";
 //
 // Config
 import env from "environment";
+import { initGA } from "./analytics/index";
 
 // init redux
 store.dispatch(performSetup());
 
 // init Sentry error logging
 Raven.config(env.sentryEndpoint).install();
+
+// init Google Analytics
+if (process.env.NODE_ENV === "production") {
+  initGA();
+}
 
 render(
   (

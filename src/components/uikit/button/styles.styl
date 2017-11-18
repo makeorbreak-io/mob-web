@@ -62,6 +62,22 @@ ComposeButton($color)
     ComposeButton(transparent)
   &.orange
     ComposeButton($orange)
+  &.cyan
+    ComposeButton($cyan)
+    color: $cyan
+  &.yellow
+    ComposeButton($yellow)
+    color: $yellow
+  &.pink
+    ComposeButton($pink)
+    color: white
+    &:hover
+      color: white
+  &.purple
+    ComposeButton($purple-bright)
+    color: $purple-bright
+    &:hover
+      color: white
 
   //
   // sizes
@@ -100,6 +116,10 @@ ComposeButton($color)
 
   &.straight
     border-radius: 0
+
+  &.outline
+    background: none
+    border-width: 2px
 
   //
   // behaviour

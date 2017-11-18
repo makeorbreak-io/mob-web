@@ -13,7 +13,7 @@ import { isEmpty } from "lodash";
 // Components
 import { Button } from "uikit";
 import AccountMenu from "components/account_menu";
-import NotificationCenter from "components/notification_center";
+import Drawer from "components/drawer";
 
 //
 // Assets
@@ -21,25 +21,19 @@ import logo from "assets/images/mob-logo-white.svg";
 
 export class Navbar extends Component {
 
-  state = {
-    menuVisible: false,
-  }
-
-  toggleAccountMenu = () => {
-    const { menuVisible } = this.state;
-    this.setState({ menuVisible: !menuVisible });
-  }
-
   render() {
-    const { currentUser, green } = this.props;
+    const { currentUser, landing } = this.props;
     const cx = classnames("Navbar", {
-      green,
+      landing,
       "logged-in": !isEmpty(currentUser),
+      "logged-out": isEmpty(currentUser),
     });
 
     return (
       <div className={cx}>
         <div className="content">
+          {currentUser && !landing && <Drawer />}
+
           <h1 className="Logo">
             <Link to="/">
               <img src={logo} alt="Make or Break." height="26" />
@@ -47,9 +41,7 @@ export class Navbar extends Component {
           </h1>
 
           {!currentUser && <Link activeClassName="active" className="login" to="/signin"><Button nobg>Sign In</Button></Link>}
-          {!currentUser && <a href="#get-notified" className="signup"><Button cta>Notify Me</Button></a>}
 
-          {currentUser && <NotificationCenter />}
           {currentUser && <AccountMenu />}
         </div>
       </div>
@@ -64,7 +56,7 @@ export default compose(
   connect(({ currentUser }) => ({ currentUser })),
 
   setPropTypes({
-    green: PropTypes.bool.isRequired,
+    landing: PropTypes.bool.isRequired,
   }),
 
   defaultProps({

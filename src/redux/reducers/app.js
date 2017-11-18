@@ -5,6 +5,7 @@ import currentUser from "./current_user";
 import jwt from "./jwt";
 import multistep from "./multistep";
 import notifications from "./notifications";
+import posts from "./posts";
 import ready from "./ready";
 import teams from "./teams";
 import toaster from "./toaster";
@@ -28,6 +29,7 @@ export default (state, action) => {
     jwt,
     multistep,
     notifications,
+    posts,
     ready,
     teams,
     toaster,

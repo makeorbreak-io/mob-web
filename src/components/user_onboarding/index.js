@@ -34,15 +34,17 @@ export class UserOnboarding extends Component {
 
     return (
       <div className="UserOnboarding">
-        <Tabs green small showIndex selected={currentStep}>
-          <Tab><span>Your Information</span></Tab>
-          <Tab><span>Create Your Team</span></Tab>
-          <Tab><span>Invite Team Members</span></Tab>
+        <div className="content white">
+          <Tabs green small showIndex selected={currentStep}>
+            <Tab><span>Your Information</span></Tab>
+            <Tab><span>Create Your Team</span></Tab>
+            <Tab><span>Invite Team Members</span></Tab>
 
-          <Panel><Name next={next} /></Panel>
-          <Panel><Team next={next}/></Panel>
-          <Panel><Invites next={next} /></Panel>
-        </Tabs>
+            <Panel><Name next={next} /></Panel>
+            <Panel><Team next={next}/></Panel>
+            <Panel><Invites next={next} /></Panel>
+          </Tabs>
+        </div>
       </div>
     );
   }

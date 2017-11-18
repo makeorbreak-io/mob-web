@@ -42,7 +42,7 @@ export const UserOnboardingInvites = ({
   const submitHandler = (values) => {
     return Promise.all(
       values.members.map(({ value: id }) => dispatch(inviteUserToTeam(id))),
-    ).then(() => router.push("/"));
+    ).then(() => router.push("/dashboard"));
   };
 
   const changeHandler = (ev) => setMultipleSelected(!isEmpty(ev[1]));

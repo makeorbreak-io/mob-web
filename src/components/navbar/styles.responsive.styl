@@ -2,22 +2,14 @@
 
 +mobile()
   .Navbar
-    &.logged-in .Logo
-      display: none
-
-    .content
-      padding: 0 10px
-      justify-content: space-between
-
-      .Button
-        padding: 0 10px
-
-    .Logo
+    &.landing .Logo
+    &.logged-out .Logo
+      display: inline-block
+      background: transparent
       position: relative
-      top: -17px
-      left: initial
-      padding-left: 10px
-      height: 20px
+      margin: 0
+      padding: 0
+      left: 20px
 
       a
         display: block
@@ -25,6 +17,27 @@
       img
         height: 18px
 
-    a.signup
+    .content
+      padding: 0 10px
+      justify-content: space-between
+      align-items: center
+
+      > *
+        margin-right: 0
+
+      .Button
+        padding: 0 10px
+
+    .mobile-menu
+      width: 48px
+      height: 48px
+      background: transparent url("~assets/images/hamburger-menu.svg") no-repeat center center
+      cursor: pointer
+
+    .Logo
       display: none
+
+    .AccountMenu
+      margin-right: 10px
+      zIndex("base")
 

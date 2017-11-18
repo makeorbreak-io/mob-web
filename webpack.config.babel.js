@@ -1,5 +1,6 @@
 const Webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const path = require("path");
 
 const HOST = process.env.HOST || "0.0.0.0";
@@ -84,6 +85,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src", "index.html"),
     }),
+
+    new FaviconsWebpackPlugin(path.resolve(__dirname, "assets", "favicon.png")),
 
     new Webpack.DefinePlugin({
       "process.env": {
