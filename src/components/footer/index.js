@@ -55,11 +55,11 @@ export class Footer extends Component {
                   <img height="15" src={email} alt="Make or Break email address" />
                   Email
                 </a>
-                <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/portosummerofcode/">
+                <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/makeorbreak.io/">
                   <img height="17" src={fb} alt="Make or Break Facebook page" />
                   Facebook
                 </a>
-                <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/portosummercode/">
+                <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/makeorbreakio/">
                   <img height="17" src={twitter} alt="Make or Break Twitter account" />
                   Twitter
                 </a>

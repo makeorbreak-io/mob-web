@@ -122,7 +122,7 @@ export class Landing extends Component {
             </Link>
 
             <div className="video">
-              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/SC-7fyBfvsw" frameBorder="0" gesture="media" allow="encrypted-media" allowFullScreen></iframe>
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/r0FrR0MOvc4" frameBorder="0" gesture="media" allow="encrypted-media" allowFullScreen></iframe>
             </div>
           </div>
         </section>
@@ -136,7 +136,7 @@ export class Landing extends Component {
 
             <h1>It's dangerous<br />to go alone!</h1>
             <p>
-              You can't participate in the Make or Break hackathon <a href="https://github.com/portosummerofcode/rules#participation" target="_blank" rel="noreferrer noopener">by yourself.</a>
+              You can't participate in the Make or Break hackathon <a href="/rules#participation" target="_blank" rel="noreferrer noopener">by yourself.</a>
               <br />
               Join our Slack community and form a team with other participants.
               <br />
