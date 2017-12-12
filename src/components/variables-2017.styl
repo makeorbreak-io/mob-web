@@ -1,0 +1,48 @@
+//
+// Dimensions
+$navbar-height = 60px
+$content-width = 1280px
+$content-side-padding = 70px
+$footer-height = 370px
+$footer-margin-top = 50px
+
+//
+// Colours
+$yellow = #ffcc00
+$red = #d9534f
+$teal = #46ffc6
+$orange = #f17105
+
+$darker-grey = #414361
+$dark-grey = #637682
+$light-grey = #d0d8db
+$label-grey = #8c9fa6
+$text-grey = #2f4858
+
+$mob-purple = #5d00f3
+$mob-green = #67d3b2
+$mob-red = #ff5b72
+
+$hr-border = #cecece
+
+$button-primary = $mob-purple // #0275d8
+$button-success = $mob-green  // #5cb85c
+$button-warning = #f0ad4e
+$button-danger = $mob-red     // #d9534f
+$button-disabled = #e0e0e0
+
+// z-index management
+zIndices = {
+  "decrement": -10,
+  "negative": -1,
+  "base": 0,
+  "increment": 1,
+  "jump": 10,
+  "navbar": 100
+  "account-menu": 1000,
+  "notification": 2000,
+  "modal": 10000,
+}
+zIndex(id)
+  z-index: zIndices[id]
+

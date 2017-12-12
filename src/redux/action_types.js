@@ -94,3 +94,8 @@ export const SET_STATS_ADMIN = "SET_STATS_ADMIN";
 
 export const FETCH_VOTING_STATUS = "FETCH_VOTING_STATUS";
 export const SET_VOTING_STATUS = "SET_VOTING_STATUS";
+
+//
+// Landing page
+export const FETCH_MEDIUM_POSTS = "FETCH_MEDIUM_POSTS";
+export const SET_MEDIUM_POSTS = "SET_MEDIUM_POSTS";

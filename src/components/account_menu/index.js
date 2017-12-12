@@ -1,4 +1,5 @@
 import "./styles";
+import "./styles.responsive";
 
 import React, { Component } from "react";
 import { Link } from "react-router";
@@ -46,9 +47,7 @@ export class AccountMenu extends Component {
         </span>
 
         <div className="AccountMenuContent">
-          <Link to="/" onClick={this.close}>Dashboard</Link>
-          <Link to="/profile" onClick={this.close}>Profile</Link>
-          <Link to="/account/team" onClick={this.close}>Team</Link>
+          <Link to="/dashboard" onClick={this.close}>Dashboard</Link>
           {currentUser.role === ADMIN && <Link to="/admin" onClick={this.close}>Admin</Link>}
           <Link onClick={() => dispatch(logout())}>Logout</Link>
         </div>

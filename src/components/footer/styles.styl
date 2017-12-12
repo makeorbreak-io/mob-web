@@ -4,13 +4,13 @@
   position: absolute
   bottom: 0
   left: 0
-  height: 370px
+  height: $footer-height
   width: 100vw
 
   .FooterTop
-    height: 280px
-    padding-top: 50px
-    background: $mob-purple
+    height: 100%
+    padding-top: 40px
+    background: $purple-muted
     color: white
 
     a, a:link, a:active, a:visited
@@ -29,12 +29,10 @@
       justify-content: center
       align-items: flex-start
 
-    h1, h2, h3
+    h3
       text-align: left
       margin: 0 0 15px
       text-transform: uppercase
-
-    h3
       padding-top: 4px
 
     p
@@ -51,29 +49,10 @@
       span
         width: 380px
         display: inline-block
-        padding-top: 8px
 
       a, a:link, a:visited, a:active, a:hover
         display: inline
         text-decoration: underline
-
-  .FooterBottom
-    position: relative
-    background: white
-    height: 90px
-    line-height: @height
-
-    .copyright
-      position: absolute
-      left: $content-side-padding
-      color: $label-grey
-
-    .social-media
-      position: absolute
-      right: $content-side-padding
-
-      a
-        margin-right: 30px
 
   .FooterSection
     flex-basis: 0
@@ -90,4 +69,15 @@
 
       &.wide
         flex-grow: 1.5
+
+      &.with-icons
+        a
+          position: relative
+          padding-left: 30px
+
+          img
+            position: absolute
+            top: 1px
+            left: 0
+
 

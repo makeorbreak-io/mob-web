@@ -6,9 +6,9 @@ import { filter } from "lodash";
 import Editable from "./editable";
 import Static from "./static";
 
-export const TeamMembers = ({ editable, team, members, invites }) => {
+export const TeamMembers = ({ editable, editing, team, members, invites }) => {
   return editable
-  ? <Editable {...{ team, members, invites }} />
+  ? <Editable {...{ editing, team, members, invites }} />
   : <Static {...{ team, members, invites }} />;
 };
 
@@ -18,10 +18,12 @@ export default compose(
   setPropTypes({
     team: PropTypes.object.isRequired,
     editable: PropTypes.bool.isRequired,
+    editing: PropTypes.bool.isRequired,
   }),
 
   defaultProps({
     editable: false,
+    editing: false,
   }),
 
   mapProps(({ team, ...props }) => ({

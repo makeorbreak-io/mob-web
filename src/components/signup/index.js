@@ -155,15 +155,17 @@ export const StandaloneSignup = compose(
     router: PropTypes.object.isRequired,
   }),
 )((props) => (
-  <div className="narrow-container">
-    <Tabs>
-      <Tab>
-        <span>Want to join our event?</span>
-        <span>Sign Up</span>
-      </Tab>
-      <Panel>
-        <Signup {...props} />
-      </Panel>
-    </Tabs>
+  <div className="content white">
+    <div className="narrow-container">
+      <Tabs>
+        <Tab>
+          <span>Want to join our event?</span>
+          <span>Sign Up</span>
+        </Tab>
+        <Panel>
+          <Signup {...props} />
+        </Panel>
+      </Tabs>
+    </div>
   </div>
 ));

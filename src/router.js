@@ -9,7 +9,8 @@ import Authorized from "core/authorized";
 
 //
 // Public components
-import Home from "components/home";
+import Landing from "components/landing";
+import Dashboard from "components/dashboard";
 import { StandaloneLogin } from "components/login";
 import { StandaloneSignup } from "components/signup";
 import RecoverPassword from "components/recover_password";
@@ -18,11 +19,11 @@ import ResetPassword from "components/reset_password";
 //
 // Participant components
 import UserOnboarding from "components/user_onboarding";
-import AccountSettings from "components/account_settings";
+import UserChrome from "components/user_chrome";
 import { AccountTeam } from "components/account";
 import Team from "components/team";
 import ParticipationCertificate from "components/participation_certificate";
-import VotingBooth from "components/voting_booth";
+// import VotingBooth from "components/voting_booth";
 
 //
 // Admin components
@@ -37,25 +38,37 @@ import PaperVotes from "components/admin/paper_votes";
 import PrintablePaperVote from "components/admin/paper_votes/printable";
 
 //
+// Constants
+import { PAGE_TRANSITION_MS } from "constants/globals";
+
 //
+//
+const wait = (milis) => (prevState, nextState, replace, cb) => {
+  if (prevState.location.pathname !== nextState.location.pathname) {
+    setTimeout(cb, milis);
+  }
+  else {
+    cb();
+  }
+};
 
 const router = (
   <Router history={browserHistory}>
-    <Route path="/" component={App}>
+    <Route path="/" component={App} onChange={wait(PAGE_TRANSITION_MS)}>
 
-      <IndexRoute component={Home} />
+      <IndexRoute component={Landing} />
 
       <Route component={Authenticated}>
 
         <Route path="welcome" component={UserOnboarding} />
 
-        <Route path="profile" component={AccountSettings} />
+        <Route component={UserChrome}>
+          <Route path="dashboard" component={Dashboard} />
 
-        <Route path="account">
-          <Route path="team" component={AccountTeam} />
+          <Route path="account">
+            <Route path="team" component={AccountTeam} />
+          </Route>
         </Route>
-
-        <Route path="vote" component={VotingBooth} />
 
         {/* Admin routes */}
         <Route component={Authorized}>

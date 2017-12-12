@@ -24,9 +24,9 @@ export const Invitation = ({
 }) => {
   return (
     <div className="Invitation">
-      <span>
-        You have been invited by <b>{host.display_name}</b> to join their team <b>{team.name}</b>
-      </span>
+      <p>
+        <b>{host.display_name}</b> invited you to join <b>{team.name}</b>
+      </p>
 
       <div className="Actions">
         <Button small success disabled={disabled} onClick={() => dispatch(acceptInvite(id))}>Accept</Button>

@@ -2,12 +2,25 @@
 @import "~components/mixins"
 
 +mobile()
+  #html, body, #app
+    height: auto
+
   .App
     padding-bottom: 0
+    min-height: auto
 
     .AppContent
-      padding: 30px 0 90px
+      padding: 0
+      min-height: auto
+      height: auto
 
     .content
       width: 100%
       padding: 0 20px
+
+      &.white
+        min-height: auto
+        padding-bottom: 100px
+
+    .narrow-container
+      width: 100%

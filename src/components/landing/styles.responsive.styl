@@ -1,6 +1,8 @@
 @import "~components/variables"
 @import "~components/mixins"
 
+$content-padding = 30px 30px
+
 +mobile-small()
   .Landing
     section
@@ -12,192 +14,194 @@
   .Landing
     width: 100%
 
-    a.signup
-      display: block
-      width: 100%
-      margin: 50px auto 0
+    .content
+      padding: $content-padding
 
-      .Button
-        width: 100%
-        padding: 0
+      h1
+        font-size: 36px
+      h2, h3
+        font-size: 18px
 
+      h2, p, ul, a
+        margin-left: 0
+
+    //---------------------------------------------------------------------------- Global sections styling
+    section
+      &:last-of-type
+        .content:before
+          width: 300px
+          height: 480px
+
+      .content
+        > a
+          display: block
+          text-align: center
+
+          .Button
+            width: 100%
+            padding: 0 20px
+
+    //---------------------------------------------------------------------------- Hero
     .LandingHero
       height: auto
 
       .content
-        padding-bottom: 70px
+        padding: $content-padding
+        padding-bottom: 100px
+        background: url("~assets/images/landing-horses@2x.png") no-repeat bottom -164px right 5px
+        background-size: 270px
 
-      .open-until
-        margin: 10px 0
-        display: block
-        text-align: center
+        h1
+          font-size: 36px
 
-      h1
-        font-size: 24px
-      h2
-        font-size: 20px
-      h3
-        display: none
-
-    .LandingSections
-      display: none
-
-    section
-      padding-top: 20px
-      margin-bottom: 30px
-
-      h1
-        font-size: 36px
-
-      h2
-        font-size: 18px
-
-      p
-        width: auto
-
-      //--------------------------------------------------------------- Hackathon
-      &#hackathon
-        .image
-          display: none
-
-        a.signup
-          margin: 0 auto
-
-      //--------------------------------------------------------------- Workshops
-      &#workshops
-        h1, h2, p
-          text-align: left
-        p
-          width: auto
-
-        .workshops
-          .workshop
-            width: 100%
-            border: 1px solid $light-grey !important
-            border-bottom: none !important
-            padding: 0 20px
-            display: flex
-            flex-direction: column
-            align-items: flex-start
-            justify-content: center
-
-            &:last-child
-              border-bottom: 1px solid $light-grey !important
-
-      //--------------------------------------------------------------- Schedule
-      &#schedule-section
-        .content
-          background-size: 90%
-          background-position: center center
-
-        .image
-          display: none
-
-        h1, h2
-          text-indent: 0
-
-        .day
-          padding-left: 0
-
-          dl
-            width: 100%
-
-      //--------------------------------------------------------------- Join Event
-      &#join-event
-        display: none
-
-      //--------------------------------------------------------------- Join Slack
-      &#join-slack
-        .content
-          width: 90%
-          padding-left: 10px
-          padding-right: 10px
-
-      //--------------------------------------------------------------- Prizes
-      &#prizes
-        .content
-          padding-bottom: 0
-
-          .separator
+          br
             display: none
 
-          .prizes
-            margin: 0 auto 20px
-            flex-wrap: wrap
-
-            .prize
-              width: 100%
-              margin-top: 30px
-
-              img
-                width: 60%
-
-      //--------------------------------------------------------------- Sponsors
-      &#sponsors
-        .content
-          width: 90%
-          padding: 0
-
-        .image
-          display: none
-
-        ul
-          li
-            // tier 1
-            &:nth-child(-n + 3)
-              width: 45%
-              margin: 30px 0 0
-            &:nth-child(2)
-              margin-left: 10%
-            &:nth-child(3)
-              margin: 30px 27.5% 0
-
-            // tier 2
-            &:nth-child(n + 4):nth-child(-n + 5)
-              width: 45%
-              margin: 80px 0
-            &:nth-child(5)
-              margin-left: 10% !important
-              margin-right: 0
-
-            // tier 3
-            &:nth-child(n+6):nth-child(-n + 9)
-              width: 45%
-              margin: 0
-            &:nth-child(6), &:nth-child(7)
-              margin-bottom: 10px !important
-            &:nth-child(7), &:nth-child(9)
-              margin-left: 10% !important
-
-            // tier 4
-            &:nth-last-child(-n + 3)
-              width: 45%
-              margin: 80px 0 0
-            &:nth-last-child(2)
-              margin-left: 10% !important
-            &:last-child
-              margin: 20px 0 0 80px
-              margin-left: 25%
-            // &:nth-last-child(1)
-            //   margin-left: 10% !important
-            //   margin-right: 0
-
-            a img
-              width: 100%
-
-      //--------------------------------------------------------------- Share
-      &#share
-        margin-bottom: 0
-
-        p
-          width: auto
-
-        .actions
-          a
-            display: block
-            margin-bottom: 10px
+        a
+          display: block
+          text-align: center
 
           .Button
-            margin: 0
+            padding: 0 20px
             width: 100%
-            padding: 0
+
+    //---------------------------------------------------------------------------- Hackathon
+    section#hackathon
+      .content
+        background: url("~assets/images/landing-horses@2x.png") no-repeat top -90px right 5px
+        background-size: 270px
+        padding: $content-padding
+
+        &:before, &:after
+          display: none
+
+    //---------------------------------------------------------------------------- Workshops
+    section#workshops
+      .content
+        padding: $content-padding
+
+        &:before, &:after
+          width: calc(100% - 70px)// 85%
+          height: 120px
+
+        &:before
+          right: 20px
+          top: 130px
+        &:after
+          top: 110px
+
+        h2
+          margin-top: 200px
+
+    //---------------------------------------------------------------------------- Separator
+    section#separator
+      background-position: top -30px left
+
+      .content
+        background: transparent
+
+        h1
+          text-align: right
+          right: 0
+
+    //---------------------------------------------------------------------------- Previous Edition
+    section#previous-edition
+      .content
+        padding: $content-padding
+
+        h1, h2
+          text-align: center
+
+        .video
+          position: relative
+          left: auto
+          top: auto
+          right: auto
+          width: 100%
+          height: 48vw
+          margin-top: 50px
+          
+          &:before
+            display: none
+
+    //---------------------------------------------------------------------------- Community
+    section#community
+      .gradient-bg
+        top: 0
+
+        &:before
+          display: none
+
+      .content
+        padding: 30px 20px
+
+        h1
+          margin-top: 0
+          margin-bottom: 30px
+
+        form
+          .Button
+            height: auto
+            line-height: 1.3
+            padding: 10px 5px
+            font-size: 16px
+
+    //---------------------------------------------------------------------------- Team separator
+    section#team-separator
+      display: none
+
+    //---------------------------------------------------------------------------- News
+    section#news
+      .content
+
+        > *
+          flex-basis: 100%
+
+        .news-box
+          padding: 10px
+
+          h3
+            min-height: 0
+
+          p
+            display: none
+            margin-top: 0
+
+            &:first-of-type
+              display: block
+
+          .image
+            height: 120px
+            background-position: center center
+
+          > a
+            display: block
+            width: 100%
+            text-align: center
+
+            .Button
+              padding: 0 20px
+              width: 100%
+
+    //---------------------------------------------------------------------------- Sponsors
+    section#sponsors
+      .content
+
+        .sponsors
+          &:after
+            background-size: 166px 140px
+            width: 165px
+            height: 140px
+            right: -19px
+
+          .sponsor-list
+            li
+              width: 25%
+              margin: 10px 20px
+
+          .Button
+            margin: 0 20px
+            height: auto
+            line-height: 1.3
+            padding: 10px
+            width: calc(100% - 40px)

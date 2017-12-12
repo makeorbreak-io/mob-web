@@ -1,6 +1,7 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true,
   },
 
   "globals": {
@@ -31,6 +32,7 @@
     "no-mixed-operators": "error",
     "quotes": [ "error", "double" ],
     "semi": [ "error", "always" ],
+    // "no-console": "off",
 
     "react/prop-types": "off",
     "react/no-unescaped-entities": "off"

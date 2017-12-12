@@ -127,7 +127,7 @@ export class Button extends Component {
 
     return (
       <button
-        ref={node => this.node = node}
+        ref={node => { this.node = node; this.props.buttonRef(node); } }
         className={cx}
         onClick={this.handleClick}
         {...{ type, disabled }}
@@ -154,6 +154,7 @@ export default compose(
     cta                  : bool.isRequired,
     nobg                 : bool.isRequired,
     framed               : bool.isRequired,
+    outline              : bool.isRequired,
     straight             : bool.isRequired,
     hollow               : bool.isRequired,
     fullwidth            : bool.isRequired,
@@ -172,6 +173,7 @@ export default compose(
     feedbackFailureLabel : string.isRequired,
     disableFeedback      : bool.isRequired,
     confirmation         : string,
+    buttonRef            : func.isRequired,
   }),
 
   defaultProps({
@@ -186,6 +188,7 @@ export default compose(
     cta                  : false,
     nobg                 : false,
     framed               : false,
+    outline              : false,
     straight             : false,
     hollow               : false,
     fullwidth            : false,
@@ -204,6 +207,7 @@ export default compose(
     feedbackFailureLabel : "Update failed",
     disableFeedback      : false,
     confirmation         : null,
+    buttonRef            : () => {},
   }),
 
   connect(),

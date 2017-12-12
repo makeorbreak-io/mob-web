@@ -4,7 +4,7 @@ const env = {
 };
 
 if (process.env.NODE_ENV === "production") {
-  env.apiHost = "https://api.portosummerofcode.com/api";
+  env.apiHost = "https://api.makeorbreak.io/api";
   env.sentryEndpoint = "https://2ddbabca5f05478488ae5a0cd2045e83@sentry.io/197860";
 }
 

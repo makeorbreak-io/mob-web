@@ -38,36 +38,38 @@ export class RecoverPassword extends Component {
     const { handleSubmit, submitSucceeded, formValues } = this.props;
 
     return (
-      <div className="RecoverPassword narrow-container">
-        <Tabs>
-          <Tab><span>Recover Password</span></Tab>
-          <Panel>
-            {!submitSucceeded &&
-              <form onSubmit={handleSubmit(this.onSubmit)}>
-                <Field name="email" type="text" component="input" placeholder="Email address" className="fullwidth" />
-                <ErrorMessage form="recover-password" field="email" />
+      <div className="content white">
+        <div className="RecoverPassword narrow-container">
+          <Tabs>
+            <Tab><span>Recover Password</span></Tab>
+            <Panel>
+              {!submitSucceeded &&
+                <form onSubmit={handleSubmit(this.onSubmit)}>
+                  <Field name="email" type="text" component="input" placeholder="Email address" className="fullwidth" />
+                  <ErrorMessage form="recover-password" field="email" />
 
-                <div className="actions">
-                  <Button
-                    {...buttonPropsFromReduxForm(this.props)}
-                    form
-                    centered
-                    primary
-                    type="submit"
-                  >
-                    Recover password
-                  </Button>
+                  <div className="actions">
+                    <Button
+                      {...buttonPropsFromReduxForm(this.props)}
+                      form
+                      centered
+                      primary
+                      type="submit"
+                    >
+                      Recover password
+                    </Button>
+                  </div>
+                </form>
+              }
+
+              {submitSucceeded &&
+                <div>
+                  A recovery email was sent to {formValues.email}. Please check your inbox for further instructions.
                 </div>
-              </form>
-            }
-
-            {submitSucceeded &&
-              <div>
-                A recovery email was sent to {formValues.email}. Please check your inbox for further instructions.
-              </div>
-            }
-          </Panel>
-        </Tabs>
+              }
+            </Panel>
+          </Tabs>
+        </div>
       </div>
     );
   }
