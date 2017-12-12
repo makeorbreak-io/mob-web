@@ -33,19 +33,18 @@ export class Footer extends Component {
               <div className="FooterSectionColumn">
                 <h3>Past</h3>
 
-                <a target="_blank" rel="noopener noreferrer" href="https://portosummerofcode.com/psc-17">2017</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://portosummerofcode.com/psc-16">2016</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://portosummerofcode.com/psc-15">2015</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://portosummerofcode.com/psc14">2014</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://medium.com/makeorbreak-io/make-or-break-more-than-a-hackathon-45d43c0042ba">2017</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://makeorbreak.io/psc-16">2016</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://makeorbreak.io/psc-15">2015</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://makeorbreak.io/psc14">2014</a>
               </div>
 
               <div className="FooterSectionColumn wide">
                 <h3>Resources</h3>
 
                 <a target="_blank" rel="noopener noreferrer" href="/rules">Event Rules</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://portosummerofcode.com/blog/">Blog</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://portosummerofcode.com">About Us</a>
-                <a target="_blank" rel="noopener noreferrer" href="mailto:info@portosummerofcode.com">Sponsor Us</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://blog.makeorbreak.io/">Blog</a>
+                <a target="_blank" rel="noopener noreferrer" href="mailto:info@makeorbreak.io">Sponsor Us</a>
               </div>
 
               <div className="FooterSectionColumn with-icons">

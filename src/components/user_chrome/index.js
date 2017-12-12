@@ -13,7 +13,7 @@ export class UserChrome extends Component {
 
     return (
       <div className="UserChrome">
-        <div className="content">
+        <div className="content white">
           <div className="UserCrome-left">
             <AccountSettings />
           </div>

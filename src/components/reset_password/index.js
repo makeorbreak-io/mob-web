@@ -44,39 +44,41 @@ export class ResetPassword extends Component {
     const { handleSubmit, submitSucceeded } = this.props;
 
     return (
-      <div className="ResetPassword narrow-container">
-        <Tabs>
-          <Tab><span>Reset Password</span></Tab>
-          <Panel>
-            {!submitSucceeded &&
-              <form onSubmit={handleSubmit(this.onSubmit)}>
-                <Field name="token" type="hidden" component="input" />
-                <Field name="password" type="password" component="input" placeholder="New password" className="fullwidth" />
-                <ErrorMessage form="reset-password" field="password" />
-                <ErrorMessage form="reset-password" field="token" />
+      <div className="content white">
+        <div className="ResetPassword narrow-container">
+          <Tabs>
+            <Tab><span>Reset Password</span></Tab>
+            <Panel>
+              {!submitSucceeded &&
+                <form onSubmit={handleSubmit(this.onSubmit)}>
+                  <Field name="token" type="hidden" component="input" />
+                  <Field name="password" type="password" component="input" placeholder="New password" className="fullwidth" />
+                  <ErrorMessage form="reset-password" field="password" />
+                  <ErrorMessage form="reset-password" field="token" />
 
-                <div className="actions">
-                  <Button
-                    {...buttonPropsFromReduxForm}
-                    form
-                    centered
-                    primary
-                    type="submit"
-                    feedbackLabel="Password recovered!"
-                  >
-                    Reset password
-                  </Button>
+                  <div className="actions">
+                    <Button
+                      {...buttonPropsFromReduxForm}
+                      form
+                      centered
+                      primary
+                      type="submit"
+                      feedbackLabel="Password recovered!"
+                    >
+                      Reset password
+                    </Button>
+                  </div>
+                </form>
+              }
+
+              {submitSucceeded &&
+                <div>
+                  Your password was successfuly reset! You can now <Link to="/signin">sign in</Link> using your newly set password.
                 </div>
-              </form>
-            }
-
-            {submitSucceeded &&
-              <div>
-                Your password was successfuly reset! You can now <Link to="/signin">sign in</Link> using your newly set password.
-              </div>
-            }
-          </Panel>
-        </Tabs>
+              }
+            </Panel>
+          </Tabs>
+        </div>
       </div>
     );
   }

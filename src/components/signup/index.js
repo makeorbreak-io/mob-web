@@ -98,7 +98,7 @@ export class Signup extends Component {
             <label htmlFor="tos" className="text">
               <Field id="tos" name="tos" component="input" type="checkbox" />
               I have read and accepted the general
-              &nbsp;<a href="https://portosummerofcode.com/terms-of-service/">Terms of Use</a>
+              &nbsp;<a href="https://makeorbreak.io/terms-of-service/">Terms of Use</a>
             </label>
             <ErrorMessage form="signup" field="tos" />
           </div>
