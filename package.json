@@ -1,11 +1,11 @@
 {
-  "name": "psc-web",
+  "name": "mob-web",
   "version": "0.0.1",
   "main": "index.js",
   "engines": {
     "node": ">=8.7.0"
   },
-  "repository": "git@github.com:nunopolonia/psc-web.git",
+  "repository": "git@github.com:makeorbreak-io/mob-web.git",
   "author": "João Gradim <joao.gradim@gmail.com>",
   "license": "MIT",
   "scripts": {

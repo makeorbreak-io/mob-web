@@ -66,7 +66,10 @@ module.exports = {
       template: path.resolve(__dirname, "src", "index.html"),
     }),
 
-    new FaviconsWebpackPlugin(path.resolve(__dirname, "assets", "favicon.png")),
+    new FaviconsWebpackPlugin({
+      logo: path.resolve(__dirname, "assets", "favicon.png"),
+      title: "Make or Break",
+    }),
 
     new Webpack.DefinePlugin({
       "process.env": {
