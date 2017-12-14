@@ -34,9 +34,9 @@ export class Footer extends Component {
                 <h3>Past</h3>
 
                 <a target="_blank" rel="noopener noreferrer" href="https://medium.com/makeorbreak-io/make-or-break-more-than-a-hackathon-45d43c0042ba">2017</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://makeorbreak.io/psc-16">2016</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://makeorbreak.io/psc-15">2015</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://makeorbreak.io/psc14">2014</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pg/makeorbreak.io/photos/?tab=album&album_id=1813604015551193">2016</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pg/makeorbreak.io/photos/?tab=album&album_id=1672683786309884">2015</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pg/makeorbreak.io/photos/?tab=album&album_id=1516594015252196">2014</a>
               </div>
 
               <div className="FooterSectionColumn wide">
