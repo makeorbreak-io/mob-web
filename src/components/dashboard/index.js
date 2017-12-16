@@ -112,7 +112,7 @@ export class Dashboard extends Component {
         <p>
           You can't participate in the Make or Break hackathon <a href="https://github.com/makeorbreak-io/rules#participation" target="_blank" rel="noreferrer noopener">by yourself.</a>
           <br />
-          You can, however, join our <a href="https://makeorbreak-io.slack.com/" target="_blank" rel="noopener noreferrer">Slack community</a> to form a team with other lone rangers!
+          Join our <a href="https://makeorbreak-io.slack.com/" target="_blank" rel="noopener noreferrer">Slack community</a> and form a team with other participants.
         </p>
 
         <div className="slack">
