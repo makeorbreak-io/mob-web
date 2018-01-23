@@ -7,6 +7,7 @@ import sponsorScaleUpPorto from "assets/images/sponsor-scale-up-porto.svg";
 // import sponsorBlip from "assets/images/sponsor-blip.svg";
 // import sponsorSemasio from "assets/images/sponsor-semasio.svg";
 import sponsorLoM from "assets/images/sponsor-lom.svg";
+import sponsorByside from "assets/images/sponsor-byside.svg";
 // import sponsorMindera from "assets/images/sponsor-mindera.png";
 import sponsorHapibot from "assets/images/sponsor-hapibot.svg";
 // import sponsorCP from "assets/images/sponsor-cp.svg";
@@ -22,6 +23,7 @@ export default [
   // { src: sponsorBlip         , url: "http://www.blip.pt/"                     , className: "blip"      , description: "Based in Porto, Blip is a software engineering company with a difference. Founded in 2009, we already have 300 Blippers. And we’re still growing.<br /><br />In 2012, Blip became part of the Betfair Group, based in London. Then, in early 2016, Betfair joined with Paddy Power, to become one of the largest and fastest-growing online betting and gaming operators in the world.<br /><br />The code we write is used by over five million people across the world. The websites, mobile apps and retail systems we create keep us three steps ahead of the competition, from Europe to Australia.<br /><br />With operations across Europe, Australia and the US, annual revenues over £1.5 billion and over five million customers, we’re a global player. Despite this, we’ve never lost our bold approach, or our desire to keep reinventing the industry." },
   // { src: sponsorSemasio      , url: "http://www.semasio.com/"                 , className: "semasio"   , description: "Semasio is a German startup company that develops high-performant, low latency software, focused on infrastructures and machine learning for online advertisement. We have a main development center in Porto, a R&D center in Denmark, and business offices in Hamburg. We’re always looking for talented developers to join our team!" },
   { src: sponsorLoM          , url: "https://lifeonmars.pt/"                  , className: "lom"       , description: "Life on Mars is an elite software consultancy based in Germany and Portugal. We balance a strong engineering culture with a set of agile processes. Our clients range from early-stage startups to large companies such as Twitter, under engagement types ranging from team extensions to emergency incident support." },
+  { src: sponsorByside       , url: "http://www.byside.com/"                  , className: "byside"    , description: null },
   // { src: sponsorMindera      , url: "https://www.mindera.com/"                , className: "mindera"   , description: null },
   { src: sponsorHapibot      , url: "https://www.hapibot.com/"                , className: "hapibot"   , description: null },
   // { src: sponsorAlientech    , url: "https://www.alientech.pt/"               , className: "alientech" , description: null },

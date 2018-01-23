@@ -7,6 +7,7 @@ import { Link } from "react-router";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { values } from "lodash";
+import ReactTooltip from "react-tooltip";
 
 //
 // Components
@@ -43,12 +44,24 @@ export class Landing extends Component {
     this.props.dispatch(fetchMediumPosts());
   }
 
+  componentDidMount() {
+    document.querySelector("#app").addEventListener("scroll", this.hideTooltips);
+  }
+
+  componentWillUnmount() {
+    document.querySelector("#app").removeEventListener("scroll", this.hideTooltips);
+  }
+
   subscribe = (ev) => {
     if (!this.props.valid) ev.preventDefault();
   }
 
   getInvited = ({ EMAIL }) => {
     return getInviteToSlack(EMAIL);
+  }
+
+  hideTooltips = () => {
+    ReactTooltip.hide();
   }
 
   render() {
@@ -216,7 +229,7 @@ export class Landing extends Component {
                     <p key={p.name}>{p.text}</p>
                   ))}
 
-                  <a href={post.webCanonicalUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={`https://medium.com/makeorbreak-io/${post.uniqueSlug}`} target="_blank" rel="noopener noreferrer">
                     <Button straight outline large yellow>Read More</Button>
                   </a>
                 </div>
@@ -240,6 +253,7 @@ export class Landing extends Component {
                     key={src.toString()}
                     className={className}
                     data-tip={description}
+                    onMouseLeave={this.hideTooltips}
                   >
                     <a href={url} target="_blank" rel="noopener noreferrer">
                       <img src={src} />
@@ -269,6 +283,15 @@ export class Landing extends Component {
           </div>
         </section>
         {/* END AI Competition */}
+
+        <ReactTooltip
+          effect="solid"
+          event="mouseover"
+          eventOff="click"
+          className="sponsor-tooltip"
+          offset={{ left: 20 }}
+          html
+        />
 
       </div>
     );
