@@ -118,6 +118,42 @@
       .Button:hover
         color: $purple-dark
 
+  //---------------------------------------------------------------------------- Prizes
+  section#prizes
+    .content
+      padding-left: 70px
+      padding-right: 70px
+      margin-bottom: 100px
+
+      .prizes
+        margin-top: 100px
+        list-style: none
+        display: flex
+        align-items: top
+        justify-content: space-between
+
+        .prize
+          display: inline-block
+          width: 28%
+          text-align: center
+
+          h3, h4, p
+            text-align: left
+
+          h3
+            text-transform: uppercase
+
+          h4
+            color: $orange
+            font-weight: bold
+
+          p
+            padding: 0
+            margin: 0
+
+          img
+            height: 250px
+
   //---------------------------------------------------------------------------- Workshops
   section#workshops
     .content
@@ -151,7 +187,7 @@
     position: relative
     background: #1f1338 url("~assets/images/landing-separator-exes-section.svg") no-repeat top left
     height: 410px
-    
+
     .content
       height: 100%
       background: transparent url("~assets/images/landing-separator-exes-content.svg") no-repeat top left

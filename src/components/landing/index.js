@@ -28,6 +28,7 @@ import { getInviteToSlack } from "api/slack";
 import { composeValidators, validateEmail } from "validators";
 
 import SPONSORS from "./sponsors";
+import { HACKATHON_PRIZES } from "./prizes";
 
 import slackMarkWhite from "assets/images/slack-white.svg";
 import email from "assets/images/email-white.svg";
@@ -85,8 +86,8 @@ export class Landing extends Component {
         {/* Hackathon */}
         <section id="hackathon">
           <div className="content">
-            <h1>Make or Break</h1>
-            <h2>A different kind of hackathon</h2>
+            <h1>Hackathon</h1>
+            <h2>First you make, then you break</h2>
 
             <p>Make or Break has a 3 day hackathon for everyone, divided into 2 main phases:</p>
             <ul>
@@ -102,6 +103,24 @@ export class Landing extends Component {
           </div>
         </section>
         {/* END Hackathon */}
+
+        <section id="prizes">
+          <div className="content">
+            <h1>Prizes</h1>
+            <h2>One per member of each category’s winning team</h2>
+
+            <ul className="prizes">
+              {HACKATHON_PRIZES.map(prize => (
+                <li key={prize.subtitle} className="prize">
+                  <img src={prize.image} alt={prize.subtitle} />
+                  <h3>{prize.title}</h3>
+                  <h4>{prize.subtitle}</h4>
+                  <p>{prize.description}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
         {/* Workshops */}
         <section id="workshops">
