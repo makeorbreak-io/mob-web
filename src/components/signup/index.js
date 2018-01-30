@@ -22,6 +22,7 @@ import { signup } from "actions/authentication";
 // Validation
 import {
   composeValidators,
+  validateEmail,
   validatePresence,
   validateMatch,
   validateChecked,
@@ -29,7 +30,7 @@ import {
 
 const validate = (values) => {
   return composeValidators(
-    validatePresence("email", "Email"),
+    validateEmail("email", "Email"),
     validatePresence("password", "Password"),
     validateMatch("password_confirmation", "Password confirmation", { match: values.password }),
     validateChecked("tos", "Terms of Use"),
@@ -42,7 +43,7 @@ export class Signup extends Component {
     const { email, password } = values;
 
     return this.props
-      .dispatch(signup(email, password))
+      .dispatch(signup(email.trim().toLowerCase(), password))
       .then(() => {
         this.props.router.push("/welcome");
         return Promise.resolve();

@@ -31,7 +31,7 @@ const validate = (values) => {
 export class RecoverPassword extends Component {
 
   onSubmit = (values) => {
-    return getPasswordRecoveryToken(values.email);
+    return getPasswordRecoveryToken(values.email.trim().toLowerCase());
   }
 
   render() {

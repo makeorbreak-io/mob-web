@@ -131,6 +131,7 @@ export class EditableTeamMembers extends Component {
             isValidNewOption={({ label }) => EMAIL_REGEX.test(label)}
             noResultsText={null}
             arrowRenderer={() => {}}
+            promptTextCreator={label => `Add ${label}`}
             creatable
           />
           <Button

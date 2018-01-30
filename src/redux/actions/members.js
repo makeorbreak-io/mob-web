@@ -42,7 +42,7 @@ export const inviteUserByEmail = (email) => {
     return request
     .post("/invites", {
       invite: {
-        email,
+        email: email.trim().toLowerCase(),
       },
     })
     .then(response => {

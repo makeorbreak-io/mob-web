@@ -19,11 +19,11 @@ import { login } from "actions/authentication";
 
 //
 // Validation
-import { composeValidators, validatePresence } from "validators";
+import { composeValidators, validatePresence, validateEmail } from "validators";
 
 const validate = (values) => {
   return composeValidators(
-    validatePresence("email", "Email"),
+    validateEmail("email", "Email"),
     validatePresence("password", "Password"),
   )(values);
 };
@@ -32,7 +32,7 @@ export class Login extends Component {
 
   onLogin = (values) => {
     const { dispatch, router } = this.props;
-    return dispatch(login(values.email, values.password))
+    return dispatch(login(values.email.trim().toLowerCase(), values.password))
     .then(() => router.push("/dashboard"));
   }
 
