@@ -8,6 +8,7 @@ import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { values } from "lodash";
 import ReactTooltip from "react-tooltip";
+import classnames from "classnames";
 
 //
 // Components
@@ -238,15 +239,13 @@ export class Landing extends Component {
               {posts.map(post => (
                 <div key={post.id} className="news-box">
                   <div
-                    className="image"
+                    className={classnames("image", { empty: post.virtuals.previewImage.imageId.length === 0 })}
                     style={{ backgroundImage: `url(https://cdn-images-1.medium.com/max/430/${post.virtuals.previewImage.imageId})` }}
                   />
 
                   <h3>{post.title}</h3>
 
-                  {post.previewContent.bodyModel.paragraphs.map(p => (
-                    <p key={p.name}>{p.text}</p>
-                  ))}
+                  <p>{post.content.subtitle}</p>
 
                   <a href={`https://medium.com/makeorbreak-io/${post.uniqueSlug}`} target="_blank" rel="noopener noreferrer">
                     <Button straight outline large yellow>Read More</Button>
