@@ -29,7 +29,7 @@ import { getInviteToSlack } from "api/slack";
 import { composeValidators, validateEmail } from "validators";
 
 import SPONSORS from "./sponsors";
-import { HACKATHON_PRIZES } from "./prizes";
+import { HACKATHON_PRIZES, AI_COMP_PRIZES } from "./prizes";
 
 import slackMarkWhite from "assets/images/slack-white.svg";
 import email from "assets/images/email-white.svg";
@@ -95,8 +95,8 @@ export class Landing extends Component {
               <li>Make: 2 days to develop a software project (maybe add some hardware 🤓)</li>
               <li>Break: showcase your project to all participants in a small fair</li>
             </ul>
-            <p>Come and experiment with a new platform, API, or that idea that's always been in the back of your mind.</p>
-            <p>We've got everything you need to get your creative juices flowing: amazing mentors, yummy food, and a kickass chill-out zone!</p>
+            <p>Apply and experiment with a new idea to win amazing prizes! (one per member of each category’s winning team)</p>
+            <p>We've got great mentors, food, and a kickass chill-out zone!</p>
 
             <a href="/rules" target="_blank" rel="noreferrer noopener">
               <Button straight large outline cyan>Regulation</Button>
@@ -135,6 +135,42 @@ export class Landing extends Component {
           </div>
         </section>
         {/* END Workshops */}
+
+        {/* AI Competition */}
+        <section id="ai-competition">
+          <div className="content">
+            <h1>AI Competition</h1>
+            <h2>Create a bot to rule the board!</h2>
+
+            <p>
+              Starting March 2018 we will host an AI competition. You will be able to start experimenting during February.
+              <br />
+              The goal is to create an AI agent capable of playing a simple board game created for the competition.
+              <br />
+              You can develop it in a programming language of your choice (supported languages to be announced soon).
+            </p>
+            <p>
+              Hop on to our rules page to know more!
+            </p>
+
+            <a href="/ai-competition" target="_blank" rel="noopener noreferrer">
+              <Button straight large outline cyan>Regulation (WIP)</Button>
+            </a>
+
+            <ul className="prizes">
+              {AI_COMP_PRIZES.map(prize => (
+                <li key={prize.title} className="prize">
+                  <img src={prize.image} alt={prize.subtitle} />
+                  <div>
+                    <h3>{prize.title}</h3>
+                    <h4>{prize.subtitle.split("\n").map((line, i) => (<div key={i}>{line}</div>))}</h4>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+        {/* END AI Competition */}
 
         {/* Separator */}
         <section id="separator">
@@ -294,13 +330,6 @@ export class Landing extends Component {
           </div>
         </section>
         {/* END MoB Sessions */}
-
-        {/* AI Competition */}
-        <section id="ai-competition">
-          <div className="content">
-          </div>
-        </section>
-        {/* END AI Competition */}
 
         <ReactTooltip
           effect="solid"
