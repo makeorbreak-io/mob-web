@@ -48,6 +48,12 @@ export class Landing extends Component {
 
   componentDidMount() {
     document.querySelector("#app").addEventListener("scroll", this.hideTooltips);
+
+    const { hash } = window.location;
+    if (hash) {
+      const node = document.querySelector(hash);
+      node && node.scrollIntoView();
+    }
   }
 
   componentWillUnmount() {
@@ -140,7 +146,7 @@ export class Landing extends Component {
         <section id="ai-competition">
           <div className="content">
             <h1>AI Competition</h1>
-            <h2>Create a bot to rule the board!</h2>
+            <h2>One bot to rule the board!</h2>
 
             <p>
               Starting March 2018 we will host an AI competition. You will be able to start experimenting during February.
@@ -153,7 +159,7 @@ export class Landing extends Component {
               Hop on to our rules page to know more!
             </p>
 
-            <a href="/ai-competition" target="_blank" rel="noopener noreferrer">
+            <a href="/ai-regulation" target="_blank" rel="noopener noreferrer">
               <Button straight large outline cyan>Regulation (WIP)</Button>
             </a>
 
