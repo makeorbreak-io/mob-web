@@ -306,21 +306,23 @@ export class Landing extends Component {
             <h2>We have some amazing sponsors</h2>
 
             <div className="sponsors">
-              <ul className="sponsor-list">
-                {SPONSORS.map(({ src, url, className, description }) => (
-                  <li
-                    id={className}
-                    key={src.toString()}
-                    className={className}
-                    data-tip={description}
-                    onMouseLeave={this.hideTooltips}
-                  >
-                    <a href={url} target="_blank" rel="noopener noreferrer">
-                      <img src={src} />
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              {SPONSORS.map((group, i) => (
+                <ul key={i} className="sponsor-list">
+                  {group.map(({ src, url, className, description }) => (
+                    <li
+                      id={className}
+                      key={className}
+                      className={className}
+                      data-tip={description}
+                      onMouseLeave={this.hideTooltips}
+                    >
+                      <a href={url} target="_blank" rel="noopener noreferrer">
+                        <img src={src} />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ))}
 
               <a href="mailto:info@makeorbreak.io?subject=MoB 2018 sponsorship" rel="noopener noreferrer" target="_blank">
                 <Button straight outline large purple>Become a sponsor</Button>
@@ -342,7 +344,6 @@ export class Landing extends Component {
           event="mouseover"
           eventOff="click"
           className="sponsor-tooltip"
-          offset={{ left: 20 }}
           html
         />
 
