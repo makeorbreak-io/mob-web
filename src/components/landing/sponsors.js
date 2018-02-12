@@ -14,7 +14,7 @@ export default [
     { src: sponsorLoM   , url: "https://lifeonmars.pt/" , className: "lom"   , description: "Life on Mars is an elite software consultancy based in Germany and Portugal. We balance a strong engineering culture with a set of agile processes. Our clients range from early-stage startups to large companies such as Twitter, under engagement types ranging from team extensions to emergency incident support." },
 
     // silver
-    { src: sponsorAbyssal , url: "https://abyssal.eu/home/", className: "abyssal", description: "Abyssal develops integrated Subsea Navigation Solutions for Remotely Operated Vehicles (ROVs) in the Oil & Gas, Marine Renewables and Underwater Mining industries.<br /><br />Our aim is to enable offshore and onshore O&G personnel to obtain relevant and accurate real-time information and to perform safer and more efficient ROV Operations thus decreasing the likelihood of incidents, accidents and associated costs.<br /><br /> Backed by our close relationships with the industry, the expertise of our team, the continuous R&D activities and our commitment to provide our customers “vision in depth”, we are able to provide state of the art solutions." },
+    { src: sponsorAbyssal , url: "https://abyssal.eu/home/", className: "abyssal", description: "Abyssal develops integrated Subsea Navigation Solutions for Remotely Operated Vehicles (ROVs) in the Oil & Gas, Marine Renewables and Underwater Mining industries.<br /><br />Our aim is to enable offshore and onshore O&G personnel to obtain relevant and accurate real-time information and to perform safer and more efficient ROV Operations thus decreasing the likelihood of incidents, accidents and associated costs." },
   ],
 
   [
