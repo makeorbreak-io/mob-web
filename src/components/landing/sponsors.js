@@ -19,7 +19,7 @@ export default [
 
   [
     // bronze
-    { src: sponsorByside  , url: "http://www.byside.com/"   , className: "byside"  , description: null },
+    { src: sponsorByside  , url: "http://www.byside.com/"   , className: "byside"  , description: "BySide is a Lead Activation Company that dynamically combines information on customer behaviour and allows cross-channel marketing automation, real-time personalization, creating an integrated customer user experience and a seamless connection between offline and online.<br /><br />With headquarters in Porto and offices in Madrid, London, Mexico City and Sao Paulo, we help Big Companies from Telecommunications, Financial Services and Retail in more than 21 countries." },
     { src: sponsorHapibot , url: "https://www.hapibot.com/" , className: "hapibot" , description: null },
 
     // copper
