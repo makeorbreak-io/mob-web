@@ -1,7 +1,7 @@
 import sponsorDoist from "assets/images/sponsor-doist.svg";
 import sponsorLoM from "assets/images/sponsor-lom.svg";
 import sponsorAbyssal from "assets/images/sponsor-abyssal.svg";
-// import sponsorJumia from "assets/images/sponsor-jumia.svg";
+import sponsorJumia from "assets/images/sponsor-jumia.svg";
 import sponsorByside from "assets/images/sponsor-byside.svg";
 import sponsorHapibot from "assets/images/sponsor-hapibot.svg";
 import sponsorCMP from "assets/images/sponsor-cmp.svg";
@@ -23,7 +23,7 @@ export default [
     { src: sponsorHapibot , url: "https://www.hapibot.com/" , className: "hapibot" , description: null },
 
     // copper
-    // { src: sponsorJumia, url: "https://group.jumia.com/", className: "jumia", description: null },
+    { src: sponsorJumia, url: "https://group.jumia.com/", className: "jumia", description: "Jumia is Africa's leading internet group, with already over 3,000 employees in more than 20 African countries and huge successes such as Jumia, Jumia Travel, Jumia Food, Jumia Deals, Jumia House, Jumia Jobs and Jumia Services. It is led by top talented leaders offering a great mix of local and international talents and is backed by MTN, Millicom, Rocket Internet, Axa, Orange, Goldman Sachs & CdC.<br /><br />Porto Tech Centre (PTC) is Jumia’s IT development centre, with around 200 IT-specialists. Porto Tech Centre was created in 2012 with the aim of focusing on IT development. At PTC, we work in an entrepreneurial environment and develop smart solutions for our group companies. We do e-commerce online shops, logistics, business intelligence and mobile applications, involving a wide range of high-end technologies for tens of millions customers. The software we create is present in more than 20 countries." },
   ],
 
   // partners
