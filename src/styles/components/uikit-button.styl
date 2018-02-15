@@ -1,0 +1,173 @@
+@import "~styles/variables"
+
+$hover = 20%
+$disabled = 50%
+ComposeButton($color)
+  &
+    background: $color
+    border-color: $color
+
+    &:hover, &.active
+      background: lighten($color, $hover)
+      border-color: lighten($color, $hover)
+
+    &.hollow, &.fakelink
+      color: $color
+
+      &:hover
+        color: lighten($color, $hover)
+
+    &.fakelink:hover
+      background: transparent
+
+    &.disabled, &.disabled:hover
+      background: $button-disabled // lighten($color, $disabled)
+      border-color: $button-disabled // lighten($color, $disabled)
+
+.Button
+  position: relative
+  display: inline-block
+  padding: 0 40px
+  height: 40px
+  line-height: @height - 2px
+  border: 1px solid transparent
+  background: white
+  outline: none
+  color: $text-grey
+  border-radius: 3px
+  transition: all linear 200ms
+  cursor: pointer
+  font: normal normal 500 16px Poppins, sans-serif
+
+  //
+  // colors
+  &.primary, &.success, &.warning, &.danger, &.nobg, &.orange
+    color: white
+
+    &.hollow, &.hollow:hover
+      background: white
+
+  &.cta
+    color: $yellow
+
+  &.primary, &.cta
+    ComposeButton($button-primary)
+  &.success
+    ComposeButton($button-success)
+  &.warning
+    ComposeButton($button-warning)
+  &.danger
+    ComposeButton($button-danger)
+  &.nobg
+    ComposeButton(transparent)
+  &.orange
+    ComposeButton($orange)
+  &.cyan
+    ComposeButton($cyan)
+    color: $cyan
+  &.yellow
+    ComposeButton($yellow)
+    color: $yellow
+  &.pink
+    ComposeButton($pink)
+    color: white
+    &:hover
+      color: white
+  &.purple
+    ComposeButton($purple-bright)
+    color: $purple-bright
+    &:hover
+      color: white
+
+  //
+  // sizes
+  &.small
+    font-size: 14px
+    padding: 0 15px
+    height: 30px
+    line-height: @height - 2px
+
+  &.large
+    font-size: 22px
+    height: 65px
+    line-height: @height - 2px
+    padding: 0 80px
+
+  &.bold
+    font-weight: 600
+
+  //
+  // visual styles
+  &.framed
+    &:before, &:after
+      position: absolute
+      line-height: normal
+      font-size: 35px
+
+    &:before
+      content: "┌"
+      top: -33px
+      left: -25px
+
+    &:after
+      content: "┘"
+      bottom: -33px
+      right: -25px
+
+  &.straight
+    border-radius: 0
+
+  &.outline
+    background: none
+    border-width: 2px
+
+  //
+  // behaviour
+  &.disabled
+    cursor: default
+
+  &.inactive
+    cursor: default
+    text-decoration: line-through
+    background transparent
+    border: 1px solid $teal
+    color: $teal
+
+  &.fakelink
+    border: none
+    background: transparent
+    text-decoration: underline
+    padding: 0
+    height: auto
+    line-height: initial
+
+  &.centered
+    position: relative
+    left: 50%
+    transform: translateX(-50%)
+
+  &.form
+    margin-top: 35px
+    width: 40%
+    float: right
+    height: 50px
+    line-height: @height
+
+    &.centered
+      width: auto
+      float: none
+
+  //
+  // dimensions
+  &.fullwidth
+    width: 100% !important
+
+  &.halfwidth
+    width: 50% !important
+    margin-left: auto
+    margin-right: auto
+
+  //
+  // children
+  .Spinner
+    vertical-align: text-bottom

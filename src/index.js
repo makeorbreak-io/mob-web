@@ -1,3 +1,10 @@
+// styles
+import "assets/reset";
+
+import "react-select/dist/react-select.css";
+
+import "styles/application";
+
 import React from "react";
 import { render } from "react-dom";
 import Raven from "raven-js";
@@ -6,23 +13,23 @@ import Raven from "raven-js";
 // Components
 import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
-import AppLoader from "core/app_loader";
+import AppLoader from "components/AppLoader";
 import router from "./router";
 
 //
 // Redux
-import store from "redux-root/store";
+import store from "store";
 import { performSetup } from "actions/setup";
 
 //
 // Apollo
-import gqlClient from "./gqlClient";
+import gqlClient from "gqlClient";
 import { ApolloProvider } from "react-apollo";
 
 //
 // Config
-import env from "environment";
-import { initGA } from "./analytics/index";
+import env from "config/environment";
+import { initGA } from "analytics/index";
 
 // init redux
 store.dispatch(performSetup());

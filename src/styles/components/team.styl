@@ -1,0 +1,103 @@
+@import "~styles/variables"
+
+.Team .SortableList ul li
+.SortableListItem
+  position: relative
+
+  &:after
+    content: "☰"
+    position: absolute
+    right: 15px
+    top: 10px
+    color: rgba(white, 0.7)
+    font-size: 20px
+    cursor: grab
+
+  &.dragging
+    cursor: grabbing
+
+  &.hardcore
+    background: $mob-purple
+  &.useful
+    background: $mob-green
+  &.funny
+    background: $orange
+
+.Team
+  width: 100%
+
+  h2
+    display: flex
+    align-items: center
+
+    .status
+      font-size: 18px
+      color: $label-grey
+      margin-left: 10px
+
+    .actions
+      margin-left: auto
+      .Button
+        margin-left: 10px
+
+  > form .Button
+    display: none
+
+  .prize-order-preferences
+    padding-bottom: 10px
+
+    hr
+      margin-bottom: 50px
+
+.TeamMembers
+  display: block
+
+  .Members .Member,
+  .Invites .Invite
+    position: relative
+    height: 70px
+    display: flex
+    align-items: center
+    justify-content: flex-start
+
+  &.static
+    label
+      margin-bottom: 20px
+
+    .Members
+      margin: 0 0 20px
+
+  &.editable
+    .Invites, .Members
+      list-style: none
+      padding: 0
+      margin-bottom: 20px;
+    
+    .Invite, .Member
+      padding: 5px 0
+      margin: 0
+
+      .Button
+        position: absolute
+        right: 0
+        top: 20px
+        width: 110px
+
+    form
+      .Select, .Button
+        display: inline-block
+        vertical-align: top
+      .Select
+        width: 65%
+        margin: 0
+
+        .Select-arrow-zone
+          display: none
+
+        .Select-clear-zone
+          padding: 0 15px
+        
+      .Button
+        width: 32%
+        margin-left: 3%
+        margin-top: 0

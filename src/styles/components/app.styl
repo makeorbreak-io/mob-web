@@ -1,0 +1,181 @@
+@import "~styles/variables"
+
+*, *:before, *:after
+  box-sizing: border-box
+
+html, body, #app
+  margin: 0
+  padding: 0
+  width: 100vw
+  height: 100vh
+  font: normal normal 400 14px Asap, sans-serif
+  color: $text-grey
+
+#app
+  overflow-x: hidden
+  overflow-y: auto
+
+h1, h2, h3
+  font: normal normal 600 32px Poppins, serif
+  text-align: center
+  margin: 20px auto
+h2
+  font-size: 28px
+h3
+  font-size: 22px
+
+h4, h5, h6
+  font: normal normal 300 18px sans-serif
+  text-align: center
+  margin: 15px auto
+  color: $label-grey
+h5
+  font-size: 16px
+h6
+  font-size: 14px
+
+p
+  margin: 20px 0
+  padding: 0
+  font-weight: 400
+  font-size: 16px
+  line-height: 25px
+  color: $dark-grey
+
+i
+  font-style: italic
+
+b
+  font-weight: 500
+
+a, a:link, a:active, a:visited
+  color: $mob-purple
+
+a:hover
+  color: darken($mob-purple, 20%)
+
+hr
+  border: none
+  border-bottom: 1px solid $hr-border
+  margin: 20px 0
+
+table
+  border-collapse: collapse
+
+.App
+  width: 100vw
+  position: relative
+  min-height: 100vh
+  padding-bottom: $footer-height
+
+  .AppContent
+    width: 100vw
+    height: 100%
+    display: flex
+    align-items: flex-start
+    justify-content: center
+    background: #e9e9e9
+    transition: transform $page-transition-ms ease-in-out, opacity $page-transition-ms ease-in-out
+
+    &.fade-out
+      transform: scale3d(.99, .99, 1)
+      opacity: 0
+
+  .content
+    position: relative
+    margin: 0 auto
+    width: $content-width
+    padding: 0 $content-side-padding
+
+    &.white
+      background: white
+      min-height: "calc(100vh - %s - %s)" % ($footer-height $navbar-height)
+      box-shadow: 0 0 6px 2px rgba(black, 0.2)
+      padding-bottom: 50px
+
+    &.columns
+      display: flex
+      justify-content: space-between
+
+      > div
+        padding: 200px 20px
+
+        &:first-child
+          width: 30%
+          background: blue
+        &:last-child
+          width: 67%
+          background: green
+
+//
+// Global styles
+// (create these sparingly)
+
+.narrow-container
+  position: relative
+  width: 435px
+  padding-top: 50px
+  margin: 0 auto
+
+p.small-notice
+  margin: 10px 0
+  color: $label-grey
+  font-size: 14px
+  font-weight: 300
+  text-align: center
+
+// red asterisks on checkbox labels
+.required
+  color: $red
+  font-size: 20px
+  vertical-align: top
+
+.tag
+  display: inline-block
+  font-size: 14px
+  padding: 3px 5px
+  border: 1px solid $label-grey
+  color: $label-grey
+  margin: 0 3px 3px 0
+  border-radius: 3px
+
+  &.green, &.purple, &.red
+    color: white
+
+  &.green
+    background: $mob-green
+    border-color: darken($mob-green, 20%)
+
+  &.purple
+    background: $mob-purple
+    border-color: darken($mob-purple, 20%)
+
+  &.red
+    background: $mob-red
+    border-color: darken($mob-red, 20%)
+
+//
+// used for team deletion and others
+// should be placed at the bottom of the
+// relevant form / page
+//
+.danger-zone // LANA!
+  margin: 30px auto 10px
+  border: 1px solid $mob-red
+  padding: 10px
+  border-radius: 3px
+  text-align: center
+
+  .Button:first-child
+    margin: 0 auto 20px
+
+//
+// Utility classes
+.clearfix
+  &:after
+    content: ""
+    display: table
+    clear: both
+
+.hidden
+  display: none

@@ -4,38 +4,38 @@ import { Router, Route, IndexRoute, browserHistory } from "react-router";
 //
 // Top-level components
 import App from "components/app";
-import Authenticated from "core/authenticated";
-import Authorized from "core/authorized";
+import Authenticated from "components/authenticated";
+import Authorized from "components/authorized";
 
 //
 // Public components
-import Landing from "components/landing";
-import Dashboard from "components/dashboard";
-import { StandaloneLogin } from "components/login";
-import { StandaloneSignup } from "components/signup";
-import RecoverPassword from "components/recover_password";
-import ResetPassword from "components/reset_password";
+import Landing from "components/Landing";
+import Dashboard from "components/Dashboard";
+import { StandaloneLogin } from "components/Login";
+import { StandaloneSignup } from "components/Signup";
+import RecoverPassword from "components/RecoverPassword";
+import ResetPassword from "components/ResetPassword";
 
 //
 // Participant components
-import UserOnboarding from "components/user_onboarding";
-import UserChrome from "components/user_chrome";
-import { AccountTeam } from "components/account";
-import Team from "components/team";
-import ParticipationCertificate from "components/participation_certificate";
+import UserOnboarding from "components/UserOnboarding";
+import UserChrome from "components/UserChrome";
+import AccountTeam from "components/AccountTeam";
+import Team from "components/Team";
+import ParticipationCertificate from "components/ParticipationCertificate";
 // import VotingBooth from "components/voting_booth";
 
 //
 // Admin components
-import AdminDashboard from "components/admin/dashboard";
-import AdminUsers from "components/admin/users";
-import AdminWorkshops from "components/admin/workshops";
-import AdminEditWorkshop from "components/admin/workshops/edit";
-import AdminTeams from "components/admin/teams";
-import CheckIn from "components/admin/check_in";
-import WorkshopCheckIn from "components/admin/workshop_check_in";
-import PaperVotes from "components/admin/paper_votes";
-import PrintablePaperVote from "components/admin/paper_votes/printable";
+import AdminDashboard from "components/admin/Dashboard";
+import AdminUsers from "components/admin/Users";
+import AdminWorkshops from "components/admin/Workshops";
+import AdminEditWorkshop from "components/admin/Workshops.Edit";
+import AdminTeams from "components/admin/Teams";
+import CheckIn from "components/admin/CheckIn";
+import WorkshopCheckIn from "components/admin/WorkshopCheckIn";
+import PaperVotes from "components/admin/PaperVotes";
+import PrintablePaperVote from "components/admin/PaperVotes.Printable";
 
 //
 // Constants

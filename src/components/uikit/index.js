@@ -1,12 +1,12 @@
-export Avatar from "./avatar";
-export Button from "./button";
-export DataTable from "./data_table";
-export ErrorMessage from "./error_message";
-export FormSectionHeader from "./form_section_header";
-export Modal from "./modal";
-export SortableList from "./sortable_list";
-export Spinner from "./spinner";
-export Toaster from "./toaster";
+export Avatar from "./Avatar";
+export Button from "./Button";
+export DataTable from "./DataTable";
+export ErrorMessage from "./ErrorMessage";
+export FormSectionHeader from "./FormSectionHeader";
+export Modal from "./Modal";
+export SortableList from "./SortableList";
+export Spinner from "./Spinner";
+export Toaster from "./Toaster";
 
 // helper methods
 export const buttonPropsFromReduxForm = ({ submitting, submitSucceeded, submitFailed }) => ({

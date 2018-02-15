@@ -13,8 +13,9 @@
 //   .discard     // func, should be called on componentWillUnmount
 //   .currentStep // integer
 
-import store from "redux-root/store";
 import { connect } from "react-redux";
+
+import store from "store";
 
 import {
   addFlow,

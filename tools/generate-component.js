@@ -3,7 +3,7 @@ const program = require("commander");
 const { last, slice, snakeCase } = require("lodash");
 
 const stylusTemplate = 
-`@import "~components/variables"
+`@import "~styles/variables"
 
 .:name:
   position: relative
