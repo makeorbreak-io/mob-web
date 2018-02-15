@@ -15,6 +15,11 @@ import store from "redux-root/store";
 import { performSetup } from "actions/setup";
 
 //
+// Apollo
+import gqlClient from "./gqlClient";
+import { ApolloProvider } from "react-apollo";
+
+//
 // Config
 import env from "environment";
 import { initGA } from "./analytics/index";
@@ -33,11 +38,13 @@ if (process.env.NODE_ENV === "production") {
 render(
   (
     <Provider store={store}>
-      <AppLoader>
-        <AppContainer>
-          {router}
-        </AppContainer>
-      </AppLoader>
+      <ApolloProvider client={gqlClient}>
+        <AppLoader>
+          <AppContainer>
+            {router}
+          </AppContainer>
+        </AppLoader>
+      </ApolloProvider>
     </Provider>
   ),
   document.getElementById("app"),

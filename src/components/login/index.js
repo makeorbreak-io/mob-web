@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { compose, setDisplayName, getContext } from "recompose";
 import { Field, reduxForm } from "redux-form";
 import { Link } from "react-router";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
 
 //
 // Components
@@ -15,7 +17,7 @@ import { Tabs, Tab, Panel } from "uikit/tabs";
 
 //
 // Redux
-import { login } from "actions/authentication";
+// import { login } from "actions/authentication";
 
 //
 // Validation
@@ -30,10 +32,19 @@ const validate = (values) => {
 
 export class Login extends Component {
 
-  onLogin = (values) => {
-    const { dispatch, router } = this.props;
-    return dispatch(login(values.email.trim().toLowerCase(), values.password))
-    .then(() => router.push("/dashboard"));
+  onLogin = ({ email, password }) => {
+    const { router, authenticate } = this.props;
+
+    return authenticate({
+      variables: { email: email.trim().toLowerCase(), password },
+    })
+    .then(response => {
+      localStorage["jwt"] = response.data.authenticate;
+      router.push("/dashboard");
+    });
+
+    // return dispatch(login(values.email.trim().toLowerCase(), values.password))
+    // .then(() => router.push("/dashboard"));
   }
 
   render() {
@@ -117,6 +128,13 @@ export const StandaloneLogin = compose(
     form: "login",
     validate,
   }),
+
+  graphql(
+    gql`mutation authenticate($email: String!, $password: String!) {
+      authenticate(email: $email, password: $password)
+    }`,
+    { name: "authenticate" },
+  ),
 )((props) => (
   <div className="content white">
     <div className="narrow-container">

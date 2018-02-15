@@ -10,6 +10,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, getContext } from "recompose";
 import classnames from "classnames";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
 
 //
 // Components
@@ -64,5 +66,9 @@ export class App extends Component {
 export default compose(
   getContext({
     router: PropTypes.object.isRequired,
-  })
+  }),
+
+  graphql(gql`{
+    me { id }
+  }`),
 )(App);
