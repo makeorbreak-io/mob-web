@@ -1,28 +1,31 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { compose, setDisplayName, getContext, lifecycle } from "recompose";
-import { connect } from "react-redux";
+import { compose, setDisplayName, lifecycle } from "recompose";
+import { withRouter } from "react-router";
 
-export const Authenticated = ({ currentUser, children }) => (currentUser ? children : <div />);
+import { withCurrentUser, waitForData } from "enhancers";
+
+export const Authenticated = ({ data: { me }, children }) => (me ? children : <div />);
 
 export default compose(
   setDisplayName("Authenticated"),
 
-  getContext({
-    router: PropTypes.object.isRequired, 
-  }),
+  withRouter,
 
-  connect(({ currentUser }) => ({ currentUser })),
+  withCurrentUser,
+
+  waitForData,
 
   lifecycle({
     componentWillMount() {
-      const { currentUser, router } = this.props;
-      if (!currentUser) router.push("/");
+      const { data: { me }, router } = this.props;
+
+      if (!me) router.push("/");
     },
 
     componentWillReceiveProps(nextProps) {
-      const { currentUser, router } = nextProps;
-      if (!currentUser) router.push("/");
+      const { data: { me }, router } = nextProps;
+
+      if (!me) router.push("/");
     },
   }),
 )(Authenticated);

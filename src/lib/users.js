@@ -1,6 +1,6 @@
 import { get, isFunction } from "lodash";
 
-export const gravatarUrl = (user, size = 140) => `https://www.gravatar.com/avatar/${user.gravatar_hash}?s=${size}&d=mm`;
+export const gravatarUrl = (user, size = 140) => `https://www.gravatar.com/avatar/${user.gravatarHash}?s=${size}&d=mm`;
 
 // columns = [ [ label, path ], [ label, func(item) ], ... ]
 export const toCSV = (collection, columns = []) => {

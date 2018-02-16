@@ -1,9 +1,16 @@
 import React, { Component, Fragment } from "react";
-import { compose, setDisplayName } from "recompose";
+import { compose, mapProps, setDisplayName } from "recompose";
 import { Field, reduxForm } from "redux-form";
-import { connect } from "react-redux";
-import { map } from "lodash";
+import { map, omit } from "lodash";
 import classnames from "classnames";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+//
+// Enhancers
+import { withCurrentUser, waitForData } from "enhancers";
+
+import { fullUser } from "fragments";
 
 //
 // Components
@@ -14,10 +21,6 @@ import {
 } from "components/uikit";
 
 //
-// Redux
-import { updateCurrentUser } from "actions/current_user";
-
-//
 // Constants
 import { EMPLOYMENT_STATUS } from "constants/account_settings";
 import { DATE_FORMAT } from "constants/date";
@@ -26,30 +29,23 @@ import { TSHIRT_SIZES } from "constants/user";
 //
 // Util
 import { formatDate } from "lib/date";
+import { handleGraphQLErrors } from "lib/graphql";
 
 //
 // Validation
 import {
   composeValidators,
   validatePresence,
+  validateEmail,
   validateDateFormat,
 } from "validators";
 
-const validate = ({ name, ...rest }) => {
-  const values = {
-    first_name: name.split(/\s+/)[0],
-    last_name: name.split(/\s+/)[1],
-    ...rest,
-  };
-
-  return composeValidators(
-    validatePresence("first_name", "First name"),
-    validatePresence("email", "Email"),
-    validatePresence("tshirt_size", "T-Shirt size"),
-
-    validateDateFormat("birthday", "Birthday", { format: DATE_FORMAT }),
-  )(values);
-};
+const validate = composeValidators(
+  validatePresence("name", "Name"),
+  validateEmail("email", "Email"),
+  validatePresence("tshirt_size", "T-Shirt size"),
+  validateDateFormat("birthday", "Birthday", { format: DATE_FORMAT }),
+);
 
 export class AccountSettings extends Component {
 
@@ -69,14 +65,16 @@ export class AccountSettings extends Component {
 
   }
 
-  onSubmit = (values) => {
-    const { dispatch, currentUser: { id } } = this.props;
-
-    return dispatch(updateCurrentUser(id, values)).finally(() => this.setState({ editing: false }));
+  onSubmit = (user) => {
+    return this.props.updateMe({
+      variables: { user },
+    })
+    .then(() => this.setState({ editing: false }))
+    .catch(handleGraphQLErrors);
   }
 
   render() {
-    const { handleSubmit, currentUser } = this.props;
+    const { data: { me }, handleSubmit } = this.props;
     const { editing } = this.state;
 
     const formCx = classnames({ editing });
@@ -123,14 +121,14 @@ export class AccountSettings extends Component {
             </div>
 
             <div className="form-row">
-              <label htmlFor="tshirt_size">T-Shirt Size</label>
-              <Field id="tshirt_size" name="tshirt_size" component="select" className="fullwidth" disabled={!editing}>
+              <label htmlFor="tshirtSize">T-Shirt Size</label>
+              <Field id="tshirtSize" name="tshirtSize" component="select" className="fullwidth" disabled={!editing}>
                 <option value="" disabled>Choose your t-shirt size</option>
                 {TSHIRT_SIZES.map(size =>
                   <option key={size} value={size}>{size}</option>
                 )}
               </Field>
-              <ErrorMessage form="account-settings" field="tshirt_size" />
+              <ErrorMessage form="account-settings" field="tshirtSize" />
             </div>
 
             <div className="form-row">
@@ -147,15 +145,15 @@ export class AccountSettings extends Component {
 
             {/* Social Media */}
             <div className="form-row">
-              <label htmlFor="github_handle">Social Media</label>
-              <Field id="github_handle" name="github_handle" component="input" type="text" placeholder="Github handle" className="fullwidth icon github" disabled={!editing} />
-              <ErrorMessage form="account-settings" field="github_handle" />
+              <label htmlFor="githubHandle">Social Media</label>
+              <Field id="githubHandle" name="githubHandle" component="input" type="text" placeholder="Github handle" className="fullwidth icon github" disabled={!editing} />
+              <ErrorMessage form="account-settings" field="githubHandle" />
 
-              <Field name="twitter_handle" component="input" type="text" placeholder="Twitter handle" className="fullwidth icon twitter" disabled={!editing} />
-              <ErrorMessage form="account-settings" field="twitter_handle" />
+              <Field name="twitterHandle" component="input" type="text" placeholder="Twitter handle" className="fullwidth icon twitter" disabled={!editing} />
+              <ErrorMessage form="account-settings" field="twitterHandle" />
 
-              <Field name="linkedin_url" component="input" type="text" placeholder="Linkedin URL" className="fullwidth icon linkedin" disabled={!editing} />
-              <ErrorMessage form="account-settings" field="linkedin_url" />
+              <Field name="linkedinUrl" component="input" type="text" placeholder="Linkedin URL" className="fullwidth icon linkedin" disabled={!editing} />
+              <ErrorMessage form="account-settings" field="linkedinUrl" />
             </div>
 
             {/* Employment and Education */}
@@ -164,7 +162,7 @@ export class AccountSettings extends Component {
               <Field id="college" name="college" component="input" type="text" placeholder="College" className="fullwidth" disabled={!editing} />
               <ErrorMessage form="account-settings" field="college" />
 
-              <Field name="employment_status" component="select" className="fullwidth" disabled={!editing}>
+              <Field name="employmentStatus" component="select" className="fullwidth" disabled={!editing}>
                 <option value="" disabled>Employment Status</option>
                 {map(EMPLOYMENT_STATUS, (label, status) =>
                   <option key={status} value={status}>{label}</option>
@@ -190,53 +188,52 @@ export class AccountSettings extends Component {
               </Button>
             }
           </form>
-        
         }
 
         {!editing &&
           <div>
             <label>Name</label>
-            <p>{currentUser.first_name} {currentUser.last_name}</p>
+            <p>{me.name}</p>
 
             <label>Email</label>
-            <p>{currentUser.email}</p>
+            <p>{me.email}</p>
 
-            {currentUser.tshirt_size &&
+            {me.tshirtSize &&
               <Fragment>
                 <label>T-shirt size</label>
-                <p>{currentUser.tshirt_size}</p>
+                <p>{me.tshirtSize}</p>
               </Fragment>
             }
 
-            {currentUser.birthday &&
+            {me.birthday &&
               <Fragment>
                 <label>Birthday</label>
-                <p>{currentUser.birthday}</p>
+                <p>{me.birthday}</p>
               </Fragment>
             }
 
-            {currentUser.birthday &&
+            {me.birthday &&
               <Fragment>
                 <label>Bio</label>
-                <p>{currentUser.bio}</p>
+                <p>{me.bio}</p>
               </Fragment>
             }
 
-            {(currentUser.github_handle || currentUser.twitter_handle || currentUser.linkedin_url) &&
+            {(me.githubHandle || me.twitterHandle || me.linkedinUrl) &&
               <Fragment>
                 <label>Social Media</label>
-                <p>{currentUser.github_handle}</p>
-                <p>{currentUser.twitter_handle}</p>
-                <p>{currentUser.linkedin_url}</p>
+                <p>{me.github_handle}</p>
+                <p>{me.twitter_handle}</p>
+                <p>{me.linkedin_url}</p>
               </Fragment>
             }
 
-            {(currentUser.college || currentUser.employment_status || currentUser.company) &&
+            {(me.college || me.employmentStatus || me.company) &&
               <Fragment>
                 <label>Employment and Education</label>
-                <p>{currentUser.college}</p>
-                <p>{currentUser.employment_status}</p>
-                <p>{currentUser.company}</p>
+                <p>{me.college}</p>
+                <p>{me.employmentStatus}</p>
+                <p>{me.company}</p>
               </Fragment>
             }
           </div>
@@ -251,16 +248,24 @@ export class AccountSettings extends Component {
 export default compose(
   setDisplayName("AccountSettings"),
 
-  connect(({ currentUser }) => ({
-    currentUser,
-    initialValues: {
-      ...currentUser,
-      name: `${currentUser.first_name} ${currentUser.last_name}`,
-    },
+  withCurrentUser,
+
+  waitForData,
+
+  mapProps(props => ({
+    ...props,
+    initialValues: omit(props.data.me, "__typename", "id", "invitations", "teams", "displayName", "gravatarHash"),
   })),
 
   reduxForm({
     form: "account-settings",
     validate,
   }),
+
+  graphql(
+    gql`mutation updateMe($user: UserInput!) {
+      updateMe(user: $user) { ...fullUser }
+    } ${fullUser}`,
+    { name: "updateMe" },
+  ),
 )(AccountSettings);

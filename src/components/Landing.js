@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { compose } from "recompose";
 import { Link } from "react-router";
 import { reduxForm, Field } from "redux-form";
-import { connect } from "react-redux";
-import { values } from "lodash";
 import ReactTooltip from "react-tooltip";
 import classnames from "classnames";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+import { cloneDeep } from "lodash";
+
+import { waitForData } from "enhancers";
 
 //
 // Components
@@ -14,10 +17,6 @@ import {
   ErrorMessage,
   buttonPropsFromReduxForm,
 } from "components/uikit";
-
-//
-// redux
-import { fetchMediumPosts } from "actions/posts";
 
 //
 // apis
@@ -40,6 +39,34 @@ const validate = (values) => {
   )(values);
 };
 
+const MediumPosts = compose(
+  graphql(gql`{ medium { posts } }`),
+  waitForData,
+)(props => (
+  <section id="news">
+    <div className="content">
+      <h1>Latest news</h1>
+
+      {cloneDeep(props.data.medium.posts).sort((a,b) => a.latestPublishedAt < b.latestPublishedAt).slice(0,2).map(post => (
+        <div key={post.id} className="news-box">
+          <div
+            className={classnames("image", { empty: post.virtuals.previewImage.imageId.length === 0 })}
+            style={{ backgroundImage: `url(https://cdn-images-1.medium.com/max/430/${post.virtuals.previewImage.imageId})` }}
+          />
+
+          <h3>{post.title}</h3>
+
+          <p>{post.content.subtitle}</p>
+
+          <a href={`https://medium.com/makeorbreak-io/${post.uniqueSlug}`} target="_blank" rel="noopener noreferrer">
+            <Button straight outline large yellow>Read More</Button>
+          </a>
+        </div>
+      ))}
+    </div>
+  </section>
+));
+
 export class Landing extends Component {
 
   state = {
@@ -47,10 +74,6 @@ export class Landing extends Component {
       "msCrypto": true,
       "msGeekGirls": true,
     },
-  }
-
-  componentWillMount() {
-    this.props.dispatch(fetchMediumPosts());
   }
 
   componentDidMount() {
@@ -93,8 +116,6 @@ export class Landing extends Component {
   render() {
     const { handleSubmit } = this.props;
     const { collapsedSections: { msCrypto, msGeekGirls } } = this.state;
-
-    const posts = values(this.props.posts).slice(0, 2);
 
     return (
       <div className="Landing">
@@ -375,7 +396,7 @@ export class Landing extends Component {
                   </h3>
 
                   <p className="speaker">
-                    <img src={vaniaGoncalves} alt="Jorge Silva" />
+                    <img src={vaniaGoncalves} alt="Vânia Gonçalves" />
                     Founder, Geek Girls Portugal (G2PT)
                   </p>
                 </div>
@@ -386,30 +407,7 @@ export class Landing extends Component {
         {/* END MoB Sessions */}
 
         {/* News */}
-        {posts.length > 0 &&
-          <section id="news">
-            <div className="content">
-              <h1>Latest news</h1>
-
-              {posts.map(post => (
-                <div key={post.id} className="news-box">
-                  <div
-                    className={classnames("image", { empty: post.virtuals.previewImage.imageId.length === 0 })}
-                    style={{ backgroundImage: `url(https://cdn-images-1.medium.com/max/430/${post.virtuals.previewImage.imageId})` }}
-                  />
-
-                  <h3>{post.title}</h3>
-
-                  <p>{post.content.subtitle}</p>
-
-                  <a href={`https://medium.com/makeorbreak-io/${post.uniqueSlug}`} target="_blank" rel="noopener noreferrer">
-                    <Button straight outline large yellow>Read More</Button>
-                  </a>
-                </div>
-              ))}
-            </div>
-          </section>
-        }
+        <MediumPosts />
         {/* END News */}
 
         {/* Sponsors */}
@@ -464,6 +462,4 @@ export default compose(
     form: "landing",
     validate,
   }),
-
-  connect(({ posts }) => ({ posts })),
 )(Landing);

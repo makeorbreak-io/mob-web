@@ -1,7 +1,12 @@
 import React from "react";
-import { compose, setDisplayName } from "recompose";
+import { compose, setDisplayName, mapProps } from "recompose";
 import { reduxForm, Field } from "redux-form";
-import { connect } from "react-redux";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+import { withCurrentUser, waitForData } from "enhancers";
+
+import { fullUser } from "fragments";
 
 //
 // Components
@@ -11,33 +16,26 @@ import {
 } from "components/uikit";
 
 //
-// Redux
-import { updateCurrentUser } from "actions/current_user";
-
-//
 // Validation
 import { composeValidators, validatePresence } from "validators";
 
-const validate = (values) => {
-  return composeValidators(
-    validatePresence("first_name", "First name"),
-    validatePresence("last_name", "Last name"),
-    validatePresence("tshirt_size", "T-Shirt size"),
-  )(values);
-};
+const validate = composeValidators(
+  validatePresence("first_name", "First name"),
+  validatePresence("last_name", "Last name"),
+  validatePresence("tshirt_size", "T-Shirt size"),
+);
 
 //
 // constants
 import { TSHIRT_SIZES } from "constants/user";
 
 export const UserOnboardingName = ({
-  dispatch,
-  currentUser: { id },
+  updateMe,
   handleSubmit,
   submitting,
   next,
 }) => {
-  const submitHandler = (values) => dispatch(updateCurrentUser(id, values)).then(next);
+  const submitHandler = (user) => updateMe({ variables: { user } }).then(next);
 
   return (
     <div className="UserOnboarding name">
@@ -45,22 +43,17 @@ export const UserOnboardingName = ({
       <h5>You'll be setting your hackathon project soon. We just need some basic information to get started.</h5>
 
       <form onSubmit={handleSubmit(submitHandler)}>
-        <label htmlFor="first_name">First name</label>
-        <Field id="first_name" name="first_name" component="input" type="text" placeholder="Type your first name" className="fullwidth" />
-        <ErrorMessage form="user-onboarding-name" field="first_name" />
+        <label htmlFor="name">Name</label>
+        <Field id="name" name="name" component="input" type="text" placeholder="Type your name" className="fullwidth" />
 
-        <label htmlFor="last_name">Last name</label>
-        <Field id="last_name" name="last_name" component="input" type="text" placeholder="Type your last name" className="fullwidth" />
-        <ErrorMessage form="user-onboarding-name" field="last_name" />
-
-        <label htmlFor="tshirt_size">T-Shirt Size</label>
-        <Field id="tshirt_size" name="tshirt_size" component="select" className="fullwidth">
+        <label htmlFor="tshirtSize">T-Shirt Size</label>
+        <Field id="tshirtSize" name="tshirtSize" component="select" className="fullwidth">
           <option value="" disabled>Choose your t-shirt size</option>
           {TSHIRT_SIZES.map(size =>
             <option key={size} value={size}>{size}</option>
           )}
         </Field>
-        <ErrorMessage form="user-onboarding-name" field="tshirt_size" />
+        <ErrorMessage form="user-onboarding-name" field="tshirtSize" />
 
         <Button
           type="submit"
@@ -78,13 +71,28 @@ export const UserOnboardingName = ({
 export default compose(
   setDisplayName("UserOnboardingName"),
 
-  connect(({ currentUser }) => ({
-    currentUser,
-    initialValues: currentUser,
-  })),
+  withCurrentUser,
+
+  waitForData,
+
+  mapProps(props => {
+    const { data: { me: { name, email, tshirtSize } } } = props;
+
+    return {
+      ...props,
+      initialValues: { name, email, tshirtSize },
+    };
+  }),
 
   reduxForm({
     form: "user-onboarding-name",
     validate,
   }),
+
+  graphql(
+    gql`mutation updateMe($user: UserInput!) {
+      updateMe(user: $user) { ...fullUser }
+    } ${fullUser}`,
+    { name: "updateMe" },
+  ),
 )(UserOnboardingName);

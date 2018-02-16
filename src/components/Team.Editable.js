@@ -3,23 +3,27 @@ import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes } from "recompose";
 import { Field, reduxForm } from "redux-form";
 import classnames from "classnames";
-import { map, get } from "lodash";
-import { connect } from "react-redux";
+import { get } from "lodash";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+//
+// Enhancers
+import { withCurrentUser, waitForData } from "enhancers";
+
+import { fullTeam } from "fragments";
+
+import { handleGraphQLErrors } from "lib/graphql";
 
 //
 // Components
-import TeamMembers from "./TeamMembers";
+import TeamMembers from "components/TeamMembers";
 import {
   Button,
   buttonPropsFromReduxForm,
   ErrorMessage,
 } from "components/uikit";
-import Invitation from "components/Invitation";
-
-//
-// Redux
-import { createTeam, updateTeam, deleteTeam } from "actions/teams";
-import { refreshCurrentUser } from "actions/current_user";
+import Invite from "components/Invite";
 
 //
 // Validation
@@ -43,13 +47,12 @@ export class EditableTeam extends Component {
   componentWillMount() {
     const { initialize, team } = this.props;
 
-    initialize(team);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { initialize, team } = nextProps;
-
-    if (!this.props.team && nextProps.team) initialize(team);
+    if (team) {
+      initialize({
+        name: team.name,
+        technologies: team.technologies,
+      });
+    }
   }
 
   //---------------------------------------------------------------------------
@@ -64,50 +67,55 @@ export class EditableTeam extends Component {
     else {
       this.setState({ editing: true });
     }
-
   }
 
   createTeam = (values) => {
-    const { dispatch } = this.props;
+    const { createTeam, data } = this.props;
 
-    return dispatch(createTeam(values))
-    .finally(() => {
+    return createTeam({
+      variables: { team: values },
+    })
+    .then(() => {
+      data.refetch();
       this.setState({ editing: false });
-      dispatch(refreshCurrentUser());
-    });
+    })
+    .catch(handleGraphQLErrors);
   }
 
   updateTeam = (values) => {
-    const { dispatch, team } = this.props;
+    const { team, updateTeam } = this.props;
 
-    return dispatch(updateTeam(team.id, values))
-    .finally(() => {
-      dispatch(refreshCurrentUser());
-      this.setState({ editing: false });
-    });
+    return updateTeam({
+      variables: { id: team.id, team: values },
+    })
+    .then(() => this.setState({ editing: false }))
+    .catch(handleGraphQLErrors);
   }
 
   deleteTeam = () => {
-    const { dispatch, change, untouch, team } = this.props;
+    const { team, deleteTeam, data, change, untouch } = this.props;
 
-    dispatch(change("name", ""));
-    dispatch(untouch("name"));
+    change("name", "");
+    untouch("name");
 
-    return dispatch(deleteTeam(team.id))
-    .finally(() => {
-      dispatch(refreshCurrentUser());
+    return deleteTeam({
+      variables: { id: team.id },
+    })
+    .then(() => {
+      data.refetch();
       this.setState({ editing: false });
-    });
+    })
+    .catch(handleGraphQLErrors);
   }
 
   //---------------------------------------------------------------------------
   // Render
   //---------------------------------------------------------------------------
   render() {
-    const { currentUser, currentUser: { invitations }, team, handleSubmit } = this.props;
+    const { data: { me }, team, handleSubmit } = this.props;
     const { editing } = this.state;
 
-    const teamId = get(currentUser, "team.id", false);
+    const teamId = get(me, "teams[0].id", null);
 
     const submitHandler = team ? this.updateTeam : this.createTeam;
     const toggleLabel = classnames({
@@ -175,17 +183,20 @@ export class EditableTeam extends Component {
         <div className={noTeamWarningCx}>
           <p>
             You are not part of a team yet
-            {invitations.length > 0 && ", but you've been invited to some"}
+            {me.invitations.length > 0 && ", but you've been invited to some"}
             !
           </p>
-          {map(invitations, i => <Invitation key={i.id} invitation={i} disabled={teamId} /> )}
+
+          {me.invitations.map(i =>
+            <Invite key={i.id} invite={i} disabled={!!teamId} />
+          )}
         </div>
 
         <form onSubmit={handleSubmit(submitHandler)} className={editing ? "": "hidden"}>
           <label htmlFor="name">Name</label>
           <Field id="name" name="name" component="input" type="text" placeholder="Team name" className="fullwidth" autoComplete="off" />
           <ErrorMessage form="team" field="name" />
-          
+
           <Button
             {...buttonPropsFromReduxForm(this.props)}
             type="submit"
@@ -218,6 +229,29 @@ export default compose(
     validate,
   }),
 
-  connect(({ currentUser }) => ({ currentUser }))
+  withCurrentUser,
+
+  waitForData,
+
+  graphql(
+    gql`mutation createTeam($team: TeamInput!) {
+      createTeam(team: $team) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "createTeam" },
+  ),
+
+  graphql(
+    gql`mutation updateTeam($id: String!, $team: TeamInput!) {
+      updateTeam(id: $id, team: $team) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "updateTeam" },
+  ),
+
+  graphql(
+    gql`mutation deleteTeam($id: String!) {
+      deleteTeam(id: $id) { id }
+    }`,
+    { name: "deleteTeam" },
+  ),
 )(EditableTeam);
 

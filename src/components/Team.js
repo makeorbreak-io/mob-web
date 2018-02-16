@@ -1,61 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
-import { connect } from "react-redux";
+import { get } from "lodash";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+import { fullTeam } from "fragments";
 
 //
 // Components
 import Editable from "./Team.Editable";
 import Static from "./Team.Static";
 
-//
-// Redux
-import { fetchTeam } from "actions/teams";
+export const Team = ({ editable, data }) => {
+  const team = get(data, "team", null);
 
-export class Team extends Component {
-
-  //---------------------------------------------------------------------------
-  // Lifecycle
-  //---------------------------------------------------------------------------
-  componentWillMount() {
-    this.requestTeam(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const prevId = this.props.id;
-    const { id } = nextProps;
-
-    if (prevId !== id) this.requestTeam(nextProps);
-  }
-
-  //---------------------------------------------------------------------------
-  // Helpers
-  //---------------------------------------------------------------------------
-  requestTeam = (props) => {
-    const { id, dispatch } = props;
-
-    if (id) return dispatch(fetchTeam(id));
-  }
-
-  //---------------------------------------------------------------------------
-  // Render
-  //---------------------------------------------------------------------------
-  render() {
-    const { editable, team } = this.props;
-
-    return editable
-    ? <Editable team={team} />
-    : <Static team={team} />;
-  }
-
-}
+  return editable ? <Editable team={team} /> : <Static team={team} />;
+};
 
 export default compose(
   setDisplayName("Team"),
-
-  connect((state, props) => ({
-    team: state.teams[props.id],
-  })),
 
   setPropTypes({
     id: PropTypes.string,
@@ -64,5 +28,18 @@ export default compose(
 
   defaultProps({
     editable: false,
+    id: null,
   }),
+
+  graphql(
+    gql`query team($id: String!) {
+      team(id: $id) { ...fullTeam }
+    } ${fullTeam}`,
+    {
+      skip: props => !props.id,
+      options: props => ({
+        variables: { id: props.id },
+      }),
+    },
+  ),
 )(Team);

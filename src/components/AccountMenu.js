@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
 import { compose, setDisplayName } from "recompose";
-import { connect } from "react-redux";
 import classnames from "classnames";
 import onClickOutside from "react-onclickoutside";
 
 //
-// Redux
-import { logout } from "actions/authentication";
+// enhancers
+import { withCurrentUser, waitForData } from "enhancers";
 
 //
 // constants
@@ -29,24 +28,31 @@ export class AccountMenu extends Component {
     this.setState({ open: false });
   }
 
+  handleLogout = () => {
+    const { data } = this.props;
+
+    delete localStorage["jwt"];
+    data.refetch();
+  }
+
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
     const { open } = this.state;
-    const { currentUser, dispatch } = this.props;
+    const { data: { me } } = this.props;
     const cx = classnames("AccountMenu", { open });
 
     return (
       <div className={cx}>
         <span className="AccountMenuToggle" onClick={() => this.setState({ open: !open })}>
-          {currentUser.display_name}
+          {me.displayName}
         </span>
 
         <div className="AccountMenuContent">
           <Link to="/dashboard" onClick={this.close}>Dashboard</Link>
-          {currentUser.role === ADMIN && <Link to="/admin" onClick={this.close}>Admin</Link>}
-          <Link onClick={() => dispatch(logout())}>Logout</Link>
+          {me.role === ADMIN && <Link to="/admin" onClick={this.close}>Admin</Link>}
+          <Link onClick={this.handleLogout}>Logout</Link>
         </div>
       </div>
     );
@@ -56,7 +62,9 @@ export class AccountMenu extends Component {
 export default compose(
   setDisplayName("AccountMenu"),
 
-  connect(({ currentUser }) => ({ currentUser })),
+  withCurrentUser,
+
+  waitForData,
 
   onClickOutside,
 )(AccountMenu);

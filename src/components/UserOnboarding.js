@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
-import { connect } from "react-redux";
 
 //
 // Components
@@ -10,20 +9,13 @@ import Team from "./UserOnboarding.Team";
 import Invites from "./UserOnboarding.Invites";
 
 //
-// Redux
-import { fetchUsers } from "actions/users";
-
-//
 // Enhancers
 import multistep from "enhancers/multistep";
 
 export class UserOnboarding extends Component {
 
   componentWillMount() {
-    const { dispatch, initFlow } = this.props;
-
-    dispatch(fetchUsers());
-    initFlow();
+    this.props.initFlow();
   }
 
   render() {
@@ -50,8 +42,6 @@ export class UserOnboarding extends Component {
 
 export default compose(
   setDisplayName("UserOnboarding"),
-
-  connect(),
 
   multistep({
     name: "user-onboarding",

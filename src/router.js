@@ -3,16 +3,16 @@ import { Router, Route, IndexRoute, browserHistory } from "react-router";
 
 //
 // Top-level components
-import App from "components/app";
-import Authenticated from "components/authenticated";
-import Authorized from "components/authorized";
+import App from "components/App";
+import Authenticated from "components/Authenticated";
+import Authorized from "components/Authorized";
 
 //
 // Public components
 import Landing from "components/Landing";
 import Dashboard from "components/Dashboard";
-import { StandaloneLogin } from "components/Login";
-import { StandaloneSignup } from "components/Signup";
+import Login from "components/Login";
+import Signup from "components/Signup";
 import RecoverPassword from "components/RecoverPassword";
 import ResetPassword from "components/ResetPassword";
 
@@ -95,8 +95,8 @@ const router = (
         <Team id={params.id} />
       )} />
 
-      <Route path="signin" component={StandaloneLogin} />
-      <Route path="signup" component={StandaloneSignup} />
+      <Route path="signin" component={Login} />
+      <Route path="signup" component={Signup} />
       <Route path="recover-password" component={RecoverPassword} />
       <Route path="recover-password/:token" component={ResetPassword} />
     </Route>

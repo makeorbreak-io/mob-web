@@ -1,19 +1,23 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { compose, setDisplayName, getContext } from "recompose";
-import { connect } from "react-redux";
+import { compose, setDisplayName } from "recompose";
+import { withRouter } from "react-router";
 import { map } from "lodash";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+//
+// Enhancers
+import { withCurrentUser, waitForData } from "enhancers";
+
+import { fullTeam } from "fragments";
+
+import { handleGraphQLErrors } from "lib/graphql";
 
 //
 // Components
-import NotificationCenter from "components/NotificationCenter";
+// import NotificationCenter from "components/NotificationCenter";
 import Team from "components/Team";
 import { Button } from "components/uikit";
-
-//
-// redux
-import { updateTeam } from "actions/teams";
-import { refreshCurrentUser } from "actions/current_user";
 
 //
 // api actions
@@ -33,15 +37,17 @@ export class Dashboard extends Component {
   applyTeam = (ev) => {
     ev.preventDefault();
 
-    const { dispatch, currentUser: { team } } = this.props;
+    const { data, updateTeam, data: { me: { teams } } } = this.props;
+    const team = teams[0];
 
     this.setState({ applying: true });
 
-    return dispatch(updateTeam(team.id, { applied: true }))
-    .finally(() => {
-      dispatch(refreshCurrentUser());
-      this.setState({ applying: false });
-    });
+    return updateTeam({
+      variables: { id: team.id, team: { name: team.name, applied: true } },
+    })
+    .then(() => data.refresh())
+    .then(() => this.setState({ applying: false }))
+    .catch(handleGraphQLErrors);
   }
 
   sendSlackInvite = () => {
@@ -55,16 +61,18 @@ export class Dashboard extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { currentUser, currentUser: { team }, notifications } = this.props;
+    const { data: { me } } = this.props;
+    const team = me.teams[0];
+
     const { teamDisclaimer, applying, slackError } = this.state;
 
     return (
       <div className="Dashboard">
-        {notifications.length > 0 && <h2>Notifications <span className="tag red">{notifications.length}</span></h2>}
+        {/*notifications.length > 0 && <h2>Notifications <span className="tag red">{notifications.length}</span></h2>}
         {notifications.length > 0 && <NotificationCenter />}
-        {notifications.length > 0 && <hr />}
+        {notifications.length > 0 && <hr />*/}
 
-        <Team editable id={currentUser.team && currentUser.team.id} />
+        <Team editable id={team && team.id} />
         <div className="team">
           {team && team.applied && <h3>Your team's application to the hackathon is under review</h3>}
 
@@ -73,7 +81,7 @@ export class Dashboard extends Component {
               <label className="checkbox">
                 <span className="required">*</span>
                 <input type="checkbox" id="teamDisclaimer" name="teamDisclaimer" checked={teamDisclaimer} onChange={e => this.setState({ teamDisclaimer: e.target.checked })} />
-                <span>We ({map(team.members, "display_name").join(", ")}) are committing to attend the Make or Break hackathon and will do everything in our power to do so</span>
+                <span>We ({map(team.memberships, "user.displayName").join(", ")}) are committing to attend the Make or Break hackathon and will do everything in our power to do so</span>
               </label>
 
               <Button
@@ -81,11 +89,11 @@ export class Dashboard extends Component {
                 primary
                 form
                 centered
-                disabled={applying || !teamDisclaimer || team.members.length <= 1}
+                disabled={applying || !teamDisclaimer || team.memberships.length <= 1}
               >
                 Apply to hackathon
               </Button>
-              {team.members.length <= 1 &&
+              {team.memberships.length <= 1 &&
                 <p className="small-notice">You can't apply alone. Invite some friends, or find a team in our Slack community!</p>
               }
             </form>
@@ -121,7 +129,7 @@ export class Dashboard extends Component {
             onClick={this.sendSlackInvite}
             apply
           >
-            Send invite to {currentUser.email}
+            Send invite to {me.email}
           </Button>
           <p className="small-notice">{slackError}</p>
         </div>
@@ -135,9 +143,15 @@ export class Dashboard extends Component {
 export default compose(
   setDisplayName("Dashboard"),
 
-  getContext({
-    router: PropTypes.object.isRequired,
-  }),
+  withRouter,
 
-  connect(({ currentUser, notifications }) => ({ currentUser, notifications })),
+  withCurrentUser,
+  waitForData,
+
+  graphql(
+    gql`mutation updateTeam($id: String!, $team: TeamInput!) {
+      updateTeam(id: $id, team: $team) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "updateTeam" },
+  ),
 )(Dashboard);

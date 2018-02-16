@@ -1,13 +1,13 @@
 import React from "react";
 import { compose, setDisplayName } from "recompose";
-import { get, isEmpty, map } from "lodash";
+import { get, isEmpty } from "lodash";
 import { connect } from "react-redux";
 
 //
 // Components
 import { Tabs, Tab, Panel } from "components/uikit/Tabs";
 import Team from "components/Team";
-import Invitation from "components/Invitation";
+import Invite from "components/Invite";
 
 export const AccountTeam = ({ currentUser }) => {
   const teamId = get(currentUser, "team.id");
@@ -23,7 +23,9 @@ export const AccountTeam = ({ currentUser }) => {
             {isInTeam && <p className="small-notice">If you wish to accept any of these invites, you must first: leave your team, or delete your team, along with its members and project.</p>}
             {!isInTeam && <p className="small-notice">If you wish to create a team, you must reject all invitations first.</p>}
 
-            {map(currentUser.invitations, i => <Invitation key={i.id} invitation={i} disabled={!isEmpty(teamId)} />)}
+            {currentUser.invitations.map(i => (
+              <Invite key={i.id} invite={i} disabled={!isEmpty(teamId)} />
+            ))}
           </Panel>
         </Tabs>
       }

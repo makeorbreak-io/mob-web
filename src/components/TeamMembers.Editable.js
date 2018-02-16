@@ -1,9 +1,19 @@
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, getFormValues } from "redux-form";
+import { isEmpty } from "lodash";
 import { connect } from "react-redux";
-import { isEmpty, map, get } from "lodash";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
 import classnames from "classnames";
+
+//
+// Enhancers
+import { withCurrentUser, waitForData } from "enhancers";
+
+import { fullTeam } from "fragments";
+
+import { handleGraphQLErrors } from "lib/graphql";
 
 //
 // Components
@@ -14,11 +24,6 @@ import {
   Avatar,
 } from "components/uikit";
 import { Multiselect } from "components/fields";
-
-//
-// Redux
-import { inviteUserByEmail, revokeInvite, removeFromTeam } from "actions/members";
-import { refreshCurrentUser } from "actions/current_user";
 
 //
 // Constants
@@ -44,27 +49,31 @@ export class EditableTeamMembers extends Component {
   // Callbacks
   //---------------------------------------------------------------------------
   inviteMembers = (values) => {
-    const { dispatch, reset } = this.props;
+    const { dispatch, reset, team, invite } = this.props;
 
     dispatch(reset());
 
-    return Promise.all(
-      map(values.members, ({ value }) =>
-        dispatch(inviteUserByEmail(value))
-      )
-    ).finally(() => dispatch(refreshCurrentUser()));
+    return invite({
+      variables: { id: team.id, emails: values.members.map(m => m.value) },
+    })
+    .catch(handleGraphQLErrors);
   }
 
   revokeInvite = (id) => {
-    const { dispatch, team } = this.props;
-
-    return dispatch(revokeInvite(id, team.id));
+    return this.props.revokeInvite({
+      variables: { id },
+    })
+    .catch(handleGraphQLErrors);
   }
 
-  removeFromTeam = (id) => {
-    const { dispatch, team } = this.props;
+  removeFromTeam = (userId) => {
+    const { removeFromTeam, team: { id }, data } = this.props;
 
-    return dispatch(removeFromTeam(id, team.id));
+    return removeFromTeam({
+      variables: { userId, id },
+    })
+    .then(() => data.refetch())
+    .catch(handleGraphQLErrors);
   }
 
   updateMultipleSelected = (ev) => {
@@ -75,28 +84,30 @@ export class EditableTeamMembers extends Component {
   // Render
   //---------------------------------------------------------------------------
   render() {
-    const { team, currentUser, memberLimitReached, handleSubmit, submitting, valid, formValues, editing } = this.props;
+    const { data: { me }, team, handleSubmit, submitting, valid, formValues, editing } = this.props;
     const { multipleSelected } = this.state;
 
-    const canInvite = !memberLimitReached && (formValues.members.length + team.members.length + team.invites.length <= 4);
+    const memberLimitReached = (team.invites.length + team.memberships.length) >= 4;
+    const canInvite = formValues.members.length + team.memberships.length + team.invites.length <= 4;
+
     const inviteCx = classnames({ hidden: !editing });
 
     return (
       <div className="TeamMembers editable">
-        {!isEmpty(team.members) && <label>Members</label>}
+        {!isEmpty(team.memberships) && <label>Members</label>}
         <ul className="Members">
-          {map(team.members, m => (
-            <li className="Member" key={m.id}>
-              <Avatar user={m} />
-              {m.display_name}
+          {team.memberships.map(({ user }) => (
+            <li className="Member" key={user.id}>
+              <Avatar user={user} />
+              {user.displayName}
               {!team.applied && editing &&
                 <Button
                   danger
                   small
-                  onClick={() => this.removeFromTeam(m.id)}
-                  confirmation={team.members.length === 1 ? "You are about the delete the last member of the team. If you do so, the team will be deleted." : null}
+                  onClick={() => this.removeFromTeam(user.id)}
+                  confirmation={team.memberships.length === 1 ? "You are about the delete the last member of the team. If you do so, the team will be deleted." : null}
                 >
-                  {m.id === currentUser.id ? "leave" : "remove"}
+                  {user.id === me.id ? "leave" : "remove"}
                 </Button>
               }
             </li>
@@ -105,14 +116,14 @@ export class EditableTeamMembers extends Component {
 
         {!isEmpty(team.invites) && <label>Pending Invites</label>}
         <ul className="Invites">
-          {map(team.invites, i => (
-            <li className="Invite" key={i.id}>
-              <Avatar user={{}} />
-              {get(i, "invitee.display_name", i.email)}
+          {team.invites.map(invite => (
+            <li className="Invite" key={invite.id}>
+              <Avatar user={invite} />
+              {invite.displayName}
               <Button
                 danger
                 small
-                onClick={() => this.revokeInvite(i.id)}
+                onClick={() => this.revokeInvite(invite.id)}
               >
                 cancel
               </Button>
@@ -132,6 +143,7 @@ export class EditableTeamMembers extends Component {
             noResultsText={null}
             arrowRenderer={() => {}}
             promptTextCreator={label => `Add ${label}`}
+            options={[]}
             creatable
           />
           <Button
@@ -169,23 +181,36 @@ export class EditableTeamMembers extends Component {
 export default compose(
   setDisplayName("EditableTeamMembers"),
 
+  withCurrentUser,
+  waitForData,
+
   reduxForm({
     form: "new-team-member",
     validate,
   }),
 
-  // fetch list of all users from store, remove current user
-  // and team invites and members from suggestions
-  connect((state, props) => {
-    const { currentUser } = state;
-    const { team } = props;
+  connect(state => ({
+    formValues: getFormValues("new-team-member")(state) || { members: [] },
+  })),
 
-    const memberLimitReached = (team.invites.length + team.members.length) >= 4;
+  graphql(
+    gql`mutation invite($id: String!, $emails: [String]!) {
+      invite(id: $id, emails: $emails) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "invite" },
+  ),
 
-    return {
-      memberLimitReached,
-      currentUser,
-      formValues: state.form["new-team-member"].values || { members: [] },
-    };
-  }),
+  graphql(
+    gql`mutation revokeInvite($id: String!) {
+      revokeInvite(id: $id) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "revokeInvite" },
+  ),
+
+  graphql(
+    gql`mutation removeFromTeam($id: String!, $userId: String!) {
+     removeFromTeam(id: $id, userId: $userId) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "removeFromTeam" },
+  ),
 )(EditableTeamMembers);

@@ -2,6 +2,7 @@ export Avatar from "./Avatar";
 export Button from "./Button";
 export DataTable from "./DataTable";
 export ErrorMessage from "./ErrorMessage";
+export FormErrorMessage from "./FormErrorMessage";
 export FormSectionHeader from "./FormSectionHeader";
 export Modal from "./Modal";
 export SortableList from "./SortableList";

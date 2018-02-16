@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
-import { connect } from "react-redux";
 import { Link } from "react-router";
 import { isEmpty } from "lodash";
+
+//
+// Enhancers
+import { withCurrentUser } from "enhancers";
 
 //
 // Components
@@ -19,17 +22,17 @@ import logo from "assets/images/mob-logo-white.svg";
 export class Navbar extends Component {
 
   render() {
-    const { currentUser, landing } = this.props;
+    const { data: { me }, landing } = this.props;
     const cx = classnames("Navbar", {
       landing,
-      "logged-in": !isEmpty(currentUser),
-      "logged-out": isEmpty(currentUser),
+      "logged-in": !isEmpty(me),
+      "logged-out": isEmpty(me),
     });
 
     return (
       <div className={cx}>
         <div className="content">
-          {currentUser && !landing && <Drawer />}
+          {me && !landing && <Drawer />}
 
           <h1 className="Logo">
             <Link to="/">
@@ -37,9 +40,9 @@ export class Navbar extends Component {
             </Link>
           </h1>
 
-          {!currentUser && <Link activeClassName="active" className="login" to="/signin"><Button nobg>Sign In</Button></Link>}
+          {!me && <Link activeClassName="active" className="login" to="/signin"><Button nobg>Sign In</Button></Link>}
 
-          {currentUser && <AccountMenu />}
+          {me && <AccountMenu />}
         </div>
       </div>
     );
@@ -50,8 +53,6 @@ export class Navbar extends Component {
 export default compose(
   setDisplayName("Navbar"),
 
-  connect(({ currentUser }) => ({ currentUser })),
-
   setPropTypes({
     landing: PropTypes.bool.isRequired,
   }),
@@ -59,4 +60,6 @@ export default compose(
   defaultProps({
     green: false,
   }),
+
+  withCurrentUser,
 )(Navbar);
