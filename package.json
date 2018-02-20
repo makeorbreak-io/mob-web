@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "engines": {
-    "node": ">=8.7.0"
+    "node": "^9.5.0"
   },
   "repository": "git@github.com:makeorbreak-io/mob-web.git",
   "author": "João Gradim <joao.gradim@gmail.com>",
@@ -58,11 +58,12 @@
     "axios": "^0.16.1",
     "bluebird": "^3.5.0",
     "classnames": "^2.2.5",
+    "core-js": "^2.5.3",
+    "date-fns": "^1.29.0",
     "graphql": "^0.13.0",
     "graphql-tag": "^2.7.3",
     "jsbarcode": "^3.8.0",
     "lodash": "^4.17.4",
-    "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "qrcode": "^0.9.0",
     "raven-js": "3.17.0",

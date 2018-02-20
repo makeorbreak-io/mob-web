@@ -100,7 +100,7 @@ export class UserOnboardingInvites extends Component {
             Invite {multipleSelected ? "members" : "member"}
           </Button>
 
-          <Link to="/">
+          <Link to="/dashboard">
             <Button form centered fullwidth primary hollow>
               Skip this step
             </Button>

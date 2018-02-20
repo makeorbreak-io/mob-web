@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes, getContext } from "recompose";
 import { connect } from "react-redux";
-import moment from "moment";
+import { format } from "date-fns";
+import pt from "date-fns/locale/pt";
 import JsBarcode from "jsbarcode";
 
 //
@@ -77,7 +78,7 @@ export class ParticipationCertificate extends Component {
           Porto, Portugal
         </p>
 
-        <p className="date">Porto, {moment().locale("pt").format("D MMMM YYYY")}</p>
+        <p className="date">Porto, {format(new Date(), "D MMM YYYY", { locale: pt })}</p>
 
         <svg id="barcode" />
       </div>

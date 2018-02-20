@@ -34,8 +34,8 @@ export class Modal extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { isOpen, title, children, onRequestClose } = this.props;
-    const cx = classnames("Modal", { open: isOpen });
+    const { isOpen, title, children, onRequestClose, className } = this.props;
+    const cx = classnames("Modal", className, { open: isOpen });
 
     return (
       <div className={cx}>
@@ -61,6 +61,7 @@ export default compose(
     isOpen: PropTypes.bool.isRequired,
     title: PropTypes.string,
     onRequestClose: PropTypes.func,
+    className: PropTypes.string,
   }),
 
   defaultProps({

@@ -7,7 +7,7 @@ import { filter, orderBy, find } from "lodash";
 
 //
 // components
-import { Tabs, Tab, Panel } from "components/uikit/Tabs";
+import { Tabs, Tab, Panel } from "components/uikit/tabs";
 import { Button, Modal } from "components/uikit";
 
 //

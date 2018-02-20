@@ -6,7 +6,7 @@ import { isEmpty, filter, map, groupBy } from "lodash";
 
 //
 // components
-import { Tabs, Tab, Panel } from "components/uikit/Tabs";
+import { Tabs, Tab, Panel } from "components/uikit/tabs";
 import { Button } from "components/uikit";
 
 //

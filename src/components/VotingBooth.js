@@ -6,7 +6,7 @@ import { map, times, capitalize, reject, orderBy, reduce, isString } from "lodas
 
 //
 // components
-import { Tabs, Tab, Panel } from "components/uikit/Tabs";
+import { Tabs, Tab, Panel } from "components/uikit/tabs";
 import { Button, buttonPropsFromReduxForm, ErrorMessage } from "components/uikit";
 import { Select } from "components/fields";
 

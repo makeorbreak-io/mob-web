@@ -3,7 +3,7 @@ import { compose, setDisplayName } from "recompose";
 
 //
 // Components
-import { Tabs, Tab, Panel } from "components/uikit/Tabs";
+import { Tabs, Tab, Panel } from "components/uikit/tabs";
 import Name from "./UserOnboarding.Name";
 import Team from "./UserOnboarding.Team";
 import Invites from "./UserOnboarding.Invites";

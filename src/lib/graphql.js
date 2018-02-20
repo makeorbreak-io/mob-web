@@ -3,6 +3,7 @@ import { SubmissionError } from "redux-form";
 const ERROR_CODES = {
   already_taken     : "Email is already taken",
   wrong_credentials : "Invalid username or password",
+  length            : "Password needs to be at least 6 characters",
 };
 
 export const handleGraphQLErrors = (error) => {

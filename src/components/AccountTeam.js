@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 //
 // Components
-import { Tabs, Tab, Panel } from "components/uikit/Tabs";
+import { Tabs, Tab, Panel } from "components/uikit/tabs";
 import Team from "components/Team";
 import Invite from "components/Invite";
 

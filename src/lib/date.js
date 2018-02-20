@@ -1,9 +1,4 @@
-import moment from "moment";
-import { filter, slice, isEmpty, isDate } from "lodash";
-
-//
-// Constants
-import { DATE_FORMAT } from "constants/date";
+import { filter, slice, isEmpty } from "lodash";
 
 export const formatDate = (value) => {
   const numerals = filter((value || "").split(""), c => /\d/.test(c));
@@ -16,14 +11,4 @@ export const formatDate = (value) => {
   if(!isEmpty(day))   finalValue = `${year}-${month}-${day}`;
 
   return finalValue;
-};
-
-export const normalizeDate = (stringValue) => {
-  const date = moment(stringValue, DATE_FORMAT, true);
-
-  return date.isValid() ? date : stringValue;
-};
-
-export const parseDate = (date) => {
-  return isDate(date) ? moment(date).format(DATE_FORMAT) : date;
 };

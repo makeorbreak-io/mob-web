@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { compose, setDisplayName } from "recompose";
-import { withRouter } from "react-router";
+import { Link, withRouter } from "react-router";
 import { map } from "lodash";
+import { connect } from "react-redux";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -15,7 +16,7 @@ import { handleGraphQLErrors } from "lib/graphql";
 
 //
 // Components
-// import NotificationCenter from "components/NotificationCenter";
+import NotificationCenter from "components/NotificationCenter";
 import Team from "components/Team";
 import { Button } from "components/uikit";
 
@@ -45,7 +46,7 @@ export class Dashboard extends Component {
     return updateTeam({
       variables: { id: team.id, team: { name: team.name, applied: true } },
     })
-    .then(() => data.refresh())
+    .then(() => data.refetch())
     .then(() => this.setState({ applying: false }))
     .catch(handleGraphQLErrors);
   }
@@ -61,16 +62,20 @@ export class Dashboard extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { data: { me } } = this.props;
+    const { data: { me }, notifications } = this.props;
     const team = me.teams[0];
 
     const { teamDisclaimer, applying, slackError } = this.state;
 
     return (
       <div className="Dashboard">
-        {/*notifications.length > 0 && <h2>Notifications <span className="tag red">{notifications.length}</span></h2>}
-        {notifications.length > 0 && <NotificationCenter />}
-        {notifications.length > 0 && <hr />*/}
+        {notifications.length > 0 &&
+          <Fragment>
+            <h2>Notifications <span className="tag red">{notifications.length}</span></h2>
+            <NotificationCenter />
+            <hr />
+          </Fragment>
+        }
 
         <Team editable id={team && team.id} />
         <div className="team">
@@ -99,6 +104,25 @@ export class Dashboard extends Component {
             </form>
           }
         </div>
+
+        <hr />
+
+        <h2 className="with-actions">
+          <div className="title">AI Competition</div>
+          <div className="actions">
+            <Link to="/ai-competition">
+              <Button primary small>Go to AI competition dashboard</Button>
+            </Link>
+          </div>
+        </h2>
+        {me.currentBot &&
+        <p>
+          Current bot: {me.currentBot.title} (rev. {me.currentBot.revision}) ({me.currentBot.sdk})
+        </p>
+        }
+        {!me.currentBot &&
+        <p>You are currently not participating in the AI competition. If you wish to participate, please submit at least one valid bot in the AI competition dashboard.</p>
+        }
 
         <hr />
 
@@ -154,4 +178,6 @@ export default compose(
     } ${fullTeam}`,
     { name: "updateTeam" },
   ),
+
+  connect(({ notifications }) => ({ notifications })),
 )(Dashboard);

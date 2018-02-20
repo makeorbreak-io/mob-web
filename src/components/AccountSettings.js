@@ -43,7 +43,7 @@ import {
 const validate = composeValidators(
   validatePresence("name", "Name"),
   validateEmail("email", "Email"),
-  validatePresence("tshirt_size", "T-Shirt size"),
+  validatePresence("tshirtSize", "T-Shirt size"),
   validateDateFormat("birthday", "Birthday", { format: DATE_FORMAT }),
 );
 
@@ -254,7 +254,7 @@ export default compose(
 
   mapProps(props => ({
     ...props,
-    initialValues: omit(props.data.me, "__typename", "id", "invitations", "teams", "displayName", "gravatarHash"),
+    initialValues: omit(props.data.me, "__typename", "id", "invitations", "teams", "displayName", "gravatarHash", "currentBot"),
   })),
 
   reduxForm({

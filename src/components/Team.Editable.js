@@ -45,14 +45,21 @@ export class EditableTeam extends Component {
   // Lifecycle
   //---------------------------------------------------------------------------
   componentWillMount() {
-    const { initialize, team } = this.props;
+    const { team, initialized } = this.props;
 
-    if (team) {
-      initialize({
-        name: team.name,
-        technologies: team.technologies,
-      });
-    }
+    if (team && !initialized) this.initForm(team);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { team, initialized } = nextProps;
+
+    if (team && !initialized) this.initForm(team);
+  }
+
+  initForm = (team) => {
+    this.props.initialize({
+      name: team.name,
+    });
   }
 
   //---------------------------------------------------------------------------
@@ -78,6 +85,7 @@ export class EditableTeam extends Component {
     .then(() => {
       data.refetch();
       this.setState({ editing: false });
+      return null;
     })
     .catch(handleGraphQLErrors);
   }
@@ -88,7 +96,10 @@ export class EditableTeam extends Component {
     return updateTeam({
       variables: { id: team.id, team: values },
     })
-    .then(() => this.setState({ editing: false }))
+    .then(() => {
+      this.setState({ editing: false });
+      return null;
+    })
     .catch(handleGraphQLErrors);
   }
 
@@ -104,6 +115,7 @@ export class EditableTeam extends Component {
     .then(() => {
       data.refetch();
       this.setState({ editing: false });
+      return null;
     })
     .catch(handleGraphQLErrors);
   }
@@ -230,7 +242,6 @@ export default compose(
   }),
 
   withCurrentUser,
-
   waitForData,
 
   graphql(

@@ -1,4 +1,5 @@
 export Avatar from "./Avatar";
+export BinaryToggle from "./BinaryToggle";
 export Button from "./Button";
 export DataTable from "./DataTable";
 export ErrorMessage from "./ErrorMessage";

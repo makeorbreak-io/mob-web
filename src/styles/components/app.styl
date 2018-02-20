@@ -169,6 +169,18 @@ p.small-notice
   .Button:first-child
     margin: 0 auto 20px
 
+.tooltip
+  font-size: 16px
+  padding: 20px 25px
+  line-height: 1.4
+  pointer-events: auto
+  opacity: 1
+  background: rgba(black, 0.95)
+
+  ul
+    list-style: disc
+    padding-left: 15px
+
 //
 // Utility classes
 .clearfix
@@ -179,3 +191,12 @@ p.small-notice
 
 .hidden
   display: none
+
+.no-select
+  touch-callout: none
+  user-select: none
+
+.ellipsis
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis

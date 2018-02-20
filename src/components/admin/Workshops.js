@@ -7,7 +7,7 @@ import { Link } from "react-router";
 //
 // components
 import WorkshopForm, { validate } from "./Workshops.Form";
-import { Tabs, Tab, Panel } from "components/uikit/Tabs";
+import { Tabs, Tab, Panel } from "components/uikit/tabs";
 import Workshop from "components/Workshop";
 
 //

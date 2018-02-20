@@ -1,4 +1,4 @@
-import moment from "moment";
+import { isValid, parse } from "date-fns";
 import { map, reduce, merge, isEmpty, template } from "lodash";
 
 //
@@ -8,7 +8,7 @@ import { EMAIL_REGEX } from "constants/validators";
 // Tidily compose validators for a whole set of inputs
 //
 // Example:
-// 
+//
 // const validate = (values) => {
 //   return composeValidators(
 //     validatePresence("email", "Email"),
@@ -72,7 +72,7 @@ export const validateMatch = createValidator(
 
 // Non-required date format validation
 export const validateDateFormat = createValidator(
-  (v, opts) => isEmpty(v) ? true : moment(v, opts.format, false).isValid(),
+  v => isEmpty(v) ? true : isValid(parse(v)),
   "${label} is not a valid date, use ${format} format",
 );
 

@@ -10,7 +10,7 @@ import {
   buttonPropsFromReduxForm,
   ErrorMessage,
 } from "components/uikit";
-import { Tabs, Tab, Panel } from "components/uikit/Tabs";
+import { Tabs, Tab, Panel } from "components/uikit/tabs";
 
 //
 // api
