@@ -1,6 +1,7 @@
 import sponsorDoist from "assets/images/sponsor-doist.svg";
 import sponsorLoM from "assets/images/sponsor-lom.svg";
 import sponsorAbyssal from "assets/images/sponsor-abyssal.svg";
+import sponsorBlip from "assets/images/sponsor-blip.svg";
 import sponsorJumia from "assets/images/sponsor-jumia.svg";
 import sponsorByside from "assets/images/sponsor-byside.svg";
 import sponsorHapibot from "assets/images/sponsor-hapibot.svg";
@@ -14,7 +15,9 @@ export default [
     { src: sponsorLoM   , url: "https://lifeonmars.pt/" , className: "lom"   , description: "Life on Mars is an elite software consultancy based in Germany and Portugal. We balance a strong engineering culture with a set of agile processes. Our clients range from early-stage startups to large companies such as Twitter, under engagement types ranging from team extensions to emergency incident support." },
 
     // silver
-    { src: sponsorAbyssal , url: "https://abyssal.eu/home/", className: "abyssal", description: "Abyssal develops integrated Subsea Navigation Solutions for Remotely Operated Vehicles (ROVs) in the Oil & Gas, Marine Renewables and Underwater Mining industries.<br /><br />Our aim is to enable offshore and onshore O&G personnel to obtain relevant and accurate real-time information and to perform safer and more efficient ROV Operations thus decreasing the likelihood of incidents, accidents and associated costs." },
+    { src: sponsorAbyssal , url: "https://abyssal.eu/home/"        , className: "abyssal" , description: "Abyssal develops integrated Subsea Navigation Solutions for Remotely Operated Vehicles (ROVs) in the Oil & Gas, Marine Renewables and Underwater Mining industries.<br /><br />Our aim is to enable offshore and onshore O&G personnel to obtain relevant and accurate real-time information and to perform safer and more efficient ROV Operations thus decreasing the likelihood of incidents, accidents and associated costs." },
+    { src: sponsorBlip    , url: "https://blip.pt/"                , className: "blip"    , description: "Blip was founded in 2009 and in 2012 became part of a Group with Headquarters in London called Betfair. In February 2016 Paddy Power and Betfair merged and created a group that is on track to become the largest in the Online Sports Betting and Gaming Industry. We are in the API Billionaire’s club alongside Twitter, Facebook, eBay and Google, more than 2.5Bn API calls being served every second of every day throughout the year. Blip is growing to become the best place to work in Porto and we are already 300 Blippers!" },
+    // { src: sponsorTMC     , url: "https://tmc-employeneurship.com" , className: "tmc"     , description: null },
   ],
 
   [
