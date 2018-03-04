@@ -191,6 +191,56 @@ $content-padding = 30px 30px
     section#team-separator
       display: none
 
+    //
+    section#sessions
+      .content
+        padding: 45px 20px 0
+        grid-gap: 30px
+        grid-template-columns: 100%
+        grid-template-areas: "left" \
+                             "right"
+
+        ul.programme
+          padding-top: 0
+
+          li
+            header
+              h1
+                font-size: 22px
+              h2
+                font-size: 18px
+
+            &, &.left
+              header .Button
+                width: 80%
+                padding: 0
+                left: 50%
+                transform: translateX(-50%)
+
+              .details
+
+                p.speaker
+                  padding-left: 0
+
+                  img
+                    margin: 5px 15px 0 0
+                    position: static
+                    float: left
+
+                &.msCrypto
+                  max-height: 1200px
+
+                  &.collapsed
+                    max-height: 0
+
+            &.left
+              width: 100%
+              transform: none
+
+              .details
+                width: 100%
+                transform: none
+
     //---------------------------------------------------------------------------- News
     section#news
       .content

@@ -34,6 +34,9 @@ import { HACKATHON_PRIZES, AI_COMP_PRIZES } from "./prizes";
 import slackMarkWhite from "assets/images/slack-white.svg";
 import email from "assets/images/email-white.svg";
 
+import jorgeSilva from "assets/images/mob-sessions-jorgesilva.png";
+import vaniaGoncalves from "assets/images/mob-sessions-vaniagoncalves.png";
+
 const validate = (values) => {
   return composeValidators(
     validateEmail("EMAIL", "Email"),
@@ -41,6 +44,13 @@ const validate = (values) => {
 };
 
 export class Landing extends Component {
+
+  state = {
+    collapsedSections: {
+      "msCrypto": true,
+      "msGeekGirls": true,
+    },
+  }
 
   componentWillMount() {
     this.props.dispatch(fetchMediumPosts());
@@ -72,8 +82,21 @@ export class Landing extends Component {
     ReactTooltip.hide();
   }
 
+  toggleSection = (section) => () => {
+    const { collapsedSections } = this.state;
+
+    this.setState({
+      collapsedSections: {
+        ...collapsedSections,
+        [section]: !collapsedSections[section],
+      },
+    });
+  }
+
   render() {
     const { handleSubmit } = this.props;
+    const { collapsedSections: { msCrypto, msGeekGirls } } = this.state;
+
     const posts = values(this.props.posts).slice(0, 2);
 
     return (
@@ -272,6 +295,99 @@ export class Landing extends Component {
         </section>
         {/* END Team Separator */}
 
+        {/* MoB Sessions */}
+        <section id="sessions">
+          <div className="content">
+            <div className="description">
+              <h1>MoB Sessions</h1>
+              <h2>Talks curated by Make or Break</h2>
+              <p>
+                MoB Sessions is a series of talks curated by us, given by stunning people in some of Porto's coolest venues.
+              </p>
+              <p>
+                These sessions are meant to keep the Make or Break spirit alive and kicking during the months prior to the event itself.
+              </p>
+              <p>
+                The first session will happen in <a href="https://blip.pt/contact-us/" target="_blank" rel="noopener noreferrer">Blip</a>, March 15th, after-work. Join us, entrance is free!
+              </p>
+            </div>
+
+            <ul className="programme">
+              <li>
+                <header>
+                  <h1>Bitcoin and Cryptocurrencies - From Zero to Hero</h1>
+                  <h2>by Jorge Silva, March 15, 18:30 &mdash; Blip</h2>
+                  <Button primary large onClick={this.toggleSection("msCrypto")}>
+                    {msCrypto ? "Read More" : "Read Less"}
+                  </Button>
+                </header>
+
+                <div className={classnames("details msCrypto", { collapsed: msCrypto })}>
+                  <h3>Talk</h3>
+
+                  <p>
+                    Have you heard about the blockchain revolution?
+                    <br />
+                    Why is this Bitcoin thing important? What problems does it solve?
+                    <br />
+                    You might have heard about "Blocks", "Miners", "Hashes", "Private and Public Keys"...
+                    <br />
+                    Are you interested in knowing how everything fits together?
+                    <br />
+                    Get ready for a crash course about cryptocurrencies!
+                  </p>
+
+                  <h3>
+                    <a href="http://www.jorgesilva.xyz/" target="_blank" rel="noopener noreferrer">Jorge Silva</a>
+                  </h3>
+
+                  <p className="speaker">
+                    <img src={jorgeSilva} alt="Jorge Silva" />
+
+                    I love to solve problems, discuss ideas and build exciting stuff.
+                    <br />
+                    Interested in Full Stack Development, DevOps, Distributed Systems and Software Architecture.
+                    <br />
+                    I strive to create simple and elegant solutions.
+                    <br />
+                    In the past, I've worked as a consultant and engineer for different sized companies.
+                    <br />
+                    I currently work at Blip on the Risk and Trading Team.
+                  </p>
+                </div>
+              </li>
+
+              <li className="left">
+                <header>
+                  <h1>G2PT: Women in Technology</h1>
+                  <h2>by Vânia Gonçalves, March 15, 19:15 &mdash; Blip</h2>
+                  <Button primary large onClick={this.toggleSection("msGeekGirls")}>
+                    {msGeekGirls ? "Read More" : "Read Less"}
+                  </Button>
+                </header>
+
+                <div className={classnames("details msGeekGirls", { collapsed: msGeekGirls })}>
+                  <h3>Talk</h3>
+
+                  <p>
+                    Come meet the progress of the first portuguese community for women in tech, founded in 2010.
+                  </p>
+
+                  <h3>
+                    <a href="http://geekgirlsportugal.pt/" target="_blank" rel="noopener noreferrer">Vânia Gonçalves</a>
+                  </h3>
+
+                  <p className="speaker">
+                    <img src={vaniaGoncalves} alt="Jorge Silva" />
+                    Founder, Geek Girls Portugal (G2PT)
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+        {/* END MoB Sessions */}
+
         {/* News */}
         {posts.length > 0 &&
           <section id="news">
@@ -331,13 +447,6 @@ export class Landing extends Component {
           </div>
         </section>
         {/* END Sponsors */}
-
-        {/* MoB Sessions */}
-        <section id="mob-sessions">
-          <div className="content">
-          </div>
-        </section>
-        {/* END MoB Sessions */}
 
         <ReactTooltip
           effect="solid"

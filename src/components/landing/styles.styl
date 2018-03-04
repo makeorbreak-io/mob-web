@@ -384,6 +384,116 @@
         color: rgba($purple-dark, 0.8)
         filter: none
 
+  //---------------------------------------------------------------------------- MoB Sessions
+  section#sessions
+    .content
+      position: relative
+      display: grid
+      grid-gap: 10px
+      grid-template-columns: 500px 1fr
+      grid-template-areas: "left right"
+      padding-left: 0
+      padding-right: 0
+      padding-bottom: 0
+
+      .description
+        grid-area: left
+        z-index: 10
+
+        h3, p
+          a
+            margin-left: 0
+
+      ul.programme
+        z-index: 1
+        grid-area: right
+        list-style: none
+        padding: 104px 0 0
+
+        li
+          margin-bottom: 60px
+
+          &.left
+            width: 200%
+            transform: translateX(-50%)
+
+            header
+              border-radius: 0 10px 10px 0
+              background-image: linear-gradient(-90deg, #c7006a 0%, rgba(#b6aee4, 0) 100%)
+
+              h1, h2
+                text-align: right
+
+              .Button
+                right: 50px
+
+            .details
+              transform: translateX(100%)
+              width: 50%
+
+          header
+            position: relative
+            padding: 20px 40px 40px
+            min-height: 145px
+            border-radius: 10px 0 0 10px
+            background-image: linear-gradient(90deg, #c7006a 0%, rgba(#b6aee4, 0) 100%)
+
+            .Button
+              position: absolute
+              width: 280px
+
+            h1, h2
+              margin: 10px auto
+
+            h1
+              color: #62d2de
+              font-size: 32px
+              text-transform: uppercase
+
+            h2
+              color: white
+              margin-left: 0
+              margin-bottom: 25px
+
+          .details
+            margin-top: 40px
+            transition: max-height 300ms ease-in-out
+            overflow: hidden
+
+            &.msCrypto
+              max-height: 540px
+            &.msGeekGirls
+              max-height: 360px
+
+            h3
+              color: $orange
+
+              &:before
+                content: "—"
+                color: $yellow
+                margin-right: 20px
+
+            a, a:link, a:active, a:visited, a:hover
+              color: $orange
+              margin-left: 0
+
+            &.collapsed
+              max-height: 0
+
+            p
+              position: relative
+              line-height: 1.6
+
+              &.speaker
+                padding-left: 185px
+                min-height: 155px
+
+              img
+                left: 0
+                top: 7px
+                position: absolute
+                width: 155px
+
 
   //---------------------------------------------------------------------------- News
   section#news
@@ -438,7 +548,7 @@
 
   //---------------------------------------------------------------------------- Sponsors
   section#sponsors
-    margin-bottom: 85px
+    margin-bottom: 200px
 
     .content
       a
@@ -486,10 +596,6 @@
               img
                 width: 100%
                 vertical-align: middle
-
-  //---------------------------------------------------------------------------- MoB Sessions
-  section#mob-sessions
-    position: relative // remove
 
 .sponsor-tooltip
   max-width: 500px
