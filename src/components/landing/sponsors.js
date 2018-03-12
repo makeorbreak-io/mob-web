@@ -13,7 +13,7 @@ export default [
   [
     // gold
     { src: sponsorDoist , url: "https://doist.com/"     , className: "doist" , description: "Doist is a remote-first company with employees from all around the world. Our mission is to help people do more and stress less.<br /><br />Our interests and hobbies are as varied as our nationalities– and creating amazing products for people like you is what brings us all together." },
-    { src: sponsorLoM   , url: "https://lifeonmars.pt/" , className: "lom"   , description: "Life on Mars is an elite software consultancy based in Germany and Portugal. We balance a strong engineering culture with a set of agile processes. Our clients range from early-stage startups to large companies such as Twitter, under engagement types ranging from team extensions to emergency incident support." },
+    { src: sponsorLoM   , url: "https://lifeonmars.pt/" , className: "lom"   , description: "Life on Mars is an elite software consultancy based in Germany and Portugal.<br />Community support is very important to us, and we are proud to spend a significant portion of our time and revenue supporting and organizing events such as this one.<br />We also like ventures, and currently run two startups: Azelo (collectible art) and Fractal (blockchain tech)." },
   ],
 
   [
