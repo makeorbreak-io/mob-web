@@ -1,4 +1,4 @@
-import request, { submissionFailed } from "util/http";
+import request, { submissionFailed } from "lib/http";
 
 export const getInviteToSlack = (email) => {
   return request

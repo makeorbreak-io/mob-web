@@ -1,6 +1,6 @@
 import { SubmissionError } from "redux-form";
 
-import request from "util/http";
+import request from "lib/http";
 
 export const getPasswordRecoveryToken = (email) => {
   return request

@@ -1,4 +1,4 @@
-import request, { ignoreFailure } from "util/http";
+import request, { ignoreFailure } from "lib/http";
 
 export const syncInvites = () => {
   return request

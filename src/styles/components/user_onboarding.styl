@@ -1,0 +1,21 @@
+@import "~styles/variables"
+
+.UserOnboarding
+  position: relative
+
+  .content
+    padding-top: 20px
+
+  &.name, &.team, &.invites
+    margin: 0 -20px // compensate for TabPanel padding
+    padding: 0 100px
+
+  form
+    width: 360px
+    margin: 30px auto
+
+  .Panel
+    border: none
+
+    .Button ~ .Button
+      margin-top: 10px

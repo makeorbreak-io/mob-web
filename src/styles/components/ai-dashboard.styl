@@ -1,0 +1,401 @@
+@import "~styles/variables.styl"
+
+$player-colors = $mob-purple, $orange, $pink, $mob-red, $mob-green
+
+.AIDashboard
+  h3
+    text-align: left
+
+  label
+    cursor: pointer
+
+  .BotDetailsModal
+    h4
+     text-align: left
+     margin: 20px 0
+
+     &:first-of-type
+      margin-top: 0
+
+    code pre
+      padding: 15px
+      background: $light-grey
+      border-radius: 3px
+      font-family: monospace
+
+  .AIDashboardBots
+    form
+      width: 100%
+      margin-bottom: 60px
+
+      .title
+        display: flex
+        align-items: center
+
+        input
+          width: calc(100% - 140px - 10px)
+
+        select
+          width: 140px
+          margin-left: 10px
+          outline: none
+
+      .Button[type=submit]
+        position: absolute
+        bottom: -56px
+        right: 0
+        width: 140px
+        height: 50px
+        line-height: @height
+        margin-top: 0
+        margin-left: auto
+        padding: 0
+
+        label
+          text-transform: none
+          margin: 0
+          color: white
+          font-size: 16px
+          letter-spacing: unset
+
+      .code
+        position: relative
+        margin-top: 1px
+
+        textarea
+          width: 100%
+          resize: none
+          outline: none
+          font-family: monospace
+          padding-bottom: 10px
+
+        label
+          position: absolute
+          right: 15px
+          bottom: @right + 5px
+          border: 1px solid $label-grey
+          border-radius: 3px
+          padding: 5px 10px
+          display: inline-block
+          cursor: pointer
+
+      .code-examples
+        label
+          display: inline-block
+          margin: 5px 15px 10px 0
+
+      input[type=file]
+        display: none
+        outline: none
+
+      .ErrorMessage
+        text-indent: 0
+        display: block
+
+      .submission-notes
+        padding-top: 20px
+
+        h5
+          text-align: left
+
+        ul
+          padding-left: 17px
+          list-style: disc
+
+          li
+            margin-bottom: 5px
+
+            &.bold
+              font-weight: bold
+
+
+  table
+    width: 100%
+    border-collapse: collapse
+
+    thead
+      td
+        text-align: left
+        border-bottom: 3px solid $mob-purple
+        font: normal normal 500 18px Poppins, sans-serif
+
+    td
+      border: 5px solid white
+      border-top: none
+      padding: 10px 15px
+      vertical-align: middle
+
+      &.center
+        text-align: center
+        padding-left: 2px
+        padding-right: 2px
+
+      &.sdk > div
+        display: flex
+        align-items: center
+
+        img
+          margin-right: 8px
+
+      .Button
+        margin-right: 7px
+        padding: 0
+        width: 35px
+        height: 30px
+        line-height: @height
+
+        &:last-of-type
+          margin-right: 0
+
+        span
+          display: block
+          width: 100%
+          height: 100%
+          text-align: center
+
+          img
+            vertical-align: baseline
+            margin-right: 0
+
+    tbody
+      tr:nth-child(even) td
+        background: rgba($mob-purple, 0.05)
+
+  .AIDashboardGames
+    $viewer-width = 430px
+
+    h2
+      font-size: 18px
+      text-align: left
+
+      &.match
+        text-align: center
+        margin-bottom: 40px
+
+      .player
+        font-family: monospace
+
+        &:after
+          content: " vs "
+          color: $text-grey
+        &:last-child:after
+          display: none
+
+      .player1
+        color: $mob-purple
+      .player2
+        color: $orange
+
+    .viewer
+      min-height: $viewer-width + 30px
+
+    .games
+      margin-top: 60px
+
+      tr.selected td
+        font-weight: bolder
+        color: $mob-purple
+
+      td.date
+        text-decoration: underline
+        cursor: pointer
+
+      td.bot
+        font-family: monospace
+        max-width: 220px
+
+      td.json-dump
+        span
+          cursor: pointer
+
+  .AIDashboardViewer
+    position: relative
+    width: 100%
+    height: 100%
+
+    display: grid
+    grid-gap: 10px 50px
+    grid-template-columns: 321px 1fr
+    grid-template-areas: "viewer  logs" \
+                         "nav     logs" \
+                         "hotkeys hotkeys"
+
+    h1
+      width: 100%
+      height: 430px
+      background: rgba(grey, 0.2)
+      padding: 180px 20px 0
+
+    .board
+      grid-area: viewer
+      position: relative
+      display: table
+      width: 321px
+      height: @width
+      margin: 0 auto
+      border-right: 1px solid black
+      border-bottom: @border-right
+
+      .row
+        display: table-row
+        height: 10%
+
+      .cell
+        display: table-cell
+        border-top: 1px solid black
+        border-left: @border-top
+        background-color: rgba(white, 0.3)
+        transition: background-color 100ms linear
+
+        &.player1
+          background-color: rgba($mob-purple, 0.3)
+        &.player2
+          background-color: rgba($orange, 0.3)
+
+      .bot
+        $movement-duration = 100ms
+
+        width: 7%
+        height: @width
+        position: absolute
+        border-radius: 50%
+        transition: top $movement-duration ease-in-out, left $movement-duration ease-in-out
+
+        &.player1
+          background: $mob-purple
+        &.player2
+          background: $orange
+
+    .turn-scrubber
+      grid-area: nav
+
+      .Button, input[type=range]
+        display: inline-block
+        vertical-align: middle
+
+      .Button
+        padding: 0
+        width: 35px
+        height: @width
+        line-height: @height
+
+        &.play-pause
+          font-size: 12px
+          margin: 0 5px
+
+      input[type=range]
+        margin-right: 10px
+        width: calc(100% - 127px)
+
+    .game-logs
+      grid-area: logs
+      width: 100%
+      position: relative
+
+      &.text code.json
+        display: none
+      &.json code.text
+        display: none
+
+      .header
+        display: flex
+        align-items: center
+        justify-content: space-between
+        margin-bottom: 40px
+
+        .current-turn
+          display: inline-block
+          text-align: center
+          font-size: 16px
+          margin: 0
+
+      .player-actions
+        display: flex
+        justify-content: space-around
+
+        .player
+          width: 50%
+          &:nth-child(odd) { padding-right: 15px }
+          &:nth-child(even) { padding-left: 15px }
+
+        .author
+          margin-bottom: 20px
+          display: flex
+          align-items: center
+          justify-content: space-between
+
+          .score
+            display: inline-block
+            text-align: center
+            width: 25px
+            height: @width
+            border-radius: 3px
+            color: white
+            line-height: @height
+
+        .bot:last-of-type
+          height: 32px
+          overflow: hidden
+
+        .player1
+          color: $mob-purple
+          padding-right: 10px
+
+          .score
+            background: $mob-purple
+
+        .player2
+          color: $orange
+          padding-left: 10px
+
+          .score
+            background: $orange
+
+        span
+          display: block
+
+        code, span
+          font-family: monospace
+          font-weight: bold
+
+        code
+          display: block
+          margin-top: 20px
+
+    .hotkeys
+      grid-area: hotkeys
+      display: flex
+      align-items: center
+      justify-content: space-around
+      margin-top: 40px
+      opacity: 0.8
+
+      li
+        display: inline-block
+        margin: 0 10px
+        text-align: center
+
+        .key
+          display: inline-block
+          width: 30px
+          height: @width
+          line-height: @height
+          background: $mob-purple
+          text-align: center
+          color: white
+          font-family: monospace
+          border-radius: 5px
+          margin-right: 5px
+
+          &.wide
+            width: 70px
+
+          &.flip
+            transform: rotate(180deg)
+
+        .action
+          display: block
+          margin-top: 5px
+
+
+

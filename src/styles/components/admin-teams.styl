@@ -1,0 +1,39 @@
+@import "~styles/variables"
+
+.AdminTeams
+  position: relative
+
+  .tools
+    padding: 20px 0
+    border-bottom: 5px solid $mob-purple
+
+    .Button
+      width: 160px
+      margin-right: 10px
+
+  table td
+    vertical-align: top
+    line-height: 32px
+
+    .Button
+      display: block
+      margin-bottom: 2px
+
+      &.remove
+        padding: 5px 10px
+        display: inline-block
+        line-height: 1
+        margin-left: 15px
+
+    ul
+      width: 100%
+
+      li
+        display: flex
+        justify-content: space-between
+        align-items: center
+        margin-bottom: 5px
+
+        &:last-child
+          margin-bottom: 0
+

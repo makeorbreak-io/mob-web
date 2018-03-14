@@ -47,27 +47,9 @@ module.exports = {
   },
 
   resolve: {
+    modules: [ path.resolve(__dirname, "src"), "node_modules" ],
+
     extensions: [ ".js", ".json", ".styl", ".css" ],
-
-    alias: {
-      // files
-      "action-types": path.resolve(__dirname, "src", "redux", "action_types.js"),
-      "environment": path.resolve(__dirname, "src", "config", "environment.js"),
-      "validators": path.resolve(__dirname, "src", "validators", "index.js"),
-
-      // absolute paths
-      "actions": path.resolve(__dirname, "src", "redux", "actions"),
-      "api": path.resolve(__dirname, "src", "api"),
-      "assets": path.resolve(__dirname, "src", "assets"),
-      "components": path.resolve(__dirname, "src", "components"),
-      "constants": path.resolve(__dirname, "src", "constants"),
-      "core": path.resolve(__dirname, "src", "components", "core"),
-      "enhancers": path.resolve(__dirname, "src", "enhancers"),
-      "redux-root": path.resolve(__dirname, "src", "redux"),
-      "root": path.resolve(__dirname, "src"),
-      "uikit": path.resolve(__dirname, "src", "components", "uikit"),
-      "util": path.resolve(__dirname, "src", "util"),
-    },
   },
 
   plugins: [

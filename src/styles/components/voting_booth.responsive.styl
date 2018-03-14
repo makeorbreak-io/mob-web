@@ -1,0 +1,50 @@
+@import "~styles/variables"
+@import "~styles/mixins"
+
++mobile()
+  .VotingBooth
+    width: 100%
+
+    form button[type="submit"]
+      width: 95%
+      padding-left: 0
+      padding-right: 0
+      margin: 20px auto
+
+    .desktop
+      display: none
+
+    .mobile
+      display: block
+      width: 95%
+      margin: 0 auto
+
+      ol
+        width: 100%
+        
+      ol li
+        display: flex
+        margin-bottom: 20px
+
+        &:last-child
+          margin-bottom: 0
+
+        .position, .select
+          float: left
+          margin: 0
+
+        .position
+          clear: left
+          width: 40px
+          line-height: 45px
+          font-size: 16px
+          font-weight: 600
+
+        .select
+          width: calc(100% - 30px)
+
+        .Select-value
+          padding-right: 45px
+
+        .Select-clear-zone
+          vertical-align: baseline

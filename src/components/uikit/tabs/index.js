@@ -1,3 +1,3 @@
-export Tabs from "./tabs";
-export Tab from "./tab";
-export Panel from "./panel";
+export Tabs from "./Tabs";
+export Tab from "./Tab";
+export Panel from "./Panel";

@@ -1,4 +1,4 @@
-import request, { requestFailed, submissionFailed } from "util/http";
+import request, { requestFailed, submissionFailed } from "lib/http";
 
 export const createPaperVote = (category) => {
   return request

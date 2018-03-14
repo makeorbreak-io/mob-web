@@ -1,2 +1,2 @@
-export Multiselect from "./multiselect";
-export Select from "./select";
+export Multiselect from "./Multiselect";
+export Select from "./Select";

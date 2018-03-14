@@ -9,11 +9,11 @@
         }
       }
     ],
-    "react"
+    "react",
   ],
 
   "plugins": [
     "react-hot-loader/babel",
-    [ "transform-class-properties", { "spec": true } ]
+    [ "transform-class-properties", { "spec": true } ],
   ]
 }
