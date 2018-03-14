@@ -6,7 +6,7 @@ const env = {
 
 if (process.env.NODE_ENV === "production") {
   env.apiHost = "https://api.makeorbreak.io/api";
-  env.graphqlHost = "http://api.makeorbreak.io/graphql",
+  env.graphqlHost = "https://api.makeorbreak.io/graphql",
   env.sentryEndpoint = "https://2ddbabca5f05478488ae5a0cd2045e83@sentry.io/197860";
 }
 
