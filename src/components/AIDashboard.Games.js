@@ -82,7 +82,7 @@ export class AIDashboardGames extends Component {
 
                   return (
                     <tr key={game.id} className={cx({ selected: selected === i })}>
-                      <td className="date" onClick={this.setSelected(i)}>{format(parse(game.updatedAt), "DD/MM/YYYY HH:MM")}</td>
+                      <td className="date" onClick={this.setSelected(i)}>{format(parse(game.updatedAt), "DD/MM/YYYY HH:mm")}</td>
                       <td className="bot ellipsis">{bot.title} (rev. {bot.revision})</td>
                       <td>{opponent.author.name}</td>
                       <td>
