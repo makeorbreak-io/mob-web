@@ -6,6 +6,7 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { parse, distanceInWordsToNow } from "date-fns";
 import ReactTooltip from "react-tooltip";
+import { Link } from "react-router";
 
 import { waitForData } from "enhancers";
 
@@ -241,6 +242,7 @@ export class AIDashboardBots extends Component {
               <li className="bold">By submitting this code, you agree to its release under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT license</a>. All submissions will be published on a Make or Break repository at the end of the competition, with credit to their authors.</li>
               <li>Only the latest successfully processed bot will be considered for the next round of matches</li>
               <li>Bot revisions are automatically incremented for submissions with the same filename</li>
+              <li>Questions? Need help? Support for new languages or libraries? Join <a href="https://makeorbreak-io.slack.com/messages/C9MTPV7C5/" target="_blank" rel="noopener noreferrer">#ai-competition on slack</a> (you can get an invite on the <Link to="/dashboard">dashboard</Link>)</li>
             </ul>
           </div>
 
