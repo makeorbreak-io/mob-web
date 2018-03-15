@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
+import { get } from "lodash";
 
 import { fullTeam } from "fragments";
 
@@ -11,7 +12,9 @@ import { fullTeam } from "fragments";
 import Editable from "./Team.Editable";
 import Static from "./Team.Static";
 
-export const Team = ({ editable, data: { team } }) => {
+export const Team = ({ editable, data }) => {
+  const team = get(data, "team", null);
+
   return editable
     ? <Editable team={team} />
     : <Static team={team} />;
