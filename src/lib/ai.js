@@ -149,7 +149,9 @@ const resolveShoot = (previousTurn, actions, players) => {
   while(some(ranges, range => range > 0)) {
 
     // advance all shots one square
-    Object.keys(shots).forEach(player => (
+    Object.keys(shots)
+    .filter(player => actions[player])
+    .forEach(player => (
       shots[player] = [
         shots[player][0] + actions[player].direction[0],
         shots[player][1] + actions[player].direction[1],
