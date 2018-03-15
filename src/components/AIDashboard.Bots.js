@@ -31,11 +31,11 @@ const validate = composeValidators(
 );
 
 const codeSDKs = [
-  { label: "Ruby 2.5.0"   , shortLabel: "Ruby"   , value: "ruby"   , img: require("assets/images/icons/ruby.svg") },
-  { label: "Python 3.6.4" , shortLabel: "Python" , value: "python" , img: require("assets/images/icons/python.svg") },
-  { label: "NodeJS 9.5.0" , shortLabel: "NodeJS" , value: "nodejs" , img: require("assets/images/icons/nodejs.svg") },
-  { label: "Bash script"  , shortLabel: "Bash"   , value: "bash"   , img: require("assets/images/icons/bash.svg") },
-  // { label: "Java"         , shortLabel: "Java"   , value: "java"   , img: require("assets/images/icons/java.svg") },
+  { label: "Ruby 2.5.0"           , shortLabel: "Ruby"   , value: "ruby"   , img: require("assets/images/icons/ruby.svg") },
+  { label: "Python 3.6.4"         , shortLabel: "Python" , value: "python" , img: require("assets/images/icons/python.svg") },
+  { label: "NodeJS 9.5.0"         , shortLabel: "NodeJS" , value: "nodejs" , img: require("assets/images/icons/nodejs.svg") },
+  { label: "Bash script"          , shortLabel: "Bash"   , value: "bash"   , img: require("assets/images/icons/bash.svg") },
+  { label: "Java (openjdk 8u151)" , shortLabel: "Java"   , value: "java"   , img: require("assets/images/icons/java.svg") },
   // { label: "C++"          , shortLabel: "C++"    , value: "cpp"    , img: require("assets/images/icons/cpp.svg") },
 ];
 
@@ -44,6 +44,7 @@ const botExamples = [
   { label: "Python" , url: "https://github.com/makeorbreak-io/mob-ai-python/blob/master/bot.py" },
   { label: "NodeJS" , url: "https://github.com/makeorbreak-io/mob-ai-nodejs/blob/master/bot.js" },
   { label: "Bash"   , url: "https://github.com/makeorbreak-io/mob-ai-bash/blob/master/bot.sh" },
+  { label: "Java"   , url: "https://github.com/makeorbreak-io/mob-ai-java/blob/master/Bot.java" },
 ];
 
 const guessSDK = (file) => {
