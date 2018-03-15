@@ -1,6 +1,7 @@
 const Webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require("path");
 
 const { NODE_ENV } = process.env;
@@ -9,6 +10,8 @@ module.exports = {
   target: "web",
 
   context: path.resolve(__dirname, "src"),
+
+  devtool: "source-map",
 
   entry: [
     path.resolve(__dirname, "src", "index.js"),
@@ -57,6 +60,10 @@ module.exports = {
       "process.env": {
         "NODE_ENV": JSON.stringify(NODE_ENV),
       },
+    }),
+
+    new UglifyJSPlugin({
+      sourceMap: true,
     }),
   ],
 };
