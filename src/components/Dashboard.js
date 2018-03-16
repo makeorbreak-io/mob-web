@@ -108,13 +108,14 @@ export class Dashboard extends Component {
         <hr />
 
         <h2 className="with-actions">
-          <div className="title">AI Competition</div>
+          <div className="title">AI Competition </div>
           <div className="actions">
             <Link to="/ai-competition">
               <Button primary small>Go to AI competition dashboard</Button>
             </Link>
           </div>
         </h2>
+        <h3><a href="https://github.com/makeorbreak-io/mob-ai/blob/master/RULES.md" target="_blank" rel="noopener noreferrer">Competition Rules</a></h3>
         {me.currentBot &&
         <p>
           Current bot: {me.currentBot.title} (rev. {me.currentBot.revision}) ({me.currentBot.sdk})

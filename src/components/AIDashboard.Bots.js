@@ -240,6 +240,7 @@ export class AIDashboardBots extends Component {
 
             <ul>
               <li className="bold">By submitting this code, you agree to its release under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT license</a>. All submissions will be published on a Make or Break repository at the end of the competition, with credit to their authors.</li>
+              <li>You can consult the rules of the competition in <a href="https://github.com/makeorbreak-io/mob-ai/blob/master/RULES.md" target="_blank" rel="noopener noreferrer">https://github.com/makeorbreak-io/mob-ai/blob/master/RULES.md</a></li>
               <li>Only the latest successfully processed bot will be considered for the next round of matches</li>
               <li>Bot revisions are automatically incremented for submissions with the same filename</li>
               <li>Questions? Need help? Support for new languages or libraries? Join <a href="https://makeorbreak-io.slack.com/messages/C9MTPV7C5/" target="_blank" rel="noopener noreferrer">#ai-competition on slack</a> (you can get an invite on the <Link to="/dashboard">dashboard</Link>)</li>
