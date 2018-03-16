@@ -77,6 +77,12 @@ export class AIDashboardViewer extends Component {
     // do not process keystrokes if viewer is not visible
     if (!this.container.offsetParent) return;
 
+    // do not process keystrokes if a modifier key is pressed
+    if (ev.altKey  || ev.ctrlKey || ev.metaKey || ev.shiftKey) return;
+
+    // do not process keystrokes if there's an element with focus
+    if (document.activeElement && document.activeElement.tagName !== "BODY") return;
+
     switch (ev.key) {
     case "ArrowLeft":
     case "j":
