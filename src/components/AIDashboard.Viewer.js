@@ -43,11 +43,11 @@ export class AIDashboardViewer extends Component {
   componentWillMount() {
     const { game } = this.props;
 
+    document.addEventListener("keydown", this.handleKeyDown);
+
     if (!game || !game.finalState) return;
 
     this.processGame(game);
-
-    document.addEventListener("keydown", this.handleKeyDown);
   }
 
   componentWillReceiveProps(nextProps) {
