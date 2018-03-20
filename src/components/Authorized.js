@@ -1,32 +1,30 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { compose, setDisplayName, getContext, lifecycle } from "recompose";
-import { connect } from "react-redux";
+import { compose, setDisplayName, lifecycle } from "recompose";
+import { withRouter } from "react-router";
 
-//
-// constants
+import { withCurrentUser, waitForData } from "enhancers";
+
 import { ADMIN } from "constants/roles";
 
-export const Authorized = ({ currentUser, children }) => (currentUser.role === ADMIN ? children : <div />);
+export const Authorized = ({ data: { me }, children }) => (me && me.role === ADMIN ? children : <div />);
 
 export default compose(
   setDisplayName("Authorized"),
 
-  getContext({
-    router: PropTypes.object.isRequired, 
-  }),
+  withRouter,
 
-  connect(({ currentUser }) => ({ currentUser })),
+  withCurrentUser,
+  waitForData,
 
   lifecycle({
     componentWillMount() {
-      const { currentUser, router } = this.props;
-      if (currentUser.role !== ADMIN) router.push("/");
+      const { data: { me }, router } = this.props;
+      if (!me || me.role !== ADMIN) router.push("/");
     },
 
     componentWillReceiveProps(nextProps) {
-      const { currentUser, router } = nextProps;
-      if (currentUser.role !== ADMIN) router.push("/");
+      const { data: { me }, router } = nextProps;
+      if (!me || me.role !== ADMIN) router.push("/");
     },
   }),
 )(Authorized);

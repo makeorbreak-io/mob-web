@@ -3,6 +3,11 @@ import { compose, setDisplayName } from "recompose";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import { Link } from "react-router";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+import { workshop } from "fragments";
+import { waitForData } from "enhancers";
 
 //
 // components
@@ -11,37 +16,31 @@ import { Tabs, Tab, Panel } from "components/uikit/tabs";
 import Workshop from "components/Workshop";
 
 //
-// redux
-import { fetchWorkshops, createWorkshop } from "actions/workshops";
-
-//
 // util
-import { sortedWorkshops } from "lib/workshops";
+// import { sortedWorkshops } from "lib/workshops";
 
 export class AdminWorkshops extends Component {
 
   //----------------------------------------------------------------------------
-  // Lifecycle
-  //----------------------------------------------------------------------------
-  componentDidMount() {
-    this.props.dispatch(fetchWorkshops({ admin: true }));
-  }
-
-  //----------------------------------------------------------------------------
   // Event Handlers
   //----------------------------------------------------------------------------
-  createWorkshop = (values) => {
-    const { dispatch, reset } = this.props;
+  createWorkshop = (workshop) => {
+    const { data, createWorkshop, reset } = this.props;
 
-    return dispatch(createWorkshop(values))
-    .then(dispatch(reset()));
+    return createWorkshop({
+      variables: { workshop },
+    })
+    .then(() => reset())
+    .then(() => data.refetch());
   }
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { workshops, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
+    const { data, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
+
+    const workshops = data.workshops.edges.map(e => e.node);
 
     return (
       <div className="AdminWorkshops">
@@ -58,9 +57,10 @@ export class AdminWorkshops extends Component {
             <h3>Current workshops</h3>
             <ul>
             </ul>
-            {sortedWorkshops(workshops).map(({ slug, name, short_date }) => (
+            {/*sortedWorkshops(workshops).map(({ slug, name, short_date }) => (*/}
+            {workshops.map(({ slug, name, shortDate }) => (
               <li key={slug}>
-                <Link to={`/admin/workshops/${slug}`}>{name} ({short_date})</Link>
+                <Link to={`/admin/workshops/${slug}`}>{name} ({shortDate})</Link>
               </li>
             ))}
 
@@ -76,7 +76,7 @@ export class AdminWorkshops extends Component {
               <h1>Preview</h1>
 
               <Workshop
-                workshop={formValues}
+                workshop={{ ...formValues, attendances: [] }}
                 showSummary
                 showDescription
                 showSpeaker
@@ -101,8 +101,21 @@ export default compose(
     validate,
   }),
 
-  connect(({ workshops, form }) => ({
-    workshops,
+  connect(({ form }) => ({
     formValues: form.newWorkshop.values || {},
   })),
+
+  graphql(gql`{ workshops(first: 24) { edges { node {
+    ...workshop
+    users { id name email }
+  } } } } ${workshop}`),
+
+  waitForData,
+
+  graphql(
+    gql`mutation createWorkshop($workshop: WorkshopInput!){
+      createWorkshop(workshop: $workshop) { ...workshop }
+    } ${workshop}`,
+    { name: "createWorkshop"},
+  )
 )(AdminWorkshops);

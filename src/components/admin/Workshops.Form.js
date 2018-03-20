@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes } from "recompose";
 import { Field } from "redux-form";
 
+import { toInt } from "lib/redux-form";
+
 //
 // components
 import { Button, ErrorMessage } from "components/uikit";
@@ -15,12 +17,12 @@ export const validate = (values) => {
   return composeValidators(
     validatePresence("slug", "Slug"),
     validatePresence("short_date", "Short date"),
-    validatePresence("short_speaker", "Short speaker"),
+    validatePresence("shortSpeaker", "Short speaker"),
     validatePresence("name", "Name"),
     validatePresence("summary", "Summary"),
     validatePresence("description", "Description"),
     validatePresence("speaker", "Speaker"),
-    validatePresence("participant_limit", "Participant Limit"),
+    validatePresence("participantLimit", "Participant Limit"),
     validatePresence("year", "Year"),
   )(values);
 };
@@ -39,13 +41,13 @@ export const WorkshopForm = ({
     <Field id="slug" name="slug" component="input" type="text" placeholder="Slug" className="fullwidth" />
     <ErrorMessage form={form} field="slug" />
 
-    <label htmlFor="short_date">Short Date</label>
-    <Field id="short_date" name="short_date" component="input" type="text" placeholder="Short Date" className="fullwidth" />
-    <ErrorMessage form={form} field="short_date" />
+    <label htmlFor="shortDate">Short Date</label>
+    <Field id="shortDate" name="shortDate" component="input" type="text" placeholder="Short Date" className="fullwidth" />
+    <ErrorMessage form={form} field="shortDate" />
 
-    <label htmlFor="short_speaker">ShortSpeaker</label>
-    <Field id="short_speaker" name="short_speaker" component="input" type="text" placeholder="ShortSpeaker" className="fullwidth" />
-    <ErrorMessage form={form} field="short_speaker" />
+    <label htmlFor="shortSpeaker">ShortSpeaker</label>
+    <Field id="shortSpeaker" name="shortSpeaker" component="input" type="text" placeholder="ShortSpeaker" className="fullwidth" />
+    <ErrorMessage form={form} field="shortSpeaker" />
 
     <label htmlFor="name">Name</label>
     <Field id="name" name="name" component="input" type="text" placeholder="Name"  className="fullwidth"/>
@@ -63,21 +65,21 @@ export const WorkshopForm = ({
     <Field id="speaker" name="speaker" component="textarea" placeholder="Speaker"  className="fullwidth"/>
     <ErrorMessage form={form} field="speaker" />
 
-    <label htmlFor="participant_limit">Participant Limit</label>
-    <Field id="participant_limit" name="participant_limit" component="input" type="number" placeholder="Participant Limit"  className="fullwidth"/>
-    <ErrorMessage form={form} field="participant_limit" />
+    <label htmlFor="participantLimit">Participant Limit</label>
+    <Field id="participantLimit" name="participantLimit" component="input" type="number" placeholder="Participant Limit"  className="fullwidth" parse={toInt}/>
+    <ErrorMessage form={form} field="participantLimit" />
 
     <label htmlFor="year">Year</label>
-    <Field id="year" name="year" component="input" type="text" placeholder="Year"  className="fullwidth"/>
+    <Field id="year" name="year" component="input" type="text" placeholder="Year"  className="fullwidth" parse={toInt} />
     <ErrorMessage form={form} field="year" />
 
     <label htmlFor="speaker_image">Speaker Image (url)</label>
-    <Field id="speaker_image" name="speaker_image" component="input" type="text" placeholder="Speaker Image"  className="fullwidth"/>
-    <ErrorMessage form={form} field="speaker_image" />
+    <Field id="speakerImage" name="speakerImage" component="input" type="text" placeholder="Speaker Image"  className="fullwidth"/>
+    <ErrorMessage form={form} field="speakerImage" />
 
     <label htmlFor="banner_image">Banner Image (url)</label>
-    <Field id="banner_image" name="banner_image" component="input" type="text" placeholder="Banner Image"  className="fullwidth"/>
-    <ErrorMessage form={form} field="banner_image" />
+    <Field id="bannerImage" name="bannerImage" component="input" type="text" placeholder="Banner Image"  className="fullwidth"/>
+    <ErrorMessage form={form} field="bannerImage" />
 
     <Button
       type="submit"

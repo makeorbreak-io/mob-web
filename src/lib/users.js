@@ -15,6 +15,5 @@ export const toCSV = (collection, columns = []) => {
 
 export const emailCSVSelector = [
   [ "Email Address", "email" ],
-  [ "First Name", "first_name" ],
-  [ "Last Name", "last_name" ],
+  [ "Name", "name" ],
 ];

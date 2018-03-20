@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 import ReactMarkdown from "react-markdown";
 import { isEmpty, includes, map } from "lodash";
-import { connect } from "react-redux";
 import classnames from "classnames";
 import { Link } from "react-router";
+
+import { withCurrentUser, waitForData } from "enhancers";
 
 //
 // components
@@ -59,9 +60,9 @@ export class Workshop extends Component {
   render() {
 
     const {
-      currentUser,
+      data: { me },
       workshop,
-      workshop: { name, slug, summary, description, speaker, participants, participant_limit, banner_image },
+      workshop: { name, slug, summary, description, speaker, attendances, participantLimit, bannerImage },
       showSummary,
       showDescription,
       showSpeaker,
@@ -70,13 +71,13 @@ export class Workshop extends Component {
 
     const { updating, showForm, disclaimer1, disclaimer2 } = this.state;
 
-    const inWorkshop = !isEmpty(currentUser) && includes(map(currentUser.workshops, "slug"), slug);
-    const spotsRemaining = participants < participant_limit;
+    const inWorkshop = !isEmpty(me) && includes(map(me.workshops, "slug"), slug);
+    const spotsRemaining = attendances.length < participantLimit;
     const canJoin = (spotsRemaining && !inWorkshop && disclaimer1 && disclaimer2) || inWorkshop;
 
 
     const formCx = classnames("actions", {
-      hidden: (!showForm || isEmpty(workshop) || isEmpty(currentUser)) && !inWorkshop,
+      hidden: (!showForm || isEmpty(workshop) || isEmpty(me)) && !inWorkshop,
     });
 
     const checkboxCx = classnames("checkbox", {
@@ -85,8 +86,8 @@ export class Workshop extends Component {
 
     return (
       <div className="Workshop" ref={ref => this.container = ref}>
-        {banner_image &&
-          <div className="banner" style={{ backgroundImage: `url(${banner_image})`}}/>
+        {bannerImage &&
+          <div className="banner" style={{ backgroundImage: `url(${bannerImage})`}}/>
         }
         <h2>
           {name}
@@ -102,13 +103,13 @@ export class Workshop extends Component {
         {showSpeaker && debug && <h6>Speaker</h6>}
         {showSpeaker && speaker && <ReactMarkdown source={speaker} />}
 
-        {!isEmpty(workshop) && currentUser && !inWorkshop && !showForm &&
+        {!isEmpty(workshop) && me && !inWorkshop && !showForm &&
           <Button fakelink primary centered onClick={this.showForm}>
             I want to participate in this workshop
           </Button>
         }
 
-        {!isEmpty(workshop) && !currentUser &&
+        {!isEmpty(workshop) && !me &&
           <div className="actions">
             <Link to="signup" className="signup">
               <Button primary centered>
@@ -147,7 +148,7 @@ export class Workshop extends Component {
           <p>
             {inWorkshop && <span>You are registered in this workshop. </span>}
             {!spotsRemaining && <span>Workshop is full</span>}
-            {spotsRemaining && <span>Remaining spots: {participant_limit - participants} of {participant_limit}</span>}
+            {spotsRemaining && <span>Remaining spots: {participantLimit - attendances.length} of {participantLimit}</span>}
           </p>
 
           {!inWorkshop &&
@@ -183,5 +184,6 @@ export default compose(
     debug           : false,
   }),
 
-  connect(({ currentUser }) => ({ currentUser })),
+  withCurrentUser,
+  waitForData,
 )(Workshop);
