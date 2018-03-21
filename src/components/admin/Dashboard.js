@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
+import { groupBy } from "lodash";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -84,7 +85,7 @@ export class Dashboard extends Component {
                         <td>hackathon participants</td>
                       </tr>
                       <tr>
-                        <td></td>
+                        <td>&ndash;</td>
                         <td>workshop participants</td>
                       </tr>
                       <tr>
@@ -92,8 +93,8 @@ export class Dashboard extends Component {
                         <td>total participants</td>
                       </tr>
                       <tr>
-                        <td>{users.checked_in}</td>
-                        <td>total users</td>
+                        <td>&ndash;</td>
+                        <td>checked in users</td>
                       </tr>
                     </tbody>
                   </table>
@@ -127,11 +128,16 @@ export class Dashboard extends Component {
 
                   <table className="stats">
                     <tbody>
-                      {workshops.map(({ slug, name, attendances, participantLimit }) => (
-                        <tr key={slug}>
-                          <td>{attendances.length} / {participantLimit}</td>
-                          <td><Link to={`/admin/workshops/${slug}`}>{name}</Link></td>
-                        </tr>
+                      {Object.entries(groupBy(workshops, "year")).map(([ year, workshops ]) => (
+                        <Fragment key={year}>
+                          <h2>{year}</h2>
+                          {workshops.map(({ slug, name, attendances, participantLimit }) => (
+                            <tr key={slug}>
+                              <td>{attendances.length} / {participantLimit}</td>
+                              <td><Link to={`/admin/workshops/${slug}`}>{name}</Link></td>
+                            </tr>
+                          ))}
+                        </Fragment>
                       ))}
                     </tbody>
                   </table>
