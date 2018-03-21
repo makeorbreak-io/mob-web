@@ -1,5 +1,5 @@
 import { isValid, parse } from "date-fns";
-import { map, reduce, merge, isEmpty, template } from "lodash";
+import { map, reduce, merge, isNumber, isEmpty, template } from "lodash";
 
 //
 // Constants
@@ -55,7 +55,7 @@ export const createValidator = (test, message) => {
 
 // Presence
 export const validatePresence = createValidator(
-  v => !isEmpty(v),
+  v => isNumber(v) || !isEmpty(v),
   "${label} is required",
 );
 

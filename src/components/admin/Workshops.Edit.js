@@ -3,8 +3,12 @@ import PropTypes from "prop-types";
 import { compose, setDisplayName, getContext } from "recompose";
 import { reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { find, isEmpty } from "lodash";
 import { Link } from "react-router";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+import { workshop } from "fragments";
+import { waitForData } from "enhancers";
 
 //
 // components
@@ -12,10 +16,7 @@ import WorkshopForm, { validate } from "components/admin/Workshops.Form";
 import { Tabs, Tab, Panel } from "components/uikit/tabs";
 import { Button, Modal } from "components/uikit";
 import Workshop from "components/Workshop";
-
-//
-// redux
-import { fetchWorkshops, updateWorkshop, deleteWorkshop } from "actions/workshops";
+import { omit } from "lodash";
 
 //
 // util
@@ -33,41 +34,32 @@ export class AdminEditWorkshop extends Component {
   // Lifecycle
   //----------------------------------------------------------------------------
   componentWillMount() {
-    const { initialize, workshop, dispatch } = this.props;
+    const { data: { workshop }, initialize } = this.props;
 
-    if (!isEmpty(workshop)) {
-      workshop.participant_limit = workshop.participant_limit.toString();
-      workshop.year = workshop.year.toString();
-
-      initialize(workshop);
-    }
-    else {
-      dispatch(fetchWorkshops({ admin: true }));
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { workshop } = nextProps;
-
-    if (isEmpty(this.props.workshop) && !isEmpty(workshop)) {
-      workshop.participant_limit = workshop.participant_limit.toString();
-      workshop.year = workshop.year.toString();
-
-      this.props.initialize(workshop);
-    }
+    initialize(omit(workshop, "__typename", "id", "users", "attendances"));
   }
 
   //----------------------------------------------------------------------------
   // Event Handlers
   //----------------------------------------------------------------------------
-  updateWorkshop = (values) => {
-    return this.props.dispatch(updateWorkshop(values.slug, values));
+  updateWorkshop = (workshop) => {
+    const { updateWorkshop, router } = this.props;
+
+    return updateWorkshop({ variables: { slug: workshop.slug, workshop } })
+    .then(response => {
+      const { slug } = response.data.updateWorkshop;
+
+      if (slug !== this.props.data.workshop.slug)
+        router.push(`/admin/workshops/${slug}`);
+
+      return null;
+    });
   }
 
   deleteWorkshop = () => {
-    const { dispatch, workshop, router } = this.props;
+    const { deleteWorkshop, router, data: { workshop: { slug } } } = this.props;
 
-    return dispatch(deleteWorkshop(workshop.slug))
+    return deleteWorkshop({ variables: { slug } })
     .then(() => router.push("/admin/workshops"));
   }
 
@@ -83,11 +75,8 @@ export class AdminEditWorkshop extends Component {
   // Event Handlers
   //----------------------------------------------------------------------------
   render() {
-    const { workshop, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
+    const { data: { workshop }, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
     const { openModal } = this.state;
-
-    if (isEmpty(workshop))
-      return <div>"Loading..."</div>;
 
     return (
       <div className="AdminWorkshops">
@@ -96,7 +85,7 @@ export class AdminEditWorkshop extends Component {
           title={`Email list for "${workshop.name}"`}
           onRequestClose={this.closeModal}
         >
-          <pre>{toCSV(workshop.attendees, emailCSVSelector)}</pre>
+          <pre>{toCSV(workshop.users, emailCSVSelector)}</pre>
         </Modal>
         <Tabs selected={0}>
           <Tab>
@@ -132,7 +121,7 @@ export class AdminEditWorkshop extends Component {
               <h1>Preview</h1>
 
               <Workshop
-                workshop={formValues}
+                workshop={{ ...workshop, ...formValues }}
                 showSummary
                 showDescription
                 showSpeaker
@@ -159,8 +148,38 @@ export default compose(
     validate,
   }),
 
-  connect(({ workshops, form }, props) => ({
-    workshop: find(workshops, w => w.slug === props.params.slug),
+  graphql(
+    gql`query workshop($slug: String!) {
+      workshop(slug: $slug) {
+        ...workshop
+        users { id name email }
+      }
+    } ${workshop}`,
+    {
+      skip: props => !props.params.slug,
+      options: props => ({
+        variables: { slug: props.params.slug },
+      }),
+    }
+  ),
+
+  waitForData,
+
+  graphql(
+    gql`mutation updateWorkshop($slug: String!, $workshop: WorkshopInput!) {
+      updateWorkshop(slug: $slug, workshop: $workshop) { ...workshop }
+    } ${workshop}`,
+    { name: "updateWorkshop" },
+  ),
+
+  graphql(
+    gql`mutation deleteWorkshop($slug: String!) {
+      deleteWorkshop(slug: $slug) { slug }
+    }`,
+    { name: "deleteWorkshop" },
+  ),
+
+  connect(({ form }) => ({
     formValues: form.editWorkshop.values || {},
   })),
 )(AdminEditWorkshop);

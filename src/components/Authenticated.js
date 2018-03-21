@@ -12,7 +12,6 @@ export default compose(
   withRouter,
 
   withCurrentUser,
-
   waitForData,
 
   lifecycle({

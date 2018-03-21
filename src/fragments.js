@@ -59,3 +59,22 @@ export const aiCompetitionBot = gql`
     insertedAt
   }
 `;
+
+export const workshop = gql`
+  fragment workshop on Workshop {
+    id
+    slug
+    shortDate
+    shortSpeaker
+    name
+    summary
+    description
+    speaker
+    participantLimit
+    year
+    speakerImage
+    bannerImage
+
+    attendances { id checkedIn }
+  }
+`;
