@@ -123,7 +123,7 @@ export class Landing extends Component {
           <div className="content">
             <h2>April 13, 14, 15 &sdot; 2018</h2>
             <h1>Create, code, and learn <br />with us in Porto</h1>
-            <h3>Join us in the playground for the future</h3>
+            <h3>Join us in the playground for the future, <br /><a href="https://goo.gl/maps/mMwoSdTibWS2" target="_blank" rel="noopener noreferrer">in the heart of Porto</a></h3>
 
             <Link to="/signup">
               <Button straight large outline purple>Apply Now</Button>
@@ -228,12 +228,12 @@ export class Landing extends Component {
         {/* END Separator */}
 
         {/* Previous edition */}
-        <section id="previous-edition">
+        <section id="location">
           <div className="content">
-            <h1>Check out MoB's<br />last edition</h1>
-            <h2>Returning April 2018!</h2>
+            <h1>Location</h1>
+            <h2>Returning April 2018! <br /><a href="https://goo.gl/maps/mMwoSdTibWS2">Palácio dos Correios, Porto</a></h2>
 
-            <Link to="/signup">
+            <Link className="apply" to="/signup">
               <Button straight large outline yellow>Apply Now</Button>
             </Link>
 
