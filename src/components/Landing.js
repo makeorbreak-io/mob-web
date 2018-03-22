@@ -231,7 +231,7 @@ export class Landing extends Component {
         <section id="location">
           <div className="content">
             <h1>Location</h1>
-            <h2>Returning April 2018! <br /><a href="https://goo.gl/maps/mMwoSdTibWS2">Palácio dos Correios, Porto</a></h2>
+            <h2>Returning April 2018! <br /><a href="https://goo.gl/maps/mMwoSdTibWS2" target="_blank" rel="noopener noreferrer">Palácio dos Correios, Porto</a></h2>
 
             <Link className="apply" to="/signup">
               <Button straight large outline yellow>Apply Now</Button>
