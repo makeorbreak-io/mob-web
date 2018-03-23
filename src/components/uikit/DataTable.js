@@ -116,7 +116,7 @@ export class DataTable extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { labels, mobile, sorter, filter, render } = this.props;
+    const { labels, mobile, sorter, filter, headcx, render } = this.props;
     const { sortKey, sortDir, query, searchVisible, filters } = this.state;
 
     const searchBarCx = classnames("search-bar", {
@@ -145,13 +145,13 @@ export class DataTable extends Component {
                 const m = mobile[i];
 
                 // if this.props.mobile is an empty array, show all columns, regardless of device
-                const cx = classnames({
+                const cx = classnames(headcx[i], {
                   desktop: m === undefined || m === false,
                   mobile:  m === undefined || m === true,
                 });
 
                 return (
-                  <td key={i} className={cx}>
+                  <th key={i} className={cx}>
                     {label}
 
                     { /* sort controls */ }
@@ -189,7 +189,7 @@ export class DataTable extends Component {
                         </button>
                       </span>
                     )}
-                  </td>
+                  </th>
                 );
               })}
             </tr>
@@ -213,6 +213,7 @@ export default compose(
     search: PropTypes.arrayOf(PropTypes.string).isRequired,
     sorter: PropTypes.arrayOf(PropTypes.string).isRequired,
     filter: PropTypes.arrayOf(PropTypes.string).isRequired,
+    headcx: PropTypes.arrayOf(PropTypes.string).isRequired,
     mobile: PropTypes.arrayOf(PropTypes.bool).isRequired,
     render: PropTypes.func.isRequired,
   }),
@@ -223,6 +224,7 @@ export default compose(
     labels: [],
     sorter: [],
     filter: [],
+    headcx: [],
     mobile: [],
     render: noop,
   }),

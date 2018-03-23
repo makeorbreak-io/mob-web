@@ -1,0 +1,28 @@
+@import "~styles/variables"
+@import "~styles/mixins"
+
++mobile()
+  .Fly .Fly-rules
+    display: block
+
+    .prize
+      position: relative
+      width: 90%
+      height: 200px
+      right: -40px
+
+    h1, h2
+      text-align: center
+      text-indent: 0
+      span
+        display: inline
+        margin: 0
+
+    a
+      &, .Button
+        width: 100%
+        display: inline-block
+
+  .Fly .Fly-leaderboard
+    width: 100%
+
