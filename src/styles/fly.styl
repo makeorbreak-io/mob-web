@@ -1,0 +1,158 @@
+@import "~styles/variables.styl"
+
+.Fly
+  width: 100%
+  min-height: 100vh
+  background: $purple-dark
+  padding-bottom: 75px
+
+  .Fly-banner
+    position: relative
+    height: 540px
+    background: linear-gradient(45deg, #f973ac 20%, #fce272 80%)
+    margin-bottom: 100px
+
+    .content
+      max-width: $content-width
+      height: 100%
+      margin: 0 auto
+      display: flex
+      flex-direction: column
+      align-items: flex-start
+      justify-content: center
+
+    &:before, &:after
+      position: absolute
+      top: 0
+      left: 0
+      display: block
+      content: ""
+      width: 100%
+      height: 100%
+      zIndex("base")
+
+    &:before
+      background: transparent url("~assets/images/fly-town-hall-bg.png") no-repeat left top
+    &:after
+      background: transparent url("~assets/images/fly-paper-planes-bg.png") no-repeat right top
+
+    h1, h2, h3
+      position: relative
+      margin: 0
+      text-align: left
+      zIndex("increment")
+
+    h1
+      font-size: 200px
+      color: white
+      font-weight: bold
+      line-height: 1
+      margin-left: -12px
+      letter-spacing: 0
+
+      span
+        margin-left: -23px
+
+    h2
+      color: $mob-purple
+
+    h3
+      color: white
+      line-height: 1.2
+
+  .Fly-rules
+    display: flex
+    align-items: flex-start
+    justify-content: space-between
+    margin-top: 30px
+    color: white
+
+    > div
+      position: relative
+      flex-basis: 50%
+
+    h1, h2
+      text-align: left
+      text-transform: uppercase
+      line-height: 1
+
+    h1
+      font-size: 50px
+      text-indent: -40px
+    h2
+      color: orange
+      span
+        display: block
+        margin-left: 100px
+
+    p
+      color: white
+
+    a, a:link, a:active, a:visited
+      color: white
+    a:hover
+      &, .Button
+        color: $purple-dark
+
+    .prize
+      position: absolute
+      right: 10px
+      width: 490px
+      height: 275px
+      background: $pink
+      margin-bottom: 60px
+
+      &:before
+        content: ""
+        display: block
+        position: absolute
+        top: 40px
+        left: -40px
+        width: 100%
+        height: 100%
+        background: transparent url("~assets/images/prize-fly-ue-boom-2.jpg") no-repeat center center
+        background-size: cover
+        background-position: center bottom
+
+  .Fly-leaderboard
+    width: 70%
+    margin: 100px auto 0
+    color: white
+
+    form
+      .fields
+        display: flex
+        align-items: center
+        justify-content: space-between
+
+        input, .Button
+          flex-basis: 24%
+
+        .Button
+          height: 50px
+          margin: 0
+
+      .ErrorMessage
+        display: block
+
+    .DataTable
+      &, table
+        width: 100%
+
+      th, td
+        &.right
+          text-align: right
+          padding-right: 25px
+
+      table th
+        border-color: transparent
+        border-bottom-color: $mob-purple
+        text-align: left
+      table td
+        border: none
+        font-size: 18px
+
+      .search-bar
+        background: transparent
+      .search, .search-bar
+        top: 2px

@@ -39,7 +39,7 @@ export class App extends Component {
 
     return (
       <div className="App">
-        <Navbar landing={pathname === "/"} />
+        <Navbar landing={pathname === "/"} fly={pathname === "/fly"} />
 
         <div className={contentCx}>
           {children}

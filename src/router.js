@@ -16,6 +16,8 @@ import Signup from "components/Signup";
 import RecoverPassword from "components/RecoverPassword";
 import ResetPassword from "components/ResetPassword";
 
+import Fly from "components/Fly";
+
 //
 // Participant components
 import UserOnboarding from "components/UserOnboarding";
@@ -24,7 +26,6 @@ import AccountTeam from "components/AccountTeam";
 import Team from "components/Team";
 import ParticipationCertificate from "components/ParticipationCertificate";
 import AIDashboard from "components/AIDashboard";
-// import VotingBooth from "components/voting_booth";
 
 //
 // Admin components
@@ -56,6 +57,8 @@ const wait = (milis) => (prevState, nextState, replace, cb) => {
 const router = (
   <Router history={browserHistory}>
     <Route path="/" component={App} onChange={wait(PAGE_TRANSITION_MS)}>
+
+      <Route path="/fly" component={Fly} />
 
       <IndexRoute component={Landing} />
 

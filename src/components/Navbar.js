@@ -22,7 +22,7 @@ import logo from "assets/images/mob-logo-white.svg";
 export class Navbar extends Component {
 
   render() {
-    const { data: { me }, landing } = this.props;
+    const { data: { me }, landing, fly } = this.props;
     const cx = classnames("Navbar", {
       landing,
       "logged-in": !isEmpty(me),
@@ -40,9 +40,9 @@ export class Navbar extends Component {
             </Link>
           </h1>
 
-          {!me && <Link activeClassName="active" className="login" to="/signin"><Button nobg>Sign In</Button></Link>}
+          {!me && !fly && <Link activeClassName="active" className="login" to="/signin"><Button nobg>Sign In</Button></Link>}
 
-          {me && <AccountMenu />}
+          {me && !fly && <AccountMenu />}
         </div>
       </div>
     );
