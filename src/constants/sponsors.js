@@ -1,15 +1,17 @@
-import sponsorDoist from "assets/images/sponsor-doist.svg";
-import sponsorLoM from "assets/images/sponsor-lom.svg";
-import sponsorAbyssal from "assets/images/sponsor-abyssal.svg";
-import sponsorBlip from "assets/images/sponsor-blip.svg";
-import sponsorTMC from "assets/images/sponsor-tmc.svg";
-import sponsorHostelWorld from "assets/images/sponsor-hostel-world.svg";
-import sponsorJumia from "assets/images/sponsor-jumia.svg";
-import sponsorByside from "assets/images/sponsor-byside.svg";
-import sponsorHapibot from "assets/images/sponsor-hapibot.svg";
-import sponsorCMP from "assets/images/sponsor-cmp.svg";
-import sponsorAlientech from "assets/images/sponsor-alientech.svg";
-import sponsorScaleUpPorto from "assets/images/sponsor-scale-up-porto.svg";
+import env from "config/environment";
+
+const sponsorDoist        = `${env.assetHost}/images/sponsor-doist.svg`;
+const sponsorLoM          = `${env.assetHost}/images/sponsor-lom.svg`;
+const sponsorAbyssal      = `${env.assetHost}/images/sponsor-abyssal.svg`;
+const sponsorBlip         = `${env.assetHost}/images/sponsor-blip.svg`;
+const sponsorTMC          = `${env.assetHost}/images/sponsor-tmc.svg`;
+const sponsorHostelWorld  = `${env.assetHost}/images/sponsor-hostel-world.svg`;
+const sponsorJumia        = `${env.assetHost}/images/sponsor-jumia.svg`;
+const sponsorByside       = `${env.assetHost}/images/sponsor-byside.svg`;
+const sponsorHapibot      = `${env.assetHost}/images/sponsor-hapibot.svg`;
+const sponsorCMP          = `${env.assetHost}/images/sponsor-cmp.svg`;
+const sponsorAlientech    = `${env.assetHost}/images/sponsor-alientech.svg`;
+const sponsorScaleUpPorto = `${env.assetHost}/images/sponsor-scale-up-porto.svg`;
 
 export default [
   [

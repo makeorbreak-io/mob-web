@@ -1,10 +1,12 @@
-import prizeSwitch from "assets/images/prize-switch.png";
-import prizeMonitor from "assets/images/prize-monitor.png";
-import prizeHeadphones from "assets/images/prize-headphones.png";
+import env from "config/environment";
 
-import aiPrize1st from "assets/images/ai-prize-1st.png";
-import aiPrize2nd from "assets/images/ai-prize-2nd.png";
-import aiPrize3rd from "assets/images/ai-prize-3rd.png";
+const prizeSwitch      = `${env.assetHost}/images/prize-switch.png`;
+const prizeMonitor     = `${env.assetHost}/images/prize-monitor.png`;
+const prizeHeadphones  = `${env.assetHost}/images/prize-headphones.png`;
+
+const aiPrize1st = `${env.assetHost}/images/ai-prize-1st.png`;
+const aiPrize2nd = `${env.assetHost}/images/ai-prize-2nd.png`;
+const aiPrize3rd = `${env.assetHost}/images/ai-prize-3rd.png`;
 
 export const HACKATHON_PRIZES = [
   { title: "Fun", subtitle: "Nintendo Switch", description: "Play your favorite games anywhere and have some fun.", image: prizeSwitch },

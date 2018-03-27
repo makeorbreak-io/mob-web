@@ -2,6 +2,7 @@ const env = {
   apiHost: "http://localhost:4000/api",
   graphqlHost: "http://localhost:4000/graphql",
   sentryEndpoint: "https://689416f602364808bf75db638243c636@sentry.io/197455",
+  assetHost: "https://s3.eu-central-1.amazonaws.com/make-or-break-static-assets/site-assets",
 };
 
 if (process.env.NODE_ENV === "production") {

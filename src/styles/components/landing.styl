@@ -37,7 +37,7 @@
     background: linear-gradient(45deg, #f973ac 20%, #fce272 80%)
 
     .content
-      background: url("~assets/images/landing-horses@2x.png") no-repeat bottom -582px right
+      background: url($asset-host + "/images/landing-horses@2x.png") no-repeat bottom -582px right
       background-size: 75%
       height: 100%
       padding: 70px 170px 0 70px
@@ -92,7 +92,7 @@
   //---------------------------------------------------------------------------- Hackathon
   section#hackathon
     .content
-      background: url("~assets/images/landing-horses@2x.png") no-repeat top -324px right
+      background: url($asset-host + "/images/landing-horses@2x.png") no-repeat top -324px right
       background-size: 75%
       padding: 200px 90px 0 630px
 
@@ -113,7 +113,7 @@
       &:after
         left: 120px
         top: 120px
-        background: url("~assets/images/landing-hackathon@2x.jpg") no-repeat center center
+        background: url($asset-host + "/images/landing-hackathon@2x.jpg") no-repeat center center
         background-size: cover
 
       > *
@@ -170,7 +170,7 @@
         right: 40px
         top: 100px
         width: 520px
-        background: url("~assets/images/landing-workshops@2x.jpg") center center
+        background: url($asset-host + "/images/landing-workshops@2x.jpg") center center
         background-size: cover
 
       p
@@ -186,20 +186,27 @@
         justify-content: space-around
 
         .workshop
-          flex-basis: calc(33%)
-          padding: 60px
+          flex-basis: calc(33% - 30px)
+          margin: 15px
+          padding: 30px
           display: flex
           flex-direction: column
-          align-items: flex-start
+          align-items: center
           cursor: pointer
+          border-radius: 10px
+
+          &:hover
+            background: rgba(white, 0.1)
 
           img
             margin-bottom: 20px
             height: 120px
 
           span
+            display: block
             margin: 10px 0
             text-transform: uppercase
+            text-align: center
 
           .date
             color: $orange
@@ -231,7 +238,7 @@
         bottom: 0
         width: 580px
         height: 720px
-        background: url("~assets/images/landing-lion@2x.png") no-repeat bottom left
+        background: url($asset-host + "/images/landing-lion@2x.png") no-repeat bottom left
         background-size: cover
         zIndex("base")
 
@@ -256,12 +263,12 @@
   //---------------------------------------------------------------------------- Separator
   section#separator
     position: relative
-    background: #1f1338 url("~assets/images/landing-separator-exes-section.svg") no-repeat top left
+    background: #1f1338 url($asset-host + "/images/landing-separator-exes-section.svg") no-repeat top left
     height: 410px
 
     .content
       height: 100%
-      background: transparent url("~assets/images/landing-separator-exes-content.svg") no-repeat top left
+      background: transparent url($asset-host + "/images/landing-separator-exes-content.svg") no-repeat top left
 
       h1
         display: inline-block
@@ -348,7 +355,7 @@
         right: 0
         height: 225px
         background:
-          url("~assets/images/landing-community-cutout.svg") no-repeat 0 0,
+          url($asset-host + "/images/landing-community-cutout.svg") no-repeat 0 0,
           linear-gradient(to right, transparent 220px, $purple-dark 221px, $purple-dark 100%)
 
       &:after
@@ -424,7 +431,7 @@
         left: 0
         right: 0
         bottom: 0
-        background: url("~assets/images/landing-team-separator@2x.jpg") no-repeat center center
+        background: url($asset-host + "/images/landing-team-separator@2x.jpg") no-repeat center center
         background-size: cover
 
       h1
@@ -580,7 +587,7 @@
           background-size: cover
 
           &.empty
-            background: $purple-bright url("~assets/images/mob-logo-white.svg") no-repeat center center !important
+            background: $purple-bright url($asset-host + "/images/mob-logo-white.svg") no-repeat center center !important
 
         h3
           color: $orange
@@ -623,7 +630,7 @@
           position: absolute
           width: 330px
           height: 330px
-          background: url("~assets/images/landing-sponsors.svg") no-repeat top left
+          background: url($asset-host + "/images/landing-sponsors.svg") no-repeat top left
           top: 100%
           right: -39px
 

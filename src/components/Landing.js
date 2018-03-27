@@ -35,6 +35,8 @@ import { sortedWorkshops } from "lib/workshops";
 import SPONSORS from "constants/sponsors";
 import { HACKATHON_PRIZES, AI_COMP_PRIZES } from "constants/landing_prizes";
 
+import env from "config/environment";
+
 import slackMarkWhite from "assets/images/slack-white.svg";
 import email from "assets/images/email-white.svg";
 
@@ -142,7 +144,6 @@ export class Landing extends Component {
     const { collapsedSections: { msCrypto, msGeekGirls }, selectedWorkshop } = this.state;
 
     const workshops = sortedWorkshops(data.workshops);
-    console.log("data.workshops", data.workshops);
     const currentWorkshop = workshops.find(w => w.slug === selectedWorkshop);
 
     return (
@@ -210,7 +211,7 @@ export class Landing extends Component {
             <ul className="workshops">
               {workshops.map(workshop => (
                 <li key={workshop.slug} className="workshop" onClick={() => this.setSelectedWorkshop(workshop.slug)}>
-                  <img src={require(`assets/images/workshops/${workshop.slug}.svg`)} alt={workshop.name} />
+                  <img src={`${env.assetHost}/images/workshops/${workshop.slug}.svg`} alt={workshop.name} />
                   <span className="date">{workshop.shortDate}</span>
                   <span className="name">{workshop.name}</span>
                   <span className="speaker">{workshop.shortSpeaker}</span>
@@ -493,7 +494,7 @@ export class Landing extends Component {
           isOpen={selectedWorkshop !== null}
           title={currentWorkshop && currentWorkshop.name}
           onRequestClose={() => this.setSelectedWorkshop(null)}>
-          <Workshop workshop={currentWorkshop} />
+          <Workshop workshop={currentWorkshop} showSummary showDescription showSpeaker />
         </Modal>
 
       </div>
