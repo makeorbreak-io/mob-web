@@ -8,6 +8,7 @@ import sponsorJumia from "assets/images/sponsor-jumia.svg";
 import sponsorByside from "assets/images/sponsor-byside.svg";
 import sponsorHapibot from "assets/images/sponsor-hapibot.svg";
 import sponsorCMP from "assets/images/sponsor-cmp.svg";
+import sponsorAlientech from "assets/images/sponsor-alientech.svg";
 import sponsorScaleUpPorto from "assets/images/sponsor-scale-up-porto.svg";
 
 export default [
@@ -36,8 +37,9 @@ export default [
 
   // partners
   [
-    { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/" , className: "scale-up" , description: null },
-    { src: sponsorCMP          , url: "http://www.cm-porto.pt/" , className: "cmp"      , description: null },
+    { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/"   , className: "scale-up"  , description: null },
+    { src: sponsorAlientech    , url: "https://www.alientech.pt/" , className: "alientech" , description: null },
+    { src: sponsorCMP          , url: "http://www.cm-porto.pt/"   , className: "cmp"       , description: null },
   ],
 ];
 
