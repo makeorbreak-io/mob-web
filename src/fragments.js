@@ -39,7 +39,7 @@ export const fullTeam = gql`
   fragment fullTeam on Team {
     id
     name
-    # technologies
+    applied
 
     invites { id gravatarHash displayName }
     members { id displayName gravatarHash }
