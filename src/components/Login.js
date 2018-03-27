@@ -42,6 +42,7 @@ export class Login extends Component {
       localStorage["jwt"] = response.data.authenticate;
       data.refetch();
       router.push("/dashboard");
+      return null;
     })
     .catch(handleGraphQLErrors);
   }

@@ -51,7 +51,9 @@ export class Signup extends Component {
     })
     .then(response => {
       localStorage["jwt"] = response.data.register;
-      return data.refetch().then(() => router.push("/welcome"));
+      data.refetch();
+      router.push("/welcome");
+      return null;
     })
     .catch(handleGraphQLErrors);
   }
