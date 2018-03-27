@@ -13,12 +13,8 @@ import { waitForData } from "enhancers";
 import { DataTable, Avatar, Button } from "components/uikit";
 
 //
-// redux
-// import { fetchUsersAdmin, deleteUserAdmin, setUserRoleAdmin } from "actions/admin/users";
-
-//
 // constants
-import { ADMIN, PARTICIPANT } from "constants/roles";
+import { ADMIN } from "constants/roles";
 
 //
 // utils
@@ -46,15 +42,17 @@ export class AdminUsers extends Component {
   // Event handlers
   //----------------------------------------------------------------------------
   toggleRole = (user) => {
-    const role = user.role === ADMIN ? PARTICIPANT : ADMIN;
+    const { makeParticipant, makeAdmin, data } = this.props;
+    const func = user.role === ADMIN ? makeParticipant : makeAdmin;
 
-    // return this.props.dispatch(setUserRoleAdmin(user.id, role));
-    return role;
+    return func({ variables: { id: user.id } })
+    .then(() => data.refetch());
   }
 
   removeUser = (id) => {
-    // return this.props.dispatch(deleteUserAdmin(id));
-    return id;
+    const { removeUser, data } = this.props;
+    return removeUser({ variables: { id } })
+    .then(() => data.refetch());
   }
 
   openModal = (modal) => {
@@ -84,7 +82,7 @@ export class AdminUsers extends Component {
           <div className="tools">
             <span className="left"><Link to="/admin">← Back to Admin</Link></span>
           </div>
-  {/*
+          {/*
           <div className="tools">
 
             <h3>CSV Lists:</h3>
@@ -148,7 +146,7 @@ export class AdminUsers extends Component {
               <pre>{toCSV(workshopOnlyUsers, [ ["Name", "display_name"] ])}</pre>
             </Modal>
           </div>
-  */}
+          */}
           <DataTable
             source={users}
             search={[ "display_name", "role", "tshirt_size", "team.name" ]}
@@ -172,9 +170,9 @@ export class AdminUsers extends Component {
                 <td className="mobile">{user.team && user.team.name}</td>
                 <td className="social mobile">
                   <ul>
-                    {user.github_handle &&  <li><img src={github} title={user.github_handle} />{last(user.github_handle.split("/"))}</li>}
-                    {user.twitter_handle && <li><img src={twitter} title={user.twitter_handle} /></li>}
-                    {user.linkedin_url &&   <li><img src={linkedin} title={user.linkedin_url} /></li>}
+                    {user.githubHandle &&  <li><img src={github} title={user.githubHandle} />{last(user.githubHandle.split("/"))}</li>}
+                    {user.twitterHandle && <li><img src={twitter} title={user.twitterHandle} /></li>}
+                    {user.linkedinUrl &&   <li><img src={linkedin} title={user.linkedinUrl} /></li>}
                   </ul>
                 </td>
                 <td className="mobile">
@@ -183,7 +181,7 @@ export class AdminUsers extends Component {
                     small
                     fullwidth
                     disableFeedback
-                    confirmation={`Really make ${user.display_name} a ${user.role === ADMIN ? "participant" : "admin"}?`}
+                    confirmation={`Really make ${user.displayName} a ${user.role === ADMIN ? "participant" : "admin"}?`}
                     onClick={() => this.toggleRole(user)}
                   >
                     {user.role === ADMIN ? "Make participant" : "⚠️ Make admin ⚠️" }
@@ -193,7 +191,7 @@ export class AdminUsers extends Component {
                     danger
                     small
                     fullwidth
-                    confirmation={`Really delete ${user.display_name}?`}
+                    confirmation={`Really delete ${user.displayName}?`}
                     onClick={() => this.removeUser(user.id)}
                   >
                     Remove
@@ -215,6 +213,27 @@ export default compose(
   graphql(gql`{
     users(first: 1000) { edges { node { ...fullUser } } }
   } ${fullUser}`),
+
+  graphql(
+    gql`mutation makeAdmin($id: String!) {
+      makeAdmin(id: $id) { ...fullUser }
+    } ${fullUser}`,
+    { name: "makeAdmin" }
+  ),
+
+  graphql(
+    gql`mutation makeParticipant($id: String!) {
+      makeParticipant(id: $id) { ...fullUser }
+    } ${fullUser}`,
+    { name: "makeParticipant" }
+  ),
+
+  graphql(
+    gql`mutation removeUser($id: String!) {
+      removeUser(id: $id)
+    } ${fullUser}`,
+    { name: "removeUser" }
+  ),
 
   waitForData,
 )(AdminUsers);

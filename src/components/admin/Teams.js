@@ -29,8 +29,19 @@ export class AdminTeams extends Component {
   // Event Handlers
   //----------------------------------------------------------------------------
   setApplied = (id, applied) => {
-    // return this.props.dispatch(updateTeam(id, { applied }, { admin: true }));
-    return applied;
+    const { applyTeamToHackathon, deapplyTeamFromHackathon, data } = this.props;
+
+    const func = !applied ? deapplyTeamFromHackathon : applyTeamToHackathon;
+
+    return func({ variables: { id } })
+    .then(() => data.refetch());
+  }
+
+  setAccepted = (id) => {
+    const { acceptTeam, data } = this.props;
+
+    return acceptTeam({ variables: { id } })
+    .then(() => data.refetch());
   }
 
   makeEligible = (id) => {
@@ -39,8 +50,10 @@ export class AdminTeams extends Component {
   }
 
   deleteTeam = (id) => {
-    // return this.props.dispatch(deleteTeam(id, { admin: true }));
-    return id;
+    const { deleteTeam, data } = this.props;
+
+    return deleteTeam({ variables: { id } })
+    .then(() => data.refetch());
   }
 
   disqualifyTeam = (id) => {
@@ -57,7 +70,6 @@ export class AdminTeams extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    console.log(this.props.data.teams);
     const teams = this.props.data.teams.edges.map(e => e.node);
 
     return (
@@ -77,8 +89,8 @@ export class AdminTeams extends Component {
                 <td>{(team.project && team.project.name)}</td>
                 <td>
                   <ul>
-                  {(team.memberships.map(m => (
-                    <li key={m.id}>
+                  {(team.memberships.map((m, i) => (
+                    <li key={i}>
                      <span>{m.user.displayName}</span>
                       <Button
                         className="remove"
@@ -111,6 +123,19 @@ export class AdminTeams extends Component {
                   >
                     {team.applied ? "De-apply" : "Apply"}
                   </Button>
+
+                  <Button
+                    primary
+                    small
+                    fullwidth
+                    confirmation={`Really accept ${team.name} in hackathon?`}
+                    disabled={team.accepted}
+                    onClick={() => this.setAccepted(team.id)}
+                  >
+                    {team.accepted ? "Accepted" : "Accept team"}
+                  </Button>
+
+                  {/*
                   <Button
                     danger
                     small
@@ -122,16 +147,6 @@ export class AdminTeams extends Component {
                   </Button>
 
                   <Button
-                    primary
-                    small
-                    fullwidth
-                    disabled={team.eligible}
-                    onClick={() => this.makeEligible(team.id)}
-                  >
-                    Make eligible
-                  </Button>
-
-                  <Button
                     danger
                     small
                     fullwidth
@@ -140,6 +155,7 @@ export class AdminTeams extends Component {
                   >
                     Disqualify
                   </Button>
+                  */}
                 </td>
               </tr>
             )}
@@ -157,6 +173,34 @@ export default compose(
   graphql(gql`{
     teams(first: 1000) { edges { node { ...fullTeam } } }
   } ${fullTeam}`),
+
+  graphql(
+    gql`mutation applyTeamToHackathon($id: String!) {
+      applyTeamToHackathon(id: $id) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "applyTeamToHackathon" }
+  ),
+
+  graphql(
+    gql`mutation deapplyTeamFromHackathon($id: String!) {
+      deapplyTeamFromHackathon(id: $id) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "deapplyTeamFromHackathon" }
+  ),
+
+  graphql(
+    gql`mutation acceptTeam($id: String!) {
+      acceptTeam(id: $id) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "acceptTeam" },
+  ),
+
+  graphql(
+    gql`mutation deleteTeam($id: String!) {
+      deleteTeam(id: $id) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "deleteTeam" }
+  ),
 
   waitForData,
 )(AdminTeams);
