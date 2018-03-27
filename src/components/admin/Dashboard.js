@@ -18,6 +18,7 @@ export class Dashboard extends Component {
 
   render() {
     const { adminStats: { users, teams }, workshops } = this.props.data;
+    // const workshops = this.props.data.workshops.edges.map(e => e.node);
 
     return (
       <div className="AdminDashboard">
