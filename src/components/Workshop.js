@@ -2,19 +2,19 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 import ReactMarkdown from "react-markdown";
-import { isEmpty, includes, map } from "lodash";
 import classnames from "classnames";
 import { Link } from "react-router";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
 
+//
+// gql
+import { workshop } from "fragments";
 import { withCurrentUser, waitForData } from "enhancers";
 
 //
 // components
 import { Button, ErrorMessage } from "components/uikit";
-
-//
-// redux
-import { joinWorkshop, leaveWorkshop } from "actions/workshops";
 
 export class Workshop extends Component {
 
@@ -32,17 +32,18 @@ export class Workshop extends Component {
   toggleAttendance = (e) => {
     e.preventDefault();
 
-    const { dispatch, workshop: { slug }, currentUser } = this.props;
+    const { workshop: { slug }, data, joinWorkshop, leaveWorkshop } = this.props;
 
-    const inWorkshop = !isEmpty(currentUser) && includes(map(currentUser.workshops, "slug"), slug);
-    const func = !inWorkshop ? joinWorkshop : leaveWorkshop;
+    const func = this.inWorkshop() ? leaveWorkshop : joinWorkshop;
 
     this.setState({
       updating: true,
       disclaimer1: false,
       disclaimer2: false,
     });
-    return dispatch(func(slug))
+
+    return func({ variables: { slug } })
+    .then(() => data.refetch())
     .finally(() => this.setState({ updating: false, showForm: false }));
   }
 
@@ -54,6 +55,16 @@ export class Workshop extends Component {
     });
   }
 
+  inWorkshop = () => {
+    const { data: { me }, workshop: { slug } } = this.props;
+    return me && me.workshops.map(w => w.slug).includes(slug);
+  }
+
+  limitReached = () => {
+    const { data: { me } } = this.props;
+    return me && me.currentTeam && me.currentTeam.applied && me.workshops.length >= 2;
+  }
+
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
@@ -62,22 +73,25 @@ export class Workshop extends Component {
     const {
       data: { me },
       workshop,
-      workshop: { name, slug, summary, description, speaker, attendances, participantLimit, bannerImage },
       showSummary,
       showDescription,
       showSpeaker,
       debug,
     } = this.props;
 
+    if (!workshop) return null;
+
+    const { name, summary, description, speaker, attendances, participantLimit, bannerImage } = workshop;
+
     const { updating, showForm, disclaimer1, disclaimer2 } = this.state;
 
-    const inWorkshop = !isEmpty(me) && includes(map(me.workshops, "slug"), slug);
+    const inWorkshop = this.inWorkshop();
     const spotsRemaining = attendances.length < participantLimit;
-    const canJoin = (spotsRemaining && !inWorkshop && disclaimer1 && disclaimer2) || inWorkshop;
-
+    const limitReached = this.limitReached();
+    const canJoin = (spotsRemaining && !inWorkshop && !limitReached && disclaimer1 && disclaimer2) || inWorkshop;
 
     const formCx = classnames("actions", {
-      hidden: (!showForm || isEmpty(workshop) || isEmpty(me)) && !inWorkshop,
+      hidden: !showForm && !inWorkshop,
     });
 
     const checkboxCx = classnames("checkbox", {
@@ -103,13 +117,13 @@ export class Workshop extends Component {
         {showSpeaker && debug && <h6>Speaker</h6>}
         {showSpeaker && speaker && <ReactMarkdown source={speaker} />}
 
-        {!isEmpty(workshop) && me && !inWorkshop && !showForm &&
+        {me && !inWorkshop && !showForm &&
           <Button fakelink primary centered onClick={this.showForm}>
             I want to participate in this workshop
           </Button>
         }
 
-        {!isEmpty(workshop) && !me &&
+        {!me &&
           <div className="actions">
             <Link to="signup" className="signup">
               <Button primary centered>
@@ -129,7 +143,7 @@ export class Workshop extends Component {
           <label className={checkboxCx}>
             <span className="required">*</span>
             <input type="checkbox" id="disclaimer2" name="disclaimer2" checked={disclaimer2} onChange={e => this.setState({ disclaimer2: e.target.checked })} />
-            <span>I will leave the workshop as soon as possible if for some reason I can't make it</span>
+            <span>I will give up my spot in the workshop as soon as possible if for some reason I can't make it</span>
           </label>
 
           <Button
@@ -145,11 +159,10 @@ export class Workshop extends Component {
           </Button>
           <ErrorMessage form="joinWorkshop" field="disclaimer" />
 
-          <p>
-            {inWorkshop && <span>You are registered in this workshop. </span>}
-            {!spotsRemaining && <span>Workshop is full</span>}
-            {spotsRemaining && <span>Remaining spots: {participantLimit - attendances.length} of {participantLimit}</span>}
-          </p>
+          {limitReached && <p>As a hackathon participant, you are limited to attending 2 workshops</p>}
+          {inWorkshop && <p>You are registered in this workshop. </p>}
+          {!spotsRemaining && <p>Workshop is full</p>}
+          {spotsRemaining && <p>Remaining spots: {participantLimit - attendances.length} of {participantLimit}</p>}
 
           {!inWorkshop &&
             <p className="notice">
@@ -169,7 +182,7 @@ export default compose(
   setDisplayName("Workshop"),
 
   setPropTypes({
-    workshop        : PropTypes.object.isRequired,
+    workshop        : PropTypes.object,
     showSummary     : PropTypes.bool.isRequired,
     showDescription : PropTypes.bool.isRequired,
     showSpeaker     : PropTypes.bool.isRequired,
@@ -177,12 +190,25 @@ export default compose(
   }),
 
   defaultProps({
-    workshop        : {},
     showSummary     : false,
     showDescription : false,
     showSpeaker     : false,
     debug           : false,
   }),
+
+  graphql(
+    gql`mutation joinWorkshop($slug: String!) {
+      joinWorkshop(slug: $slug) { ...workshop }
+    } ${workshop}`,
+    { name: "joinWorkshop" },
+  ),
+
+  graphql(
+    gql`mutation leaveWorkshop($slug: String!) {
+      leaveWorkshop(slug: $slug) { ...workshop }
+    } ${workshop}`,
+    { name: "leaveWorkshop" },
+  ),
 
   withCurrentUser,
   waitForData,

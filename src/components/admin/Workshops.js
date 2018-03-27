@@ -6,6 +6,8 @@ import { Link } from "react-router";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
+//
+// gql
 import { workshop } from "fragments";
 import { waitForData } from "enhancers";
 
@@ -38,10 +40,7 @@ export class AdminWorkshops extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { data, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
-
-    const workshops = data.workshops.edges.map(e => e.node);
-
+    const { data: { workshops }, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
     return (
       <div className="AdminWorkshops">
         <Tabs selected={0}>
@@ -105,10 +104,10 @@ export default compose(
     formValues: form.newWorkshop.values || {},
   })),
 
-  graphql(gql`{ workshops(first: 24) { edges { node {
+  graphql(gql`{ workshops {
     ...workshop
     users { id name email }
-  } } } } ${workshop}`),
+  } } ${workshop}`),
 
   waitForData,
 

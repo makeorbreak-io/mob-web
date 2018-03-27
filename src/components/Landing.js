@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { compose } from "recompose";
-import { Link } from "react-router";
+import { Link, withRouter } from "react-router";
 import { reduxForm, Field } from "redux-form";
 import ReactTooltip from "react-tooltip";
 import classnames from "classnames";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { cloneDeep } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
 
+//
+// gql
+import { workshop } from "fragments";
 import { waitForData } from "enhancers";
 
 //
@@ -16,13 +19,18 @@ import {
   Button,
   ErrorMessage,
   buttonPropsFromReduxForm,
+  Modal,
 } from "components/uikit";
+
+import Workshop from "components/Workshop";
 
 //
 // apis
 import { getInviteToSlack } from "api/slack";
 
 import { composeValidators, validateEmail } from "validators";
+
+import { sortedWorkshops } from "lib/workshops";
 
 import SPONSORS from "constants/sponsors";
 import { HACKATHON_PRIZES, AI_COMP_PRIZES } from "constants/landing_prizes";
@@ -32,12 +40,6 @@ import email from "assets/images/email-white.svg";
 
 import jorgeSilva from "assets/images/mob-sessions-jorgesilva.png";
 import vaniaGoncalves from "assets/images/mob-sessions-vaniagoncalves.png";
-
-const validate = (values) => {
-  return composeValidators(
-    validateEmail("EMAIL", "Email"),
-  )(values);
-};
 
 const MediumPosts = compose(
   graphql(gql`{ medium { posts } }`),
@@ -67,6 +69,10 @@ const MediumPosts = compose(
   </section>
 ));
 
+const validate = composeValidators(
+  validateEmail("EMAIL", "Email"),
+);
+
 export class Landing extends Component {
 
   state = {
@@ -74,20 +80,31 @@ export class Landing extends Component {
       "msCrypto": true,
       "msGeekGirls": true,
     },
+    selectedWorkshop: null,
   }
 
   componentDidMount() {
     document.querySelector("#app").addEventListener("scroll", this.hideTooltips);
-
-    const { hash } = window.location;
-    if (hash) {
-      const node = document.querySelector(hash);
-      node && node.scrollIntoView();
-    }
+    window.addEventListener("hashchange", this.handleLocationHash);
+    this.handleLocationHash();
   }
 
   componentWillUnmount() {
     document.querySelector("#app").removeEventListener("scroll", this.hideTooltips);
+    window.removeEventListener("hashchange", this.handleLocationHash);
+  }
+
+  handleLocationHash = () => {
+    const { hash } = window.location;
+
+    if (/workshop-/.test(hash)) {
+      this.setSelectedWorkshop(hash.match(/workshop-(\w+)/)[1]);
+    } else if (isEmpty(hash)) {
+      this.setSelectedWorkshop(null);
+    } else {
+      const node = document.querySelector(hash);
+      node && node.scrollIntoView();
+    }
   }
 
   subscribe = (ev) => {
@@ -113,9 +130,20 @@ export class Landing extends Component {
     });
   }
 
+  setSelectedWorkshop = (selectedWorkshop) => {
+    this.setState({ selectedWorkshop }, () => {
+      if (selectedWorkshop) window.location.hash = `workshop-${selectedWorkshop}`;
+      else this.props.router.push("/");
+    });
+  }
+
   render() {
-    const { handleSubmit } = this.props;
-    const { collapsedSections: { msCrypto, msGeekGirls } } = this.state;
+    const { handleSubmit, data } = this.props;
+    const { collapsedSections: { msCrypto, msGeekGirls }, selectedWorkshop } = this.state;
+
+    const workshops = sortedWorkshops(data.workshops);
+    console.log("data.workshops", data.workshops);
+    const currentWorkshop = workshops.find(w => w.slug === selectedWorkshop);
 
     return (
       <div className="Landing">
@@ -177,8 +205,18 @@ export class Landing extends Component {
             <h2>Come learn with us!</h2>
 
             <p>Make or Break is all about learning. Step out of your comfort zone and join us and many other developers. We'll feature a wide variety of experts and subjects so you can learn a bit of everything.</p>
-            <p><i>Workshops will be announced soon.</i></p>
+            {workshops.length === 0 && <p><i>Workshops will be announced soon.</i></p>}
 
+            <ul className="workshops">
+              {workshops.map(workshop => (
+                <li key={workshop.slug} className="workshop" onClick={() => this.setSelectedWorkshop(workshop.slug)}>
+                  <img src={require(`assets/images/workshops/${workshop.slug}.svg`)} alt={workshop.name} />
+                  <span className="date">{workshop.shortDate}</span>
+                  <span className="name">{workshop.name}</span>
+                  <span className="speaker">{workshop.shortSpeaker}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
         {/* END Workshops */}
@@ -451,6 +489,13 @@ export class Landing extends Component {
           html
         />
 
+        <Modal
+          isOpen={selectedWorkshop !== null}
+          title={currentWorkshop && currentWorkshop.name}
+          onRequestClose={() => this.setSelectedWorkshop(null)}>
+          <Workshop workshop={currentWorkshop} />
+        </Modal>
+
       </div>
     );
   }
@@ -462,4 +507,9 @@ export default compose(
     form: "landing",
     validate,
   }),
+
+  withRouter,
+
+  graphql(gql`{ workshops { ...workshop } } ${workshop}`),
+  waitForData,
 )(Landing);

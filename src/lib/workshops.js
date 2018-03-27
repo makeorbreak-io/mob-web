@@ -1,17 +1,21 @@
-import { isEmpty } from "lodash";
+export function sortedWorkshops(workshops = []) {
+  const order = {
+    coffee     : 1,
+    unreal     : 2,
+    git        : 3,
+    television : 4,
+    elixir     : 5,
+    blockchain : 6,
+  };
 
-export function sortedWorkshops(workshops = {}) {
-  return isEmpty(workshops)
-  ? []
-  : [
-      workshops["unity3d-gamedev"],
-      workshops["3d-printing"],
-      workshops["iot"],
-      workshops["devops"],
-      workshops["design"],
-      workshops["hardware-maintenance"],
-    ];
+  const regex = new RegExp(Object.keys(order).join("|"));
+
+  return workshops
+  .filter(w => regex.test(w.slug))
+  .sort((a, b) => (order[a.slug] - order[b.slug]));
 }
+
+window.sortedWorkshops = sortedWorkshops;
 
 export function openWorkshop() {
   const match = window.location.hash.match(/#workshop-(.*)/);

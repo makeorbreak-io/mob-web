@@ -17,8 +17,7 @@ import { Tabs, Tab, Panel } from "components/uikit/tabs";
 export class Dashboard extends Component {
 
   render() {
-    const { adminStats: { users, teams } } = this.props.data;
-    const workshops = this.props.data.workshops.edges.map(e => e.node);
+    const { adminStats: { users, teams }, workshops } = this.props.data;
 
     return (
       <div className="AdminDashboard">
@@ -165,7 +164,7 @@ export default compose(
       workshops
     }
 
-    workshops(first: 24) { edges { node { ...workshop } } }
+    workshops { ...workshop }
   } ${workshop}`),
 
   waitForData,

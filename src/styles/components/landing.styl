@@ -176,6 +176,41 @@
       p
         max-width: 560px
 
+      .workshops
+        list-style: none
+        margin-top: 160px
+        display: flex
+        flex-wrap: wrap
+        padding: 0
+        align-items: stretch
+        justify-content: space-around
+
+        .workshop
+          flex-basis: calc(33%)
+          padding: 60px
+          display: flex
+          flex-direction: column
+          align-items: flex-start
+          cursor: pointer
+
+          img
+            margin-bottom: 20px
+            height: 120px
+
+          span
+            margin: 10px 0
+            text-transform: uppercase
+
+          .date
+            color: $orange
+          .name
+            font-size: 18px
+            margin-bottom: 20px
+          .speaker
+            font-size: 14px
+            color: $mob-green
+            margin-top: auto
+
   //---------------------------------------------------------------------------- AI Competition
   section#ai-competition
     .content

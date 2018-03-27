@@ -23,11 +23,16 @@ export const fullUser = gql`
       host { id displayName }
       team { id name }
     }
+
+    currentTeam { id name applied }
+
     teams {
       id name applied
       invites { id }
       memberships { user { id displayName } }
     }
+
+    workshops { id slug name }
 
     currentBot: currentAiCompetitionBot {
       id title revision sdk
