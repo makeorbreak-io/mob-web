@@ -212,7 +212,7 @@ export class AccountSettings extends Component {
               </Fragment>
             }
 
-            {me.birthday &&
+            {me.bio &&
               <Fragment>
                 <label>Bio</label>
                 <p>{me.bio}</p>
@@ -222,9 +222,9 @@ export class AccountSettings extends Component {
             {(me.githubHandle || me.twitterHandle || me.linkedinUrl) &&
               <Fragment>
                 <label>Social Media</label>
-                <p>{me.github_handle}</p>
-                <p>{me.twitter_handle}</p>
-                <p>{me.linkedin_url}</p>
+                <p>{me.githubHandle}</p>
+                <p>{me.twitterHandle}</p>
+                <p>{me.linkedinUrl}</p>
               </Fragment>
             }
 
@@ -254,7 +254,7 @@ export default compose(
 
   mapProps(props => ({
     ...props,
-    initialValues: omit(props.data.me, "__typename", "id", "invitations", "teams", "displayName", "gravatarHash", "currentBot"),
+    initialValues: omit(props.data.me, "__typename", "id", "invitations", "teams", "displayName", "gravatarHash", "currentBot", "currentTeam", "workshops"),
   })),
 
   reduxForm({
