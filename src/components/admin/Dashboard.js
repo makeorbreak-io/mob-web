@@ -11,7 +11,7 @@ import { waitForData } from "enhancers";
 
 //
 // components
-import { Button } from "components/uikit";
+//import { Button } from "components/uikit";
 import { Tabs, Tab, Panel } from "components/uikit/tabs";
 
 export class Dashboard extends Component {
@@ -24,6 +24,7 @@ export class Dashboard extends Component {
       <div className="AdminDashboard">
         <div className="content white">
 
+          {/*
           <Tabs>
             <Tab><span>Logistics</span></Tab>
 
@@ -41,7 +42,6 @@ export class Dashboard extends Component {
                     </tbody>
                   </table>
                 </div>
-                {/*
                 <div className="section fullwidth">
                   <h2><Link to="/admin/checkin">Check In</Link></h2>
 
@@ -74,10 +74,10 @@ export class Dashboard extends Component {
                   </table>
 
                 </div>
-                */}
               </div>
             </Panel>
           </Tabs>
+          */}
 
           <Tabs>
             <Tab><span>Analytics</span></Tab>
