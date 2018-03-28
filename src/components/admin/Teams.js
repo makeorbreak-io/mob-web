@@ -6,8 +6,6 @@ import gql from "graphql-tag";
 import { fullTeam } from "fragments";
 import { waitForData } from "enhancers";
 
-import { get } from "lodash";
-
 //
 // components
 import { DataTable, Button } from "components/uikit";
@@ -49,10 +47,10 @@ export class AdminTeams extends Component {
     return id;
   }
 
-  deleteTeam = (id) => {
-    const { deleteTeam, data } = this.props;
+  deleteAnyTeam = (id) => {
+    const { deleteAnyTeam, data } = this.props;
 
-    return deleteTeam({ variables: { id } })
+    return deleteAnyTeam({ variables: { id } })
     .then(() => data.refetch());
   }
 
@@ -107,7 +105,7 @@ export class AdminTeams extends Component {
                   <ul>
                     {(team.invites.map(i => (
                       <li key={i.id}>
-                        <span>{get(i, "invitee.display_name", i.email)}</span>
+                        <span>{i.displayName}</span>
                       </li>
                     )))}
                   </ul>
@@ -135,17 +133,17 @@ export class AdminTeams extends Component {
                     {team.accepted ? "Accepted" : "Accept team"}
                   </Button>
 
-                  {/*
                   <Button
                     danger
                     small
                     fullwidth
                     confirmation={`Really delete ${team.name}?`}
-                    onClick={() => this.deleteTeam(team.id)}
+                    onClick={() => this.deleteAnyTeam(team.id)}
                   >
                     Delete Team
                   </Button>
 
+                  {/*
                   <Button
                     danger
                     small
@@ -178,14 +176,14 @@ export default compose(
     gql`mutation applyTeamToHackathon($id: String!) {
       applyTeamToHackathon(id: $id) { ...fullTeam }
     } ${fullTeam}`,
-    { name: "applyTeamToHackathon" }
+    { name: "applyTeamToHackathon" },
   ),
 
   graphql(
     gql`mutation deapplyTeamFromHackathon($id: String!) {
       deapplyTeamFromHackathon(id: $id) { ...fullTeam }
     } ${fullTeam}`,
-    { name: "deapplyTeamFromHackathon" }
+    { name: "deapplyTeamFromHackathon" },
   ),
 
   graphql(
@@ -196,10 +194,10 @@ export default compose(
   ),
 
   graphql(
-    gql`mutation deleteTeam($id: String!) {
-      deleteTeam(id: $id) { ...fullTeam }
+    gql`mutation deleteAnyTeam($id: String!) {
+      deleteAnyTeam(id: $id)
     } ${fullTeam}`,
-    { name: "deleteTeam" }
+    { name: "deleteAnyTeam" },
   ),
 
   waitForData,
