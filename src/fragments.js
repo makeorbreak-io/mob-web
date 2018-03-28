@@ -45,6 +45,7 @@ export const fullTeam = gql`
     id
     name
     applied
+    accepted
 
     invites { id gravatarHash displayName }
     members { id displayName gravatarHash }
