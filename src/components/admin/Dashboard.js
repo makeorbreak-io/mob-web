@@ -11,8 +11,8 @@ import { waitForData } from "enhancers";
 
 //
 // components
+import { Button } from "components/uikit";
 import { Tabs, Tab, Panel } from "components/uikit/tabs";
-// import { Button } from "components/uikit";
 
 export class Dashboard extends Component {
 
@@ -23,13 +23,24 @@ export class Dashboard extends Component {
       <div className="AdminDashboard">
         <div className="content white">
 
-          {/*
           <Tabs>
             <Tab><span>Logistics</span></Tab>
 
             <Panel>
               <div className="Stats">
+                <div className="section fullwidth">
+                  <h2>Emails</h2>
 
+                  <table className="stats">
+                    <tbody>
+                      <tr>
+                        <td>Not applied yet</td>
+                        <td><Button primary onClick={this.props.sendNotAppliedEmails}>Send email</Button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                {/*
                 <div className="section fullwidth">
                   <h2><Link to="/admin/checkin">Check In</Link></h2>
 
@@ -62,11 +73,10 @@ export class Dashboard extends Component {
                   </table>
 
                 </div>
-
+                */}
               </div>
             </Panel>
           </Tabs>
-          */}
 
           <Tabs>
             <Tab><span>Analytics</span></Tab>
@@ -155,6 +165,13 @@ export class Dashboard extends Component {
 
 export default compose(
   setDisplayName("Dashboard"),
+
+  graphql(
+    gql`mutation sendNotAppliedEmails {
+      sendNotAppliedEmails
+    }`,
+    { name: "sendNotAppliedEmails" },
+  ),
 
   graphql(gql`{
     adminStats {
