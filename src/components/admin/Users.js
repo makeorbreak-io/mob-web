@@ -149,7 +149,7 @@ export class AdminUsers extends Component {
           */}
           <DataTable
             source={users}
-            search={[ "display_name", "role", "tshirt_size", "team.name" ]}
+            search={[ "displayName", "role", "tshirtSize", "currentTeam.name" ]}
             labels={[ "Avatar" , "Name"         , "Email" , "T-Shirt" , "Workshops" , "Team" , "Social" , "Actions" ]}
             mobile={[ false    , true           , true    , true      , false       , true   , true     , true ]}
             sorter={[ null     , "display_name" , "email" , null      , null        , "team" , null     , null ]}
@@ -167,7 +167,7 @@ export class AdminUsers extends Component {
                     </div>
                   ))}
                 </td>
-                <td className="mobile">{user.team && user.team.name}</td>
+                <td className="mobile">{user.currentTeam && user.currentTeam.name}</td>
                 <td className="social mobile">
                   <ul>
                     {user.githubHandle &&  <li><img src={github} title={user.githubHandle} />{last(user.githubHandle.split("/"))}</li>}
