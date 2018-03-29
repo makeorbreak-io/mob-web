@@ -229,7 +229,7 @@ export class Landing extends Component {
         {/* END Workshops */}
 
         {/* Talks */}
-        <section id="talks">
+        <section id="g2pt">
           <div className="content">
             <h1>Talks by G2PT</h1>
             <h2>
