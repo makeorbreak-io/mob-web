@@ -178,13 +178,20 @@ p.small-notice
   .Button:first-child
     margin: 0 auto 20px
 
-.tooltip
+.__react_component_tooltip.tooltip
   font-size: 16px
   padding: 20px 25px
   line-height: 1.4
   pointer-events: auto
   opacity: 1
   background: rgba(black, 0.95)
+
+  &.white
+    max-width: 400px
+    background: rgba(white, 0.95)
+    color: $text-grey
+    padding: 20px
+    font-size: 15px
 
   ul
     list-style: disc

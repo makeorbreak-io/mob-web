@@ -43,6 +43,11 @@ import email from "assets/images/email-white.svg";
 import jorgeSilva from "assets/images/mob-sessions-jorgesilva.png";
 import vaniaGoncalves from "assets/images/mob-sessions-vaniagoncalves.png";
 
+const talkBios = {
+  claudia: "Electronics, security, and networking are 3 areas of great personal interest that tend to come nicely together. With a Master's degree in Information, Comunication, and Multimedia, Telecommunications branch from ISMAI. Teaches the 'Data Transmission and Networks' and 'Information Security and Sensor Networks' courses in both ISMAI and IPMAIA. An active geek, always looking for new challenges. Current Executive Director at TecPorto, where she is also an IT Director and R&D member.",
+  filipa: "Filipa Lacerda is an Architect with a master’s degree in Strategic Design and Innovation. She’s currently working as a Design Strategist at TEKEVER at the same time that she’s running her own illustration projects and helping organize TEDx University of Porto.",
+};
+
 const MediumPosts = compose(
   graphql(gql`{ medium { posts } }`),
   waitForData,
@@ -223,6 +228,37 @@ export class Landing extends Component {
         </section>
         {/* END Workshops */}
 
+        {/* Talks */}
+        <section id="talks">
+          <div className="content">
+            <h1>Talks by G2PT</h1>
+            <h2>
+              MoB is hosting the G2PT 63rd meetup!
+              <br />
+              <span>
+                Open to MoB participants, otherwise <a href="http://g2pt63.eventbrite.pt/" target="_blank" rel="noopener noreferrer">apply here.</a>
+              </span>
+            </h2>
+            <ul className="talks">
+              <li className="talk">
+                <img src={`${env.assetHost}/images/talks/filipa-lacerda.jpg`} alt="Filipa Lacerda" />
+                <span className="date">April 14, Saturday, 11:05</span>
+                <span className="title">Design Thinking - how errors can teach us</span>
+                <span className="description">Why testing and failing is important, its impact on the future of technology and how it's improving people's lives.</span>
+                <span className="speaker" data-tip={talkBios.filipa} data-place="bottom" data-class="tooltip white" data-event-off="mouseout">Filipa Lacerda</span>
+              </li>
+              <li className="talk">
+                <img src={`${env.assetHost}/images/talks/claudia-freitas.jpg`} alt="Cláudia Freitas" />
+                <span className="date">April 14, Saturday, 11:50</span>
+                <span className="title">Information security best practices</span>
+                <span className="description">Change your ideas about information security while discussing the latest trends and advances in the industry.</span>
+                <span className="speaker" data-tip={talkBios.claudia} data-place="bottom" data-class="tooltip white" data-event-off="mouseout">Cláudia Freitas</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+        {/* END Talks */}
+
         {/* AI Competition */}
         <section id="ai-competition">
           <div className="content">
@@ -267,7 +303,7 @@ export class Landing extends Component {
         </section>
         {/* END Separator */}
 
-        {/* Previous edition */}
+        {/* Location */}
         <section id="location">
           <div className="content">
             <h1>Location</h1>
@@ -282,7 +318,7 @@ export class Landing extends Component {
             </div>
           </div>
         </section>
-        {/* END Previous edition */}
+        {/* END Location */}
 
         {/* Community */}
         <section id="community">
