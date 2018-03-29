@@ -231,7 +231,7 @@ export class Landing extends Component {
         {/* Talks */}
         <section id="g2pt">
           <div className="content">
-            <h1>Talks by G2PT</h1>
+            <h1>Talks by <a href="http://geekgirlsportugal.pt/" target="_blank" rel="noopener noreferrer">G2PT</a></h1>
             <h2>
               MoB is hosting the G2PT 63rd meetup!
               <br />
