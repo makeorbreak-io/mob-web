@@ -8,9 +8,9 @@ import gql from "graphql-tag";
 
 //
 // Enhancers
-import { withCurrentUser, waitForData } from "enhancers";
+import { waitForData } from "enhancers";
 
-import { fullTeam } from "fragments";
+import { fullTeam, fullUser, workshop } from "fragments";
 
 import { handleGraphQLErrors } from "lib/graphql";
 
@@ -18,11 +18,14 @@ import { handleGraphQLErrors } from "lib/graphql";
 // Components
 import NotificationCenter from "components/NotificationCenter";
 import Team from "components/Team";
-import { Button } from "components/uikit";
+import Workshop from "components/Workshop";
+import { Button, Modal } from "components/uikit";
 
 //
 // api actions
 import { getInviteToSlack } from "api/slack";
+
+import { sortedWorkshops } from "lib/workshops";
 
 export class Dashboard extends Component {
 
@@ -30,6 +33,7 @@ export class Dashboard extends Component {
     applying: false,
     teamDisclaimer: false,
     slackError: null,
+    selectedWorkshop: null,
   }
 
   //----------------------------------------------------------------------------
@@ -55,17 +59,20 @@ export class Dashboard extends Component {
     const { currentUser: { email } } = this.props;
 
     getInviteToSlack(email)
-    .catch(e => this.setState({ slackError: `${email} ${e.errors.email}`}));
+    .catch(e => this.setState({ slackError: `${email} ${e.errors.email}` }));
   }
+
+  setSelectedWorkshop = (selectedWorkshop) => this.setState({ selectedWorkshop });
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { data: { me }, notifications } = this.props;
+    const { data: { me, workshops }, notifications } = this.props;
     const team = me.teams[0];
 
-    const { teamDisclaimer, applying, slackError } = this.state;
+    const { teamDisclaimer, applying, slackError, selectedWorkshop } = this.state;
+    const currentWorkshop = workshops.find(w => w.slug === selectedWorkshop);
 
     return (
       <div className="Dashboard">
@@ -128,12 +135,23 @@ export class Dashboard extends Component {
         <hr />
 
         <h2>Workshops</h2>
-        <h3>To be announced</h3>
-        <p>
-          As usual, we will feature a diverse selection of workshops
-          <br />
-          Stay tuned as we'll announce them in the near future!
-        </p>
+
+        <ul className="workshops">
+          {sortedWorkshops(workshops).map(workshop => (
+            <li key={workshop.slug} className="workshop" onClick={() => this.setSelectedWorkshop(workshop.slug)}>
+              <span className="date">{workshop.shortDate}</span>
+              <span className="name">{workshop.name}</span>
+              {me.workshops.map(w => w.slug).includes(workshop.slug) && <span className="tag orange">You're in!</span> }
+            </li>
+          ))}
+        </ul>
+
+        <Modal
+          isOpen={selectedWorkshop !== null}
+          title={currentWorkshop && currentWorkshop.name}
+          onRequestClose={() => this.setSelectedWorkshop(null)}>
+          <Workshop workshop={currentWorkshop} showSummary showDescription showSpeaker />
+        </Modal>
 
         <hr />
 
@@ -170,7 +188,11 @@ export default compose(
 
   withRouter,
 
-  withCurrentUser,
+  graphql(gql`{
+    me { ...fullUser }
+    workshops { ...workshop }
+  } ${fullUser} ${workshop}`),
+
   waitForData,
 
   graphql(
