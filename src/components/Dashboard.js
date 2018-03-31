@@ -69,7 +69,7 @@ export class Dashboard extends Component {
   //----------------------------------------------------------------------------
   render() {
     const { data: { me, workshops }, notifications } = this.props;
-    const team = me.teams[0];
+    const team = me.currentTeam;
 
     const { teamDisclaimer, applying, slackError, selectedWorkshop } = this.state;
     const currentWorkshop = workshops.find(w => w.slug === selectedWorkshop);
@@ -86,7 +86,8 @@ export class Dashboard extends Component {
 
         <Team editable id={team && team.id} />
         <div className="team">
-          {team && team.applied && <h3>Your team's application to the hackathon is under review</h3>}
+          {team && team.applied && !team.accepted && <h3>Your team's application to the hackathon is under review</h3>}
+          {team && team.accepted && <h3>Your team is in the hackathon!</h3>}
 
           {team && !team.applied &&
             <form onSubmit={this.applyTeam}>

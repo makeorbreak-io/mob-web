@@ -127,7 +127,7 @@ export class EditableTeam extends Component {
     const { data: { me }, team, handleSubmit } = this.props;
     const { editing } = this.state;
 
-    const teamId = get(me, "teams[0].id", null);
+    const teamId = get(me, "currentTeam.id", null);
 
     const submitHandler = team ? this.updateTeam : this.createTeam;
     const toggleLabel = classnames({
@@ -137,8 +137,8 @@ export class EditableTeam extends Component {
     });
     const statusLabel = classnames({
       "not applied": team && !team.applied,
-      "under review": team && team.applied,
-      // "approved": team.approved, // TODO: wait until review process is implemented
+      "under review": team && team.applied && !team.accepted,
+      "approved": team && team.accepted,
     });
 
     const cx = classnames("Team editable", { editing });

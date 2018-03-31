@@ -18,18 +18,18 @@ export const fullUser = gql`
     role
     gravatarHash
 
+    currentTeam {
+      id
+      name
+      applied
+      accepted
+      memberships { user { id displayName gravatarHash } }
+    }
+
     invitations {
       id
       host { id displayName }
       team { id name }
-    }
-
-    currentTeam { id name applied }
-
-    teams {
-      id name applied
-      invites { id }
-      memberships { user { id displayName } }
     }
 
     workshops { id slug name }
