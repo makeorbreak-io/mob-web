@@ -17,6 +17,8 @@ import RecoverPassword from "components/RecoverPassword";
 import ResetPassword from "components/ResetPassword";
 
 import Fly from "components/Fly";
+import Projects from "components/Projects";
+import Project from "components/Project.Static";
 
 //
 // Participant components
@@ -27,6 +29,7 @@ import Team from "components/Team";
 import ParticipationCertificate from "components/ParticipationCertificate";
 import AIDashboard from "components/AIDashboard";
 // import VotingBooth from "components/VotingBooth";
+import EditableProject from "components/Project.Editable";
 
 //
 // Admin components
@@ -77,6 +80,12 @@ const router = (
           <Route path="account">
             <Route path="team" component={AccountTeam} />
           </Route>
+        </Route>
+
+        <Route path="projects" component={Projects} />
+        <Route path="project">
+          <Route path="edit" component={EditableProject} />
+          <Route path=":id" component={props => <Project id={props.params.id} />} />
         </Route>
 
         {/* Admin routes */}

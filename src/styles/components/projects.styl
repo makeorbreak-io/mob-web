@@ -1,0 +1,194 @@
+@import "~styles/variables"
+
+$project-padding = 25px 30px
+
+.Projects
+  .content.white
+    display: flex
+    align-items: stretch
+    padding: 30px 0
+
+  .projects
+    flex-basis: 75%
+  .projects-notes
+    flex-basis: 25%
+    padding: 0 30px
+    border-left: 1px solid $light-grey
+
+    p
+      color: black
+
+      a, a:link, a:active, a:visited, a:hover
+        color: black
+
+  .projects
+    .project
+      display: flex
+      align-items: center
+      height: 80px
+
+      &:nth-child(even)
+        background: #f8f8f8
+
+      .favorite
+        width: 80px
+        height: 100%
+        cursor: pointer
+        background: transparent url("~assets/images/heart-empty.svg") no-repeat center center
+        background-size: 25px
+
+        &.is-favorite
+          background-image: url("~assets/images/heart.svg");
+
+      .title
+        display: flex
+        flex-direction: column
+
+        span:first-child
+          font-size: 22px
+          margin-bottom: 5px
+
+          .tag
+            margin-left: 15px
+            border: transparent 1px solid
+            color: white
+            padding: 5px 15px
+            font-size: 16px
+            &.Creative
+              background: $orange
+            &.Fun
+              background: $mob-purple
+            &.Useful
+              background: $pink
+
+
+
+// react-sortable-hoc places drag under <body>
+li.prize
+  position: relative
+  padding: 10px 20px
+  margin-bottom: 5px
+  border-radius: 5px
+  color: white
+  font-size: 20px
+  font-weight: bold
+  list-style: none
+
+  &.Creative
+    background: $orange
+  &.Fun
+    background: $mob-purple
+  &.Useful
+    background: $pink
+
+.Project
+  ul
+    list-style: disc
+    font-size: 16px
+    padding-left: 20px
+
+  .prize-preference
+    padding: 0
+    .prize
+      &:after
+        position: absolute
+        display: inline-block
+        height: 20px
+        top: 11px
+        right: 15px
+        color: white
+        font-size: 14px
+        letter-spacing: 3px
+
+      &:nth-child(1):after
+        content: "★★★"
+      &:nth-child(2):after
+        content: "★★☆"
+      &:nth-child(3):after
+        content: "★☆☆"
+
+  .content.white
+    padding: 30px
+    height: 100%
+    display: flex
+    align-items: stretch
+    justify-content: space-between
+    flex-wrap: wrap
+
+  h1,h2,h3,h4,h5,h6
+    text-align: left
+
+  &.static
+    position: relative
+
+    .navigation
+      position: absolute
+      display: block
+      top: 20px
+
+    .project
+      flex-basis: 65%
+    .team-details
+      flex-basis: 25%
+
+    .project-name
+      margin: 0
+      height: 80px
+      display: flex
+      justify-content: flex-start
+      align-items: center
+      border-bottom: 1px $light-grey solid
+
+      .favorite
+        width: 40px
+        height: 100%
+        cursor: pointer
+        background: transparent url("~assets/images/heart-empty.svg") no-repeat left center
+        background-size: 25px
+
+        &.is-favorite
+          background-image: url("~assets/images/heart.svg");
+
+    .project-desc
+      margin-top: 60px
+
+    .team-details
+      padding: 0 20px
+      border-left: 1px solid $light-grey
+      h2
+        margin: 0
+
+      ul
+        list-style: none
+        padding: 0
+
+      .members
+        .Avatar
+          width: 35px
+          height: 35px
+          vertical-align: middle
+          margin-right: 15px
+
+  &.editable
+    .content
+      padding-top: 30px
+
+    form
+      width: 100%
+
+      textarea
+        resize: none
+
+      .markdown
+        margin-top: 20px
+        display: flex
+        align-items: flex-start
+        justify-content: space-between
+
+        textarea
+          flex-basis: 35%
+        .prizes
+          flex-basis: 18%
+
+      .prizes
+        flex-basis: 20%

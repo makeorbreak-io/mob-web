@@ -37,6 +37,8 @@ export const fullUser = gql`
 
     workshops { id slug name }
 
+    favorites { id teamId }
+
     currentBot: currentAiCompetitionBot {
       id title revision sdk
     }
@@ -51,6 +53,7 @@ export const fullTeam = gql`
     accepted
     eligible
     isDisqualified
+    prizePreference
 
     invites { id gravatarHash displayName }
     members { id displayName gravatarHash }

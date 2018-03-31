@@ -53,6 +53,7 @@ export class AccountMenu extends Component {
           <Link to="/dashboard" onClick={this.close}>Dashboard</Link>
           <Link to="/ai-competition" onClick={this.close}>AI Competition</Link>
           {/*<Link to="/vote" onClick={this.close}>Vote</Link>*/}
+          <Link to="/projects" onClick={this.close}>Projects</Link>
           {me.role === ADMIN && <Link to="/admin" onClick={this.close}>Admin</Link>}
           <Link onClick={this.handleLogout}>Logout</Link>
         </div>
@@ -65,7 +66,6 @@ export default compose(
   setDisplayName("AccountMenu"),
 
   withCurrentUser,
-
   waitForData,
 
   onClickOutside,
