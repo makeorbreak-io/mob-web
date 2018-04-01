@@ -169,7 +169,6 @@ export class Landing extends Component {
         <section id="hackathon">
           <div className="content">
             <h1>Hackathon</h1>
-            <h2><span className="tag orange">Apply until March 31</span></h2>
             <h2>First you make, then you break</h2>
 
             <p>Make or Break has a 3 day hackathon for everyone, divided into 2 main phases:</p>
