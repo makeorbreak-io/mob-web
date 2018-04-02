@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { compose } from "recompose";
 import { Link, withRouter } from "react-router";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, SubmissionError } from "redux-form";
 import ReactTooltip from "react-tooltip";
 import classnames from "classnames";
 import { graphql } from "react-apollo";
@@ -119,7 +119,8 @@ export class Landing extends Component {
   }
 
   getInvited = ({ EMAIL }) => {
-    return getInviteToSlack(EMAIL);
+    return getInviteToSlack(EMAIL)
+    .catch(_ => new SubmissionError({ email: `${EMAIL} is already invited / in team` }));
   }
 
   hideTooltips = () => {

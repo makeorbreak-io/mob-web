@@ -56,10 +56,10 @@ export class Dashboard extends Component {
   }
 
   sendSlackInvite = () => {
-    const { currentUser: { email } } = this.props;
+    const { data: { me } } = this.props;
 
-    getInviteToSlack(email)
-    .catch(e => this.setState({ slackError: `${email} ${e.errors.email}` }));
+    getInviteToSlack(me.email)
+    .catch(_ => this.setState({ slackError: `${me.email} is already invited / in team` }));
   }
 
   setSelectedWorkshop = (selectedWorkshop) => this.setState({ selectedWorkshop });
