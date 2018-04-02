@@ -83,6 +83,7 @@ const validate = composeValidators(
 export class Landing extends Component {
 
   state = {
+    slackError: null,
     collapsedSections: {
       "msCrypto": true,
       "msGeekGirls": true,
