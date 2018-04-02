@@ -63,7 +63,7 @@ export class AIDashboardGames extends Component {
         </div>
 
         <div className="games">
-          <h2>{hasGames ? "Latest matches" : "No games to show" }</h2>
+          <h2>{hasGames ? "Latest matches (last 50 shown)" : "No games to show" }</h2>
           {hasGames &&
             <table>
               <thead>
