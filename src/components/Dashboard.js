@@ -42,13 +42,12 @@ export class Dashboard extends Component {
   applyTeam = (ev) => {
     ev.preventDefault();
 
-    const { data, updateTeam, data: { me: { teams } } } = this.props;
-    const team = teams[0];
+    const { data, data: { me }, updateTeam } = this.props;
 
     this.setState({ applying: true });
 
     return updateTeam({
-      variables: { id: team.id, team: { name: team.name, applied: true } },
+      variables: { id: me.currentTeam.id, team: { name: me.currentTeam.name, applied: true } },
     })
     .then(() => data.refetch())
     .then(() => this.setState({ applying: false }))
