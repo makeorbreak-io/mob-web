@@ -5,6 +5,8 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { last } from "lodash";
 
+//
+// gql
 import { fullUser } from "fragments";
 import { waitForData } from "enhancers";
 
@@ -161,7 +163,7 @@ export class AdminUsers extends Component {
                 <td className="mobile">{user.email}</td>
                 <td className="mobile">{user.tshirtSize}</td>
                 <td className="desktop">
-                  {user.workshops && (user.workshops).map(({ slug }) => (
+                  {user.workshops && user.workshops.map(({ slug }) => (
                     <div key={slug}>
                       <span className="tag purple">{slug}</span>
                     </div>

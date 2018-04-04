@@ -18,6 +18,8 @@ export const fullUser = gql`
     role
     gravatarHash
 
+    currentAttendance { id checkedIn }
+
     currentTeam {
       id
       name
@@ -82,6 +84,6 @@ export const workshop = gql`
     speakerImage
     bannerImage
 
-    attendances { id checkedIn }
+    attendances { checkedIn user { id } }
   }
 `;

@@ -3,13 +3,18 @@
 .CheckIn
   position: relative
 
-  .welcome-pack
-    display: inline-block
-    width: 25px
-    height: @width
-    border-radius: 50%
+  .content
+    padding: 0 20px 0 0
 
-    &.green
-      background: $mob-green
-    &.orange
-      background: $orange
+  .DataTable
+    thead
+      th.workshops
+        padding: 0
+    tbody
+      td.actions
+        padding: 5px
+        min-width: 130px
+
+        .Button
+          width: 100%
+          padding: 0

@@ -14,6 +14,7 @@ import { waitForData } from "enhancers";
 // components
 import { Button } from "components/uikit";
 import { Tabs, Tab, Panel } from "components/uikit/tabs";
+import { sortedWorkshops } from "lib/workshops";
 
 const aiCompetitionDailyRuns = [
   { date: "2018-04-10", name: "day 1", templates: [ "ten_by_ten", "five_by_seven" ] },
@@ -32,7 +33,6 @@ export class Dashboard extends Component {
 
   render() {
     const { adminStats: { users, teams }, workshops } = this.props.data;
-    // const workshops = this.props.data.workshops.edges.map(e => e.node);
 
     return (
       <div className="AdminDashboard">
@@ -64,6 +64,38 @@ export class Dashboard extends Component {
                       </li>
                     ))}
                   </ul>
+                </div>
+
+                <div className="section fullwidth">
+                  <h2><Link to="/admin/checkin">Check In</Link></h2>
+
+                  <table className="stats">
+                    <tbody>
+                      <tr>
+                        <td>{users.checked_in}</td>
+                        <td>Checked in participants</td>
+                      </tr>
+                      <tr>
+                        <td>{users.total}</td>
+                        <td>Total participants</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="section fullwidth">
+                  <h2>Workshop Presences</h2>
+
+                  <table className="stats">
+                    <tbody>
+                      {sortedWorkshops(workshops).map(({ slug, name, attendances }) => (
+                        <tr key={slug}>
+                          <td>{attendances.filter(a => a.checkedIn).length} / {attendances.length}</td>
+                          <td><Link to={`/admin/checkin/workshop/${slug}`}>{name}</Link></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
 
                 </div>
               </div>
