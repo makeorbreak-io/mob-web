@@ -87,3 +87,9 @@ export const workshop = gql`
     attendances { checkedIn user { id } }
   }
 `;
+
+export const suffrage = gql`
+  fragment suffrage on Suffrage {
+    id slug name votingStartedAt votingEndedAt
+  }
+`;

@@ -16,6 +16,8 @@ import { Button } from "components/uikit";
 import { Tabs, Tab, Panel } from "components/uikit/tabs";
 import { sortedWorkshops } from "lib/workshops";
 
+import AdminSuffrages from "components/admin/Suffrages";
+
 const aiCompetitionDailyRuns = [
   { date: "2018-04-10", name: "day 1", templates: [ "ten_by_ten", "five_by_seven" ] },
   { date: "2018-04-11", name: "day 2", templates: [ "ten_by_ten", "five_by_seven" ] },
@@ -64,6 +66,12 @@ export class Dashboard extends Component {
                       </li>
                     ))}
                   </ul>
+
+                </div>
+
+                <div className="section fullwidth">
+                  <h2>Hackathon</h2>
+                  <AdminSuffrages />
                 </div>
 
                 <div className="section fullwidth">
