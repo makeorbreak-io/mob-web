@@ -175,7 +175,9 @@ export class Dashboard extends Component {
                     <tbody>
                       {Object.entries(groupBy(workshops, "year")).map(([ year, workshops ]) => (
                         <Fragment key={year}>
-                          <h2>{year}</h2>
+                          <tr>
+                            <td colSpan="2"><h2>{year}</h2></td>
+                          </tr>
                           {workshops.map(({ slug, name, attendances, participantLimit }) => (
                             <tr key={slug}>
                               <td>{attendances.length} / {participantLimit}</td>
