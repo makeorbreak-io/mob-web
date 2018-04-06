@@ -39,10 +39,10 @@ export class UserOnboardingInvites extends Component {
   }
 
   onSubmit = (values) => {
-    const { invite, router, data: { me: { teams } } } = this.props;
+    const { invite, router, data: { me } } = this.props;
 
     return invite({
-      variables: { id: teams[0].id, emails: values.members.map(m => m.value) },
+      variables: { id: me.currentTeam.id, emails: values.members.map(m => m.value) },
     })
     .then(() => {
       router.push("/dashboard");
@@ -55,7 +55,7 @@ export class UserOnboardingInvites extends Component {
 
   render() {
     const { data: { me }, handleSubmit, submitting, valid, formValues } = this.props;
-    const team = me.teams[0];
+    const team = me.currentTeam;
     const { multipleSelected } = this.state;
 
     const memberLimitReached = team
@@ -66,7 +66,7 @@ export class UserOnboardingInvites extends Component {
       <div className="UserOnboarding invites">
         <h1>Get the ball rolling</h1>
         <h5>
-          Start by adding all of your team members to your "{get(me, "teams[0].name")}" team.
+          Start by adding all of your team members to your "{get(me, "currentTeam.name")}" team.
           <br />
           They'll receive a notification the next time they log in to the platform.
         </h5>

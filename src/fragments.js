@@ -24,6 +24,7 @@ export const fullUser = gql`
       applied
       accepted
       memberships { user { id displayName gravatarHash } }
+      invites { id gravatarHash displayName }
     }
 
     invitations {

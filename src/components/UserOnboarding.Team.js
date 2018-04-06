@@ -52,11 +52,11 @@ export class UserOnboardingTeam extends Component {
             placeholder="Type your team name"
             className="fullwidth"
             autoComplete="off"
-            disabled={!isEmpty(me.teams[0])}
+            disabled={!isEmpty(me.currentTeam)}
           />
           <ErrorMessage form="user-onboarding-team" field="name" />
 
-          {isEmpty(me.teams[0]) &&
+          {isEmpty(me.currentTeam) &&
             <div>
               <Button
                 type="submit"
@@ -76,7 +76,7 @@ export class UserOnboardingTeam extends Component {
             </div>
           }
 
-          {!isEmpty(me.teams[0]) &&
+          {!isEmpty(me.currentTeam) &&
             <Button primary form centered fullwidth onClick={next}>
               Continue
             </Button>
@@ -97,7 +97,7 @@ export default compose(
 
   mapProps(props => ({
     ...props,
-    initialValues: { name: get(props, "data.me.teams[0].name") },
+    initialValues: { name: get(props, "data.me.currentTeam.name") },
   })),
 
   reduxForm({
