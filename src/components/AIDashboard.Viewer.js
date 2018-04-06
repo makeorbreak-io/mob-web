@@ -165,7 +165,7 @@ export class AIDashboardViewer extends Component {
 
   botStyle = (bot) => {
     const { turn, turnStates } = this.state;
-    const [ x, y ] = turnStates[turn].player_positions[bot];
+    const [ y, x ] = turnStates[turn].player_positions[bot];
 
     return {
       left: `calc(${x * 10}% + 1.5%)`,
