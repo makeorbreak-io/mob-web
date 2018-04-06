@@ -163,13 +163,15 @@ export class AIDashboardViewer extends Component {
     );
   };
 
-  botStyle = (bot) => {
+  botStyle = (bot, width, height) => {
     const { turn, turnStates } = this.state;
     const [ y, x ] = turnStates[turn].player_positions[bot];
 
     return {
-      left: `calc(${x * 10}% + 1.5%)`,
-      top: `calc(${y * 10}% + 1.5%)`,
+      left: `calc(${x * 100 / width}%)`,
+      top: `calc(${y * 100 / height}%)`,
+      width: `calc(${100 / width}%)`,
+      paddingBottom: `calc(${100 / width}%)`,
     };
   };
 
@@ -205,21 +207,25 @@ export class AIDashboardViewer extends Component {
       gameBots.find(({ id }) => id === player)
     ));
 
+    const cellStyle = { width: `calc(${100 / width}%)`, paddingBottom: `calc(${100 / width}% - 1px)` };
+    const boardStyle = { maxHeight: `${Math.ceil(320 / width * height) + 2}px` };
+
     return (
       <div className="AIDashboardViewer" ref={ref => this.container = ref}>
 
-        <div className="board">
-          {times(height).map((y, iy) => (
-            <div key={`y-${iy}`} className={`row row-${iy}`}>
-              {times(width).map((x, ix) => (
-                <div key={`x-${ix}`} className={this.cellCx(ix, iy)}>
-                </div>
-              ))}
+        <div className="board" style={boardStyle}>
+          {players.map((player, i) => (
+            <div key={player} className={`bot player${i+1}`} style={this.botStyle(player, width, height)}>
+              <span className="dot" />
             </div>
           ))}
 
-          {players.map((player, i) => (
-            <div key={player} className={`bot player${i+1}`} style={this.botStyle(player)} />
+          {times(height).map((y, iy) => (
+            <div key={`y-${iy}`} className={`row row-${iy} clearfix`}>
+              {times(width).map((x, ix) => (
+                <div key={`x-${ix}`} className={this.cellCx(ix, iy)} style={cellStyle} />
+              ))}
+            </div>
           ))}
         </div>
 

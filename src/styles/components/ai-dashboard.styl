@@ -215,7 +215,7 @@ $player-colors = $mob-purple, $orange, $pink, $mob-red, $mob-green
 
     display: grid
     grid-gap: 10px 50px
-    grid-template-columns: 321px 1fr
+    grid-template-columns: 320px 1fr
     grid-template-areas: "viewer  logs" \
                          "nav     logs" \
                          "hotkeys hotkeys"
@@ -226,24 +226,23 @@ $player-colors = $mob-purple, $orange, $pink, $mob-red, $mob-green
       background: rgba(grey, 0.2)
       padding: 180px 20px 0
 
+    $border = 1px solid black
     .board
       grid-area: viewer
       position: relative
-      display: table
-      width: 321px
-      height: @width
+      width: 100%
       margin: 0 auto
-      border-right: 1px solid black
-      border-bottom: @border-right
 
       .row
-        display: table-row
-        height: 10%
+        border-top: $border
+        border-right: $border
+
+        &:last-child
+          border-bottom: $border
 
       .cell
-        display: table-cell
-        border-top: 1px solid black
-        border-left: @border-top
+        float: left
+        border-left: $border
         background-color: rgba(white, 0.3)
         transition: background-color 100ms linear
 
@@ -255,15 +254,20 @@ $player-colors = $mob-purple, $orange, $pink, $mob-red, $mob-green
       .bot
         $movement-duration = 100ms
 
-        width: 7%
-        height: @width
         position: absolute
-        border-radius: 50%
+        text-align: center
         transition: top $movement-duration ease-in-out, left $movement-duration ease-in-out
+        padding-top: .5%
 
-        &.player1
+        .dot
+          display: inline-block
+          width: 75%
+          padding-bottom: @width
+          border-radius: 100%
+
+        &.player1 .dot
           background: $mob-purple
-        &.player2
+        &.player2 .dot
           background: $orange
 
     .turn-scrubber
