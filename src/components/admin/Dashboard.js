@@ -11,7 +11,6 @@ import { waitForData } from "enhancers";
 
 //
 // components
-import { Button } from "components/uikit";
 import { Tabs, Tab, Panel } from "components/uikit/tabs";
 
 export class Dashboard extends Component {
@@ -23,61 +22,6 @@ export class Dashboard extends Component {
     return (
       <div className="AdminDashboard">
         <div className="content white">
-
-          <Tabs>
-            <Tab><span>Logistics</span></Tab>
-
-            <Panel>
-              <div className="Stats">
-                <div className="section fullwidth">
-                  <h2>Emails</h2>
-
-                  <table className="stats">
-                    <tbody>
-                      <tr>
-                        <td>Send food restrictions email</td>
-                        <td><Button primary onClick={this.props.sendFoodAllergiesEmails}>Send email</Button></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                {/*
-                <div className="section fullwidth">
-                  <h2><Link to="/admin/checkin">Check In</Link></h2>
-
-                  <table className="stats">
-                    <tbody>
-                      <tr>
-                        <td>{users.checked_in}</td>
-                        <td>Checked in participants</td>
-                      </tr>
-                      <tr>
-                        <td>{users.total}</td>
-                        <td>Total participants</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="section fullwidth">
-                  <h2>Workshop Presences</h2>
-
-                  <table className="stats">
-                    <tbody>
-                      {workshops.map(({ slug, name, attendances }) => (
-                        <tr key={slug}>
-                          <td>{attendances.filter(a => a.checkedIn).length} / {attendances.length}</td>
-                          <td><Link to={`/admin/checkin/workshop/${slug}`}>{name}</Link></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-
-                </div>
-                */}
-              </div>
-            </Panel>
-          </Tabs>
 
           <Tabs>
             <Tab><span>Analytics</span></Tab>
