@@ -37,7 +37,7 @@ const codeSDKs = [
   { label: "NodeJS 9.5.0"         , shortLabel: "NodeJS" , value: "nodejs" , img: require("assets/images/icons/nodejs.svg") },
   { label: "Bash script"          , shortLabel: "Bash"   , value: "bash"   , img: require("assets/images/icons/bash.svg") },
   { label: "Java (openjdk 8u151)" , shortLabel: "Java"   , value: "java"   , img: require("assets/images/icons/java.svg") },
-  // { label: "C++"          , shortLabel: "C++"    , value: "cpp"    , img: require("assets/images/icons/cpp.svg") },
+  { label: "C# (.NET 2)"          , shortLabel: "C#"     , value: "csharp" , img: require("assets/images/icons/java.svg") },
 ];
 
 const botExamples = [
@@ -46,6 +46,7 @@ const botExamples = [
   { label: "NodeJS" , url: "https://github.com/makeorbreak-io/mob-ai-nodejs/blob/master/bot.js" },
   { label: "Bash"   , url: "https://github.com/makeorbreak-io/mob-ai-bash/blob/master/bot.sh" },
   { label: "Java"   , url: "https://github.com/makeorbreak-io/mob-ai-java/blob/master/Bot.java" },
+  { label: "C#"     , url: "https://github.com/makeorbreak-io/mob-ai-csharp/blob/master/Bot.cs" },
 ];
 
 const guessSDK = (file) => {
@@ -63,6 +64,8 @@ const guessSDK = (file) => {
       return "python";
     case "java":
       return "java";
+    case "cs":
+      return "csharp";
     case "cpp":
       return "cpp";
     default:

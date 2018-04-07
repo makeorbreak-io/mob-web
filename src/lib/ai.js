@@ -40,23 +40,24 @@ export const humanizeAction = (action) => {
     case "0,0":
       return `${type} to own cell, invalid`;
 
+    // "y,x"
     case "1,0":
-      return `${type} right`;
-    case "-1,0":
-      return `${type} left`;
-    case "0,-1":
-      return `${type} up`;
-    case "0,1":
       return `${type} down`;
+    case "-1,0":
+      return `${type} up`;
+    case "0,-1":
+      return `${type} left`;
+    case "0,1":
+      return `${type} right`;
 
     case "1,1":
       return `${type} southeast`;
     case "-1,1":
-      return `${type} southwest`;
-    case "-1,-1":
       return `${type} northeast`;
-    case "1,-1":
+    case "-1,-1":
       return `${type} northwest`;
+    case "1,-1":
+      return `${type} southwest`;
   }
 };
 
@@ -84,10 +85,10 @@ const resolveWalk = (previousTurn, actions, players) => {
 
     if (type !== "walk") return { ...positions, [player]: pos };
 
-    const [ vx, vy ] = direction;
-    const [ x, y ] = pos;
+    const [ vy, vx ] = direction;
+    const [ y, x ] = pos;
 
-    const newPos = [ x + vx, y + vy ];
+    const newPos = [ y + vy, x + vx ];
     return {
       ...positions,
       [player]: isValidPosition(colors, newPos) ? newPos : pos,
@@ -109,7 +110,7 @@ const resolveWalk = (previousTurn, actions, players) => {
   // paint the squares occupied by all the avatars
   const newColors = cloneDeep(colors);
   Object.keys(newPositions).map(player => {
-    const [ x, y ] = newPositions[player];
+    const [ y, x ] = newPositions[player];
     newColors[y][x] = player;
   });
 
@@ -187,7 +188,7 @@ const resolveShoot = (previousTurn, actions, players) => {
       }
       else {
         // paint the squares of the remaining active shots
-        newColors[playerShot[1]][playerShot[0]] = player;
+        newColors[playerShot[0]][playerShot[1]] = player;
         paintedThisTurn.push(playerShot);
 
         ranges[player]--;
@@ -204,11 +205,11 @@ const resolveShoot = (previousTurn, actions, players) => {
 //----------------------------------------------------------------------------- helpers
 //
 
-const isValidPosition = (colors, [x, y]) => (
+const isValidPosition = (colors, [y, x]) => (
   x >= 0 && y >= 0 && x < colors[0].length && y < colors.length
 );
 
-const isPlayerPosition = (colors, [x, y], player) => (
+const isPlayerPosition = (colors, [y, x], player) => (
   colors[y][x] === player
 );
 
