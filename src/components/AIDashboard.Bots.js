@@ -37,7 +37,7 @@ const codeSDKs = [
   { label: "NodeJS 9.5.0"         , shortLabel: "NodeJS" , value: "nodejs" , img: require("assets/images/icons/nodejs.svg") },
   { label: "Bash script"          , shortLabel: "Bash"   , value: "bash"   , img: require("assets/images/icons/bash.svg") },
   { label: "Java (openjdk 8u151)" , shortLabel: "Java"   , value: "java"   , img: require("assets/images/icons/java.svg") },
-  { label: "C# (.NET 2)"          , shortLabel: "C#"     , value: "csharp" , img: require("assets/images/icons/java.svg") },
+  { label: "C# (.NET 2)"          , shortLabel: "C#"     , value: "csharp" , img: require("assets/images/icons/csharp.svg") },
 ];
 
 const botExamples = [
