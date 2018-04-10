@@ -77,14 +77,17 @@ const Games = ({
                   <td className="bot ellipsis">{bot.title} (rev. {bot.revision})</td>
                   <td>{opponent.author.name}</td>
                   <td>
-                    {game.bots.map(bot => {
-                      const colors = game.finalState.colors.flatMap(f => f);
-                      const player = bot.author.id === me.id
-                        ? "You"
-                        : bot.author.name.split(" ")[0];
-
-                      return `${player} - ${colors.filter(c => c === bot.id).length}`;
-                    }).sort().join(", ")}
+                    {game.bots.map(bot => ({
+                      bot: bot,
+                      colors: game.finalState.colors.flatMap(f => f),
+                    }))
+                    .map(({ bot, colors }) => ({
+                      score: colors.filter(c => c === bot.id).length,
+                      player: bot.author.id === me.id ? "You" : bot.author.name.split(" ")[0],
+                    }))
+                    .sort((r1, r2) => r2.score - r1.score)
+                    .map(result => `${result.player} - ${result.score}`)
+                    .join(", ")}
                   </td>
                   <td className="json-dump">
                     <span onClick={downloadGameJSON(game)}>download</span>
