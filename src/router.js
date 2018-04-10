@@ -33,6 +33,8 @@ import AdminDashboard from "components/admin/Dashboard";
 import AdminUsers from "components/admin/Users";
 import AdminWorkshops from "components/admin/Workshops";
 import AdminEditWorkshop from "components/admin/Workshops.Edit";
+import AdminBots from "components/admin/Bots";
+import AdminBotsRun from "components/admin/Bots.Run";
 import AdminTeams from "components/admin/Teams";
 import CheckIn from "components/admin/CheckIn";
 import WorkshopCheckIn from "components/admin/WorkshopCheckIn";
@@ -90,6 +92,8 @@ const router = (
             <Route path="workshops" component={AdminWorkshops} />
             <Route path="workshops/:slug" component={AdminEditWorkshop} />
             <Route path="teams" component={AdminTeams} />
+            <Route path="bots" component={AdminBots} />
+            <Route path="bots/:day" component={AdminBotsRun} />
           </Route>
         </Route>
 

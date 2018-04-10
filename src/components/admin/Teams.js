@@ -3,6 +3,7 @@ import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
+
 import { fullTeam } from "fragments";
 import { waitForData } from "enhancers";
 
@@ -12,20 +13,6 @@ import { DataTable, Button } from "components/uikit";
 
 export class AdminTeams extends Component {
 
-  //----------------------------------------------------------------------------
-  // Lifecycle
-  //----------------------------------------------------------------------------
-  componentDidMount() {
-    // this.props.dispatch(fetchTeams({ admin: true }));
-  }
-
-  componentWillUnmount() {
-    // this.props.dispatch(clearTeams());
-  }
-
-  //----------------------------------------------------------------------------
-  // Event Handlers
-  //----------------------------------------------------------------------------
   setApplied = (id, applied) => {
     const { applyTeamToHackathon, deapplyTeamFromHackathon, data } = this.props;
 

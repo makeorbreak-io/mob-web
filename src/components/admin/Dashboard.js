@@ -119,6 +119,18 @@ export class Dashboard extends Component {
                 </div>
 
                 <div className="section">
+                  <h2><Link to="/admin/bots">Bots</Link></h2>
+
+                  <table className="stats">
+                    <tbody>
+                      {[1,2,3,4,5,6].map(day => (
+                        <tr key={day}>
+                          <td>day {day}</td>
+                          <td><Link to={`admin/bots/${day}`}>View bots</Link></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
 
 
