@@ -49,6 +49,7 @@ export const fullTeam = gql`
     name
     applied
     accepted
+    eligible
 
     invites { id gravatarHash displayName }
     members { id displayName gravatarHash }
@@ -90,6 +91,19 @@ export const workshop = gql`
 
 export const suffrage = gql`
   fragment suffrage on Suffrage {
-    id slug name votingStartedAt votingEndedAt
+    id
+    slug
+    name
+    votingStartedAt
+    votingEndedAt
+
+    teams { id name }
   }
+`;
+
+export const vote = gql`
+ fragment vote on Vote {
+   suffrageId
+   ballot
+ }
 `;

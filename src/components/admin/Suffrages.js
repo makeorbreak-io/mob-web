@@ -42,7 +42,7 @@ export class AdminSuffrages extends Component {
     return this.props.startSuffrageVoting({ variables: { id } });
   }
 
-  stop = (id) => {
+  end = (id) => {
     return this.props.endSuffrageVoting({ variables: { id } });
   }
 
@@ -73,7 +73,7 @@ export class AdminSuffrages extends Component {
                 <span className="slug">{suffrage.slug}</span>
                 <span>{suffrage.name}</span>
                 <span><Button disabled={isStarted || isStopped}  primary small onClick={() => this.start(suffrage.id)}>Start voting</Button></span>
-                <span><Button disabled={!isStarted || !isStopped} primary small onClick={() => this.end(suffrage.id)}>End voting</Button></span>
+                <span><Button disabled={!isStarted || isStopped} primary small onClick={() => this.end(suffrage.id)}>End voting</Button></span>
                 <span><Button danger small onClick={() => this.delete(suffrage.id)}>Delete</Button></span>
               </li>
             );

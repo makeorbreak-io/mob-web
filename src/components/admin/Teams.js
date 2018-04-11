@@ -30,8 +30,10 @@ export class AdminTeams extends Component {
   }
 
   makeEligible = (id) => {
-    // return this.props.dispatch(updateTeam(id, { eligible: true }, { admin: true }));
-    return id;
+    const { makeTeamEligible, data } = this.props;
+
+    return makeTeamEligible({ variables: { id } })
+    .then(() => data.refetch());
   }
 
   deleteAnyTeam = (id) => {
@@ -42,8 +44,10 @@ export class AdminTeams extends Component {
   }
 
   disqualifyTeam = (id) => {
-    // return this.props.dispatch(disqualifyTeam(id));
-    return id;
+    const { disqualifyTeam, data } = this.props;
+
+    return disqualifyTeam({ variables: { id } })
+    .then(() => data.refetch());
   }
 
   removeMember = (id, teamId) => {
@@ -130,17 +134,24 @@ export class AdminTeams extends Component {
                     Delete Team
                   </Button>
 
-                  {/*
+                  <Button
+                    primary
+                    small
+                    fullwidth
+                    disabled={team.eligible && !team.disqualifiedAt}
+                    onClick={() => this.makeEligible(team.id)}
+                  >
+                    Make eligible
+                  </Button>
+
                   <Button
                     danger
                     small
                     fullwidth
-                    disabled={!!team.disqualified_at}
                     onClick={() => this.disqualifyTeam(team.id)}
                   >
                     Disqualify
                   </Button>
-                  */}
                 </td>
               </tr>
             )}
@@ -158,6 +169,8 @@ export default compose(
   graphql(gql`{
     teams(first: 1000) { edges { node { ...fullTeam } } }
   } ${fullTeam}`),
+
+  waitForData,
 
   graphql(
     gql`mutation applyTeamToHackathon($id: String!) {
@@ -181,11 +194,23 @@ export default compose(
   ),
 
   graphql(
+    gql`mutation makeTeamEligible($id: String!) {
+      makeTeamEligible(id: $id) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "makeTeamEligible" },
+  ),
+
+  graphql(
     gql`mutation deleteAnyTeam($id: String!) {
       deleteAnyTeam(id: $id)
     } ${fullTeam}`,
     { name: "deleteAnyTeam" },
   ),
 
-  waitForData,
+  graphql(
+    gql`mutation disqualifyTeam($id: String!) {
+      disqualifyTeam(id: $id) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "disqualifyTeam" },
+  ),
 )(AdminTeams);
