@@ -60,7 +60,7 @@ export class CheckIn extends Component {
                   </td>
                   <td>{user.githubHandle && last(user.githubHandle.split("/"))}</td>
                   <td className="actions">
-                    {user.currentTeam && user.currentTeam.accepted &&
+                    {user.currentAttendance &&
                       <Button
                         primary={!checkedIn}
                         danger={checkedIn}

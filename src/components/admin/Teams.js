@@ -131,6 +131,7 @@ export class AdminTeams extends Component {
                     danger
                     small
                     fullwidth
+                    disabled={team.isDisqualified}
                     onClick={() => this.disqualifyTeam(team.id)}
                   >
                     Disqualify

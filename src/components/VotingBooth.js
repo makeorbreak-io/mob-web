@@ -83,14 +83,14 @@ export class VotingBooth extends Component {
 
     if (position === 0) {
       return orderBy(
-        reject(options, option => option.value === me.currentTeam.id),
+        reject(options, option => option.value === (me.currentTeam && me.currentTeam.id)),
         [ "label" ],
         [ "asc" ]
       );
     }
 
     const filtered = reject(options, option => {
-      if (me.currentTeam.id === option.value) return true;
+      if (me.currentTeam && me.currentTeam.id === option.value) return true;
 
       let shouldReject = false;
 
@@ -216,7 +216,7 @@ export default compose(
   })),
 
   graphql(gql`{
-    me { id currentTeam { id } }
+    me { id currentTeam { id } role }
 
     suffrages { ...suffrage }
     votes { ...vote }

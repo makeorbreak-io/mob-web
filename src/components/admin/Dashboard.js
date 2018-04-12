@@ -52,7 +52,7 @@ export class Dashboard extends Component {
               <div className="Stats">
 
                 {/*------------------------------------------------------------ Check in */}
-                <div className="section">
+                <div className="section halfwidth">
                   <h2><Link to="/admin/checkin">Check In</Link></h2>
 
                   <table className="stats">
@@ -70,7 +70,7 @@ export class Dashboard extends Component {
                 </div>
 
                 {/*------------------------------------------------------------ Workshops Check in */}
-                <div className="section two-thirds">
+                <div className="section halfwidth">
                   <h2>Workshop Presences</h2>
 
                   <table className="stats">

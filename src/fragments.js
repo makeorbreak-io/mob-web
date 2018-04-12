@@ -50,6 +50,7 @@ export const fullTeam = gql`
     applied
     accepted
     eligible
+    isDisqualified
 
     invites { id gravatarHash displayName }
     members { id displayName gravatarHash }
