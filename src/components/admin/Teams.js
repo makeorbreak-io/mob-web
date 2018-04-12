@@ -3,6 +3,7 @@ import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
+import { get } from "lodash";
 
 import { fullTeam } from "fragments";
 import { waitForData } from "enhancers";
@@ -13,6 +14,14 @@ import { DataTable, Button } from "components/uikit";
 
 export class AdminTeams extends Component {
 
+  mutate = (name, variables) => {
+    const { data } = this.props;
+    const f = get(this.props, name);
+
+    return f({ variables })
+    .then(() => data.refetch());
+  }
+
   setApplied = (id, applied) => {
     const { applyTeamToHackathon, deapplyTeamFromHackathon, data } = this.props;
 
@@ -22,38 +31,12 @@ export class AdminTeams extends Component {
     .then(() => data.refetch());
   }
 
-  setAccepted = (id) => {
-    const { acceptTeam, data } = this.props;
-
-    return acceptTeam({ variables: { id } })
-    .then(() => data.refetch());
-  }
-
-  makeEligible = (id) => {
-    const { makeTeamEligible, data } = this.props;
-
-    return makeTeamEligible({ variables: { id } })
-    .then(() => data.refetch());
-  }
-
-  deleteAnyTeam = (id) => {
-    const { deleteAnyTeam, data } = this.props;
-
-    return deleteAnyTeam({ variables: { id } })
-    .then(() => data.refetch());
-  }
-
-  disqualifyTeam = (id) => {
-    const { disqualifyTeam, data } = this.props;
-
-    return disqualifyTeam({ variables: { id } })
-    .then(() => data.refetch());
-  }
-
-  removeMember = (id, teamId) => {
-    // return this.props.dispatch(removeFromTeam(id, teamId, { admin: true }));
-    return teamId;
-  }
+  setAccepted    = (id) => this.mutate("acceptTeam", { id })
+  makeEligible   = (id) => this.mutate("makeTeamEligible", { id })
+  createRepo     = (id) => this.mutate("createTeamRepo", { id })
+  disqualifyTeam = (id) => this.mutate("disqualifyTeam", { id })
+  deleteAnyTeam  = (id) => this.mutate("deleteAnyTeam", { id })
+  removeMember   = (teamId, userId) => this.mutate("removeAnyMembership", { teamId, userId })
 
   //----------------------------------------------------------------------------
   // Render
@@ -85,8 +68,8 @@ export class AdminTeams extends Component {
                         className="remove"
                         small
                         danger
-                        confirmation={`Remove ${m.displayName} from ${team.name}?`}
-                        onClick={() => this.removeMember(m.id, team.id)}
+                        confirmation={`Remove ${m.user.displayName} from ${team.name}?`}
+                        onClick={() => this.removeMember(team.id, m.user.id)}
                       >×</Button>
                     </li>
                   )))}
@@ -101,7 +84,7 @@ export class AdminTeams extends Component {
                     )))}
                   </ul>
                 </td>
-                <td>
+                <td className="actions">
                   <Button
                     danger={team.applied}
                     primary={!team.applied}
@@ -125,16 +108,6 @@ export class AdminTeams extends Component {
                   </Button>
 
                   <Button
-                    danger
-                    small
-                    fullwidth
-                    confirmation={`Really delete ${team.name}?`}
-                    onClick={() => this.deleteAnyTeam(team.id)}
-                  >
-                    Delete Team
-                  </Button>
-
-                  <Button
                     primary
                     small
                     fullwidth
@@ -145,12 +118,32 @@ export class AdminTeams extends Component {
                   </Button>
 
                   <Button
+                    primary
+                    small
+                    fullwidth
+                    disabled={team.repo}
+                    onClick={() => this.createRepo(team.id)}
+                  >
+                    Create github repo
+                  </Button>
+
+                  <Button
                     danger
                     small
                     fullwidth
                     onClick={() => this.disqualifyTeam(team.id)}
                   >
                     Disqualify
+                  </Button>
+
+                  <Button
+                    danger
+                    small
+                    fullwidth
+                    confirmation={`Really delete ${team.name}?`}
+                    onClick={() => this.deleteAnyTeam(team.id)}
+                  >
+                    Delete Team
                   </Button>
                 </td>
               </tr>
@@ -201,10 +194,10 @@ export default compose(
   ),
 
   graphql(
-    gql`mutation deleteAnyTeam($id: String!) {
-      deleteAnyTeam(id: $id)
+    gql`mutation createTeamRepo($id: String!) {
+      createTeamRepo(id: $id) { ...fullTeam }
     } ${fullTeam}`,
-    { name: "deleteAnyTeam" },
+    { name: "createTeamRepo" },
   ),
 
   graphql(
@@ -212,5 +205,19 @@ export default compose(
       disqualifyTeam(id: $id) { ...fullTeam }
     } ${fullTeam}`,
     { name: "disqualifyTeam" },
+  ),
+
+  graphql(
+    gql`mutation deleteAnyTeam($id: String!) {
+      deleteAnyTeam(id: $id)
+    } ${fullTeam}`,
+    { name: "deleteAnyTeam" },
+  ),
+
+  graphql(
+    gql`mutation removeAnyMembership($teamId: String!, $userId: String!) {
+      removeAnyMembership(teamId: $teamId, userId: $userId) { ...fullTeam }
+    } ${fullTeam}`,
+    { name: "removeAnyMembership" },
   ),
 )(AdminTeams);
