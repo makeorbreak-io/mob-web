@@ -254,7 +254,19 @@ export default compose(
 
   mapProps(props => ({
     ...props,
-    initialValues: omit(props.data.me, "__typename", "id", "invitations", "teams", "displayName", "gravatarHash", "currentBot", "currentTeam", "workshops"),
+    initialValues: omit(
+      props.data.me,
+      "__typename",
+      "id",
+      "invitations",
+      "teams",
+      "displayName",
+      "gravatarHash",
+      "currentAttendance",
+      "currentBot",
+      "currentTeam",
+      "workshops"
+    ),
   })),
 
   reduxForm({
