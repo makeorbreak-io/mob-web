@@ -107,3 +107,12 @@ export const vote = gql`
    ballot
  }
 `;
+
+export const paperVote = gql`
+  fragment paperVote on PaperVote {
+    id
+    suffrageId
+    redeemedAt
+    annuledAt
+  }
+`;

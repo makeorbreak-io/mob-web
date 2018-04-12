@@ -75,6 +75,10 @@ export class Dashboard extends Component {
                 </div>
 
                 <div className="section fullwidth">
+                  <h2><Link to="/admin/paper-votes">Paper Votes</Link></h2>
+                </div>
+
+                <div className="section fullwidth">
                   <h2><Link to="/admin/checkin">Check In</Link></h2>
 
                   <table className="stats">
