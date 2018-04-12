@@ -12,7 +12,7 @@ import { waitForData } from "enhancers";
 
 //
 // components
-import { DataTable, Avatar, Button } from "components/uikit";
+import { DataTable, Avatar, Button, Modal } from "components/uikit";
 
 //
 // constants
@@ -20,7 +20,7 @@ import { ADMIN } from "constants/roles";
 
 //
 // utils
-// import { toCSV, emailCSVSelector } from "lib/users";
+import { toCSV, emailCSVSelector } from "lib/users";
 
 //
 // assets
@@ -28,11 +28,11 @@ import github from "assets/images/github-grey.svg";
 import twitter from "assets/images/twitter-grey.svg";
 import linkedin from "assets/images/linkedin-grey.svg";
 
-// const MODAL_CSV_ALL_USERS = "MODAL_CSV_ALL_USERS";
-// const MODAL_CSV_NO_TEAM_USERS = "MODAL_CSV_NO_TEAM_USERS";
-// const MODAL_CSV_PARTICIPATING_USERS = "MODAL_CSV_PARTICIPATING_USERS";
-// const MODAL_CRED_LIST_HACKATHON = "MODAL_CRED_LIST_HACKATHON";
-// const MODAL_CRED_LIST_WORKSHOPS = "MODAL_CRED_LIST_WORKSHOPS";
+const MODAL_CSV_ALL_USERS = "MODAL_CSV_ALL_USERS";
+const MODAL_CSV_NO_TEAM_USERS = "MODAL_CSV_NO_TEAM_USERS";
+const MODAL_CSV_PARTICIPATING_USERS = "MODAL_CSV_PARTICIPATING_USERS";
+const MODAL_CRED_LIST_HACKATHON = "MODAL_CRED_LIST_HACKATHON";
+const MODAL_CRED_LIST_WORKSHOPS = "MODAL_CRED_LIST_WORKSHOPS";
 
 export class AdminUsers extends Component {
 
@@ -71,12 +71,12 @@ export class AdminUsers extends Component {
   render() {
     const users = this.props.data.users.edges.map(e => e.node);
 
-    // const { openModal } = this.state;
+    const { openModal } = this.state;
 
-    // const noTeamUsers = filter(users, user => user.team === null || user.team.applied === false);
-    // const participatingUsers = filter(users, user => ((user.team && user.team.applied) || (user.workshops.length > 0)));
-    // const hackathonUsers = filter(users, user => user.team && user.team.applied);
-    // const workshopOnlyUsers = filter(users, user => (user.workshops.length > 0 && (!user.team || (user.team && !user.team.applied))));
+    const noTeamUsers = users.filter(user => user.currentTeam === null || user.currentTeam.applied === false);
+    const participatingUsers = users.filter(user => ((user.currentTeam && user.currentTeam.applied) || (user.workshops.length > 0)));
+    const hackathonUsers = users.filter(user => user.currentTeam && user.currentTeam.applied);
+    const workshopOnlyUsers = users.filter(user => (user.workshops.length > 0 && (!user.currentTeam || (user.team && !user.currentTeam.applied))));
 
     return (
       <div className="AdminUsers">
@@ -84,7 +84,6 @@ export class AdminUsers extends Component {
           <div className="tools">
             <span className="left"><Link to="/admin">← Back to Admin</Link></span>
           </div>
-          {/*
           <div className="tools">
 
             <h3>CSV Lists:</h3>
@@ -133,7 +132,7 @@ export class AdminUsers extends Component {
               isOpen={openModal === MODAL_CRED_LIST_HACKATHON}
               onRequestClose={this.closeModal}
             >
-              <pre>{toCSV(hackathonUsers, [ ["Name", "display_name"], [ "Team", "team.name" ] ])}</pre>
+              <pre>{toCSV(hackathonUsers, [ ["Name", "displayName"], [ "Team", "team.name" ] ])}</pre>
             </Modal>
 
             <Button small primary onClick={() => this.openModal(MODAL_CRED_LIST_WORKSHOPS)}>
@@ -145,20 +144,20 @@ export class AdminUsers extends Component {
               isOpen={openModal === MODAL_CRED_LIST_WORKSHOPS}
               onRequestClose={this.closeModal}
             >
-              <pre>{toCSV(workshopOnlyUsers, [ ["Name", "display_name"] ])}</pre>
+              <code><pre>{toCSV(workshopOnlyUsers, [ ["Name", "displayName"] ])}</pre></code>
             </Modal>
           </div>
-          */}
+
           <DataTable
             source={users}
             search={[ "displayName", "role", "tshirtSize", "currentTeam.name" ]}
-            labels={[ "Avatar" , "Name"         , "Email" , "T-Shirt" , "Workshops" , "Team" , "Social" , "Actions" ]}
-            mobile={[ false    , true           , true    , true      , false       , true   , true     , true ]}
-            sorter={[ null     , "display_name" , "email" , null      , null        , "team" , null     , null ]}
-            filter={[ null     , null           , null    , null      , null        , null   , null     , null ]}
+            labels={[ ""       , "Name"        , "Email" , "Size" , "Workshops" , "Team" , "Social" , "Actions" ]}
+            mobile={[ false    , true          , true    , true   , false       , true   , true     , true ]}
+            sorter={[ null     , "displayName" , "email" , null   , null        , "currentTeam.name" , null     , null ]}
+            filter={[ null     , null          , null    , null   , null        , null   , null     , null ]}
             render={user => (
               <tr key={user.id} className={user.role}>
-                <td className="desktop"><Avatar user={user} /></td>
+                <td className="desktop avatar"><Avatar user={user} /></td>
                 <td className="mobile">{user.displayName}</td>
                 <td className="mobile">{user.email}</td>
                 <td className="mobile">{user.tshirtSize}</td>
@@ -177,7 +176,7 @@ export class AdminUsers extends Component {
                     {user.linkedinUrl &&   <li><img src={linkedin} title={user.linkedinUrl} /></li>}
                   </ul>
                 </td>
-                <td className="mobile">
+                <td className="mobile actions">
                   <Button
                     primary
                     small

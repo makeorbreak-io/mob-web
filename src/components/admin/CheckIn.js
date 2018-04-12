@@ -69,7 +69,7 @@ export class CheckIn extends Component {
                         onClick={this.toggleCheckIn(user.id)}
                         confirmation={checkedIn ? `Really remove check in for ${user.displayName}?` : null}
                       >
-                        {checkedIn ? "⚠️ Check Out" : "Check In"}
+                        {checkedIn ? "⚠️ Check Out ⚠️" : "Check In"}
                       </Button>
                     }
                   </td>
