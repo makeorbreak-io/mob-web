@@ -222,9 +222,9 @@ export class AccountSettings extends Component {
             {(me.githubHandle || me.twitterHandle || me.linkedinUrl) &&
               <Fragment>
                 <label>Social Media</label>
-                <p>{me.githubHandle}</p>
-                <p>{me.twitterHandle}</p>
-                <p>{me.linkedinUrl}</p>
+                <p className="github">{me.githubHandle}</p>
+                <p className="twitter">{me.twitterHandle}</p>
+                <p className="linkedin">{me.linkedinUrl}</p>
               </Fragment>
             }
 
