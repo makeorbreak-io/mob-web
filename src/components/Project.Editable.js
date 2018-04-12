@@ -97,7 +97,6 @@ export class EditableProject extends Component {
 
     const newValues = { ...this.props.formValues };
     newValues.prizePreference = JSON.stringify(newValues.prizePreference);
-    console.log(newValues);
 
     return updateTeam({
       variables: { id: me.currentTeam.id, team: newValues },
