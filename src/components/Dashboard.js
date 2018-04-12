@@ -113,6 +113,16 @@ export class Dashboard extends Component {
         </div>
 
         <hr />
+        <h2 className="with-actions">
+          <div className="title">Hackathon project </div>
+          <div className="actions">
+            <Link to="/project/edit">
+              <Button primary small>Edit Project</Button>
+            </Link>
+          </div>
+        </h2>
+
+        <hr />
 
         <h2 className="with-actions">
           <div className="title">AI Competition </div>
