@@ -53,6 +53,7 @@ export class AdminTeams extends Component {
 
           <DataTable
             source={teams}
+            search={[ "name", "projectName" ]}
             labels={[ "Name" , "Project" , "Members" , "Invites", "Actions" ]}
             sorter={[ "name" , null      , null      , null     , null ]}
             render={team => (
