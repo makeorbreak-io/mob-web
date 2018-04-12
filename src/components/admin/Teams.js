@@ -64,7 +64,7 @@ export class AdminTeams extends Component {
                   <ul>
                   {(team.memberships.map((m, i) => (
                     <li key={i}>
-                     <span>{m.user.displayName}</span>
+                     <span>{m.user.displayName} (gh: {m.user.githubHandle})</span>
                       <Button
                         className="remove"
                         small

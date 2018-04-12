@@ -54,7 +54,7 @@ export const fullTeam = gql`
 
     invites { id gravatarHash displayName }
     members { id displayName gravatarHash }
-    memberships { user { id displayName gravatarHash } }
+    memberships { user { id displayName gravatarHash githubHandle } }
     competition { id name status }
   }
 `;
