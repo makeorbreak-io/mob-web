@@ -34,7 +34,12 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { adminStats: { users, teams }, workshops } = this.props.data;
+    const {
+      adminStats: { users, teams },
+      workshops,
+      redeemedPaperVotes,
+      unredeemedPaperVotes,
+    } = this.props.data;
 
     return (
       <div className="AdminDashboard">
@@ -45,6 +50,43 @@ export class Dashboard extends Component {
 
             <Panel>
               <div className="Stats">
+
+                {/*------------------------------------------------------------ Check in */}
+                <div className="section">
+                  <h2><Link to="/admin/checkin">Check In</Link></h2>
+
+                  <table className="stats">
+                    <tbody>
+                      <tr>
+                        <td>{users.checked_in}</td>
+                        <td>Checked in participants</td>
+                      </tr>
+                      <tr>
+                        <td>{users.total}</td>
+                        <td>Total participants</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/*------------------------------------------------------------ Workshops Check in */}
+                <div className="section two-thirds">
+                  <h2>Workshop Presences</h2>
+
+                  <table className="stats">
+                    <tbody>
+                      {sortedWorkshops(workshops).map(({ slug, name, attendances }) => (
+                        <tr key={slug}>
+                          <td>{attendances.filter(a => a.checkedIn).length} / {attendances.length}</td>
+                          <td><Link to={`/admin/checkin/workshop/${slug}`}>{name}</Link></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                </div>
+
+                {/*------------------------------------------------------------ AI Competition daily runs */}
                 <div className="section fullwidth">
                   <h2>AI Competition Daily Runs</h2>
 
@@ -69,46 +111,31 @@ export class Dashboard extends Component {
 
                 </div>
 
-                <div className="section fullwidth">
+                {/*------------------------------------------------------------ Voting categories / suffrages */}
+                <div className="section two-thirds">
                   <h2>Hackathon</h2>
                   <AdminSuffrages />
                 </div>
 
-                <div className="section fullwidth">
+                {/*------------------------------------------------------------ Paper Votes */}
+                <div className="section">
                   <h2><Link to="/admin/paper-votes">Paper Votes</Link></h2>
-                </div>
-
-                <div className="section fullwidth">
-                  <h2><Link to="/admin/checkin">Check In</Link></h2>
-
                   <table className="stats">
                     <tbody>
                       <tr>
-                        <td>{users.checked_in}</td>
-                        <td>Checked in participants</td>
+                        <td>{redeemedPaperVotes.length + unredeemedPaperVotes.length}</td>
+                        <td>total paper votes</td>
                       </tr>
                       <tr>
-                        <td>{users.total}</td>
-                        <td>Total participants</td>
+                        <td>{redeemedPaperVotes.length}</td>
+                        <td>redeemed</td>
+                      </tr>
+                      <tr>
+                        <td>{unredeemedPaperVotes.length}</td>
+                        <td>unredeemed</td>
                       </tr>
                     </tbody>
                   </table>
-                </div>
-
-                <div className="section fullwidth">
-                  <h2>Workshop Presences</h2>
-
-                  <table className="stats">
-                    <tbody>
-                      {sortedWorkshops(workshops).map(({ slug, name, attendances }) => (
-                        <tr key={slug}>
-                          <td>{attendances.filter(a => a.checkedIn).length} / {attendances.length}</td>
-                          <td><Link to={`/admin/checkin/workshop/${slug}`}>{name}</Link></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-
                 </div>
               </div>
             </Panel>
@@ -232,6 +259,9 @@ export default compose(
     }
 
     workshops { ...workshop }
+
+    unredeemedPaperVotes { id }
+    redeemedPaperVotes { id }
   } ${workshop}`),
 
   waitForData,
