@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
-import { map, times, capitalize, reject, orderBy, reduce, isString } from "lodash";
+import { times, capitalize, reject, orderBy, isString } from "lodash";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+import { vote, suffrage, fullUser } from "fragments";
+import { waitForData } from "enhancers";
 
 //
 // components
@@ -15,55 +20,50 @@ import { Select } from "components/fields";
 import { composeValidators, validatePresence } from "validators";
 
 //
-// redux
-import { fetchTeams } from "actions/teams";
-import { getVotes, vote } from "actions/current_user";
-
-//
 // util
 import { ordinal } from "lib/number";
 
 //
 // constants
-import { HARDCORE, FUNNY, USEFUL, ORDER_CHOICES } from "constants/prizes";
+import { CREATIVE, FUN, USEFUL, ORDER_CHOICES } from "constants/prizes";
 
-const categories = [ USEFUL, FUNNY, HARDCORE ];
+const categories = [ USEFUL, FUN, CREATIVE ];
 
 const validate = (values) => {
   return composeValidators(
-    validatePresence("useful-pos-0", "1st place - Useful"),
-    validatePresence("funny-pos-0", "1st place - Funny"),
-    validatePresence("hardcore-pos-0", "1st place - Hardcore"),
+    validatePresence(`${USEFUL}-pos-0`, "1st place - Useful"),
+    validatePresence(`${FUN}-pos-0`, "1st place - Funny"),
+    validatePresence(`${CREATIVE}-pos-0`, "1st place - Creative"),
   )(values);
 };
 
 export class VotingBooth extends Component {
 
-  //----------------------------------------------------------------------------
-  // Lifecycle
-  //----------------------------------------------------------------------------
   componentDidMount() {
-    const { dispatch, initialize } = this.props;
+    const { initialize, data: { suffrages, votes } } = this.props;
 
-    dispatch(fetchTeams());
-    dispatch(getVotes()).then(({ hardcore, funny, useful }) => {
+    const formValues =
+    votes
+    .flatMap(({ suffrageId, ballot }) => {
+      const category = suffrages.find(s => s.id === suffrageId).slug;
 
-      const formValues = {};
-      map(hardcore, (teamId, index) => formValues[`hardcore-pos-${index}`] = teamId);
-      map(funny, (teamId, index) => formValues[`funny-pos-${index}`] = teamId);
-      map(useful, (teamId, index) => formValues[`useful-pos-${index}`] = teamId);
+      return ballot.map((teamId, index) => ({
+        [`${category}-pos-${index}`]: teamId,
+      }));
+    })
+    .reduce((acc, obj) => ({ ...acc, ...obj}), {});
 
-      initialize(formValues); // TODO
-    });
+    initialize(formValues);
   }
 
-  //----------------------------------------------------------------------------
-  // Event Handlers
-  //----------------------------------------------------------------------------
   submitVotes = (values) => {
+    const { data, castVotes } = this.props;
+
     const votes = {};
     categories.map(category => {
-      votes[category] = reduce(times(ORDER_CHOICES), (choices, position) => {
+      const suffrageId = data.suffrages.find(s => s.slug === category).id;
+
+      votes[suffrageId] = times(ORDER_CHOICES).reduce((choices, position) => {
         const option = values[`${category}-pos-${position}`];
 
         if (option) {
@@ -74,25 +74,23 @@ export class VotingBooth extends Component {
       }, []);
     });
 
-    return this.props.dispatch(vote(votes));
+    return castVotes({ variables: { votes: JSON.stringify(votes) } })
+    .then(() => data.refetch());
   }
 
-  //----------------------------------------------------------------------------
-  // Helpers
-  //----------------------------------------------------------------------------
   filterOptions = ({ category, position, options, formValues }) => {
-    const { currentUser } = this.props;
+    const { data: { me } } = this.props;
 
     if (position === 0) {
       return orderBy(
-        reject(options, option => option.value === currentUser.team.id),
+        reject(options, option => option.value === (me.currentTeam && me.currentTeam.id)),
         [ "label" ],
         [ "asc" ]
       );
     }
 
     const filtered = reject(options, option => {
-      if (currentUser.team.id === option.value) return true;
+      if (me.currentTeam && me.currentTeam.id === option.value) return true;
 
       let shouldReject = false;
 
@@ -112,11 +110,17 @@ export class VotingBooth extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { teams, handleSubmit, valid, formValues } = this.props;
-    const options = map(teams, team => ({
-      label: `${team.name}`,
-      value: team.id,
-    }));
+    const { data: { suffrages } , handleSubmit, valid, formValues } = this.props;
+
+    const options = (slug) => (
+      suffrages
+      .find(s => s.slug === slug)
+      .teams
+      .map(team => ({
+        label: `${team.name}`,
+        value: team.id,
+      }))
+    );
 
     return (
       <div className="VotingBooth">
@@ -128,7 +132,7 @@ export class VotingBooth extends Component {
                 <td></td>
                 <td>Useful</td>
                 <td>Funny</td>
-                <td>Hardcore</td>
+                <td>Creative</td>
               </tr>
             </thead>
             <tbody>
@@ -141,8 +145,8 @@ export class VotingBooth extends Component {
                         component={Select}
                         placeholder={`${ordinal(position + 1)} place - ${capitalize(category)}`}
                         name={`${category}-pos-${position}`}
-                        options={this.filterOptions({ category, position, options, formValues })}
-                        disabled={position != 0 && !formValues[`${category}-pos-${position - 1}`]}
+                        options={this.filterOptions({ category, position, options: options(category), formValues })}
+                        //disabled={position != 0 && !formValues[`${category}-pos-${position - 1}`]}
                       />
                     </td>
                   ))}
@@ -154,8 +158,7 @@ export class VotingBooth extends Component {
           <Tabs className="mobile">
             <Tab><span>Useful</span></Tab>
             <Tab><span>Funny</span></Tab>
-            <Tab><span>Hardcore</span></Tab>
-
+            <Tab><span>Creative</span></Tab>
 
             {categories.map(category => (
               <Panel key={category}>
@@ -168,7 +171,7 @@ export class VotingBooth extends Component {
                           component={Select}
                           placeholder={`${ordinal(position + 1)} place - ${capitalize(category)}`}
                           name={`${category}-pos-${position}`}
-                          options={this.filterOptions({ category, position, options, formValues })}
+                          options={this.filterOptions({ category, position, options: options(category), formValues })}
                           disabled={position != 0 && !formValues[`${category}-pos-${position - 1}`]}
                         />
                       </div>
@@ -203,14 +206,28 @@ export class VotingBooth extends Component {
 export default compose(
   setDisplayName("VotingBooth"),
 
-  connect(({ teams, form, currentUser }) => ({
-    teams: reject(teams, team => !team.eligible || !team.applied),
-    currentUser,
-    formValues: (form["voting-booth"] || {}).values || {},
-  })),
-
   reduxForm({
     form: "voting-booth",
     validate,
   }),
+
+  connect(({ form }) => ({
+    formValues: (form["voting-booth"] || {}).values || {},
+  })),
+
+  graphql(gql`{
+    me { id currentTeam { id } role }
+
+    suffrages { ...suffrage }
+    votes { ...vote }
+  } ${vote} ${suffrage}`),
+
+  waitForData,
+
+  graphql(
+    gql`mutation castVotes($votes: String!) {
+      castVotes(votes: $votes) { ...fullUser }
+    } ${fullUser}`,
+    { name: "castVotes" },
+  )
 )(VotingBooth);

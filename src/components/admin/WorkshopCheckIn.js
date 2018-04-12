@@ -1,74 +1,67 @@
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
-import { connect } from "react-redux";
-import { isEmpty, orderBy } from "lodash";
+import { orderBy } from "lodash";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+//
+// gql
+import { workshop } from "fragments";
+import { waitForData } from "enhancers";
+
 
 //
 // components
 import { DataTable, Button } from "components/uikit";
 
-//
-// redux
-import {
-  fetchWorkshops,
-  confirmPresenceInWorkshop,
-  removePresenceFromWorkshop,
-} from "actions/workshops";
-
 export class WorkshopCheckIn extends Component {
 
-  componentDidMount() {
-    this.props.dispatch(fetchWorkshops({ admin: true }));
-  }
+  toggle = (userId, value) => () => {
+    const { toggleWorkshopCheckin, data: { workshop: { slug } } } = this.props;
 
-  toggleWorkshopCheckIn = (workshop, user) => {
-    const { dispatch } = this.props;
-
-    return user.checked_in
-    ? dispatch(removePresenceFromWorkshop(workshop.slug, user.id))
-    : dispatch(confirmPresenceInWorkshop(workshop.slug, user.id));
+    return toggleWorkshopCheckin({ variables: { slug, userId, value } });
   }
 
   render() {
-    const { workshops, params: { slug } } = this.props;
-    if (isEmpty(workshops)) return <div>Loading...</div>;
-
-    const workshop = workshops[slug];
+    const { workshop } = this.props.data;
 
     return (
       <div className="WorkshopCheckIn">
-        <div className="tools">
-          <span className="left"><Link to="/admin">← Back to Admin</Link></span>
+        <div className="content white">
+          <div className="tools">
+            <span className="left"><Link to="/admin">← Back to Admin</Link></span>
+          </div>
+
+          <h1>Check-In: {workshop.name}</h1>
+
+          <DataTable
+            source={orderBy(workshop.attendances, [ "user.displayName" ], [ "asc" ])}
+            search={[ "user.displayName" , "user.email" ]}
+            labels={[ "Name"             , "Email" , "Actions" ]}
+            sorter={[ "user.displayName" , null    , null ]}
+            mobile={[ true               , false   , true ]}
+            render={attendance => {
+              return (
+                <tr key={attendance.user.id} className={attendance.user.role}>
+                  <td className="mobile">{attendance.user.displayName}</td>
+                  <td className="desktop">{attendance.user.email}</td>
+                  <td className="mobile">
+                    <Button
+                      primary={!attendance.checkedIn}
+                      danger={attendance.checkedIn}
+                      small
+                      onClick={this.toggle(attendance.user.id, !attendance.checkedIn)}
+                      confirmation={attendance.checkedIn ? `Really remove check in for ${attendance.user.displayName}?` : null}
+                    >
+                      {attendance.checkedIn ? "⚠️ Check Out ⚠️" : "Check In"}
+                    </Button>
+                  </td>
+                </tr>
+              );
+            }}
+          />
         </div>
-
-        <h1>Check-In: {workshop.name}</h1>
-
-        <DataTable
-          source={orderBy(workshop.attendees, [ "display_name" ], [ "asc" ])}
-          search={[ "display_name", "email" ]}
-          labels={[ "Name"         , "Email" , "Actions" ]}
-          sorter={[ "display_name" , null    , null ]}
-          mobile={[ true           , false   , true ]}
-          render={user => (
-            <tr key={user.id} className={user.role}>
-              <td className="mobile">{user.display_name}</td>
-              <td className="desktop">{user.email}</td>
-              <td className="mobile">
-                <Button
-                  primary={!user.checked_in}
-                  danger={user.checked_in}
-                  small
-                  onClick={() => this.toggleWorkshopCheckIn(workshop, user)}
-                  confirmation={user.checked_in ? `Really remove check in for ${user.display_name}?` : null}
-                >
-                  {user.checked_in ? "⚠️ Check Out ⚠️" : "Check In"}
-                </Button>
-              </td>
-            </tr>
-          )}
-        />
-
       </div>
     );
   }
@@ -78,6 +71,41 @@ export class WorkshopCheckIn extends Component {
 export default compose(
   setDisplayName("WorkshopCheckIn"),
 
-  connect(({ workshops }) => ({ workshops })),
+  graphql(
+    gql`query workshop($slug: String!) {
+      workshop(slug: $slug) {
+        id
+        name
+        slug
+        attendances {
+          checkedIn
+          user { id displayName email role }
+        }
+      }
+    } ${workshop}`,
+    {
+      skip: props => !props.params.slug,
+      options: props => ({
+        variables: { slug: props.params.slug },
+      }),
+    },
+  ),
+
+  waitForData,
+
+  graphql(
+    gql`mutation toggleWorkshopCheckin($slug: String!, $userId: String!, $value: Boolean!) {
+      toggleWorkshopCheckin(slug: $slug, userId: $userId, value: $value) {
+        id
+        slug
+        name
+        attendances {
+          checkedIn
+          user { id displayName email role }
+        }
+      }
+    }`,
+    { name: "toggleWorkshopCheckin" },
+  )
 )(WorkshopCheckIn);
 

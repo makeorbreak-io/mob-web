@@ -18,6 +18,8 @@ export const fullUser = gql`
     role
     gravatarHash
 
+    currentAttendance { id checkedIn }
+
     currentTeam {
       id
       name
@@ -47,6 +49,8 @@ export const fullTeam = gql`
     name
     applied
     accepted
+    eligible
+    isDisqualified
 
     invites { id gravatarHash displayName }
     members { id displayName gravatarHash }
@@ -82,6 +86,34 @@ export const workshop = gql`
     speakerImage
     bannerImage
 
-    attendances { id checkedIn }
+    attendances { checkedIn user { id } }
+  }
+`;
+
+export const suffrage = gql`
+  fragment suffrage on Suffrage {
+    id
+    slug
+    name
+    votingStartedAt
+    votingEndedAt
+
+    teams { id name }
+  }
+`;
+
+export const vote = gql`
+ fragment vote on Vote {
+   suffrageId
+   ballot
+ }
+`;
+
+export const paperVote = gql`
+  fragment paperVote on PaperVote {
+    id
+    suffrageId
+    redeemedAt
+    annuledAt
   }
 `;

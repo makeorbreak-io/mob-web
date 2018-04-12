@@ -14,6 +14,9 @@ import { waitForData } from "enhancers";
 // components
 import { Button } from "components/uikit";
 import { Tabs, Tab, Panel } from "components/uikit/tabs";
+import { sortedWorkshops } from "lib/workshops";
+
+import AdminSuffrages from "components/admin/Suffrages";
 
 const aiCompetitionDailyRuns = [
   { date: "2018-04-10", name: "day 1", templates: [ "ten_by_ten", "five_by_seven" ] },
@@ -31,8 +34,12 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { adminStats: { users, teams }, workshops } = this.props.data;
-    // const workshops = this.props.data.workshops.edges.map(e => e.node);
+    const {
+      adminStats: { users, teams },
+      workshops,
+      redeemedPaperVotes,
+      unredeemedPaperVotes,
+    } = this.props.data;
 
     return (
       <div className="AdminDashboard">
@@ -43,6 +50,43 @@ export class Dashboard extends Component {
 
             <Panel>
               <div className="Stats">
+
+                {/*------------------------------------------------------------ Check in */}
+                <div className="section halfwidth">
+                  <h2><Link to="/admin/checkin">Check In</Link></h2>
+
+                  <table className="stats">
+                    <tbody>
+                      <tr>
+                        <td>{users.checked_in}</td>
+                        <td>Checked in participants</td>
+                      </tr>
+                      <tr>
+                        <td>{users.total}</td>
+                        <td>Total participants</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/*------------------------------------------------------------ Workshops Check in */}
+                <div className="section halfwidth">
+                  <h2>Workshop Presences</h2>
+
+                  <table className="stats">
+                    <tbody>
+                      {sortedWorkshops(workshops).map(({ slug, name, attendances }) => (
+                        <tr key={slug}>
+                          <td>{attendances.filter(a => a.checkedIn).length} / {attendances.length}</td>
+                          <td><Link to={`/admin/checkin/workshop/${slug}`}>{name}</Link></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                </div>
+
+                {/*------------------------------------------------------------ AI Competition daily runs */}
                 <div className="section fullwidth">
                   <h2>AI Competition Daily Runs</h2>
 
@@ -65,6 +109,33 @@ export class Dashboard extends Component {
                     ))}
                   </ul>
 
+                </div>
+
+                {/*------------------------------------------------------------ Voting categories / suffrages */}
+                <div className="section two-thirds">
+                  <h2>Hackathon</h2>
+                  <AdminSuffrages />
+                </div>
+
+                {/*------------------------------------------------------------ Paper Votes */}
+                <div className="section">
+                  <h2><Link to="/admin/paper-votes">Paper Votes</Link></h2>
+                  <table className="stats">
+                    <tbody>
+                      <tr>
+                        <td>{redeemedPaperVotes.length + unredeemedPaperVotes.length}</td>
+                        <td>total paper votes</td>
+                      </tr>
+                      <tr>
+                        <td>{redeemedPaperVotes.length}</td>
+                        <td>redeemed</td>
+                      </tr>
+                      <tr>
+                        <td>{unredeemedPaperVotes.length}</td>
+                        <td>unredeemed</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </Panel>
@@ -143,7 +214,9 @@ export class Dashboard extends Component {
                     <tbody>
                       {Object.entries(groupBy(workshops, "year")).map(([ year, workshops ]) => (
                         <Fragment key={year}>
-                          <h2>{year}</h2>
+                          <tr>
+                            <td colSpan="2"><h2>{year}</h2></td>
+                          </tr>
                           {workshops.map(({ slug, name, attendances, participantLimit }) => (
                             <tr key={slug}>
                               <td>{attendances.length} / {participantLimit}</td>
@@ -186,6 +259,9 @@ export default compose(
     }
 
     workshops { ...workshop }
+
+    unredeemedPaperVotes { id }
+    redeemedPaperVotes { id }
   } ${workshop}`),
 
   waitForData,

@@ -4295,6 +4295,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jsqr@^1.0.1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/jsqr/-/jsqr-1.0.4.tgz#e2ea353fa81007708efab7d95b2652a7254c10dd"
+
 jsx-ast-utils@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-2.0.1.tgz#e801b1b39985e20fffc87b40e3748080e2dcac7f"
@@ -6006,6 +6010,14 @@ react-proxy@^3.0.0-alpha.0:
   dependencies:
     lodash "^4.6.1"
 
+react-qr-reader@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-qr-reader/-/react-qr-reader-2.1.0.tgz#f429c196675a710926da1cc9057223b79358da75"
+  dependencies:
+    jsqr "^1.0.1"
+    prop-types "^15.5.8"
+    webrtc-adapter "^6.1.1"
+
 react-redux@^5.0.4:
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.6.tgz#23ed3a4f986359d68b5212eaaa681e60d6574946"
@@ -6495,6 +6507,12 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^2.0.0"
     inherits "^2.0.1"
 
+rtcpeerconnection-shim@^1.2.10:
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/rtcpeerconnection-shim/-/rtcpeerconnection-shim-1.2.11.tgz#df2b2456020365daf26bf8c135523bca2deb252b"
+  dependencies:
+    sdp "^2.6.0"
+
 run-async@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-0.1.0.tgz#c8ad4a5e110661e402a7d21b530e009f25f8e389"
@@ -6535,6 +6553,10 @@ schema-utils@^0.4.5:
   dependencies:
     ajv "^6.1.0"
     ajv-keywords "^3.1.0"
+
+sdp@^2.6.0, sdp@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/sdp/-/sdp-2.7.0.tgz#02b64ea0c29d73179afa19794e466b123b1b29f3"
 
 seek-bzip@^1.0.3:
   version "1.0.5"
@@ -7700,6 +7722,13 @@ webpack@^3.8.1:
     watchpack "^1.4.0"
     webpack-sources "^1.0.1"
     yargs "^8.0.2"
+
+webrtc-adapter@^6.1.1:
+  version "6.1.5"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-6.1.5.tgz#df72e4af5cb6675656c896db0d1187695359220b"
+  dependencies:
+    rtcpeerconnection-shim "^1.2.10"
+    sdp "^2.7.0"
 
 websocket-driver@>=0.5.1:
   version "0.7.0"
