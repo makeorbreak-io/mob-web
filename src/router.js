@@ -26,7 +26,7 @@ import AccountTeam from "components/AccountTeam";
 import Team from "components/Team";
 import ParticipationCertificate from "components/ParticipationCertificate";
 import AIDashboard from "components/AIDashboard";
-import VotingBooth from "components/VotingBooth";
+// import VotingBooth from "components/VotingBooth";
 
 //
 // Admin components
@@ -72,7 +72,7 @@ const router = (
         <Route component={UserChrome}>
           <Route path="dashboard" component={Dashboard} />
           <Route path="ai-competition" component={AIDashboard} />
-          <Route path="vote" component={VotingBooth} />
+          {/*<Route path="vote" component={VotingBooth} />*/}
 
           <Route path="account">
             <Route path="team" component={AccountTeam} />
