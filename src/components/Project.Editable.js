@@ -23,16 +23,6 @@ import {
   ErrorMessage,
 } from "components/uikit";
 
-//
-// Validation
-import { composeValidators, validatePresence } from "validators";
-
-const validate = (values) => {
-  return composeValidators(
-    validatePresence("projectName", "Project name"),
-  )(values);
-};
-
 const template =
 `Your project description goes here. You can use markdown to format it.
 
@@ -194,7 +184,6 @@ export default compose(
 
   reduxForm({
     form: "project",
-    validate,
     enableReinitialize: true,
   }),
 
