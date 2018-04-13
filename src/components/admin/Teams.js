@@ -162,7 +162,7 @@ export default compose(
   setDisplayName("AdminTeams"),
 
   graphql(gql`{
-    teams(first: 1000) { edges { node { ...fullTeam } } }
+    teams(first: 1000) { edges { node { ...fullTeam repo } } }
   } ${fullTeam}`),
 
   waitForData,
