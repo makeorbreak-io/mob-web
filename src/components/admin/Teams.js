@@ -59,7 +59,7 @@ export class AdminTeams extends Component {
             render={team => (
               <tr key={team.id}>
                 <td>{team.name}</td>
-                <td>{(team.project && team.project.name)}</td>
+                <td>{team.projectName}</td>
                 <td>
                   <ul>
                   {(team.memberships.map((m, i) => (
@@ -162,7 +162,7 @@ export default compose(
   setDisplayName("AdminTeams"),
 
   graphql(gql`{
-    teams(first: 1000) { edges { node { ...fullTeam repo } } }
+    teams(first: 1000) { edges { node { ...fullTeam repo projectName } } }
   } ${fullTeam}`),
 
   waitForData,
