@@ -265,7 +265,8 @@ export default compose(
       "currentAttendance",
       "currentBot",
       "currentTeam",
-      "workshops"
+      "workshops",
+      "favorites",
     ),
   })),
 
