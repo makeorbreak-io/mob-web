@@ -49,7 +49,7 @@ export class Projects extends Component {
           <aside className="projects-notes">
             <p>This is the list of projects done in 2018 Make or Break hackathon</p>
             <p>Get to know the projects that interest you the most, and make sure to check them out at the fair!</p>
-            <p>Project categroy in list is simply the team's preferrence, and is not binding.</p>
+            <p>Project category in list is simply the team's preferrence, and is not binding.</p>
             <p>Every project is a potential winner on every category, but can only win in of the categories (to make sure 3 teams are awarded prizes).</p>
             <p>Clicking on <img /> allows you to mark a project as a favorite, but does not count as a vote. <Link to="/voting-booth">Vote here</Link> when the fair ends.</p>
           </aside>
