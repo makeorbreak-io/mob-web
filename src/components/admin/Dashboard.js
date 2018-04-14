@@ -198,6 +198,7 @@ export class Dashboard extends Component {
                         <tr key={day}>
                           <td>day {day}</td>
                           <td><Link to={`admin/bots/${day}`}>View bots</Link></td>
+                          <td><Link to={`admin/games/${day}`}>View games</Link></td>
                         </tr>
                       ))}
                     </tbody>

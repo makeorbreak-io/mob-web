@@ -39,6 +39,7 @@ import AdminWorkshops from "components/admin/Workshops";
 import AdminEditWorkshop from "components/admin/Workshops.Edit";
 import AdminBots from "components/admin/Bots";
 import AdminBotsRun from "components/admin/Bots.Run";
+import AdminGamesRun from "components/admin/Games";
 import AdminTeams from "components/admin/Teams";
 import CheckIn from "components/admin/CheckIn";
 import WorkshopCheckIn from "components/admin/WorkshopCheckIn";
@@ -105,6 +106,7 @@ const router = (
             <Route path="teams" component={AdminTeams} />
             <Route path="bots" component={AdminBots} />
             <Route path="bots/:day" component={AdminBotsRun} />
+            <Route path="games/:day" component={AdminGamesRun} />
           </Route>
         </Route>
 
