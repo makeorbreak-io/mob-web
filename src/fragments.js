@@ -101,7 +101,7 @@ export const suffrage = gql`
     votingStartedAt
     votingEndedAt
 
-    teams { id name }
+    teams { id projectName }
   }
 `;
 
