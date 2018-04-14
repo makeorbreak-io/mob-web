@@ -45,6 +45,7 @@ import CheckIn from "components/admin/CheckIn";
 import WorkshopCheckIn from "components/admin/WorkshopCheckIn";
 import PaperVotes from "components/admin/PaperVotes";
 import PrintablePaperVote from "components/admin/PaperVotes.Printable";
+import AdminAIGameViewer from "components/admin/AIGameViewer.js";
 
 //
 // Constants
@@ -107,6 +108,7 @@ const router = (
             <Route path="bots" component={AdminBots} />
             <Route path="bots/:day" component={AdminBotsRun} />
             <Route path="games/:day" component={AdminGamesRun} />
+            <Route path="ai-game-viewer" component={AdminAIGameViewer} />
           </Route>
         </Route>
 
