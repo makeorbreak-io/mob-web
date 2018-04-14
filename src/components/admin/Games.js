@@ -33,7 +33,7 @@ const WrappedViewer = compose(
 
   waitForData,
 )(props => (
-  <AIDashboardViewer data={props.data} game={props.data.game} />
+  !props.data.game.finalState.error && <AIDashboardViewer data={props.data} game={props.data.game} />
 ));
 
 export class AdminGames extends Component {
