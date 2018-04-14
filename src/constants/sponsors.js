@@ -12,6 +12,7 @@ const sponsorHapibot      = `${env.assetHost}/images/sponsor-hapibot.svg`;
 const sponsorCMP          = `${env.assetHost}/images/sponsor-cmp.svg`;
 const sponsorAlientech    = `${env.assetHost}/images/sponsor-alientech.svg`;
 const sponsorScaleUpPorto = `${env.assetHost}/images/sponsor-scale-up-porto.svg`;
+const sponsorFEUP         = `${env.assetHost}/images/sponsor-feup.svg`;
 
 export default [
   [
@@ -39,9 +40,10 @@ export default [
 
   // partners
   [
-    { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/"   , className: "scale-up"  , description: null },
-    { src: sponsorAlientech    , url: "https://www.alientech.pt/" , className: "alientech" , description: null },
-    { src: sponsorCMP          , url: "http://www.cm-porto.pt/"   , className: "cmp"       , description: null },
+    { src: sponsorScaleUpPorto , url: "http://scaleupporto.pt/"                        , className: "scale-up"  , description: null },
+    { src: sponsorFEUP         , url: "https://sigarra.up.pt/feup/pt/web_page.inicial" , className: "feup"      , description: null },
+    { src: sponsorAlientech    , url: "https://www.alientech.pt/"                      , className: "alientech" , description: null },
+    { src: sponsorCMP          , url: "http://www.cm-porto.pt/"                        , className: "cmp"       , description: null },
   ],
 ];
 
