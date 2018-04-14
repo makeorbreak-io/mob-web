@@ -208,6 +208,21 @@ $player-colors = $mob-purple, $orange, $pink, $mob-red, $mob-green
         span
           cursor: pointer
 
+  .viewer.dedicated .AIDashboardViewer
+    padding-top: 100px
+    grid-template-columns: 320px
+    grid-template-areas: "logs" \
+                         "viewer" \
+                         "nav" \
+
+    .BinaryToggle,
+    .hotkeys
+      display: none
+
+    .player-actions
+      .bot, .json, .text
+        display: none
+
   .AIDashboardViewer
     position: relative
     width: 100%

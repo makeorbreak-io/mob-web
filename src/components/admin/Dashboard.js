@@ -88,6 +88,10 @@ export class Dashboard extends Component {
 
                 {/*------------------------------------------------------------ AI Competition daily runs */}
                 <div className="section fullwidth">
+                  <h2><Link to="admin/ai-game-viewer">AI Competition Dedicated Viewer</Link></h2>
+                </div>
+
+                <div className="section fullwidth">
                   <h2>AI Competition Daily Runs</h2>
 
                   <ul className="stats">
