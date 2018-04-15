@@ -149,8 +149,8 @@ export class PaperVotes extends Component {
       value: user.id,
     }));
 
-    const teamOptions = orderBy(teams, [ "name" ], [ "asc" ]).map(team => ({
-      label: team.name,
+    const teamOptions = orderBy(teams, [ "projectName" ], [ "asc" ]).map(team => ({
+      label: team.projectName,
       value: team.id,
     }));
 
