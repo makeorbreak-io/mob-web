@@ -26,6 +26,7 @@ import { Button, Modal } from "components/uikit";
 import { getInviteToSlack } from "api/slack";
 
 import { sortedWorkshops } from "lib/workshops";
+import { download } from "lib/browser";
 
 export class Dashboard extends Component {
 
@@ -34,6 +35,7 @@ export class Dashboard extends Component {
     teamDisclaimer: false,
     slackError: null,
     selectedWorkshop: null,
+    revealVoterIdentity: false,
   }
 
   //----------------------------------------------------------------------------
@@ -62,15 +64,16 @@ export class Dashboard extends Component {
   }
 
   setSelectedWorkshop = (selectedWorkshop) => this.setState({ selectedWorkshop });
+  revealVoterIdentity = () => this.setState({ revealVoterIdentity: true });
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { data: { me, workshops }, notifications } = this.props;
+    const { data: { me, workshops, infoStart, infoEnd }, notifications } = this.props;
     const team = me.currentTeam;
 
-    const { teamDisclaimer, applying, slackError, selectedWorkshop } = this.state;
+    const { teamDisclaimer, applying, slackError, selectedWorkshop, revealVoterIdentity } = this.state;
     const currentWorkshop = workshops.find(w => w.slug === selectedWorkshop);
 
     return (
@@ -82,6 +85,19 @@ export class Dashboard extends Component {
             <hr />
           </Fragment>
         }
+
+        <h2>Voting</h2>
+        <div className="voting">
+          {!revealVoterIdentity && <Button primary small onClick={this.revealVoterIdentity}>Reveal Voter Identity</Button>}
+          {revealVoterIdentity && <span>Voter Identity: { me.currentAttendance.voterIdentity }</span>}
+
+          <div>
+            <Button primary small onClick={() => download("info_start.json", infoStart)}>Download Voting Info (start)</Button>
+            <Button primary small onClick={() => download("info_end.json", infoEnd)}>Download Voting Info (end)</Button>
+          </div>
+        </div>
+
+        <hr />
 
         <Team editable id={team && team.id} />
         <div className="team">
@@ -201,6 +217,8 @@ export default compose(
   graphql(gql`{
     me { ...fullUser }
     workshops { ...workshop }
+    infoStart
+    infoEnd
   } ${fullUser} ${workshop}`),
 
   waitForData,

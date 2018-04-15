@@ -110,15 +110,18 @@ export class VotingBooth extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { data: { suffrages } , handleSubmit, valid, formValues } = this.props;
+    const { data: { suffrages, me } , handleSubmit, valid, formValues } = this.props;
+
+    const myFavorites = me.favorites.map(f => f.teamId);
 
     const options = (slug) => (
       suffrages
       .find(s => s.slug === slug)
       .teams
       .map(team => ({
-        label: `${team.name}`,
+        label: team.projectName,
         value: team.id,
+        className: myFavorites.includes(team.id) ? "favorite" : "",
       }))
     );
 
@@ -216,7 +219,11 @@ export default compose(
   })),
 
   graphql(gql`{
-    me { id currentTeam { id } role }
+    me {
+      id
+      currentTeam { id }
+      favorites { id teamId }
+    }
 
     suffrages { ...suffrage }
     votes { ...vote }

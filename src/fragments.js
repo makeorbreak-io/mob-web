@@ -18,7 +18,7 @@ export const fullUser = gql`
     role
     gravatarHash
 
-    currentAttendance { id checkedIn }
+    currentAttendance { id checkedIn voterIdentity }
 
     currentTeam {
       id
@@ -101,7 +101,7 @@ export const suffrage = gql`
     votingStartedAt
     votingEndedAt
 
-    teams { id name }
+    teams { id projectName }
   }
 `;
 
