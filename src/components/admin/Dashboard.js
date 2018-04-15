@@ -117,7 +117,7 @@ export class Dashboard extends Component {
 
                 {/*------------------------------------------------------------ Voting categories / suffrages */}
                 <div className="section two-thirds">
-                  <h2>Hackathon</h2>
+                  <h2>Hackathon (<Link to="/admin/missing-voters">Missing voters</Link>)</h2>
                   <AdminSuffrages />
                 </div>
 

@@ -35,6 +35,7 @@ import EditableProject from "components/Project.Editable";
 // Admin components
 import AdminDashboard from "components/admin/Dashboard";
 import AdminUsers from "components/admin/Users";
+import AdminMissingVoters from "components/admin/MissingVoters";
 import AdminWorkshops from "components/admin/Workshops";
 import AdminEditWorkshop from "components/admin/Workshops.Edit";
 import AdminBots from "components/admin/Bots";
@@ -102,6 +103,7 @@ const router = (
 
             {/* Analytics */}
             <Route path="users" component={AdminUsers} />
+            <Route path="missing-voters" component={AdminMissingVoters} />
             <Route path="workshops" component={AdminWorkshops} />
             <Route path="workshops/:slug" component={AdminEditWorkshop} />
             <Route path="teams" component={AdminTeams} />
