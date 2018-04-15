@@ -18,7 +18,7 @@ export const fullUser = gql`
     role
     gravatarHash
 
-    currentAttendance { id checkedIn }
+    currentAttendance { id checkedIn voterIdentity }
 
     currentTeam {
       id
