@@ -50,9 +50,12 @@ export class Signup extends Component {
       variables: { email: email.trim().toLowerCase(), password },
     })
     .then(response => {
-      localStorage["jwt"] = response.data.register;
-      data.refetch();
-      router.push("/welcome");
+      localStorage.setItem("jwt", response.data.register);
+
+      data
+      .refetch()
+      .then(() => router.push("/welcome"));
+
       return null;
     })
     .catch(handleGraphQLErrors);

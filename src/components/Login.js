@@ -39,9 +39,12 @@ export class Login extends Component {
       variables: { email: email.trim().toLowerCase(), password },
     })
     .then(response => {
-      localStorage["jwt"] = response.data.authenticate;
-      data.refetch();
-      router.push("/dashboard");
+      localStorage.setItem("jwt", response.data.authenticate);
+
+      data
+      .refetch()
+      .then(() => router.push("/dashboard"));
+
       return null;
     })
     .catch(handleGraphQLErrors);

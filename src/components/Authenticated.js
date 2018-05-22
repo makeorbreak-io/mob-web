@@ -6,6 +6,14 @@ import { withCurrentUser, waitForData } from "enhancers";
 
 export const Authenticated = ({ data: { me }, children }) => (me ? children : <div />);
 
+const redirect = (props) => {
+  const { data: { me }, router } = props;
+  const { pathname } = window.location;
+
+  if (!me) router.push("/");
+  if (me && !me.dataUsageConsent && pathname !== "/welcome") router.push("/welcome");
+};
+
 export default compose(
   setDisplayName("Authenticated"),
 
@@ -16,15 +24,11 @@ export default compose(
 
   lifecycle({
     componentWillMount() {
-      const { data: { me }, router } = this.props;
-
-      if (!me) router.push("/");
+      redirect(this.props);
     },
 
     componentWillReceiveProps(nextProps) {
-      const { data: { me }, router } = nextProps;
-
-      if (!me) router.push("/");
+      redirect(nextProps);
     },
   }),
 )(Authenticated);

@@ -1,13 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { compose, setDisplayName } from "recompose";
 import { reduxForm, Field, getFormValues } from "redux-form";
-import { Link, withRouter } from "react-router";
+import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { get, isEmpty } from "lodash";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
-import { withCurrentUser, waitForData } from "enhancers";
+import { withCurrentUser, waitForData, multistep } from "enhancers";
 
 import { fullTeam } from "fragments";
 
@@ -39,22 +39,19 @@ export class UserOnboardingInvites extends Component {
   }
 
   onSubmit = (values) => {
-    const { invite, router, data: { me } } = this.props;
+    const { invite, data: { me }, next } = this.props;
 
     return invite({
       variables: { id: me.currentTeam.id, emails: values.members.map(m => m.value) },
     })
-    .then(() => {
-      router.push("/dashboard");
-      return null;
-    })
+    .then(next)
     .catch(handleGraphQLErrors);
   }
 
   updateMultipleSelected = (ev) => this.setState({ multipleSelected: !isEmpty(ev[1]) })
 
   render() {
-    const { data: { me }, handleSubmit, submitting, valid, formValues } = this.props;
+    const { data: { me }, handleSubmit, submitting, valid, formValues, next } = this.props;
     const team = me.currentTeam;
     const { multipleSelected } = this.state;
 
@@ -63,7 +60,7 @@ export class UserOnboardingInvites extends Component {
       : false;
 
     return (
-      <div className="UserOnboarding invites">
+      <Fragment>
         <h1>Get the ball rolling</h1>
         <h5>
           Start by adding all of your team members to your "{get(me, "currentTeam.name")}" team.
@@ -100,16 +97,31 @@ export class UserOnboardingInvites extends Component {
             Invite {multipleSelected ? "members" : "member"}
           </Button>
 
-          <Link to="/dashboard">
-            <Button form centered fullwidth primary hollow>
-              Skip this step
-            </Button>
-          </Link>
+          {!isEmpty(team.memberships) && <label>Members</label>}
+          <ul className="Members">
+            {team.memberships.map(({ user }) => (
+              <li className="Member" key={user.id}>
+                {user.displayName}
+              </li>
+            ))}
+          </ul>
+
+          {!isEmpty(team.invites) && <label>Pending Invites</label>}
+          <ul className="Invites">
+            {team.invites.map(invite => (
+              <li className="Invite" key={invite.id}>
+                {invite.displayName}
+              </li>
+            ))}
+          </ul>
+
+          <Button form centered fullwidth primary hollow onClick={next}>
+            Skip this step
+          </Button>
 
           <p className="small-notice">You can always invite more members at a later time</p>
         </form>
-
-      </div>
+      </Fragment>
     );
   }
 }
@@ -121,6 +133,10 @@ export default compose(
 
   withCurrentUser,
   waitForData,
+
+  multistep({
+    name: "user-onboarding",
+  }),
 
   reduxForm({
     form: "user-onboarding-invites",

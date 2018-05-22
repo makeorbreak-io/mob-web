@@ -51,9 +51,7 @@ export class AccountMenu extends Component {
 
         <div className="AccountMenuContent">
           <Link to="/dashboard" onClick={this.close}>Dashboard</Link>
-          <Link to="/ai-competition" onClick={this.close}>AI Competition</Link>
-          <Link to="/vote" onClick={this.close}>Vote</Link>
-          <Link to="/projects" onClick={this.close}>Projects</Link>
+          <Link to="/account/privacy" onClick={this.close}>Privacy</Link>
           {me.role === ADMIN && <Link to="/admin" onClick={this.close}>Admin</Link>}
           <Link onClick={this.handleLogout}>Logout</Link>
         </div>
