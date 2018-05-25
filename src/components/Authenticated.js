@@ -11,7 +11,7 @@ const redirect = (props) => {
   const { pathname } = window.location;
 
   if (!me) router.push("/");
-  if (me && !me.dataUsageConsent && pathname !== "/welcome") router.push("/welcome");
+  if (me && !localStorage.getItem("checked-privacy") && pathname !== "/welcome") router.push("/welcome");
 };
 
 export default compose(

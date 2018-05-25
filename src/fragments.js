@@ -11,6 +11,8 @@ export const fullUser = gql`
     role
     gravatarHash
     dataUsageConsent
+    spamConsent
+    shareConsent
 
     currentAttendance { id checkedIn voterIdentity }
 
