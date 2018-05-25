@@ -61,6 +61,7 @@ export const ADD_FLOW = "ADD_FLOW";
 export const REMOVE_FLOW = "REMOVE_FLOW";
 export const FLOW_NEXT_STEP = "FLOW_NEXT_STEP";
 export const FLOW_PREV_STEP = "FLOW_PREV_STEP";
+export const FLOW_SET_STEPS = "FLOW_SET_STEPS";
 export const FLOW_START = "FLOW_START";
 export const FLOW_END = "FLOW_END";
 

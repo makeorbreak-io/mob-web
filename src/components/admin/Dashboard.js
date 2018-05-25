@@ -45,10 +45,13 @@ export class Dashboard extends Component {
       <div className="AdminDashboard">
         <div className="content white">
 
+
           <Tabs>
             <Tab><span>Logistics</span></Tab>
 
             <Panel>
+              <Button large danger onClick={this.props.sendGdprEmail}>Send GDPR email</Button>
+
               <div className="Stats">
 
                 {/*------------------------------------------------------------ Check in */}
@@ -253,6 +256,13 @@ export default compose(
       performRankedAiGames(name: $name)
     }`,
     { name: "performRankedAiGames" },
+  ),
+
+  graphql(
+    gql`mutation {
+      sendGdprEmail
+    }`,
+    { name: "sendGdprEmail" },
   ),
 
   graphql(gql`{

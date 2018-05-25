@@ -7,16 +7,10 @@ export const fullUser = gql`
     name
     displayName
     tshirtSize
-    birthday
-    bio
     githubHandle
-    twitterHandle
-    linkedinUrl
-    college
-    employmentStatus
-    company
     role
     gravatarHash
+    dataUsageConsent
 
     currentAttendance { id checkedIn voterIdentity }
 
@@ -25,6 +19,8 @@ export const fullUser = gql`
       name
       applied
       accepted
+      projectName
+
       memberships { user { id displayName gravatarHash } }
       invites { id gravatarHash displayName }
     }

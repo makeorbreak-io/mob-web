@@ -1,5 +1,6 @@
-import React from "react";
-import { compose, setDisplayName, mapProps } from "recompose";
+import React, { Component } from "react";
+import { func } from "prop-types";
+import { compose, setDisplayName, setPropTypes, mapProps } from "recompose";
 import { reduxForm, Field } from "redux-form";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
@@ -13,6 +14,7 @@ import { fullUser } from "fragments";
 import {
   Button,
   ErrorMessage,
+  BinaryToggle,
 } from "components/uikit";
 
 //
@@ -20,59 +22,81 @@ import {
 import { composeValidators, validatePresence } from "validators";
 
 const validate = composeValidators(
-  validatePresence("first_name", "First name"),
-  validatePresence("last_name", "Last name"),
-  validatePresence("tshirt_size", "T-Shirt size"),
+  validatePresence("name", "Name"),
+  validatePresence("tshirtSize", "T-Shirt size"),
 );
 
 //
 // constants
 import { TSHIRT_SIZES } from "constants/user";
 
-export const UserOnboardingName = ({
-  updateMe,
-  handleSubmit,
-  submitting,
-  next,
-}) => {
-  const submitHandler = (user) => updateMe({ variables: { user } }).then(next);
+export class UserOnboardingName extends Component {
 
-  return (
-    <div className="UserOnboarding name">
-      <h1>Welcome to Make or Break</h1>
-      <h5>You'll be setting your hackathon project soon. We just need some basic information to get started.</h5>
+  updateMe = (user) => {
+    const { updateMe, next } = this.props;
 
-      <form onSubmit={handleSubmit(submitHandler)}>
-        <label htmlFor="name">Name</label>
-        <Field id="name" name="name" component="input" type="text" placeholder="Type your name" className="fullwidth" />
+    return updateMe({ variables: { user } }).then(next);
+  }
 
-        <label htmlFor="tshirtSize">T-Shirt Size</label>
-        <Field id="tshirtSize" name="tshirtSize" component="select" className="fullwidth">
-          <option value="" disabled>Choose your t-shirt size</option>
-          {TSHIRT_SIZES.map(size =>
-            <option key={size} value={size}>{size}</option>
-          )}
-        </Field>
-        <ErrorMessage form="user-onboarding-name" field="tshirtSize" />
+  render() {
+    const { handleSubmit, submitting, setHackathonParticipant, data: { me } } = this.props;
 
-        <Button
-          type="submit"
-          disabled={submitting}
-          loading={submitting}
-          primary hollow form centered fullwidth
-        >
-          Continue
-        </Button>
-      </form>
-    </div>
-  );
-};
+    return (
+      <div className="UserOnboarding name">
+        <h1>Welcome to Make or Break</h1>
+
+        <form onSubmit={handleSubmit(this.updateMe)}>
+          <label htmlFor="email">email</label>
+          <Field id="email" name="email" component="input" type="text" placeholder="Type your email" className="fullwidth" disabled />
+
+          <label htmlFor="name">Name</label>
+          <Field id="name" name="name" component="input" type="text" placeholder="Type your name" className="fullwidth" />
+
+          <label htmlFor="tshirtSize">T-Shirt Size</label>
+          <Field id="tshirtSize" name="tshirtSize" component="select" className="fullwidth">
+            <option value="" disabled>Choose your t-shirt size</option>
+            {TSHIRT_SIZES.map(size =>
+              <option key={size} value={size}>{size}</option>
+            )}
+          </Field>
+          <ErrorMessage form="user-onboarding-name" field="tshirtSize" />
+
+          <label className="hackathon-participant clearfix">
+            <span>
+              I am interested in participating in the Make or Break hackahton
+            </span>
+            <BinaryToggle
+              options={[
+                { label: "yes", value: true },
+                { label: "no", value: false },
+              ]}
+              defaultSelected={me.currentTeam ? 0 : 1}
+              onChange={setHackathonParticipant}
+            />
+          </label>
+
+          <Button
+            type="submit"
+            disabled={submitting}
+            loading={submitting}
+            primary hollow form centered fullwidth
+          >
+            Continue
+          </Button>
+        </form>
+      </div>
+    );
+  }
+}
 
 export default compose(
   setDisplayName("UserOnboardingName"),
 
-  withCurrentUser,
+  setPropTypes({
+    setHackathonParticipant: func.isRequired,
+  }),
 
+  withCurrentUser,
   waitForData,
 
   mapProps(props => {

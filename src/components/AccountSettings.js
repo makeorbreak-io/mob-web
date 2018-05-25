@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { compose, mapProps, setDisplayName } from "recompose";
 import { Field, reduxForm } from "redux-form";
-import { map, omit } from "lodash";
+import { omit } from "lodash";
 import classnames from "classnames";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
@@ -22,13 +22,11 @@ import {
 
 //
 // Constants
-import { EMPLOYMENT_STATUS } from "constants/account_settings";
 import { DATE_FORMAT } from "constants/date";
 import { TSHIRT_SIZES } from "constants/user";
 
 //
 // Util
-import { formatDate } from "lib/date";
 import { handleGraphQLErrors } from "lib/graphql";
 
 //
@@ -131,47 +129,11 @@ export class AccountSettings extends Component {
               <ErrorMessage form="account-settings" field="tshirtSize" />
             </div>
 
-            <div className="form-row">
-              <label htmlFor="birthday">Birthday</label>
-              <Field id="birthday" name="birthday" component="input" type="text" placeholder={DATE_FORMAT} className="fullwidth" format={formatDate} autoComplete="off" disabled={!editing} />
-              <ErrorMessage form="account-settings" field="birthday" />
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="bio">Short Bio</label>
-              <Field id="bio" name="bio" component="textarea" placeholder="Bio" className="fullwidth" disabled={!editing} />
-              <ErrorMessage form="account-settings" field="bio" />
-            </div>
-
             {/* Social Media */}
             <div className="form-row">
-              <label htmlFor="githubHandle">Social Media</label>
+              <label htmlFor="githubHandle">GitHub</label>
               <Field id="githubHandle" name="githubHandle" component="input" type="text" placeholder="Github handle" className="fullwidth icon github" disabled={!editing} />
               <ErrorMessage form="account-settings" field="githubHandle" />
-
-              <Field name="twitterHandle" component="input" type="text" placeholder="Twitter handle" className="fullwidth icon twitter" disabled={!editing} />
-              <ErrorMessage form="account-settings" field="twitterHandle" />
-
-              <Field name="linkedinUrl" component="input" type="text" placeholder="Linkedin URL" className="fullwidth icon linkedin" disabled={!editing} />
-              <ErrorMessage form="account-settings" field="linkedinUrl" />
-            </div>
-
-            {/* Employment and Education */}
-            <div className="form-row">
-              <label htmlFor="college">Employment and Education</label>
-              <Field id="college" name="college" component="input" type="text" placeholder="College" className="fullwidth" disabled={!editing} />
-              <ErrorMessage form="account-settings" field="college" />
-
-              <Field name="employmentStatus" component="select" className="fullwidth" disabled={!editing}>
-                <option value="" disabled>Employment Status</option>
-                {map(EMPLOYMENT_STATUS, (label, status) =>
-                  <option key={status} value={status}>{label}</option>
-                )}
-              </Field>
-              <ErrorMessage form="account-settings" field="employment_status" />
-
-              <Field name="company" component="input" type="text" placeholder="Company" className="fullwidth" disabled={!editing} />
-              <ErrorMessage form="account-settings" field="company" />
             </div>
 
             {editing &&
@@ -205,35 +167,10 @@ export class AccountSettings extends Component {
               </Fragment>
             }
 
-            {me.birthday &&
+            {me.githubHandle &&
               <Fragment>
-                <label>Birthday</label>
-                <p>{me.birthday}</p>
-              </Fragment>
-            }
-
-            {me.bio &&
-              <Fragment>
-                <label>Bio</label>
-                <p>{me.bio}</p>
-              </Fragment>
-            }
-
-            {(me.githubHandle || me.twitterHandle || me.linkedinUrl) &&
-              <Fragment>
-                <label>Social</label>
+                <label>GitHub</label>
                 <p className="github">{me.githubHandle}</p>
-                <p className="twitter">{me.twitterHandle}</p>
-                <p className="linkedin">{me.linkedinUrl}</p>
-              </Fragment>
-            }
-
-            {(me.college || me.employmentStatus || me.company) &&
-              <Fragment>
-                <label>Employment and Education</label>
-                <p>{me.college}</p>
-                <p>{me.employmentStatus}</p>
-                <p>{me.company}</p>
               </Fragment>
             }
           </div>

@@ -5,6 +5,7 @@ import {
   REMOVE_FLOW,
   FLOW_NEXT_STEP,
   FLOW_PREV_STEP,
+  FLOW_SET_STEPS,
   FLOW_START,
   FLOW_END,
 } from "action-types";
@@ -26,8 +27,8 @@ export default function(state = {}, action) {
 
   switch (type) {
     case ADD_FLOW:
-      return { 
-        ...state, 
+      return {
+        ...state,
         ...{
           [payload.name]: {
             steps: payload.steps,
@@ -69,6 +70,15 @@ export default function(state = {}, action) {
       return {
         ...state,
         ...changeStep(steps - 1),
+      };
+
+    case FLOW_SET_STEPS:
+      return {
+        ...state,
+        [payload.name]: {
+          ...state[payload.name],
+          steps: payload.steps,
+        },
       };
 
     default:

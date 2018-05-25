@@ -18,15 +18,11 @@ import { handleGraphQLErrors } from "lib/graphql";
 // Components
 import NotificationCenter from "components/NotificationCenter";
 import Team from "components/Team";
-import Workshop from "components/Workshop";
-import { Button, Modal } from "components/uikit";
+import { Button } from "components/uikit";
 
 //
 // api actions
 import { getInviteToSlack } from "api/slack";
-
-import { sortedWorkshops } from "lib/workshops";
-import { download } from "lib/browser";
 
 export class Dashboard extends Component {
 
@@ -35,7 +31,6 @@ export class Dashboard extends Component {
     teamDisclaimer: false,
     slackError: null,
     selectedWorkshop: null,
-    revealVoterIdentity: false,
   }
 
   //----------------------------------------------------------------------------
@@ -64,17 +59,25 @@ export class Dashboard extends Component {
   }
 
   setSelectedWorkshop = (selectedWorkshop) => this.setState({ selectedWorkshop });
-  revealVoterIdentity = () => this.setState({ revealVoterIdentity: true });
+
+  deleteAccount = () => {
+    const { data, deleteAccount } = this.props;
+
+    deleteAccount()
+    .then(() => {
+      delete localStorage["jwt"];
+      data.refetch();
+    });
+  }
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { data: { me, workshops, infoStart, infoEnd }, notifications } = this.props;
+    const { data: { me }, notifications } = this.props;
     const team = me.currentTeam;
 
-    const { teamDisclaimer, applying, slackError, selectedWorkshop, revealVoterIdentity } = this.state;
-    const currentWorkshop = workshops.find(w => w.slug === selectedWorkshop);
+    const { teamDisclaimer, applying, slackError } = this.state;
 
     return (
       <div className="Dashboard">
@@ -85,19 +88,6 @@ export class Dashboard extends Component {
             <hr />
           </Fragment>
         }
-
-        <h2>Voting</h2>
-        <div className="voting">
-          {!revealVoterIdentity && <Button primary small onClick={this.revealVoterIdentity}>Reveal Voter Identity</Button>}
-          {revealVoterIdentity && <span>Voter Identity: { me.currentAttendance.voterIdentity }</span>}
-
-          <div>
-            <Button primary small onClick={() => download("info_start.json", infoStart)}>Download Voting Info (start)</Button>
-            <Button primary small onClick={() => download("info_end.json", infoEnd)}>Download Voting Info (end)</Button>
-          </div>
-        </div>
-
-        <hr />
 
         <Team editable id={team && team.id} />
         <div className="team">
@@ -129,6 +119,7 @@ export class Dashboard extends Component {
         </div>
 
         <hr />
+
         <h2 className="with-actions">
           <div className="title">Hackathon project </div>
           <div className="actions">
@@ -137,47 +128,6 @@ export class Dashboard extends Component {
             </Link>
           </div>
         </h2>
-
-        <hr />
-
-        <h2 className="with-actions">
-          <div className="title">AI Competition </div>
-          <div className="actions">
-            <Link to="/ai-competition">
-              <Button primary small>Go to AI competition dashboard</Button>
-            </Link>
-          </div>
-        </h2>
-        <h3><a href="https://github.com/makeorbreak-io/mob-ai/blob/master/RULES.md" target="_blank" rel="noopener noreferrer">Competition Rules</a></h3>
-        {me.currentBot &&
-        <p>
-          Current bot: {me.currentBot.title} (rev. {me.currentBot.revision}) ({me.currentBot.sdk})
-        </p>
-        }
-        {!me.currentBot &&
-        <p>You are currently not participating in the AI competition. If you wish to participate, please submit at least one valid bot in the AI competition dashboard.</p>
-        }
-
-        <hr />
-
-        <h2>Workshops</h2>
-
-        <ul className="workshops">
-          {sortedWorkshops(workshops).map(workshop => (
-            <li key={workshop.slug} className="workshop" onClick={() => this.setSelectedWorkshop(workshop.slug)}>
-              <span className="date">{workshop.shortDate}</span>
-              <span className="name">{workshop.name}</span>
-              {me.workshops.map(w => w.slug).includes(workshop.slug) && <span className="tag orange">You're in!</span> }
-            </li>
-          ))}
-        </ul>
-
-        <Modal
-          isOpen={selectedWorkshop !== null}
-          title={currentWorkshop && currentWorkshop.name}
-          onRequestClose={() => this.setSelectedWorkshop(null)}>
-          <Workshop workshop={currentWorkshop} showSummary showDescription showSpeaker />
-        </Modal>
 
         <hr />
 
@@ -201,6 +151,20 @@ export class Dashboard extends Component {
             Send invite to {me.email}
           </Button>
           <p className="small-notice">{slackError}</p>
+        </div>
+
+        <hr />
+
+        <div className="danger-zone">
+          <h2>Delete your account</h2>
+
+          <Button
+            danger
+            confirmation="Really delete your account? You will not be able to recover any of your existing data."
+            onClick={this.deleteAccount}
+          >
+            Delete account
+          </Button>
         </div>
 
       </div>
@@ -228,6 +192,13 @@ export default compose(
       updateTeam(id: $id, team: $team) { ...fullTeam }
     } ${fullTeam}`,
     { name: "updateTeam" },
+  ),
+
+  graphql(
+    gql`mutation deleteAccount {
+      deleteAccount { id }
+    }`,
+    { name: "deleteAccount" },
   ),
 
   connect(({ notifications }) => ({ notifications })),

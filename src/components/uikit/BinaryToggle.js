@@ -1,18 +1,19 @@
 import React, { Component } from "react";
-import { arrayOf, shape, string, func } from "prop-types";
+import { arrayOf, shape, string, func, any, number } from "prop-types";
 import classnames from "classnames";
 
 export class BinaryToggle extends Component {
 
   state = {
-    selected: 0,
+    selected: this.props.defaultSelected || 0,
   }
 
   static propTypes = {
-    selected: string,
+    selected: any,
+    defaultSelected: number,
     options: arrayOf(shape({
       label: string.isRequired,
-      value: string.isRequired,
+      value: any.isRequired,
     })).isRequired,
     onChange: func.isRequired,
   }
