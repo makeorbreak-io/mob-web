@@ -22,7 +22,6 @@ import {
 
 //
 // Constants
-import { DATE_FORMAT } from "constants/date";
 import { TSHIRT_SIZES } from "constants/user";
 
 //
@@ -35,14 +34,12 @@ import {
   composeValidators,
   validatePresence,
   validateEmail,
-  validateDateFormat,
 } from "validators";
 
 const validate = composeValidators(
   validatePresence("name", "Name"),
   validateEmail("email", "Email"),
   validatePresence("tshirtSize", "T-Shirt size"),
-  validateDateFormat("birthday", "Birthday", { format: DATE_FORMAT }),
 );
 
 export class AccountSettings extends Component {

@@ -51,6 +51,7 @@ export class UserOnboardingName extends Component {
 
           <label htmlFor="name">Name</label>
           <Field id="name" name="name" component="input" type="text" placeholder="Type your name" className="fullwidth" />
+          <ErrorMessage form="user-onboarding-name" field="name" />
 
           <label htmlFor="tshirtSize">T-Shirt Size</label>
           <Field id="tshirtSize" name="tshirtSize" component="select" className="fullwidth">

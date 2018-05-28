@@ -34,12 +34,11 @@ export class UserOnboardingPrivacy extends Component {
   }
 
   updateMe = () => {
-    const { updateMe, data: { me }, router } = this.props;
-    const { name, email, tshirtSize } = me;
+    const { updateMe, router } = this.props;
     const { dataUsageConsent, spamConsent, shareConsent } = this.state;
 
     return updateMe({
-      variables: { user: { name, email, tshirtSize, dataUsageConsent, spamConsent, shareConsent } },
+      variables: { user: { dataUsageConsent, spamConsent, shareConsent } },
     })
     .then(() => router.push("/dashboard"));
   }
