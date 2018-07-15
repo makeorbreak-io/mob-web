@@ -1,5 +1,14 @@
 import gql from "graphql-tag";
 
+export const competition = gql`
+  fragment competition on Competition {
+    id
+    name
+    status
+    isDefault
+  }
+`;
+
 export const fullUser = gql`
   fragment fullUser on User {
     id
@@ -69,6 +78,15 @@ export const aiCompetitionBot = gql`
     status
     compilationOutput
     insertedAt
+  }
+`;
+
+export const email = gql`
+  fragment email on Email {
+    id
+    name
+    subject
+    content
   }
 `;
 

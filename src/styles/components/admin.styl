@@ -1,0 +1,109 @@
+@import "variables.styl"
+
+$sidebar-width = 200px
+
+.admin--wrapper
+  width: 100%
+  min-height: "calc(100vh - %s - %s)" % ($navbar-height $footer-height)
+  display: flex
+  align-items: stretch
+  justify-content: flex-start
+  background: white;
+
+.admin--navigation
+  background: rgba(black, 0.01)
+  flex-basis: $sidebar-width
+  flex-shrink: 0
+  padding: 20px
+  border-right: 1px solid $light-grey
+
+  a, a:link, a:active, a:visited
+    text-decoration: none
+    color: black
+
+  ul
+    list-style: none
+
+    li
+      margin-bottom: 15px
+      padding: 5px 0
+      font-size: 18px
+
+      &.active
+        font-weight: bold
+
+      .icon
+        margin-right: 10px
+
+.admin--content
+  width: "calc(100vw - %s)" % $sidebar-width
+
+.admin--container
+  padding: 30px
+  min-height: 100%
+
+  h1, h2, h3, h4, h5, h6
+    text-align: left
+    margin: 0 0 30px
+
+  .data-table
+    margin-bottom: 30px
+
+// page-specific styles
+.admin--dashboard
+  display: flex
+  align-items: flex-start
+  justify-content: flex-start
+
+.admin--dashboard--card
+  margin-right: 20px;
+  border: 1px solid #e0e0e0
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  flex-basis: 300px
+
+  .icon
+    background-color: darken(#e0e0e0, 5%)
+    background-position: center center
+    background-size: 36px 36px
+    flex-basis: 70px
+    height: 70px
+    flex-shrink: 0
+
+  span
+    display: block
+    height: 70px
+    line-height: 68px
+    font-size: 30px
+    font-weight: 600
+    padding-left: 20px
+
+.admin--workshops--new
+.admin--workshops--edit
+.admin--emails--new
+.admin--emails--edit
+  padding: 0 20px
+  display: flex
+  align-items: flex-start
+  justify-content: space-between
+
+  h3
+    text-align: left
+
+  > div
+    flex-basis: calc(50% - 10px)
+
+.admin--workshops--new
+.admin--emails--new
+  margin-top: 60px
+  border: 1px solid #e0e0e0
+
+.admin--suffrages
+  ul li
+    margin-bottom: 20px
+    padding: 20px
+    border-bottom: 1px solid $light-grey
+
+    &.competition--default
+      background: rgba(black, 0.04)

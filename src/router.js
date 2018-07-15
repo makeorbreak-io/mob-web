@@ -29,15 +29,20 @@ import Privacy from "components/UserOnboarding.Privacy";
 
 //
 // Admin components
+import Admin from "components/Admin";
 import AdminDashboard from "components/admin/Dashboard";
 import AdminUsers from "components/admin/Users";
+import AdminTeams from "components/admin/Teams";
+import AdminCompetitions from "components/admin/Competitions";
+import AdminVoting from "components/admin/Voting";
+import AdminEmails from "components/admin/Emails";
+
 import AdminMissingVoters from "components/admin/MissingVoters";
 import AdminWorkshops from "components/admin/Workshops";
 import AdminEditWorkshop from "components/admin/Workshops.Edit";
 import AdminBots from "components/admin/Bots";
 import AdminBotsRun from "components/admin/Bots.Run";
 import AdminGamesRun from "components/admin/Games";
-import AdminTeams from "components/admin/Teams";
 import CheckIn from "components/admin/CheckIn";
 import WorkshopCheckIn from "components/admin/WorkshopCheckIn";
 import PaperVotes from "components/admin/PaperVotes";
@@ -50,14 +55,16 @@ import { PAGE_TRANSITION_MS } from "constants/globals";
 
 //
 //
-const wait = (milis) => (prevState, nextState, replace, cb) => {
-  if (prevState.location.pathname !== nextState.location.pathname) {
-    setTimeout(cb, milis);
-  }
-  else {
-    cb();
-  }
-};
+// const wait = (milis) => (prevState, nextState, replace, cb) => {
+//   if (prevState.location.pathname !== nextState.location.pathname) {
+//     setTimeout(cb, milis);
+//   }
+//   else {
+//     cb();
+//   }
+// };
+
+const wait = () => () => {};
 
 const router = (
   <Router history={browserHistory}>
@@ -82,20 +89,24 @@ const router = (
 
         {/* Admin routes */}
         <Route component={Authorized}>
-          <Route path="admin">
-            <IndexRoute component={AdminDashboard} />
+          <Route path="admin" component={Admin}>
+            <IndexRoute redirectTo="/admin/dashboard" />
 
-            {/* Logistics */}
+            <Route path="dashboard" component={AdminDashboard} />
+            <Route path="users" component={AdminUsers} />
+            <Route path="teams" component={AdminTeams} />
+            <Route path="competitions" component={AdminCompetitions} />
+            <Route path="voting" component={AdminVoting} />
+            <Route path="workshops" component={AdminWorkshops} />
+            <Route path="workshops/:slug" component={AdminEditWorkshop} />
+            <Route path="emails" component={AdminEmails} />
+            <Route path="emails/:id" component={AdminEmails} />
+
             <Route path="checkin" component={CheckIn} />
             <Route path="checkin/workshop/:slug" component={WorkshopCheckIn} />
             <Route path="paper-votes" component={PaperVotes} />
 
-            {/* Analytics */}
-            <Route path="users" component={AdminUsers} />
             <Route path="missing-voters" component={AdminMissingVoters} />
-            <Route path="workshops" component={AdminWorkshops} />
-            <Route path="workshops/:slug" component={AdminEditWorkshop} />
-            <Route path="teams" component={AdminTeams} />
             <Route path="bots" component={AdminBots} />
             <Route path="bots/:day" component={AdminBotsRun} />
             <Route path="games/:day" component={AdminGamesRun} />

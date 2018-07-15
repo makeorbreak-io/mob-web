@@ -10,7 +10,7 @@ import Footer from "components/Footer";
 import { Toaster } from "components/uikit";
 
 // Constants
-import { PAGE_TRANSITION_MS } from "constants/globals";
+// import { PAGE_TRANSITION_MS } from "constants/globals";
 
 export class App extends Component {
   state = {
@@ -19,14 +19,14 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    this.props.router.listen((location) => {
-      const { lastPathname } = this.state;
-      if (lastPathname !== location.pathname) {
-        this.setState({ routeChanging: true });
-        setTimeout(() => this.setState({ routeChanging: false }), PAGE_TRANSITION_MS);
-      }
-      this.setState({ lastPathname: location.pathname });
-    });
+    // this.props.router.listen((location) => {
+    //   const { lastPathname } = this.state;
+    //   if (lastPathname !== location.pathname) {
+    //     this.setState({ routeChanging: true });
+    //     setTimeout(() => this.setState({ routeChanging: false }), PAGE_TRANSITION_MS);
+    //   }
+    //   this.setState({ lastPathname: location.pathname });
+    // });
   }
 
   render() {

@@ -1,16 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { compose, setDisplayName } from "recompose";
-import { Link } from "react-router";
+// import { Link } from "react-router";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { get } from "lodash";
+import { get, every } from "lodash";
+import classnames from "classnames";
 
 import { fullTeam } from "fragments";
 import { waitForData } from "enhancers";
 
 //
 // components
-import { DataTable, Button } from "components/uikit";
+import { DataTable, CollapsibleContainer, Btn } from "components/uikit";
 
 export class AdminTeams extends Component {
 
@@ -31,12 +32,75 @@ export class AdminTeams extends Component {
     .then(() => data.refetch());
   }
 
-  setAccepted    = (id) => this.mutate("acceptTeam", { id })
-  makeEligible   = (id) => this.mutate("makeTeamEligible", { id })
-  createRepo     = (id) => this.mutate("createTeamRepo", { id })
-  disqualifyTeam = (id) => this.mutate("disqualifyTeam", { id })
-  deleteAnyTeam  = (id) => this.mutate("deleteAnyTeam", { id })
+  setAccepted    = ({ id }) => this.mutate("acceptTeam", { id })
+  makeEligible   = ({ id }) => this.mutate("makeTeamEligible", { id })
+  createRepo     = ({ id }) => this.mutate("createTeamRepo", { id })
+  disqualifyTeam = ({ id }) => this.mutate("disqualifyTeam", { id })
+  deleteAnyTeam  = ({ id }) => this.mutate("deleteAnyTeam", { id })
   removeMember   = (teamId, userId) => this.mutate("removeAnyMembership", { teamId, userId })
+
+  renderActions = (selected) => (
+    <Fragment>
+      {every(selected, team => !team.accepted) &&
+        <Btn
+          className="icon icon--small icon--check-circle"
+          confirmation={`Really accept ${selected.length} teams?`}
+          onClick={() => selected.forEach(this.setAccepted)}
+        >
+          Accept {selected.length} teams
+        </Btn>
+      }
+
+
+      {(every(selected, team => !team.applied) || every(selected, team => team.applied)) &&
+        <Btn
+          className={classnames("icon", "icon--small", {
+            "icon--thumb-up": !selected[0].applied,
+            "icon--thumb-down": selected[0].applied,
+          })}
+          confirmation={`Really ${selected[0].applied ? "de-apply" : "apply"} ${selected.length} teams?`}
+          onClick={() => selected.forEach(team => this.setApplied(team, !team.applied))}
+        >
+          {selected[0].applied ? "De-apply" : "Apply"} {selected.length} teams
+        </Btn>
+
+      }
+
+      {((every(selected, team => team.eligible || every(selected, team => !team.eligible)) &&
+        <Btn
+          className={classnames("icon", "icon--small", {
+            "icon--check": !selected[0].eligible,
+            "icon--close": selected[0].eligible,
+          })}
+          confirmation={`Really ${selected[0].eligible ? `disqualify ${selected.length} teams?` : `make ${selected.length} teams eligible for voting`}`}
+          onClick={() => selected.forEach((selected[0].eligible ? this.disqualifyTeam : this.makeTeamEligible))}
+        >
+          {selected[0].eligible
+            ? `Disqualify ${selected.length} teams`
+            : `Make ${selected.length} teams eligible`
+          }
+        </Btn>
+      ))}
+
+      {every(selected, team => !team.repo) &&
+        <Btn
+          className="icon icon--small icon--github"
+          confirmation={`Really create repos for ${selected.length} teams?`}
+          onClick={() => selected.forEach(this.setAccepted)}
+        >
+          Create {selected.length} repos
+        </Btn>
+      }
+
+      <Btn
+        className="icon icon--small icon--delete"
+        confirmation={`Really delete ${selected.length} teams?`}
+        onClick={() => selected.forEach(this.deleteAnyTeam)}
+      >
+        Delete {selected.length} teams
+      </Btn>
+    </Fragment>
+  )
 
   //----------------------------------------------------------------------------
   // Render
@@ -45,38 +109,46 @@ export class AdminTeams extends Component {
     const teams = this.props.data.teams.edges.map(e => e.node);
 
     return (
-      <div className="AdminTeams">
-        <div className="content white">
-          <div className="tools">
-            <span className="left"><Link to="/admin">← Back to Admin</Link></span>
-          </div>
-
-          <DataTable
-            source={teams}
-            search={[ "name", "projectName" ]}
-            labels={[ "Name" , "Project" , "Members" , "Invites", "Actions" ]}
-            sorter={[ "name" , null      , null      , null     , null ]}
-            render={team => (
-              <tr key={team.id}>
-                <td>{team.name}</td>
-                <td>{team.projectName}</td>
-                <td>
+      <div className="admin--container admin--teams">
+        <DataTable
+          filter
+          source={teams}
+          labels={[ "Name" , "Accepted" , "Applied" , "Eligible", "Disqualified"   , "Project"     , "Repo" , "Members" , "Invites" ]}
+          sorter={[ "name" , "accepted" , "applied" , "eligible", "isDisqualified" , "projectName" , null   , null      , null ]}
+          search={[ "name", "projectName" ]}
+          actions={this.renderActions}
+          render={(team, select) => (
+            <tr key={team.id}>
+              {select}
+              <td>{team.name}</td>
+              <td>{team.accepted.toString()}</td>
+              <td>{team.applied.toString()}</td>
+              <td>{team.eligible.toString()}</td>
+              <td>{team.isDisqualified.toString()}</td>
+              <td>{team.projectName}</td>
+              <td>{team.repo ? "Yes" : "No"}</td>
+              <td>
+                <CollapsibleContainer
+                  preview={`${team.memberships.length} members`}
+                >
                   <ul>
                   {(team.memberships.map((m, i) => (
                     <li key={i}>
                      <span>{m.user.displayName} (gh: {m.user.githubHandle})</span>
-                      <Button
-                        className="remove"
-                        small
-                        danger
+                      <Btn
+                        className="icon icon--smal icon--delete"
                         confirmation={`Remove ${m.user.displayName} from ${team.name}?`}
                         onClick={() => this.removeMember(team.id, m.user.id)}
-                      >×</Button>
+                      >Remove</Btn>
                     </li>
                   )))}
                   </ul>
-                </td>
-                <td>
+                </CollapsibleContainer>
+              </td>
+              <td>
+                <CollapsibleContainer
+                  preview={`${team.invites.length} invites`}
+                >
                   <ul>
                     {(team.invites.map(i => (
                       <li key={i.id}>
@@ -84,74 +156,11 @@ export class AdminTeams extends Component {
                       </li>
                     )))}
                   </ul>
-                </td>
-                <td className="actions">
-                  <Button
-                    danger={team.applied}
-                    primary={!team.applied}
-                    small
-                    fullwidth
-                    confirmation={`Really ${team.applied ? "remove" : "add"} ${team.name} ${team.applied ? "from" : "to"} the hackathon?`}
-                    onClick={() => this.setApplied(team.id, !team.applied)}
-                  >
-                    {team.applied ? "De-apply" : "Apply"}
-                  </Button>
-
-                  <Button
-                    primary
-                    small
-                    fullwidth
-                    confirmation={`Really accept ${team.name} in hackathon?`}
-                    disabled={team.accepted}
-                    onClick={() => this.setAccepted(team.id)}
-                  >
-                    {team.accepted ? "Accepted" : "Accept team"}
-                  </Button>
-
-                  <Button
-                    primary
-                    small
-                    fullwidth
-                    disabled={team.eligible && !team.disqualifiedAt}
-                    onClick={() => this.makeEligible(team.id)}
-                  >
-                    Make eligible
-                  </Button>
-
-                  <Button
-                    primary
-                    small
-                    fullwidth
-                    disabled={team.repo}
-                    onClick={() => this.createRepo(team.id)}
-                  >
-                    Create github repo
-                  </Button>
-
-                  <Button
-                    danger
-                    small
-                    fullwidth
-                    disabled={team.isDisqualified}
-                    onClick={() => this.disqualifyTeam(team.id)}
-                  >
-                    Disqualify
-                  </Button>
-
-                  <Button
-                    danger
-                    small
-                    fullwidth
-                    confirmation={`Really delete ${team.name}?`}
-                    onClick={() => this.deleteAnyTeam(team.id)}
-                  >
-                    Delete Team
-                  </Button>
-                </td>
-              </tr>
-            )}
-          />
-        </div>
+                </CollapsibleContainer>
+              </td>
+            </tr>
+          )}
+        />
       </div>
     );
   }
