@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from "react";
-import { compose, setDisplayName } from "recompose";
+import { compose, setDisplayName, withState } from "recompose";
 // import { Link } from "react-router";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { get, every } from "lodash";
 import classnames from "classnames";
 
-import { fullTeam } from "fragments";
+import { fullTeam, competition } from "fragments";
 import { waitForData } from "enhancers";
 
 //
@@ -14,6 +14,12 @@ import { waitForData } from "enhancers";
 import { DataTable, CollapsibleContainer, Btn } from "components/uikit";
 
 export class AdminTeams extends Component {
+
+  componentDidMount() {
+    const { data: { competitions }, competitionId, setCompetitionId } = this.props;
+
+    if (!competitionId) setCompetitionId(competitions.find(c => c.isDefault).id);
+  }
 
   mutate = (name, variables) => {
     const { data } = this.props;
@@ -23,7 +29,7 @@ export class AdminTeams extends Component {
     .then(() => data.refetch());
   }
 
-  setApplied = (id, applied) => {
+  setApplied = ({ id }, applied) => {
     const { applyTeamToHackathon, deapplyTeamFromHackathon, data } = this.props;
 
     const func = !applied ? deapplyTeamFromHackathon : applyTeamToHackathon;
@@ -73,7 +79,7 @@ export class AdminTeams extends Component {
             "icon--close": selected[0].eligible,
           })}
           confirmation={`Really ${selected[0].eligible ? `disqualify ${selected.length} teams?` : `make ${selected.length} teams eligible for voting`}`}
-          onClick={() => selected.forEach((selected[0].eligible ? this.disqualifyTeam : this.makeTeamEligible))}
+          onClick={() => selected.forEach((selected[0].eligible ? this.disqualifyTeam : this.makeEligible))}
         >
           {selected[0].eligible
             ? `Disqualify ${selected.length} teams`
@@ -106,10 +112,25 @@ export class AdminTeams extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const teams = this.props.data.teams.edges.map(e => e.node);
+    const { data: { competitions, competition }, competitionId, setCompetitionId } = this.props;
+    const teams = competitionId ? competition.teams : [];
 
     return (
       <div className="admin--container admin--teams">
+        <div className="admin--container--header">
+          <h3>
+            Competition:
+            <select value={competitionId} onChange={ev => setCompetitionId(ev.target.value)}>
+              <option value="" disabled>Choose a competition</option>
+              {competitions.map(competition => (
+                <option key={competition.id} value={competition.id}>
+                  {competition.name}{competition.isDefault && " (default)"}
+                </option>
+              ))}
+            </select>
+          </h3>
+        </div>
+
         <DataTable
           filter
           source={teams}
@@ -167,12 +188,26 @@ export class AdminTeams extends Component {
 
 }
 
+
 export default compose(
   setDisplayName("AdminTeams"),
 
-  graphql(gql`{
-    teams(first: 1000) { edges { node { ...fullTeam repo projectName } } }
-  } ${fullTeam}`),
+  withState("competitionId", "setCompetitionId", ""),
+
+  graphql(
+    gql`query teams($competitionId: String!, $skip: Boolean!) {
+      competitions { ...competition }
+      competition(id: $competitionId) @skip(if: $skip) { id teams { ...fullTeam } }
+    } ${competition} ${fullTeam}`,
+    {
+      options: ({ competitionId }) => ({
+        variables: {
+          competitionId,
+          skip: !competitionId,
+        },
+      }),
+    },
+  ),
 
   waitForData,
 
