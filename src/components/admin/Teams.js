@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 import { get, every } from "lodash";
 import classnames from "classnames";
 
-import { fullTeam } from "fragments";
+import { fullTeam, competition } from "fragments";
 import { waitForData } from "enhancers";
 
 //
@@ -14,6 +14,19 @@ import { waitForData } from "enhancers";
 import { DataTable, CollapsibleContainer, Btn } from "components/uikit";
 
 export class AdminTeams extends Component {
+
+  // Lifecycle
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedCompetition: props.data.competitions[0],
+    }
+
+    props.data.refetch({
+      competitionId: this.state.selectedCompetition.id,
+      selectedCompetition: true,
+    });
+  }
 
   mutate = (name, variables) => {
     const { data } = this.props;
@@ -106,10 +119,22 @@ export class AdminTeams extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const teams = this.props.data.teams.edges.map(e => e.node);
+    // const teams = this.props.data.teams.edges.map(e => e.node);
+    const teams = [];
 
     return (
       <div className="admin--container admin--teams">
+        <div>
+          Viewing teams for competition:
+          <select>
+            {this.props.data.competitions.map(competition => (
+              <option key={competition.id} value={competition.id} selected={competition.id === this.state.selectedCompetition.id}>
+                {competition.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <DataTable
           filter
           source={teams}
@@ -167,12 +192,24 @@ export class AdminTeams extends Component {
 
 }
 
+
 export default compose(
   setDisplayName("AdminTeams"),
 
-  graphql(gql`{
-    teams(first: 1000) { edges { node { ...fullTeam repo projectName } } }
-  } ${fullTeam}`),
+  graphql(
+    gql`query teams($competitionId: String, $competitionSelected: Boolean){
+      competitions { ...competition }
+      competition(id: $competitionId) @include(if: $competitionSelected) { ...competition teams { ...fullTeam } }
+    } ${fullTeam} ${competition}`,
+    {
+      options: {
+        variables: {
+          competitionId: '',
+          competitionSelected: false,
+        },
+      },
+    },
+  ),
 
   waitForData,
 
