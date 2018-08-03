@@ -65,6 +65,10 @@ export class AdminSuffrages extends Component {
     return this.props.endSuffrageVoting({ variables: { id } });
   }
 
+  resolve = ({ id }) => {
+    return this.props.resolveSuffrage({ variables: { id } });
+  }
+
   suffragesActions = (selected) => {
     return (
       <Fragment>
@@ -88,6 +92,16 @@ export class AdminSuffrages extends Component {
           </Btn>
         )}
 
+        {every(selected, s => s.votingStartedAt && s.votingEndedAt) && (
+          <Btn
+            className="icon icon--small icon--how-to-vote"
+            confirmation={`Really calculate podiums for ${selected.map(s => s.name).join(", ")}?`}
+            onClick={() => selected.forEach(this.resolve)}
+          >
+            Resolve Votes
+          </Btn>
+        )}
+
         <Btn
           className="icon icon--small icon--delete"
           confirmation={`Really delete ${selected.map(s => s.name).join(", ")}?`}
@@ -103,8 +117,6 @@ export class AdminSuffrages extends Component {
     const { competitions } = this.props.data;
     const defaultCompetition = competitions.find(c => c.isDefault);
     const empty = true;
-
-
 
     return (
       <div className="admin--container admin--suffrages">
@@ -136,7 +148,7 @@ export class AdminSuffrages extends Component {
                       <td>{competition.slug}</td>
                       <td>{formatDate(competition.votingStartedAt)}</td>
                       <td>{formatDate(competition.votingEndedAt)}</td>
-                      <td>{competition.podium}</td>
+                      <td>{competition.podium && competition.podium.toString()}</td>
                       {edit}
                     </tr>
                   )}
@@ -197,6 +209,13 @@ export default compose(
       endSuffrageVoting(id: $id) { ...suffrage }
     } ${suffrage}`,
     { name: "endSuffrageVoting" }
+  ),
+
+  graphql(
+    gql`mutation resolveSuffrage($id: String!) {
+      resolveSuffrage(id: $id) { ...suffrage }
+    } ${suffrage}`,
+    { name: "resolveSuffrage" }
   ),
 
   graphql(
