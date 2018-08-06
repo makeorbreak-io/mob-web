@@ -43,7 +43,7 @@ import AdminEditWorkshop from "components/admin/Workshops.Edit";
 import AdminBots from "components/admin/Bots";
 import AdminBotsRun from "components/admin/Bots.Run";
 import AdminGamesRun from "components/admin/Games";
-import CheckIn from "components/admin/CheckIn";
+import AdminCheckIn from "components/admin/AdminCheckIn";
 import WorkshopCheckIn from "components/admin/WorkshopCheckIn";
 import PaperVotes from "components/admin/PaperVotes";
 import PrintablePaperVote from "components/admin/PaperVotes.Printable";
@@ -102,7 +102,7 @@ const router = (
             <Route path="emails" component={AdminEmails} />
             <Route path="emails/:id" component={AdminEmails} />
 
-            <Route path="checkin" component={CheckIn} />
+            <Route path="checkin" component={AdminCheckIn} />
             <Route path="checkin/workshop/:slug" component={WorkshopCheckIn} />
             <Route path="paper-votes" component={PaperVotes} />
 
