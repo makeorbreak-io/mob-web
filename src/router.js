@@ -17,6 +17,8 @@ import RecoverPassword from "components/RecoverPassword";
 import ResetPassword from "components/ResetPassword";
 
 import Fly from "components/Fly";
+import Workshops from "components/Workshops";
+import Workshop from "components/Workshop";
 
 //
 // Participant components
@@ -71,6 +73,8 @@ const router = (
     <Route path="/" component={App} onChange={wait(PAGE_TRANSITION_MS)}>
 
       <Route path="/fly" component={Fly} />
+      <Route path="/workshops" component={Workshops} />
+      <Route path="/workshops/:slug" component={Workshop} />
 
       <IndexRoute component={Landing} />
 
