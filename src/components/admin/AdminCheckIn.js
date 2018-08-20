@@ -17,10 +17,16 @@ export class AdminCheckIn extends Component {
     getFilteredUsers = () => {
         const { data: { users, teams }, competitionId } = this.props;
         const cleanUsers = users.edges.map(e => e.node);
+
+        if (competitionId === "") return cleanUsers;
+
         const cleanTeams = teams.edges.map(e => e.node);
 
-        const usersFilteredIds = [].concat.apply([], cleanTeams.filter(t => t.competition.id === competitionId)
-            .map(t => t.memberships.map(m => m.userId)));
+        const usersFilteredIds = [].concat.apply(
+            [],
+            cleanTeams.filter(t => t.competition.id === competitionId)
+                .map(t => t.memberships.map(m => m.userId))
+        );
 
         return cleanUsers.filter(u => usersFilteredIds.indexOf(u.id) > -1);
     }
@@ -35,6 +41,7 @@ export class AdminCheckIn extends Component {
                         Competition:
                         <select value={competitionId} onChange={ev => setCompetitionId(ev.target.value)}>
                             <option value="" disabled>Choose a competition</option>
+                            <option value="">Everyone</option>
                             {competitions.map(competition => (
                                 <option key={competition.id} value={competition.id}>
                                     {competition.name}{competition.isDefault && " (default)"}
