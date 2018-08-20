@@ -10,13 +10,23 @@ import { DataTable, CollapsibleContainer } from "components/uikit";
 export class AdminCheckIn extends Component {
     componentDidMount() {
         const { data: { competitions }, competitionId, setCompetitionId } = this.props;
-        console.log(competitions)
-        // if (!competitionId) setCompetitionId(competitions.find(c => c.isDefault).id);
+        if (!competitionId) setCompetitionId(competitions.find(c => c.isDefault).id);
+    }
+
+    // gets the users filtered based on which competition they are in
+    getFilteredUsers = () => {
+        const { data: { users, teams }, competitionId } = this.props;
+        const cleanUsers = users.edges.map(e => e.node);
+        const cleanTeams = teams.edges.map(e => e.node);
+
+        const usersFilteredIds = [].concat.apply([], cleanTeams.filter(t => t.competition.id === competitionId)
+            .map(t => t.memberships.map(m => m.userId)));
+
+        return cleanUsers.filter(u => usersFilteredIds.indexOf(u.id) > -1);
     }
 
     render() {
         const { data: { competitions }, competitionId, setCompetitionId } = this.props;
-        const users = this.props.data.users.edges.map(e => e.node);
 
         return (
             <div className="admin--container admin--teams">
@@ -25,18 +35,18 @@ export class AdminCheckIn extends Component {
                         Competition:
                         <select value={competitionId} onChange={ev => setCompetitionId(ev.target.value)}>
                             <option value="" disabled>Choose a competition</option>
-                            {/* {competitions.map(competition => (
+                            {competitions.map(competition => (
                                 <option key={competition.id} value={competition.id}>
                                     {competition.name}{competition.isDefault && " (default)"}
                                 </option>
-                            ))} */}
+                            ))}
                         </select>
                     </h3>
                 </div>
 
                 <DataTable
                     filter
-                    source={users}
+                    source={this.getFilteredUsers()}
                     labels={["Name", "Email", "Role", "Size", "Workshops", "Team", "GitHub"]}
                     mobile={[true, true, true, true, false, true, true]}
                     sorter={["displayName", "email", "role", null, null, "currentTeam.name", null]}
@@ -77,9 +87,11 @@ export default compose(
 
     graphql(
         gql`query teams($competitionId: String!, $skip: Boolean!) {
-      competitions { ...competition }
-      competition(id: $competitionId) @skip(if: $skip) { id teams { ...fullTeam } }
-    } ${competition} ${fullTeam}`,
+            users(first: 1000) { edges { node { ...fullUser } } }
+            teams(first: 1000) { edges { node { id memberships { userId } competition { id } } } }
+            competitions { ...competition }
+            competition(id: $competitionId) @skip(if: $skip) { id teams { ...fullTeam } }
+        } ${competition} ${fullTeam} ${fullUser}`,
         {
             options: ({ competitionId }) => ({
                 variables: {
@@ -92,9 +104,4 @@ export default compose(
 
     waitForData,
 
-    graphql(gql`{
-        users(first: 1000) { edges { node { ...fullUser } } }
-    } ${fullUser}`),
-
-    waitForData,
 )(AdminCheckIn);
