@@ -43,7 +43,7 @@ import AdminEditWorkshop from "components/admin/Workshops.Edit";
 import AdminBots from "components/admin/Bots";
 import AdminBotsRun from "components/admin/Bots.Run";
 import AdminGamesRun from "components/admin/Games";
-import AdminCheckIn from "components/admin/AdminCheckIn";
+import AdminCheckIn from "components/admin/CheckIn";
 import WorkshopCheckIn from "components/admin/WorkshopCheckIn";
 import PaperVotes from "components/admin/PaperVotes";
 import PrintablePaperVote from "components/admin/PaperVotes.Printable";

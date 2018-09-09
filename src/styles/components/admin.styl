@@ -11,10 +11,11 @@ $sidebar-width = 200px
   background: white;
 
 .admin--navigation
-  background: rgba(black, 0.01)
+  position: relative
+  background: rgba(black, 0.04)
   flex-basis: $sidebar-width
   flex-shrink: 0
-  padding: 20px
+  padding: 20px 0
   border-right: 1px solid $light-grey
 
   a, a:link, a:active, a:visited
@@ -23,14 +24,30 @@ $sidebar-width = 200px
 
   ul
     list-style: none
+    position: sticky
+    top: 0
 
     li
-      margin-bottom: 15px
-      padding: 5px 0
+      position: relative
+      padding: 15px 20px
       font-size: 18px
+      border-top: 1px solid transparent
+      border-bottom: @border-top
 
       &.active
         font-weight: bold
+        background: white
+        border-color: $light-grey
+
+        &:after
+          content: ""
+          display: block
+          position: absolute
+          width: 1px
+          height: 100%
+          top: 0
+          right: -1px
+          background: white
 
       .icon
         margin-right: 10px
@@ -50,40 +67,65 @@ $sidebar-width = 200px
     margin-bottom: 30px
 
 .admin--container--header
+  margin-bottom: 30px
+
   h3
     margin: 0
   select
-    margin-left: 15px;
+    margin-left: 15px
 
 // page-specific styles
+
 .admin--dashboard
-  display: flex
-  align-items: flex-start
-  justify-content: flex-start
+  display: grid
+
+  // grid-template-rows: 200px 200px
+  grid-template-columns: 1fr 1fr 1fr
+  grid-gap: 15px
 
 .admin--dashboard--card
-  margin-right: 20px;
-  border: 1px solid #e0e0e0
-  display: flex
-  align-items: center
-  justify-content: flex-start
-  flex-basis: 300px
+  position: relative
+  border: 1px solid $light-grey
+  border-radius: 3px
+  font-size: 18px
+
+  $header-height = 70px
+  .header
+    position: relative
+    height: $header-height
+    padding: 0 $header-height + 20px 0 20px
+    margin: 0
+    line-height: @height
+    font-size: @font-size
+    border-bottom: 1px solid $light-grey
+    // background: rgba(black, 0.04)
 
   .icon
-    background-color: darken(#e0e0e0, 5%)
+    position: absolute
+    right: 0
+    top: 0
+    width: $header-height
+    height: 100%
+    background-color: rgba(black, 0.04)
     background-position: center center
     background-size: 36px 36px
-    flex-basis: 70px
-    height: 70px
-    flex-shrink: 0
+    border-left: 1px solid $light-grey
 
-  span
-    display: block
-    height: 70px
-    line-height: 68px
-    font-size: 30px
-    font-weight: 600
-    padding-left: 20px
+  ul
+    li
+      display: grid
+      grid-template-columns: 1fr $header-height
+      padding: 15px 20px
+      border-bottom: 1px solid $light-grey
+
+      &:last-child
+        border-bottom: none
+
+      span
+        overflow: hidden
+        text-overflow: ellipsis
+      span:last-child
+        text-align: right
 
 .admin--workshops--new
 .admin--workshops--edit

@@ -1,13 +1,12 @@
 import React, { Component, Fragment } from "react";
-import { compose, setDisplayName, withState } from "recompose";
-// import { Link } from "react-router";
+import { compose, setDisplayName } from "recompose";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { get, every } from "lodash";
 import classnames from "classnames";
 
 import { fullTeam, competition } from "fragments";
-import { waitForData } from "enhancers";
+import { withCompetitionSelector, waitForData } from "enhancers";
 
 //
 // components
@@ -112,25 +111,10 @@ export class AdminTeams extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { data: { competitions, competition }, competitionId, setCompetitionId } = this.props;
-    const teams = competitionId ? competition.teams : [];
+    const { teams } = this.props.data.competition;
 
     return (
-      <div className="admin--container admin--teams">
-        <div className="admin--container--header">
-          <h3>
-            Competition:
-            <select value={competitionId} onChange={ev => setCompetitionId(ev.target.value)}>
-              <option value="" disabled>Choose a competition</option>
-              {competitions.map(competition => (
-                <option key={competition.id} value={competition.id}>
-                  {competition.name}{competition.isDefault && " (default)"}
-                </option>
-              ))}
-            </select>
-          </h3>
-        </div>
-
+      <div className="admin--teams">
         <DataTable
           filter
           source={teams}
@@ -203,28 +187,21 @@ export class AdminTeams extends Component {
 export default compose(
   setDisplayName("AdminTeams"),
 
-  withState("competitionId", "setCompetitionId", ""),
+  withCompetitionSelector,
 
-  graphql(
-    gql`query teams($competitionId: String!, $skip: Boolean!) {
-      competitions { ...competition }
-      competition(id: $competitionId) @skip(if: $skip) {
-        id
-        teams {
-          ...fullTeam
-          suffrages { id name }
-        }
+  graphql(gql`query teams($competitionId: String!) {
+    competition(id: $competitionId) {
+      ...competition
+
+      teams {
+        ...fullTeam
+        suffrages { id name }
       }
-    } ${competition} ${fullTeam}`,
-    {
-      options: ({ competitionId }) => ({
-        variables: {
-          competitionId,
-          skip: !competitionId,
-        },
-      }),
-    },
-  ),
+    }
+  } ${fullTeam} ${competition}`,
+  {
+    options: ({ competitionId }) => ({ variables: { competitionId } }),
+  }),
 
   waitForData,
 
