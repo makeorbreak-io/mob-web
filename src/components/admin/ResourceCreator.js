@@ -9,6 +9,7 @@ export const ResourceCreator = ({
   fields,
   handleSubmit,
   onSubmit,
+  label,
   reset,
 }) => {
   const submit = (values) => { onSubmit(values); reset(); };
@@ -33,7 +34,7 @@ export const ResourceCreator = ({
           </div>
         ))}
 
-        <Btn type="submit" className="btn btn--submit icon icon--add-circle">Create</Btn>
+        <Btn type="submit" className="btn btn--submit icon icon--add-circle">{label || "Create"}</Btn>
       </form>
     </div>
   );

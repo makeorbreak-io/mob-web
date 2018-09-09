@@ -159,6 +159,7 @@ export class AdminSuffrages extends Component {
                   fields={suffrageFields}
                   onSubmit={suffrage => this.create(suffrage, competition)}
                   validate={validate}
+                  label="Create Category"
                 />
               </CollapsibleContainer>
             </li>

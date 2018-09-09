@@ -107,6 +107,7 @@ export class AdminCompetitions extends Component {
           fields={competitionFields}
           onSubmit={this.createCompetition}
           validate={validate}
+          label="Create Competition"
         />
       </div>
     );
