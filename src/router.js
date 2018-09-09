@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Route, IndexRoute, browserHistory } from "react-router";
+import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from "react-router";
 
 //
 // Top-level components
@@ -90,7 +90,7 @@ const router = (
         {/* Admin routes */}
         <Route component={Authorized}>
           <Route path="admin" component={Admin}>
-            <IndexRoute redirectTo="/admin/dashboard" />
+            <IndexRedirect to="/admin/dashboard" />
 
             <Route path="dashboard" component={AdminDashboard} />
             <Route path="users" component={AdminUsers} />

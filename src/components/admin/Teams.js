@@ -134,8 +134,8 @@ export class AdminTeams extends Component {
         <DataTable
           filter
           source={teams}
-          labels={[ "Name" , "Accepted" , "Applied" , "Eligible", "Disqualified"   , "Project"     , "Repo" , "Members" , "Invites" ]}
-          sorter={[ "name" , "accepted" , "applied" , "eligible", "isDisqualified" , "projectName" , null   , null      , null ]}
+          labels={[ "Name" , "Accepted" , "Applied" , "Eligible", "Disqualified"   , "Project"     , "Repo" , "Categories" , "Members" , "Invites" ]}
+          sorter={[ "name" , "accepted" , "applied" , "eligible", "isDisqualified" , "projectName" , null   , null         , null      , null ]}
           search={[ "name", "projectName" ]}
           actions={this.renderActions}
           render={(team, select) => (
@@ -150,10 +150,21 @@ export class AdminTeams extends Component {
               <td>{team.repo ? "Yes" : "No"}</td>
               <td>
                 <CollapsibleContainer
+                  preview={`${team.suffrages.length} categories`}
+                >
+                  <ul>
+                    {team.suffrages.map(s =>(
+                      <li key={s.id}>{s.name}</li>
+                    ))}
+                  </ul>
+                </CollapsibleContainer>
+              </td>
+              <td>
+                <CollapsibleContainer
                   preview={`${team.memberships.length} members`}
                 >
                   <ul>
-                  {(team.memberships.map((m, i) => (
+                  {team.memberships.map((m, i) => (
                     <li key={i}>
                      <span>{m.user.displayName} (gh: {m.user.githubHandle})</span>
                       <Btn
@@ -162,7 +173,7 @@ export class AdminTeams extends Component {
                         onClick={() => this.removeMember(team.id, m.user.id)}
                       >Remove</Btn>
                     </li>
-                  )))}
+                  ))}
                   </ul>
                 </CollapsibleContainer>
               </td>
@@ -171,11 +182,11 @@ export class AdminTeams extends Component {
                   preview={`${team.invites.length} invites`}
                 >
                   <ul>
-                    {(team.invites.map(i => (
+                    {team.invites.map(i => (
                       <li key={i.id}>
                         <span>{i.displayName}</span>
                       </li>
-                    )))}
+                    ))}
                   </ul>
                 </CollapsibleContainer>
               </td>
@@ -197,7 +208,13 @@ export default compose(
   graphql(
     gql`query teams($competitionId: String!, $skip: Boolean!) {
       competitions { ...competition }
-      competition(id: $competitionId) @skip(if: $skip) { id teams { ...fullTeam } }
+      competition(id: $competitionId) @skip(if: $skip) {
+        id
+        teams {
+          ...fullTeam
+          suffrages { id name }
+        }
+      }
     } ${competition} ${fullTeam}`,
     {
       options: ({ competitionId }) => ({

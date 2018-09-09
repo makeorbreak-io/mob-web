@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { compose } from "recompose";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
+import cx from "classnames";
 
 import { competition } from "fragments";
 import { waitForData } from "enhancers";
@@ -92,7 +93,10 @@ export class AdminCompetitions extends Component {
           onUpdateSubmit={this.updateCompetition}
           fixed
           render={(competition, select, edit) => (
-            <tr key={competition.id} className={competition.status}>
+            <tr
+              key={competition.id}
+              className={cx({ status: competition.status, default: competition.isDefault })}
+            >
               {select}
               <td className="mobile">{competition.isDefault.toString()}</td>
               <td className="mobile">{competition.name}</td>
