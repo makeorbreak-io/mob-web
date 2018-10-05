@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import { compose, setDisplayName } from "recompose";
 import { Link } from "react-router";
 import { reduxForm } from "redux-form";
@@ -17,6 +18,7 @@ import {
   DataTable,
 } from "components/uikit";
 import EmailForm, { validate } from "components/admin/Emails.Form";
+import EmailTemplate from "./EmailTemplate";
 
 export class AdminEmails extends Component {
 
@@ -58,7 +60,7 @@ export class AdminEmails extends Component {
   //----------------------------------------------------------------------------
   render() {
     const emails = this.props.data.emails.edges.map(e => e.node);
-    const { handleSubmit, submitting, submitSucceeded } = this.props;
+    const { handleSubmit, submitting, submitSucceeded, formValues } = this.props;
 
     return (
       <div className="admin--container admin--emails">
@@ -91,6 +93,7 @@ export class AdminEmails extends Component {
           </div>
 
           <div className="preview">
+            <EmailTemplate email={formValues}/>
           </div>
         </div>
       </div>
@@ -106,6 +109,10 @@ export default compose(
     form: "newEmail",
     validate,
   }),
+
+  connect(state => ({
+    formValues: state.form.newEmail.values || {},
+  })),
 
   graphql(gql`{
     emails(first: 1000) { edges { node { ...email } } }
