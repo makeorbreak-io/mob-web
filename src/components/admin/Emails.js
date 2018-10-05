@@ -73,9 +73,9 @@ export class AdminEmails extends Component {
           render={(email, select) => (
             <tr key={email.id}>
               {select}
-              <td><Link to={`/admin/email/${email.id}`}>{email.name}</Link></td>
-              <td><Link to={`/admin/email/${email.id}`}>{email.subject}</Link></td>
-              <td><Link to={`/admin/email/${email.id}`}>{email.title}</Link></td>
+              <td><Link to={`/admin/emails/${email.id}`}>{email.name}</Link></td>
+              <td><Link to={`/admin/emails/${email.id}`}>{email.subject}</Link></td>
+              <td><Link to={`/admin/emails/${email.id}`}>{email.title}</Link></td>
             </tr>
           )}
         />

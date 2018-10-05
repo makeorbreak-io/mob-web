@@ -86,6 +86,7 @@ export const email = gql`
     id
     name
     subject
+    title
     content
   }
 `;

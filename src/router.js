@@ -37,6 +37,7 @@ import AdminCompetitions from "components/admin/Competitions";
 import AdminVoting from "components/admin/Voting";
 import AdminEmails from "components/admin/Emails";
 
+import AdminEditEmail from "components/admin/Emails.Edit";
 import AdminMissingVoters from "components/admin/MissingVoters";
 import AdminWorkshops from "components/admin/Workshops";
 import AdminEditWorkshop from "components/admin/Workshops.Edit";
@@ -100,7 +101,7 @@ const router = (
             <Route path="workshops" component={AdminWorkshops} />
             <Route path="workshops/:slug" component={AdminEditWorkshop} />
             <Route path="emails" component={AdminEmails} />
-            <Route path="emails/:id" component={AdminEmails} />
+            <Route path="emails/:id" component={AdminEditEmail} />
 
             <Route path="checkin" component={AdminCheckIn} />
             <Route path="checkin/workshop/:slug" component={WorkshopCheckIn} />
