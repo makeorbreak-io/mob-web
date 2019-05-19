@@ -28,12 +28,12 @@ export const EmailForm = ({
   form,
 }) => (
   <form onSubmit={handleSubmit(save)}>
-    <label htmlFor="name">Name</label>
-    <Field id="name" name="name" component="input" type="text" placeholder="Name" className="fullwidth" />
+    <label htmlFor="name">Identifier</label>
+    <Field id="name" name="name" component="input" type="text" placeholder="Identifier" className="fullwidth" />
     <ErrorMessage form={form} field="name" />
 
     <label htmlFor="subject">Subject</label>
-    <Field id="subject" name="subject" component="input" type="text" placeholder="Short Date" className="fullwidth" />
+    <Field id="subject" name="subject" component="input" type="text" placeholder="Subject" className="fullwidth" />
     <ErrorMessage form={form} field="subject" />
 
     <label htmlFor="title">Title</label>

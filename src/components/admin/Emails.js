@@ -66,9 +66,9 @@ export class AdminEmails extends Component {
       <div className="admin--container admin--emails">
         <DataTable
           source={emails}
-          labels={[ "Name" , "Subject", "Title" ]}
-          search={[ "name" , "subject", "title" ]}
-          sorter={[ "name" , "subject", "title" ]}
+          labels={[ "Identifier" , "Subject" , "Title" ]}
+          search={[ "name"       , "subject" , "title" ]}
+          sorter={[ "name"       , "subject" , "title" ]}
           actions={this.renderActions}
           render={(email, select) => (
             <tr key={email.id}>

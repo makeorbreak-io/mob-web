@@ -10,7 +10,7 @@ import Authorized from "components/Authorized";
 //
 // Public components
 import Landing from "components/Landing";
-import Dashboard from "components/Dashboard";
+import Dashboard from "components/Dashboard.UnderConstruction";
 import Login from "components/Login";
 import Signup from "components/Signup";
 import RecoverPassword from "components/RecoverPassword";
