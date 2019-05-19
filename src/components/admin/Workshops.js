@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { compose, setDisplayName } from "recompose";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
@@ -14,12 +14,8 @@ import { waitForData } from "enhancers";
 //
 // components
 import WorkshopForm, { validate } from "./Workshops.Form";
-import { Tabs, Tab, Panel } from "components/uikit/tabs";
+import { DataTable, Btn } from "components/uikit";
 import Workshop from "components/Workshop";
-
-//
-// util
-// import { sortedWorkshops } from "lib/workshops";
 
 export class AdminWorkshops extends Component {
 
@@ -29,40 +25,56 @@ export class AdminWorkshops extends Component {
   createWorkshop = (workshop) => {
     const { data, createWorkshop, reset } = this.props;
 
-    return createWorkshop({
-      variables: { workshop },
-    })
-    .then(() => reset())
-    .then(() => data.refetch());
+    return createWorkshop({ variables: { workshop } })
+    .then(() => {
+      reset();
+      data.refetch();
+    });
   }
+
+  renderActions = (selected) => (
+    <Fragment>
+      <Btn
+          className="icon icon--small icon--delete"
+          confirmation={`Really delete ${selected.length} users?`}
+          onClick={() => selected.forEach(console.log)} // eslint-disable-line
+      >
+        Delete {selected.length} workshops
+      </Btn>
+    </Fragment>
+  )
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
     const { data: { workshops }, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
+
     return (
-      <div className="AdminWorkshops">
-        <Tabs selected={0}>
-          <Tab>
-            <span>
-              <span className="left"><Link to="/admin">← Back to Admin</Link></span>
-              Workshops
-            </span>
-          </Tab>
+      <div className="admin--container">
+        <DataTable
+          filter
+          source={workshops}
+          labels={[ "Year" , "Slug" , "Name" , "Date"      , "Signed Up" , "Limit" ]}
+          sorter={[ "year" , "slug" , "name" , "shortDate" ]}
+          search={[ "year" , "slug" , "name" ]}
+          defaultSort="desc"
+          actions={this.renderActions}
+          render={(workshop, select) => (
+            <tr key={workshop.id}>
+              {select}
+              <td>{workshop.year}</td>
+              <td><Link to={`/admin/workshops/${workshop.slug}`}>{workshop.slug}</Link></td>
+              <td>{workshop.name}</td>
+              <td>{workshop.shortDate}</td>
+              <td>{workshop.attendances.length}</td>
+              <td>{workshop.participantLimit}</td>
+            </tr>
+          )}
+        />
 
-          <Panel className="clearfix">
-
-            <h3>Current workshops</h3>
-            <ul>
-            </ul>
-            {/*sortedWorkshops(workshops).map(({ slug, name, short_date }) => (*/}
-            {workshops.map(({ slug, name, shortDate }) => (
-              <li key={slug}>
-                <Link to={`/admin/workshops/${slug}`}>{name} ({shortDate})</Link>
-              </li>
-            ))}
-
+        <div className="admin--workshops--new">
+          <div>
             <h3>Create new workshop</h3>
             <WorkshopForm
               {...{ handleSubmit, submitting, submitSucceeded }}
@@ -70,22 +82,20 @@ export class AdminWorkshops extends Component {
               form="newWorkshop"
               save={this.createWorkshop}
             />
+          </div>
 
-            <div className="preview">
-              <h1>Preview</h1>
+          <div className="preview">
+            <h3>Preview</h3>
 
-              <Workshop
-                workshop={{ ...formValues, attendances: [] }}
-                showSummary
-                showDescription
-                showSpeaker
-                debug
-              />
-            </div>
-
-          </Panel>
-        </Tabs>
-
+            <Workshop
+              workshop={{ ...formValues, attendances: [] }}
+              showSummary
+              showDescription
+              showSpeaker
+              debug
+            />
+          </div>
+        </div>
       </div>
     );
   }

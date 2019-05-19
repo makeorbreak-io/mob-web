@@ -1,0 +1,32 @@
+.btn, button.btn
+  display: inline-block
+  background-color: white
+  background-position: center right 3px
+  border: 1px solid #e0e0e0
+  border-radius: 3px
+  padding: 0 22px 0 10px !important
+  height: 26px
+  line-height: 26px
+  vertical-align: middle
+  cursor: pointer
+  font: normal normal 500 14px Poppins, sans-serif
+  transition: all linear 200ms
+
+  &[disabled]
+    opacity: 0.5
+
+  &.btn--small
+    font-size: 11px
+
+  &.btn--large
+    font-size: 16px
+
+  &.btn--danger
+    background-color: $mob-red
+    border-color: $mob-red
+    color: white
+
+  // icon overrides
+  &.icon
+    &.icon--email
+      padding-right: 25px !important

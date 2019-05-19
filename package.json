@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "engines": {
-    "node": "^9.5.0"
+    "node": "^10.15.0"
   },
   "repository": "git@github.com:makeorbreak-io/mob-web.git",
   "author": "João Gradim <joao.gradim@gmail.com>",

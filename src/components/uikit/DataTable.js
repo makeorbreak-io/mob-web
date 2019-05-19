@@ -1,21 +1,36 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
-import { noop, clone, filter, isEmpty, has, reduce, orderBy, get } from "lodash";
+import { noop, clone, filter, isEmpty, has, reduce, orderBy, get, every } from "lodash";
 import classnames from "classnames";
 
-//
-// assets
-import searchImg from "assets/images/search.svg";
+import store from "store";
+import { submit } from "redux-form";
+
+// import { Btn } from "components/uikit";
+import ResourceEditor from "components/admin/ResourceEditor";
 
 export class DataTable extends Component {
 
   state = {
-    sortKey: null,
-    sortDir: null,
+    sort: this.props.sorter.reduce((all, key) => {
+      if (key) return { ...all, [key]: this.props.defaultSort };
+      else return all;
+    }, {}),
     searchVisible: false,
     query: null,
+    filterExp: null,
     filters: {},
+    selected: [],
+    editing: [],
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.source.length !== this.props.source.length) {
+      this.setState({
+        selected: this.state.selected.filter(i => nextProps.source.map(i => i.id).includes(i.id)),
+      });
+    }
   }
 
   //----------------------------------------------------------------------------
@@ -23,14 +38,10 @@ export class DataTable extends Component {
   //----------------------------------------------------------------------------
 
   // sorting
-  setSort = (newSortKey, newSortDir) => {
-    const { sortKey, sortDir } = this.state;
+  setSort = (key, dir) => {
+    const { sort } = this.state;
 
-    if (sortKey === newSortKey && sortDir === newSortDir) {
-      this.setState({ sortKey: null, sortDir: null });
-    } else {
-      this.setState({ sortKey: newSortKey, sortDir: newSortDir });
-    }
+    this.setState({ sort: { ...sort, [key]: dir } });
   }
 
   // filtering
@@ -48,30 +59,18 @@ export class DataTable extends Component {
     this.setState({ filters });
   }
 
-  // search
-  toggleSearch = () => {
-    const { searchVisible } = this.state;
-
-    this.setState({ searchVisible: !searchVisible }, () => {
-      this.state.searchVisible
-      ? this.searchInput.focus()
-      : this.searchInput.blur();
-    });
-  }
-
   handleSearchChange = (ev) => {
     this.setState({ query: ev.target.value });
-    this.forceUpdate();
+  }
+
+  handleFilterExpChange = (ev) => {
+    this.setState({ filterExp: ev.target.value });
   }
 
   handleSearchKeyDown = (ev) => {
     switch (ev.key) {
       case "Escape":
-        this.setState({ query: null, searchVisible: false });
-        break;
-
-      case "Enter":
-        this.setState({ searchVisible: false });
+        this.setState({ query: null });
         break;
 
       default:
@@ -79,12 +78,34 @@ export class DataTable extends Component {
     }
   }
 
+  toggleList = (list, item) => {
+    const items = this.state[list];
+
+    if (items.includes(item))
+      this.setState({ [list]: items.filter(i => i !== item) });
+    else
+      this.setState({ [list]: [ ...items, item ] });
+  }
+
+  toggleAllVisible = () => {
+    const items = this.sortedItems;
+    const { selected } = this.state;
+
+    const allVisibleSelected = every(items, i => selected.includes(i.id));
+    const allVisibleUnselected = every(items, i => !selected.includes(i.id));
+
+    if (allVisibleSelected)
+      this.setState({ selected: [] });
+    if (allVisibleUnselected || (!allVisibleUnselected && !allVisibleSelected))
+      this.setState({ selected: this.sortedItems.map(i => i.id) });
+  }
+
   //----------------------------------------------------------------------------
   // Helpers
   //----------------------------------------------------------------------------
   get filteredItems() {
     const { source, search } = this.props;
-    const { query, filters } = this.state;
+    const { query, filterExp, filters } = this.state;
 
     if (isEmpty(search)) return clone(source);
 
@@ -100,45 +121,133 @@ export class DataTable extends Component {
       );
 
       return isMatch && isVisible;
+    })
+    .filter((item, i) => {
+      try {
+        const cb = eval(filterExp);
+        return cb(item, i);
+      } catch(e) {
+        return true;
+      }
     });
 
   }
 
   get sortedItems() {
-    const { sortKey, sortDir } = this.state;
+    const keys = Object.keys(this.state.sort);
+    const values = Object.values(this.state.sort);
 
-    if (!sortKey) return this.filteredItems;
-
-    return orderBy(this.filteredItems, [ sortKey ], [ sortDir ]);
+    return orderBy(this.filteredItems, keys, values);
   }
+
+  selectCell = (item) => {
+    const selected = this.state.selected.includes(item.id);
+    const editing = this.state.editing.includes(item.id);
+
+    if (editing) return (<td className="select" />);
+
+    return (
+      <td className="select">
+        <span
+          onClick={() => this.toggleList("selected", item.id)}
+          className={classnames("icon", {
+            "icon--check-box-empty": !selected,
+            "icon--check-box": selected,
+          })}
+        />
+      </td>
+    );
+  }
+
+  editCell = (item) => {
+    const editing = this.state.editing.includes(item.id);
+
+    return (
+      <td className="edit">
+        <span
+          onClick={() => this.toggleList("editing", item.id)}
+          className={classnames("icon", {
+            "icon--edit": !editing,
+            "icon--cancel": editing,
+          })}
+        />
+      </td>
+    );
+  }
+
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { labels, mobile, sorter, filter, headcx, render } = this.props;
-    const { sortKey, sortDir, query, searchVisible, filters } = this.state;
+    const {
+      labels,
+      mobile,
+      sorter,
+      filter,
+      headcx,
+      render,
+      actions,
+      source,
+      sourceFields,
+      validate,
+      onUpdateSubmit,
+      editable,
+      fixed,
+    } = this.props;
 
-    const searchBarCx = classnames("search-bar", {
-      visible: searchVisible,
-    });
+    const { sort, query, filterExp, filters, selected, editing } = this.state;
+
+    const items = this.sortedItems;
+
+    const allVisibleSelected = every(items, i => selected.includes(i.id));
+    const allVisibleUnselected = every(items, i => !selected.includes(i.id));
 
     return (
-      <div className="DataTable">
-        <div className="search"><img src={searchImg} onClick={this.toggleSearch} /></div>
-        <div className={searchBarCx}>
-          <input
-            ref={input => (this.searchInput = input)}
-            type="text"
-            value={query || ""}
-            placeholder="Search table..."
-            onChange={this.handleSearchChange}
-            onKeyDown={this.handleSearchKeyDown}
-          />
+      <div className={classnames("data-table", { "data-table--fixed": fixed })}>
+        <div className="data-table--tools">
+          <div className="data-table--actions">
+            {selected.length === 0 && <span>No items selected</span>}
+            {selected.length > 0 && actions(source.filter(s => selected.includes(s.id)))}
+          </div>
+
+          <div className="data-table--search">
+            <input
+              ref={input => (this.searchInput = input)}
+              type="text"
+              value={query || ""}
+              placeholder="Search..."
+              onChange={this.handleSearchChange}
+              onKeyDown={this.handleSearchKeyDown}
+            />
+          </div>
+
+          {filter &&
+          <div className="data-table--filter-exp">
+            <input
+              type="text"
+              value={filterExp || ""}
+              placeholder={"(item, index) => true"}
+              onChange={this.handleFilterExpChange}
+            />
+          </div>
+          }
         </div>
+
         <table>
           <thead>
             <tr>
+              <th className="select">
+                <span
+                  onClick={this.toggleAllVisible}
+                  className={classnames("icon", {
+                    "icon--check-box-indeterminate": !allVisibleUnselected && !allVisibleSelected,
+                    "icon--check-box-empty": allVisibleUnselected,
+                    "icon--check-box": allVisibleSelected,
+                  })}
+                />
+              </th>
+
               {labels.map((label, i) => {
                 const s = sorter[i];
                 const f = filter[i];
@@ -152,50 +261,56 @@ export class DataTable extends Component {
 
                 return (
                   <th key={i} className={cx}>
-                    {label}
-
                     { /* sort controls */ }
                     {s && (
-                      <span className="sort-controls">
-                        <button
-                          onClick={() => this.setSort(s, "asc")}
-                          className={classnames({ selected: s === sortKey && "asc" === sortDir })}
-                        >
-                          ⬆
-                        </button>
-                        <button
-                          onClick={() => this.setSort(s, "desc")}
-                          className={classnames({ selected: s === sortKey && "desc" === sortDir })}
-                        >
-                          ⬇
-                        </button>
-                      </span>
+                      <span
+                        onClick={() => this.setSort(s, sort[s] === "asc" ? "desc" : "asc")}
+                        className={classnames("data-table--control--sort", {
+                          "icon icon--small icon--arrow-upward":   sort[s] === "asc",
+                          "icon icon--small icon--arrow-downward": sort[s] === "desc",
+                        })}
+                      />
                     )}
 
                     { /* visibility controls */ }
                     {f && (
-                      <span className="filter-controls">
-                        <button
-                          onClick={() => this.toggleFilter(f, true)}
-                          className={classnames({ selected: filters[f] === true })}
-                        >
-                          ✔
-                        </button>
-                        <button
-                          onClick={() => this.toggleFilter(f, false)}
-                          className={classnames({ selected: filters[f] === false })}
-                        >
-                          ×
-                        </button>
-                      </span>
+                      <span
+                        onClick={() => this.toggleFilter(f, !filters[f])}
+                        className={classnames("data-table--control--filter", "icon", "icon--filter-list", {
+                        })}
+                      />
                     )}
+
+                    {label}
                   </th>
                 );
               })}
+
+              {editable && <th className="edit" />}
             </tr>
           </thead>
           <tbody>
-            {this.sortedItems.map(render)}
+            {items.map(item => {
+              if (editing.includes(item.id))
+                return (
+                  <tr key={item.id}>
+                    {this.selectCell(item)}
+                    <ResourceEditor
+                      initialValues={sourceFields.reduce((all, f) => ({ ...all, [f.name]: item[f.name] }), {})}
+                      fields={sourceFields}
+                      form={`resource-editor-${item.id}`}
+                      onSubmit={values => { onUpdateSubmit(item, values); this.toggleList("editing", item.id); }}
+                      validate={validate}
+                    />
+                    <td className="edit">
+                      <span className="icon icon--save" onClick={() => store.dispatch(submit(`resource-editor-${item.id}`))} />
+                      <span className="icon icon--cancel" onClick={() => this.toggleList("editing", item.id)} />
+                    </td>
+                  </tr>
+                );
+              else
+                return render(item, this.selectCell(item), this.editCell(item));
+            })}
           </tbody>
         </table>
       </div>
@@ -212,10 +327,17 @@ export default compose(
     labels: PropTypes.arrayOf(PropTypes.string).isRequired,
     search: PropTypes.arrayOf(PropTypes.string).isRequired,
     sorter: PropTypes.arrayOf(PropTypes.string).isRequired,
-    filter: PropTypes.arrayOf(PropTypes.string).isRequired,
     headcx: PropTypes.arrayOf(PropTypes.string).isRequired,
     mobile: PropTypes.arrayOf(PropTypes.bool).isRequired,
     render: PropTypes.func.isRequired,
+    actions: PropTypes.func.isRequired,
+    validate: PropTypes.func,
+    defaultSort: PropTypes.oneOf([ "asc", "desc" ]).isRequired,
+    filter: PropTypes.bool.isRequired,
+    fixed: PropTypes.bool.isRequired,
+    editable: PropTypes.bool.isRequired,
+    sourceFields: PropTypes.array.isRequired,
+    onUpdateSubmit: PropTypes.func.isRequired,
   }),
 
   defaultProps({
@@ -223,9 +345,16 @@ export default compose(
     search: [],
     labels: [],
     sorter: [],
-    filter: [],
     headcx: [],
     mobile: [],
     render: noop,
+    actions: noop,
+    validate: noop,
+    defaultSort: "asc",
+    filter: false,
+    fixed: false,
+    editable: false,
+    sourceFields: [],
+    onUpdateSubmit: noop,
   }),
 )(DataTable);

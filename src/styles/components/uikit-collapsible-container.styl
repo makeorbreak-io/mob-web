@@ -1,0 +1,29 @@
+.collapsible-container
+  position: relative
+
+.collapsible-container--toggle,
+.collapsible-container--preview
+  cursor: pointer
+
+.collapsible-container--toggle
+    position: absolute
+    right: 10px
+    top: 0
+
+.collapsible-container--preview
+  padding-right: 30px
+
+.collapsible-container--content
+  height: 0
+  padding: 0
+  overflow: auto
+
+  ul li
+    height: 35px
+    line-height: @height
+
+.collapsible-container.expanded
+    .collapsible-container--content
+      padding: 10px 0 0 0
+      height: auto
+

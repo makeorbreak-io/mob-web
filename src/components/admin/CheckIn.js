@@ -1,104 +1,121 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { compose, setDisplayName } from "recompose";
-import { Link } from "react-router";
-import { filter, orderBy, last } from "lodash";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
+import { last, every } from "lodash";
 
-//
-// gql
-import { fullUser } from "fragments";
-import { waitForData } from "enhancers";
+import { competition, fullUser } from "fragments";
+import { withCompetitionSelector, waitForData } from "enhancers";
+import { DataTable, CollapsibleContainer, Btn } from "components/uikit";
 
-//
-// components
-import { DataTable, Button } from "components/uikit";
-
-import { sortedWorkshops } from "lib/workshops";
-
-export class CheckIn extends Component {
-
-  toggleCheckIn = (userId) => () => {
-    const { toggleUserCheckin } = this.props;
-
-    return toggleUserCheckin({ variables: { userId } });
+export class AdminCheckIn extends Component {
+  componentDidMount() {
+    const { data: { competitions }, competitionId, setCompetitionId } = this.props;
+    if (!competitionId) setCompetitionId(competitions.find(c => c.isDefault).id);
   }
 
-  render() {
-    const users = this.props.data.users.edges.map(e => e.node);
+  toggleUserCheckin = ({ id }) => {
+    const { toggleUserCheckin, data } = this.props;
+    return toggleUserCheckin({ variables: { id }})
+      .then(() => data.refetch());
+  }
 
-    const participatingUsers = filter(users, user => (user.currentTeam && user.currentTeam.applied) || (user.workshops).length > 0);
+  renderActions = (selected) => (
+    <Fragment>
+      {every(selected, user => !user.currentAttendance.checkedIn) &&
+        <Btn
+          className="icon icon--small icon--check-circle"
+          confirmation={`Really check in ${selected.length} users?`}
+          onClick={() => selected.forEach(this.toggleUserCheckin)}
+        >
+          Check in {selected.length} users
+        </Btn>
+      }
+
+      {every(selected, user => user.currentAttendance.checkedIn) &&
+        <Btn
+          className="icon icon--small icon--check-circle"
+          confirmation={`Really check out ${selected.length} users?`}
+          onClick={() => selected.forEach(this.toggleUserCheckin)}
+        >
+          Check out {selected.length} users
+        </Btn>
+      }
+    </Fragment>
+  )
+
+  render() {
+    const { data } = this.props;
+
+    const attendees = data.competition.attendances.map(a => a.attendee);
+    const users = data.users.edges.map(e => e.node).filter(user => attendees.includes(user.id));
 
     return (
-      <div className="CheckIn">
-        <div className="content white">
-          <div className="tools">
-            <span className="left"><Link to="/admin">← Back to Admin</Link></span>
-          </div>
-
-          <DataTable
-            source={orderBy(participatingUsers, [ "displayName" ], [ "asc" ])}
-            search={[ "displayName"  , "email", "currentTeam.name" ]}
-            labels={[ "Name"         , "Email" , "Size" , "Team" , "Workshops" , "GitHub" , "Actions" ]}
-            headcx={[ null           , null    , null   , null   , "workshops" , null     , "actions" ]}
-            sorter={[ "displayName"  , null    , null   , null   , null        , null     , null ]}
-            render={user => {
-              const checkedIn = (user.currentAttendance && user.currentAttendance.checkedIn) || false;
-
-              return (
-                <tr key={user.id} className={user.role}>
-                  <td>{user.displayName}</td>
-                  <td>{user.email}</td>
-                  <td>{user.tshirtSize}</td>
-                  <td>{user.currentTeam && user.currentTeam.name}</td>
-                  <td>
-                    {user.workshops && sortedWorkshops(user.workshops).map(({ slug }) => (
-                      <div key={slug}>
-                        <span className="tag purple">{slug}</span>
-                      </div>
-                    ))}
-                  </td>
-                  <td>{user.githubHandle && last(user.githubHandle.split("/"))}</td>
-                  <td className="actions">
-                    {user.currentAttendance &&
-                      <Button
-                        primary={!checkedIn}
-                        danger={checkedIn}
-                        small
-                        disableFeedback
-                        onClick={this.toggleCheckIn(user.id)}
-                        confirmation={checkedIn ? `Really remove check in for ${user.displayName}?` : null}
-                      >
-                        {checkedIn ? "⚠️ Check Out ⚠️" : "Check In"}
-                      </Button>
-                    }
-                  </td>
-                </tr>
-              );
-            }}
-          />
-        </div>
+      <div className="admin--teams">
+        <DataTable
+          filter
+          source={users}
+          labels={[ "Name"        , "Email" , "Role" , "Size" , "Workshops" , "Team"             , "GitHub" , "Checked in"]}
+          mobile={[ true          , true    , true   , true   , false       , true               , true     , true]}
+          sorter={[ "displayName" , "email" , "role" , null   , null        , "currentTeam.name" , null     , null]}
+          search={[ "displayName", "role", "tshirtSize", "currentTeam.name"]}
+          actions={this.renderActions}
+          render={(user, select) => (
+            <tr key={user.id} className={user.role}>
+              {select}
+              <td className="mobile">{user.displayName}</td>
+              <td className="mobile">{user.email}</td>
+              <td className="mobile">{user.role}</td>
+              <td className="mobile">{user.tshirtSize}</td>
+              <td className="desktop">
+                <CollapsibleContainer
+                  preview={`${user.workshops.length} workshops`}
+                >
+                  {user.workshops && user.workshops.map(({ slug }) => (
+                    <div key={slug}>
+                      <span className="tag purple">{slug}</span>
+                    </div>
+                  ))}
+                </CollapsibleContainer>
+              </td>
+              <td className="mobile">{user.currentTeam && user.currentTeam.name}</td>
+              <td className="github mobile">{last((user.githubHandle || "").split("/"))}</td>
+              <td className="mobile">{user.currentAttendance && user.currentAttendance.checkedIn.toString()}</td>
+            </tr>
+          )}
+        />
       </div>
     );
   }
-
 }
 
 export default compose(
-  setDisplayName("CheckIn"),
+  setDisplayName("AdminCheckIn"),
 
-  graphql(gql`{
-    users(first: 1000) { edges { node {
-      ...fullUser
-    } } }
-  } ${fullUser}`),
+  withCompetitionSelector,
+
+  graphql(gql`query checkIn($competitionId: String!) {
+    users(first: 1000) { edges { node { ...fullUser } } }
+
+    competition(id: $competitionId) {
+      id
+      attendances {
+        id
+        checkedIn
+        attendee
+      }
+    }
+  } ${fullUser} ${competition}`,
+  {
+    options: ({ competitionId }) => ({ variables: { competitionId }}),
+  }),
 
   waitForData,
 
   graphql(
-    gql`mutation toggleUserCheckin($userId: String!) {
-      toggleUserCheckin(userId: $userId) { ...fullUser }
+    gql`mutation toggleUserCheckin($id: String!) {
+      toggleUserCheckin(id: $id) { ...fullUser }
     } ${fullUser}`,
     { name: "toggleUserCheckin" },
   ),
-)(CheckIn);
+)(AdminCheckIn);
