@@ -1,2 +1,2 @@
-export const createAsyncAction = (actionType, req) => {
-}
+export const createAsyncAction = (_actionType, _req) => {
+};

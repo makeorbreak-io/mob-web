@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const fs = require("fs");
 const program = require("commander");
 const { last, slice, snakeCase } = require("lodash");
@@ -7,7 +9,7 @@ const stylusTemplate =
 
 .:name:
   position: relative
-`
+`;
 
 const jsTemplate =
 `import "./styles";
@@ -29,7 +31,8 @@ export class :name: extends Component {
 export default compose(
   setDisplayName(":name:"),
 )(:name:);
-`
+`;
+
 program
   .arguments("<name>")
   .action((name) => {
@@ -41,9 +44,9 @@ program
     const path = `src/components/${pathPrefix}/${snakeCase(componentName)}`;
 
     try {
-      fs.mkdirSync(path) //, (a, b, c) => console.log(a, b, c));
+      fs.mkdirSync(path);
     } catch(e) {
-      console.warn(e.message, "\n")
+      console.warn(e.message, "\n");
     }
 
     const stylesFilename = `${path}/styles.styl`;
@@ -55,7 +58,7 @@ program
       console.log(`${stylesFilename} exists, skipping`);
     }
 
-    const jsFilename = `${path}/index.js`
+    const jsFilename = `${path}/index.js`;
     try {
       const js = fs.openSync(jsFilename, mode);
       fs.writeSync(js, jsTemplate.replace(/:name:/g, componentName));
