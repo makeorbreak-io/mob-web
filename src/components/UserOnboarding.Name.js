@@ -64,7 +64,7 @@ export class UserOnboardingName extends Component {
 
           <label className="hackathon-participant clearfix">
             <span>
-              I am interested in participating in the Make or Break hackahton
+              I am interested in participating in the Make or Break hackathon
             </span>
             <BinaryToggle
               options={[
