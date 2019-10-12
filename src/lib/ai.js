@@ -220,16 +220,16 @@ const shotRange = (colors, player, origin, direction) => {
   const pos = cloneDeep(origin);
   let range = 0;
 
-  // eslint-disable-next-line no-constant-condition
+  let guard = true;
   do {
     pos[0] -= direction[0];
     pos[1] -= direction[1];
 
     if (!isValidPosition(colors, pos) || !isPlayerPosition(colors, pos, player))
-      break;
+      guard = false;
 
     range++;
-  } while (true);
+  } while (guard);
 
   return { [player]: Math.max(1, range) };
 };
