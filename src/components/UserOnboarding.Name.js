@@ -68,10 +68,10 @@ export class UserOnboardingName extends Component {
             </span>
             <BinaryToggle
               options={[
-                { label: "yes", value: true },
                 { label: "no", value: false },
+                { label: "yes", value: true },
               ]}
-              defaultSelected={me.currentTeam ? 0 : 1}
+              defaultSelected={me.currentTeam ? 1 : 0}
               onChange={setHackathonParticipant}
             />
           </label>
