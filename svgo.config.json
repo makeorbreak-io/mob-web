@@ -1,0 +1,8 @@
+{
+  "plugins": [
+    { "removeTitle": true },
+    { "removeDesc": true },
+    { "removeUselessDefs": true }
+  ]
+}
+
