@@ -1,18 +1,16 @@
 module.exports = {
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "loose": true,
-        "modules": false,
-        "targets": {
-          "browsers": [
-            "last 2 versions",
-            "safari >= 9",
-          ],
-        },
+    ["@babel/preset-env", {
+      "loose": true,
+      "modules": false,
+      "targets": {
+        "browsers": [
+          "last 2 versions",
+          "safari >= 9",
+        ],
       },
-    ],
+      "corejs": "3",
+    }],
     "@babel/preset-react",
   ],
 
