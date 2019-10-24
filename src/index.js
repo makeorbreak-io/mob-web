@@ -4,7 +4,7 @@ import "react-select/dist/react-select.css";
 import "styles/application";
 
 // shims
-import "core-js/fn/array/flat-map";
+import "core-js/es/array/flat-map";
 
 import React from "react";
 import { render } from "react-dom";
