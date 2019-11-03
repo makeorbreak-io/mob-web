@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
 import { reduxForm, Field } from "redux-form";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 //
 // components

@@ -1,8 +1,11 @@
-import React, { Component } from "react";
-import { Link } from "react-router";
-import { compose, setDisplayName } from "recompose";
+import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import { compose } from "recompose";
 import classnames from "classnames";
-import onClickOutside from "react-onclickoutside";
+
+//
+// hooks
+import useOnClickOutside from "hooks/onClickOutside";
 
 //
 // enhancers
@@ -12,59 +15,42 @@ import { withCurrentUser, waitForData } from "enhancers";
 // constants
 import { ADMIN } from "constants/roles";
 
-export class AccountMenu extends Component {
-  state = {
-    open: false,
-  }
+export const AccountMenu = ({
+  data,
+  data: { me },
+}) => {
+  const ref = useRef();
+  const [isOpen, setIsOpen] = useState(false);
 
-  //----------------------------------------------------------------------------
-  // Event handlers
-  //----------------------------------------------------------------------------
-  handleClickOutside = () => {
-    this.close();
-  }
-
-  close = () => {
-    this.setState({ open: false });
-  }
-
-  handleLogout = () => {
-    const { data } = this.props;
-
+  const close = () => setIsOpen(false);
+  const logout = () => {
     delete localStorage["jwt"];
     data.refetch();
-  }
+  };
 
-  //----------------------------------------------------------------------------
-  // Render
-  //----------------------------------------------------------------------------
-  render() {
-    const { open } = this.state;
-    const { data: { me } } = this.props;
-    const cx = classnames("AccountMenu", { open });
+  useOnClickOutside(ref, close);
 
-    return (
-      <div className={cx}>
-        <span className="AccountMenuToggle" onClick={() => this.setState({ open: !open })}>
-          {me.displayName}
-        </span>
+  const cx = classnames("AccountMenu", { open: isOpen });
 
-        <div className="AccountMenuContent">
-          <Link to="/dashboard" onClick={this.close}>Dashboard</Link>
-          <Link to="/account/privacy" onClick={this.close}>Privacy</Link>
-          {me.role === ADMIN && <Link to="/admin" onClick={this.close}>Admin</Link>}
-          <Link onClick={this.handleLogout}>Logout</Link>
-        </div>
+  return (
+    <div className={cx} ref={ref}>
+      <span className="AccountMenuToggle" onClick={() => setIsOpen(!isOpen)}>
+        {data.me.displayName}
+      </span>
+
+      <div className="AccountMenuContent">
+        <Link to="/dashboard" onClick={close}>Dashboard</Link>
+
+        <Link to="/account/privacy" onClick={close}>Privacy</Link>
+
+        {me.role === ADMIN && <Link to="/admin" onClick={close}>Admin</Link>}
+
+        <a onClick={logout}>Logout</a>
       </div>
-    );
-  }
-}
-
+    </div>
+  );
+};
 export default compose(
-  setDisplayName("AccountMenu"),
-
   withCurrentUser,
   waitForData,
-
-  onClickOutside,
 )(AccountMenu);

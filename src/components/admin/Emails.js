@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { compose, setDisplayName } from "recompose";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { reduxForm } from "redux-form";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";

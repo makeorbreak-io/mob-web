@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 import ReactMarkdown from "react-markdown";
 import classnames from "classnames";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 

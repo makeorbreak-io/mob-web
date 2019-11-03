@@ -25,7 +25,7 @@ export class Button extends Component {
   //----------------------------------------------------------------------------
   // Lifecycle
   //----------------------------------------------------------------------------
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const {
       loading,
       submitSucceeded,
@@ -33,9 +33,9 @@ export class Button extends Component {
       feedbackSuccessLabel,
       feedbackFailureLabel,
       dispatch,
-    } = nextProps;
+    } = prevProps;
 
-    if (this.props.loading && !loading) {
+    if (loading && !this.props.loading) {
       if (!this.inViewport()) {
         dispatch(addToast({
           content: (submitSucceeded && feedbackSuccessLabel) || (submitFailed && feedbackFailureLabel),
