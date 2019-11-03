@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { compose, setDisplayName } from "recompose";
+import React from "react";
+import { compose } from "recompose";
 import { Field, reduxForm } from "redux-form";
-import { Link, withRouter } from "react-router";
+import { Link, useHistory } from "react-router-dom";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -30,102 +30,88 @@ const validate = (values) => {
   )(values);
 };
 
-export class Login extends Component {
+export const Login = ({
+  authenticate,
+  data,
+  handleSubmit,
+}) => {
+  const history = useHistory();
 
-  onLogin = ({ email, password }) => {
-    const { router, data, authenticate } = this.props;
+  const submit = ({ email, password }) => (
+    authenticate({ variables: { email: email.trim().toLowerCase(), password} })
+      .then((response) => localStorage.setItem("jwt", response.data.authenticate))
+      .then(() => data.refetch())
+      .then(() => history.push("/dashboard"))
+      .catch(handleGraphQLErrors)
+  );
 
-    return authenticate({
-      variables: { email: email.trim().toLowerCase(), password },
-    })
-    .then(response => {
-      localStorage.setItem("jwt", response.data.authenticate);
+  return (
+    <div className="content white">
+      <div className="narrow-container">
+        <Tabs>
+          <Tab><span>Sign In</span></Tab>
+          <Panel>
+            <div className="Login">
+              <form onSubmit={handleSubmit(submit)}>
+                <div>
+                  <label htmlFor="email">Email</label>
+                  <Field
+                    name="email"
+                    component="input"
+                    type="text"
+                    placeholder="Email"
+                    className="fullwidth"
+                  />
+                  <ErrorMessage form="login" field="email" />
+                </div>
 
-      data
-      .refetch()
-      .then(() => router.push("/dashboard"));
+                <div>
+                  <label htmlFor="password">Password</label>
+                  <Field
+                    name="password"
+                    component="input"
+                    type="password"
+                    placeholder="Password"
+                    className="fullwidth"
+                  />
+                  <ErrorMessage form="login" field="password" />
+                </div>
 
-      return null;
-    })
-    .catch(handleGraphQLErrors);
-  }
+                <Button
+                  {...buttonPropsFromReduxForm(this.props)}
+                  type="submit"
+                  primary
+                  form
+                  centered
+                  fullwidth
+                  feedbackFailureLabel="Error signing in"
+                >
+                  Sign In
+                </Button>
+                <FormErrorMessage form="login" />
+              </form>
 
-  render() {
-    const { handleSubmit } = this.props;
+              <p className="small-notice">
+                Don't have an account? <Link to="/signup">Sign up</Link>
+              </p>
 
-    return (
-      <div className="content white">
-        <div className="narrow-container">
-          <Tabs>
-            <Tab><span>Sign In</span></Tab>
-            <Panel>
-              <div className="Login">
-                <form onSubmit={handleSubmit(this.onLogin)}>
-                  <div>
-                    <label htmlFor="email">Email</label>
-                    <Field
-                      name="email"
-                      component="input"
-                      type="text"
-                      placeholder="Email"
-                      className="fullwidth"
-                    />
-                    <ErrorMessage form="login" field="email" />
-                  </div>
+              <p className="small-notice">
+                Forgot your password? <Link to="/recover-password">Recover it</Link>
+              </p>
 
-                  <div>
-                    <label htmlFor="password">Password</label>
-                    <Field
-                      name="password"
-                      component="input"
-                      type="password"
-                      placeholder="Password"
-                      className="fullwidth"
-                    />
-                    <ErrorMessage form="login" field="password" />
-                  </div>
-
-                  <Button
-                    {...buttonPropsFromReduxForm(this.props)}
-                    type="submit"
-                    primary
-                    form
-                    centered
-                    fullwidth
-                    feedbackFailureLabel="Error signing in"
-                  >
-                    Sign In
-                  </Button>
-                  <FormErrorMessage form="login" />
-                </form>
-
-                <p className="small-notice">
-                  Don't have an account? <Link to="/signup">Sign up</Link>
-                </p>
-
-                <p className="small-notice">
-                  Forgot your password? <Link to="/recover-password">Recover it</Link>
-                </p>
-
-              </div>
-            </Panel>
-          </Tabs>
-        </div>
+            </div>
+          </Panel>
+        </Tabs>
       </div>
-    );
-  }
-
-}
+    </div>
+  );
+};
 
 export default compose(
-  setDisplayName("Login"),
-
   reduxForm({
     form: "login",
     validate,
   }),
-
-  withRouter,
 
   withCurrentUser,
 

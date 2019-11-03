@@ -4,10 +4,11 @@ import persistState from "redux-localstorage";
 
 import appReducer from "reducers/app";
 
-const store = createStore(appReducer, compose(
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(appReducer, composeEnhancers(
   persistState("jwt"),
   applyMiddleware(thunk),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
 export default store;

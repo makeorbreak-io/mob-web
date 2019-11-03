@@ -1,30 +1,27 @@
-import React from "react";
-import { compose, setDisplayName, lifecycle } from "recompose";
-import { withRouter } from "react-router";
+import { useEffect } from "react";
+import { compose } from "recompose";
+import { useHistory } from "react-router-dom";
 
 import { withCurrentUser, waitForData } from "enhancers";
 
 import { ADMIN } from "constants/roles";
 
-export const Authorized = ({ data: { me }, children }) => (me && me.role === ADMIN ? children : <div />);
+const redirect = ({ history, me }) => {
+  if (me?.role !== ADMIN) history.replace("/");
+};
+
+const Authorized = ({
+  children,
+  data: { me },
+}) => {
+  const history = useHistory();
+
+  useEffect(() => redirect({ history, me }));
+
+  return me?.role === ADMIN ? children : null;
+};
 
 export default compose(
-  setDisplayName("Authorized"),
-
-  withRouter,
-
   withCurrentUser,
   waitForData,
-
-  lifecycle({
-    componentWillMount() {
-      const { data: { me }, router } = this.props;
-      if (!me || me.role !== ADMIN) router.push("/");
-    },
-
-    componentWillReceiveProps(nextProps) {
-      const { data: { me }, router } = nextProps;
-      if (!me || me.role !== ADMIN) router.push("/");
-    },
-  }),
 )(Authorized);

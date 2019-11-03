@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { useState } from "react";
 import { compose, setDisplayName } from "recompose";
 import { reduxForm, Field, getFormValues } from "redux-form";
-import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { get, isEmpty } from "lodash";
 import { graphql } from "react-apollo";
@@ -33,103 +32,100 @@ const validate = composeValidators(
   validatePresence("members", "Team members"),
 );
 
-export class UserOnboardingInvites extends Component {
-  state = {
-    multipleSelected: false,
-  }
+const UserOnboardingInvites = ({
+  data: { me },
+  formValues,
+  handleSubmit,
+  invite,
+  next,
+  submitFailed,
+  submitSucceeded,
+  submitting,
+  valid,
+}) => {
+  const [multipleSelected, setMultipleSelected] = useState(false);
 
-  onSubmit = (values) => {
-    const { invite, data: { me }, next } = this.props;
+  const submit = (values) => (
+    invite({ variables: { id: me.currentTeam.id, emails: values.members.map((m) => m.value) } })
+      .then(next)
+      .catch(handleGraphQLErrors)
+  );
 
-    return invite({
-      variables: { id: me.currentTeam.id, emails: values.members.map(m => m.value) },
-    })
-    .then(next)
-    .catch(handleGraphQLErrors);
-  }
+  const updateMultipleSelected = (ev) => setMultipleSelected(!isEmpty(ev[1]));
 
-  updateMultipleSelected = (ev) => this.setState({ multipleSelected: !isEmpty(ev[1]) })
+  const team = me.currentTeam;
+  const memberLimitReached = team
+    ? (team.invites.length + team.memberships.length + formValues.members.length) > 4
+    : false;
 
-  render() {
-    const { data: { me }, handleSubmit, submitting, valid, formValues, next } = this.props;
-    const team = me.currentTeam;
-    const { multipleSelected } = this.state;
+  return (
+    <>
+      <h1>Get the ball rolling</h1>
+      <h5>
+        Start by adding all of your team members to your "{get(me, "currentTeam.name")}" team.
+        <br />
+        They'll receive a notification the next time they log in to the platform.
+      </h5>
 
-    const memberLimitReached = team
-      ? (team.invites.length + team.memberships.length + formValues.members.length) > 4
-      : false;
+      <form onSubmit={handleSubmit(submit)}>
+        <label htmlFor="members">Add team members</label>
+        <Field
+          id="members"
+          name="members"
+          component={Multiselect}
+          placeholder="Invite users by email..."
+          onChange={updateMultipleSelected}
+          isValidNewOption={({ label }) => EMAIL_REGEX.test(label)}
+          noResultsText={null}
+          arrowRenderer={() => {}}
+          promptTextCreator={label => `Add ${label}`}
+          options={[]}
+          creatable
+        />
+        <Button
+          {...buttonPropsFromReduxForm({ submitting, submitSucceeded, submitFailed })}
+          type="submit"
+          form
+          centered
+          fullwidth
+          primary
+          disabled={submitting || !valid || memberLimitReached}
+          feedbackSuccessLabel="Members invited!"
+          feedbackFailureLabel="Error inviting members"
+        >
+          Invite {multipleSelected ? "members" : "member"}
+        </Button>
 
-    return (
-      <Fragment>
-        <h1>Get the ball rolling</h1>
-        <h5>
-          Start by adding all of your team members to your "{get(me, "currentTeam.name")}" team.
-          <br />
-          They'll receive a notification the next time they log in to the platform.
-        </h5>
+        {!isEmpty(team.memberships) && <label>Members</label>}
+        <ul className="Members">
+          {team.memberships.map(({ user }) => (
+            <li className="Member" key={user.id}>
+              {user.displayName}
+            </li>
+          ))}
+        </ul>
 
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <label htmlFor="members">Add team members</label>
-          <Field
-            id="members"
-            name="members"
-            component={Multiselect}
-            placeholder="Invite users by email..."
-            onChange={this.updateMultipleSelected}
-            isValidNewOption={({ label }) => EMAIL_REGEX.test(label)}
-            noResultsText={null}
-            arrowRenderer={() => {}}
-            promptTextCreator={label => `Add ${label}`}
-            options={[]}
-            creatable
-          />
-          <Button
-            {...buttonPropsFromReduxForm(this.props)}
-            type="submit"
-            form
-            centered
-            fullwidth
-            primary
-            disabled={submitting || !valid || memberLimitReached}
-            feedbackSuccessLabel="Members invited!"
-            feedbackFailureLabel="Error inviting members"
-          >
-            Invite {multipleSelected ? "members" : "member"}
-          </Button>
+        {!isEmpty(team.invites) && <label>Pending Invites</label>}
+        <ul className="Invites">
+          {team.invites.map(invite => (
+            <li className="Invite" key={invite.id}>
+              {invite.displayName}
+            </li>
+          ))}
+        </ul>
 
-          {!isEmpty(team.memberships) && <label>Members</label>}
-          <ul className="Members">
-            {team.memberships.map(({ user }) => (
-              <li className="Member" key={user.id}>
-                {user.displayName}
-              </li>
-            ))}
-          </ul>
+        <Button form centered fullwidth primary hollow onClick={next}>
+          Skip this step
+        </Button>
 
-          {!isEmpty(team.invites) && <label>Pending Invites</label>}
-          <ul className="Invites">
-            {team.invites.map(invite => (
-              <li className="Invite" key={invite.id}>
-                {invite.displayName}
-              </li>
-            ))}
-          </ul>
-
-          <Button form centered fullwidth primary hollow onClick={next}>
-            Skip this step
-          </Button>
-
-          <p className="small-notice">You can always invite more members at a later time</p>
-        </form>
-      </Fragment>
-    );
-  }
-}
+        <p className="small-notice">You can always invite more members at a later time</p>
+      </form>
+    </>
+  );
+};
 
 export default compose(
   setDisplayName("UserOnboardingInvites"),
-
-  withRouter,
 
   withCurrentUser,
   waitForData,

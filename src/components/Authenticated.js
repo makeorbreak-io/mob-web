@@ -1,34 +1,27 @@
-import React from "react";
-import { compose, setDisplayName, lifecycle } from "recompose";
-import { withRouter } from "react-router";
+import { useEffect } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+import { compose } from "recompose";
 
 import { withCurrentUser, waitForData } from "enhancers";
 
-export const Authenticated = ({ data: { me }, children }) => (me ? children : <div />);
+const redirect = ({ history, location, me }) => {
+  if (!me) history.replace("/");
+  if (me && !localStorage.getItem("checked-privacy") && location.pathname !== "/welcome") history.replace("/welcome");
+};
 
-const redirect = (props) => {
-  const { data: { me }, router } = props;
-  const { pathname } = window.location;
+const Authenticated = ({
+  children,
+  data: { me },
+}) => {
+  const location = useLocation();
+  const history = useHistory();
 
-  if (!me) router.push("/");
-  if (me && !localStorage.getItem("checked-privacy") && pathname !== "/welcome") router.push("/welcome");
+  useEffect(() => redirect({ history, location, me }));
+
+  return me ? children : null;
 };
 
 export default compose(
-  setDisplayName("Authenticated"),
-
-  withRouter,
-
   withCurrentUser,
   waitForData,
-
-  lifecycle({
-    componentWillMount() {
-      redirect(this.props);
-    },
-
-    componentWillReceiveProps(nextProps) {
-      redirect(nextProps);
-    },
-  }),
 )(Authenticated);

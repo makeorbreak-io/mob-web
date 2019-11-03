@@ -12,10 +12,9 @@ import Raven from "raven-js";
 
 //
 // Components
-import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
 import AppLoader from "components/AppLoader";
-import router from "./router";
+import Router from "./router";
 
 //
 // Redux
@@ -48,12 +47,10 @@ render(
     <Provider store={store}>
       <ApolloProvider client={gqlClient}>
         <AppLoader>
-          <AppContainer>
-            {router}
-          </AppContainer>
+          <Router />
         </AppLoader>
       </ApolloProvider>
     </Provider>
   ),
-  document.getElementById("app"),
+  document.getElementById("root"),
 );

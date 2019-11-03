@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import classnames from "classnames";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 //
 // gql

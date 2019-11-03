@@ -10,6 +10,7 @@ module.exports = {
         ],
       },
       "corejs": "3",
+      "useBuiltIns": "entry",
     }],
     "@babel/preset-react",
   ],

@@ -6,7 +6,7 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { parse, distanceInWordsToNow } from "date-fns";
 import ReactTooltip from "react-tooltip";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import { waitForData } from "enhancers";
 

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import classnames from "classnames";
-import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
-import { Link } from "react-router";
+import { compose } from "recompose";
+import { Link } from "react-router-dom";
 import { isEmpty } from "lodash";
 
 //
@@ -20,7 +19,6 @@ import Drawer from "components/Drawer";
 import logo from "assets/images/mob-logo-white.svg";
 
 export class Navbar extends Component {
-
   render() {
     const { data: { me }, landing, fly } = this.props;
     const cx = classnames("Navbar", {
@@ -40,26 +38,15 @@ export class Navbar extends Component {
             </Link>
           </h1>
 
-          {!me && !fly && <Link activeClassName="active" className="login" to="/signin"><Button nobg>Sign In</Button></Link>}
+          {!me && !fly && <Link className="login" to="/signin"><Button nobg>Sign In</Button></Link>}
 
           {me && !fly && <AccountMenu />}
         </div>
       </div>
     );
   }
-
 }
 
 export default compose(
-  setDisplayName("Navbar"),
-
-  setPropTypes({
-    landing: PropTypes.bool.isRequired,
-  }),
-
-  defaultProps({
-    green: false,
-  }),
-
   withCurrentUser,
 )(Navbar);

@@ -1,14 +1,13 @@
-import React, { Component } from "react";
-import { compose } from "recompose";
-import { Link } from "react-router";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import classnames from "classnames";
 
 const sections = [
-  { label: "Dashboard"      , icon: "dashboard"     , path: "/admin/dashboard" },
+  { label: "Dashboard"      , icon: "dashboard"     , path: "/admin" },
   { label: "Competitions"   , icon: "folder"        , path: "/admin/competitions" },
   { label: "Users"          , icon: "person"        , path: "/admin/users" },
   { label: "Teams"          , icon: "group"         , path: "/admin/teams" },
-  { label: "Check-in"       , icon: "check"         , path: "/admin/checkin" },
+  // { label: "Check-in"       , icon: "check"         , path: "/admin/checkin" },
   { label: "Voting"         , icon: "how-to-vote"   , path: "/admin/voting" },
   // { label: "AiCompetitions" , icon: "memory"        , path: "/admin/ai-competitions" },
   { label: "Workshops"      , icon: "work"          , path: "/admin/workshops" },
@@ -16,30 +15,32 @@ const sections = [
   { label: "Emails"         , icon: "email"         , path: "/admin/emails" },
 ];
 
-export class Admin extends Component {
-  render() {
-    return (
-      <div className="admin--wrapper">
-        <div className="admin--navigation">
-          <ul>
-            {sections.map(({ label, icon, path }) =>(
-              <li
-                key={label}
-                className={classnames({ active: window.location.pathname.startsWith(path) })}
-              >
-                <span className={`icon icon--${icon}`} />
-                <Link to={path}>{label}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="admin--content">
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
-}
+export const Admin = ({
+  children,
+}) => {
+  const location = useLocation();
 
-export default compose(
-)(Admin);
+  return (
+    <div className="admin--wrapper">
+      <div className="admin--navigation">
+        <ul>
+          {sections.map(({ label, icon, path }) => (
+            <li
+              key={label}
+              className={classnames({ active: location.pathname === path })}
+            >
+              <span className={`icon icon--${icon}`} />
+              <Link to={path}>{label}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="admin--content">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default Admin;

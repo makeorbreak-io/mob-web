@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { compose, setDisplayName } from "recompose";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 

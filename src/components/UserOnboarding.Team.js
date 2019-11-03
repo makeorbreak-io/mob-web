@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import { compose, setDisplayName, mapProps } from "recompose";
-import { withRouter } from "react-router";
+import React from "react";
+import { compose, mapProps } from "recompose";
 import { reduxForm, Field } from "redux-form";
 import { get, isEmpty } from "lodash";
 import { graphql } from "react-apollo";
@@ -27,79 +26,78 @@ const validate = composeValidators(
   validatePresence("name", "Team name"),
 );
 
-export class UserOnboardingTeam extends Component {
-  onSubmit = ({ githubHandle, ...team }) => {
-    const { createTeam, updateMe, data } = this.props;
+export const UserOnboardingTeam = ({
+  createTeam,
+  data,
+  data: { me },
+  handleSubmit,
+  next,
+  submitting,
+  updateMe,
+}) => {
+  const submit = ({ githubHandle, ...team }) => {
     const { name, email, tshirtSize } = data.me;
 
     return updateMe({ variables: { user: { name, email, tshirtSize, githubHandle } } })
-    .then(() => createTeam({ variables: { team } }))
-    .then(() => data.refetch());
-  }
+      .then(() => createTeam({ variables: { team } }))
+      .then(() => data.refetch());
+  };
 
-  render() {
-    const { data: { me }, handleSubmit, submitting, next } = this.props;
+  return (
+    <div className="UserOnboarding team">
+      <h1>Nice to meet you, {me.displayName}</h1>
+      <h5>Set up the team you'll be working in at the Make or Break hackathon.</h5>
 
-    return (
-      <div className="UserOnboarding team">
-        <h1>Nice to meet you, {me.displayName}</h1>
-        <h5>Set up the team you'll be working in at the Make or Break hackathon.</h5>
+      <form onSubmit={handleSubmit(submit)}>
+        <label htmlFor="githubHandle">GitHub Handle</label>
+        <Field
+          id="githubHandle"
+          name="githubHandle"
+          component="input"
+          type="text"
+          placeholder="Your GitHub handle"
+          className="fullwidth"
+        >
+        </Field>
 
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <label htmlFor="githubHandle">GitHub Handle</label>
-          <Field
-            id="githubHandle"
-            name="githubHandle"
-            component="input"
-            type="text"
-            placeholder="Your GitHub handle"
-            className="fullwidth"
-          >
-          </Field>
+        <label htmlFor="name">Team name</label>
+        <Field
+          id="name"
+          name="name"
+          component="input"
+          type="text"
+          placeholder="Type your team name"
+          className="fullwidth"
+          autoComplete="off"
+          disabled={!isEmpty(me.currentTeam)}
+        />
+        <ErrorMessage form="user-onboarding-team" field="name" />
 
-          <label htmlFor="name">Team name</label>
-          <Field
-            id="name"
-            name="name"
-            component="input"
-            type="text"
-            placeholder="Type your team name"
-            className="fullwidth"
-            autoComplete="off"
-            disabled={!isEmpty(me.currentTeam)}
-          />
-          <ErrorMessage form="user-onboarding-team" field="name" />
+        {isEmpty(me.currentTeam) &&
+          <div>
+            <Button
+              type="submit"
+              disabled={submitting}
+              loading={submitting}
+              primary form centered fullwidth
+            >
+              Create Team
+            </Button>
 
-          {isEmpty(me.currentTeam) &&
-            <div>
-              <Button
-                type="submit"
-                disabled={submitting}
-                loading={submitting}
-                primary form centered fullwidth
-              >
-                Create Team
-              </Button>
+            <Button form centered fullwidth primary hollow onClick={next}>
+              Skip this step
+            </Button>
+            <p className="small-notice">You can always create a team or wait for an invitation to one at a later time</p>
+          </div>
+        }
+      </form>
 
-              <Button form centered fullwidth primary hollow onClick={next}>
-                Skip this step
-              </Button>
-              <p className="small-notice">You can always create a team or wait for an invitation to one at a later time</p>
-            </div>
-          }
-        </form>
-
-        {!isEmpty(me.currentTeam) && <Invites />}
-      </div>
-    );
-  }
-}
+      {!isEmpty(me.currentTeam) && <Invites />}
+    </div>
+  );
+};
 
 export default compose(
-  setDisplayName("UserOnboardingTeam"),
-
-  withRouter,
-
   withCurrentUser,
   waitForData,
 
@@ -134,4 +132,3 @@ export default compose(
     { name: "updateMe" },
   ),
 )(UserOnboardingTeam);
-
