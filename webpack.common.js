@@ -57,14 +57,12 @@ module.exports = {
         use: [
           "file-loader",
           "svgo-loader",
-          "svg-transform-loader"
+          "svg-transform-loader",
         ],
       },
       {
         test: /\.woff(2)?$/,
-        use: [
-          { loader: "file-loader", options: { outputPath: "fonts/" } },
-        ],
+        use: [ "file-loader" ],
       },
       {
         test: /\.(jpe?g|png|gif)$/i,

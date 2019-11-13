@@ -1,0 +1,163 @@
+buttonColors(backgroundColor, borderColor, textColor, hoverBackgroundColor, hoverBorderColor)
+  background: backgroundColor;
+  border: 1px solid borderColor;
+  color: textColor;
+
+  &:hover {
+    background: hoverBackgroundColor;
+    border: 1px solid hoverBorderColor;
+  }
+
+buttonChevron(w, h, fill)
+  &:after {
+    content: "";
+    display: inline-block;
+    background: transparent no-repeat url("~assets/images/chevron.svg") center center;
+    -svg-mixer-fill: fill;
+    width: w;
+    height: h;
+    margin-left: 8px;
+    background-size: w h;
+    transition: transform;
+  }
+
+  &:hover:after {
+    animation: chevron-animation 500ms;
+  }
+
+
+@keyframes chevron-animation {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(4px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+button {
+  appearance: none;
+  display: inline-block;
+  font: 1rem/1 "Open Sans", sans-serif; // 16px/1
+
+  &:hover { cursor: pointer; }
+
+  &.regular, &.large, &.small {
+    &.tertiary {
+      buttonColors(
+        var(--outer-space), var(--white), var(--white), /* regular */
+        var(--white-light), var(--white)                /* hover */
+      )
+    }
+  }
+
+  &.regular {
+    padding: 12px 40px;
+    font-size: 1rem; // 16px
+
+    +mobile() {
+      width: 295px;
+      height: 50px;
+      padding: 0;
+    }
+
+    &.primary {
+      buttonColors(
+        var(--electric-indigo), var(--electric-indigo), var(--white), /* regular */
+        var(--electric-indigo--hover), var(--electric-indigo--hover)  /* hover */
+      )
+      buttonChevron(5px, 8px, $white);
+    }
+
+    &.secondary {
+      buttonColors(
+        var(--white), var(--electric-indigo), var(--electric-indigo), /* regular */
+        var(--electric-indigo--light), var(--electric-indigo--hover)  /* hover */
+      )
+      buttonChevron(5px, 8px, $electric-indigo);
+    }
+
+    &.tertiary {
+      buttonChevron(5px, 8px, $white);
+    }
+  }
+
+  &.large {
+    padding: 16px 64px;
+    font-size: 1.125rem; // 18px
+
+    +mobile() {
+      width: 295px;
+      height: 60px;
+      padding: 0;
+    }
+
+    &.primary {
+      buttonColors(
+        var(--coral-reef), var(--coral-reef), var(--white), /* regular */
+        var(--coral-reef--hover), var(--coral-reef--hover)  /* hover */
+      )
+      buttonChevron(8px, 12px, $white);
+    }
+
+    &.secondary {
+      buttonColors(
+        var(--white), var(--coral-reef), var(--coral-reef), /* regular */
+        var(--coral-reef--light), var(--coral-reef--hover)  /* hover */
+      )
+      buttonChevron(8px, 12px, $coral-reef);
+    }
+
+    &.tertiary {
+      buttonChevron(8px, 12px, $white);
+    }
+  }
+
+  &.small {
+    padding: 8px 16px;
+    font-size: 1.125rem; // 18px
+
+    +mobile() {
+      padding: 10px 16px;
+    }
+
+    &.primary {
+      buttonColors(
+        var(--coral-reef), var(--coral-reef), var(--white), /* regular */
+        var(--coral-reef--hover), var(--coral-reef--hover)  /* hover */
+      )
+      buttonChevron(8px, 12px, $white);
+    }
+
+    &.secondary {
+      buttonColors(
+        var(--white), var(--electric-indigo), var(--electric-indigo), /* regular */
+        var(--electric-indigo--light), var(--electric-indigo--hover)  /* hover */
+      )
+      buttonChevron(8px, 12px, $electric-indigo);
+    }
+
+    &.tertiary {
+      buttonChevron(8px, 12px, $white);
+    }
+  }
+
+  &.chevron {
+    width: 60px;
+    height: 60px;
+    background: transparent no-repeat url("~assets/images/chevron.svg") center center;
+
+    &.primary {
+      background-color: var(--electric-indigo);
+
+      &:hover {
+        background-color: var(--electric-indigo--hover);
+      }
+    }
+
+    &.secondary {
+      background-color: var(--black);
+
+      &:hover {
+        background-color: var(--outer-space);
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="22px" viewBox="0 0 14 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60 (88103) - https://sketch.com -->
+    <title>arrow</title>
+    <desc>Created with Sketch.</desc>
+    <g id="0000_general" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="0001_homepage_2020_1e" transform="translate(-1148.000000, -1663.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="prize_hackathon" transform="translate(49.000000, 1226.000000)">
+                <g id="prize" transform="translate(132.000000, 279.000000)">
+                    <g id="btn_arrows" transform="translate(0.000000, 139.000000)">
+                        <g id="btn_arrow_right" transform="translate(944.000000, 0.000000)">
+                            <path d="M23.6663174,22.6173554 C22.7778942,21.7902027 22.7778942,20.4316864 23.6663174,19.6045337 C24.5320694,18.7984888 25.9204266,18.7984888 26.7861785,19.6045337 L36.3336826,28.4935892 C37.2221058,29.3207419 37.2221058,30.6792581 36.3336826,31.5064108 L26.7861785,40.3954663 C26.3636033,40.7888984 25.8109276,41 25.226248,41 C24.6415684,41 24.0888926,40.7888984 23.6663174,40.3954663 C22.7778942,39.5683136 22.7778942,38.2097973 23.6663174,37.3826446 L31.5958247,30 L23.6663174,22.6173554 Z" id="arrow"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
