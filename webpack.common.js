@@ -54,7 +54,11 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        use: [ "file-loader", "svgo-loader" ],
+        use: [
+          "file-loader",
+          "svgo-loader",
+          "svg-transform-loader"
+        ],
       },
       {
         test: /\.woff(2)?$/,
