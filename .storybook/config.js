@@ -1,4 +1,4 @@
-import "styles/2020";
+import "styles/2020.scss";
 
 import { configure } from '@storybook/react';
 

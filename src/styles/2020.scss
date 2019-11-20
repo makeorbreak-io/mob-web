@@ -1,0 +1,15 @@
+@import "~styles/fonts.css";
+@import "~styles/reset.css";
+
+// mixins
+$mobile: 960px;
+
+@mixin mobile {
+  @media (max-width: #{$mobile}) { @content; }
+}
+
+@import "~styles/base.scss";
+@import "~styles/typography.scss";
+
+@import "~styles/uikit/button.scss";
+@import "~styles/uikit/icon.scss";

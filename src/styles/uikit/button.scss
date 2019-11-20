@@ -1,30 +1,31 @@
-buttonColors(backgroundColor, borderColor, textColor, hoverBackgroundColor, hoverBorderColor)
-  background: backgroundColor;
-  border: 1px solid borderColor;
-  color: textColor;
+@mixin buttonColors($backgroundColor, $borderColor, $textColor, $hoverBackgroundColor, $hoverBorderColor) {
+  background: $backgroundColor;
+  border: 1px solid $borderColor;
+  color: $textColor;
 
   &:hover {
-    background: hoverBackgroundColor;
-    border: 1px solid hoverBorderColor;
+    background: $hoverBackgroundColor;
+    border: 1px solid $hoverBorderColor;
   }
+}
 
-buttonChevron(w, h, fill)
+@mixin buttonChevron($w, $h, $fill) {
   &:after {
     content: "";
     display: inline-block;
     background: transparent no-repeat url("~assets/images/chevron.svg") center center;
-    -svg-mixer-fill: fill;
-    width: w;
-    height: h;
+    -svg-mixer-fill: $fill;
+    width: $w;
+    height: $h;
     margin-left: 8px;
-    background-size: w h;
+    background-size: $w $h;
     transition: transform;
   }
 
   &:hover:after {
     animation: chevron-animation 500ms;
   }
-
+}
 
 @keyframes chevron-animation {
   0%   { transform: translate(0, 0); }
@@ -41,7 +42,7 @@ button {
 
   &.regular, &.large, &.small {
     &.tertiary {
-      buttonColors(
+      @include buttonColors(
         var(--outer-space), var(--white), var(--white), /* regular */
         var(--white-light), var(--white)                /* hover */
       )
@@ -52,30 +53,30 @@ button {
     padding: 12px 40px;
     font-size: 1rem; // 16px
 
-    +mobile() {
+    @include mobile {
       width: 295px;
       height: 50px;
       padding: 0;
     }
 
     &.primary {
-      buttonColors(
+      @include buttonColors(
         var(--electric-indigo), var(--electric-indigo), var(--white), /* regular */
         var(--electric-indigo--hover), var(--electric-indigo--hover)  /* hover */
       )
-      buttonChevron(5px, 8px, $white);
+      @include buttonChevron(5px, 8px, $white);
     }
 
     &.secondary {
-      buttonColors(
+      @include buttonColors(
         var(--white), var(--electric-indigo), var(--electric-indigo), /* regular */
         var(--electric-indigo--light), var(--electric-indigo--hover)  /* hover */
       )
-      buttonChevron(5px, 8px, $electric-indigo);
+      @include buttonChevron(5px, 8px, $electric-indigo);
     }
 
     &.tertiary {
-      buttonChevron(5px, 8px, $white);
+      @include buttonChevron(5px, 8px, $white);
     }
   }
 
@@ -83,30 +84,30 @@ button {
     padding: 16px 64px;
     font-size: 1.125rem; // 18px
 
-    +mobile() {
+    @include mobile {
       width: 295px;
       height: 60px;
       padding: 0;
     }
 
     &.primary {
-      buttonColors(
+      @include buttonColors(
         var(--coral-reef), var(--coral-reef), var(--white), /* regular */
         var(--coral-reef--hover), var(--coral-reef--hover)  /* hover */
       )
-      buttonChevron(8px, 12px, $white);
+      @include buttonChevron(8px, 12px, $white);
     }
 
     &.secondary {
-      buttonColors(
+      @include buttonColors(
         var(--white), var(--coral-reef), var(--coral-reef), /* regular */
         var(--coral-reef--light), var(--coral-reef--hover)  /* hover */
       )
-      buttonChevron(8px, 12px, $coral-reef);
+      @include buttonChevron(8px, 12px, $coral-reef);
     }
 
     &.tertiary {
-      buttonChevron(8px, 12px, $white);
+      @include buttonChevron(8px, 12px, $white);
     }
   }
 
@@ -114,28 +115,28 @@ button {
     padding: 8px 16px;
     font-size: 1.125rem; // 18px
 
-    +mobile() {
+    @include mobile {
       padding: 10px 16px;
     }
 
     &.primary {
-      buttonColors(
+      @include buttonColors(
         var(--coral-reef), var(--coral-reef), var(--white), /* regular */
         var(--coral-reef--hover), var(--coral-reef--hover)  /* hover */
       )
-      buttonChevron(8px, 12px, $white);
+      @include buttonChevron(8px, 12px, $white);
     }
 
     &.secondary {
-      buttonColors(
+      @include buttonColors(
         var(--white), var(--electric-indigo), var(--electric-indigo), /* regular */
         var(--electric-indigo--light), var(--electric-indigo--hover)  /* hover */
       )
-      buttonChevron(8px, 12px, $electric-indigo);
+      @include buttonChevron(8px, 12px, $electric-indigo);
     }
 
     &.tertiary {
-      buttonChevron(8px, 12px, $white);
+      @include buttonChevron(8px, 12px, $white);
     }
   }
 

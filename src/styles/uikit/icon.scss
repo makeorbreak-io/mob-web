@@ -1,0 +1,36 @@
+$icons: "email", "facebook", "medium", "twitter";
+
+@mixin iconImage($icon, $fill) {
+  &.icon--#{$icon} {
+    background-image: url("~assets/images/icon-#{$icon}.svg");
+    -svg-mixer-fill: $fill;
+  }
+}
+
+.icon {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin: 0 16px 16px 0;
+  background: transparent no-repeat center center;
+
+  &--color--default {
+    background-color: var(--electric-indigo);
+
+    &:hover {
+      background-color: var(--electric-indigo--hover);
+    }
+
+    @each $icon in $icons { @include iconImage($icon, $white) }
+  }
+
+  &--color--footer {
+    background-color: var(--white--light);
+
+    &:hover {
+      background-color: var(--white);
+    }
+
+    @each $icon in $icons { @include iconImage($icon, $black) }
+  }
+}

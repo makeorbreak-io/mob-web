@@ -15,6 +15,15 @@ module.exports = {
         ],
       },
       {
+        test: /\.scss$/,
+        use: [
+          "style-loader",
+          { loader: "css-loader", options: { importLoaders: 1 } },
+          { loader: "postcss-loader", options: { sourceMap: true } },
+          "sass-loader",
+        ],
+      },
+      {
         test: /\.svg$/,
         use: [
           "file-loader",
