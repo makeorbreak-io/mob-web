@@ -1,0 +1,104 @@
+// ---------------------------------------------------------------------------- Media Queries
+
+@mixin mobile {
+  @media (max-width: #{$mobile}) { @content; }
+}
+
+// ---------------------------------------------------------------------------- Buttons / Links
+
+@mixin buttonColors($backgroundColor, $borderColor, $textColor, $hoverBackgroundColor, $hoverBorderColor) {
+  background: $backgroundColor;
+  border: 1px solid $borderColor;
+  color: $textColor;
+
+  &:hover {
+    background: $hoverBackgroundColor;
+    border: 1px solid $hoverBorderColor;
+  }
+}
+
+@mixin buttonChevron($w, $h, $fill) {
+  &:after {
+    content: "";
+    display: inline-block;
+    background: transparent no-repeat url("~assets/images/chevron.svg") center center;
+    -svg-mixer-fill: $fill;
+    width: $w;
+    height: $h;
+    margin-left: 8px;
+    background-size: $w $h;
+    transition: transform;
+  }
+
+  &:hover:after {
+    animation: chevron-animation 500ms;
+  }
+}
+
+@keyframes chevron-animation {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(4px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+// ---------------------------------------------------------------------------- Typography
+
+@mixin zigZag($w, $h, $fill) {
+  &:after {
+    content: "";
+    display: block;
+    margin-top: $h;
+    width: $w;
+    height: $h;
+    background: transparent url("~assets/images/zigzag.svg") no-repeat center center;
+    background-size: $w $h;
+    -svg-mixer-fill: $fill;
+  }
+}
+
+// ---------------------------------------------------------------------------- Squares w/ full size background
+
+@mixin squareWithBg($diameter) {
+  width: $diameter;
+  height: $diameter;
+  background-size: $diameter $diameter;
+}
+
+// ---------------------------------------------------------------------------- Sloped Backgrounds
+
+@mixin slopedBackground($color, $angle: 4) {
+  position: relative;
+  z-index: 1;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    // background: transparent url("~assets/images/slope-top-right.svg") no-repeat center top;
+    // -svg-mixer-fill: $color;
+    // background-size: 100% auto;
+    // transform: skew(0, $angle) translate(0, 11%);
+    background: $color;
+    clip-path: polygon(
+      // 0 calc(0% + #{$angle}vw) , 100% 0 ,
+      0 #{$angle * 2}vw, 100% 0 ,
+      100% 100% , 0 100%
+    );
+  }
+}
+
+//
+@mixin linkColors($normal, $hover) {
+  a, a:link, a:visited, a:active {
+    color: $normal;
+  }
+
+  a:hover {
+    color: $hover;
+  }
+}

@@ -1,15 +1,20 @@
 @import "~styles/fonts.css";
 @import "~styles/reset.css";
 
-// mixins
-$mobile: 960px;
+$column-count: 12;
+$column-width: 62px;
+$column-gap: 36px;
 
-@mixin mobile {
-  @media (max-width: #{$mobile}) { @content; }
-}
+$mobile: ($column-count * $column-width) + (($column-count - 1) * $column-gap);
+
+@import "~styles/mixins.scss";
 
 @import "~styles/base.scss";
 @import "~styles/typography.scss";
+@import "~styles/layout.scss";
 
 @import "~styles/uikit/button.scss";
 @import "~styles/uikit/icon.scss";
+
+@import "~styles/components/header.scss";
+@import "~styles/components/footer.scss";

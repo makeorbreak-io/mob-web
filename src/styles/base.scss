@@ -1,3 +1,8 @@
+// dimensions
+$header-height: 70px;
+$header-height--mobile: 55px;
+
+// colors
 $black           : #000000;
 $white           : #ffffff;
 $electric-indigo : #5d00f3;
@@ -36,3 +41,9 @@ html, body, #root, #portals {
   height: 100%;
 }
 
+.desktop { display: initial };
+.mobile { display: none; }
+@include mobile {
+  .desktop { display: none };
+  .mobile { display: initial; }
+}

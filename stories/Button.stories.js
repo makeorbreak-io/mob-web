@@ -6,6 +6,7 @@ export default { title: "Button" };
 
 export const regularPrimary   = () => (<Button size="regular" type="primary">Label</Button>);
 export const regularSecondary = () => (<Button size="regular" type="secondary">Label</Button>);
+export const regularSecondaryInverted = () => (<Button size="regular" type="secondary" inverted>Label</Button>);
 export const regularTertiary  = () => (<Button size="regular" type="tertiary">Label</Button>);
 
 export const largePrimary     = () => (<Button size="large" type="primary">Label</Button>);
@@ -14,6 +15,7 @@ export const largeTertiary    = () => (<Button size="large" type="tertiary">Labe
 
 export const smallPrimary     = () => (<Button size="small" type="primary">Label</Button>);
 export const smallSecondary   = () => (<Button size="small" type="secondary">Label</Button>);
+export const smallSecondaryInverted = () => (<Button size="small" type="secondary" inverted>Label</Button>);
 export const smallTertiary    = () => (<Button size="small" type="tertiary">Label</Button>);
 
 export const chevronPrimary   = () => (<Button size="chevron" type="primary" />);

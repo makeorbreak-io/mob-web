@@ -1,38 +1,3 @@
-@mixin buttonColors($backgroundColor, $borderColor, $textColor, $hoverBackgroundColor, $hoverBorderColor) {
-  background: $backgroundColor;
-  border: 1px solid $borderColor;
-  color: $textColor;
-
-  &:hover {
-    background: $hoverBackgroundColor;
-    border: 1px solid $hoverBorderColor;
-  }
-}
-
-@mixin buttonChevron($w, $h, $fill) {
-  &:after {
-    content: "";
-    display: inline-block;
-    background: transparent no-repeat url("~assets/images/chevron.svg") center center;
-    -svg-mixer-fill: $fill;
-    width: $w;
-    height: $h;
-    margin-left: 8px;
-    background-size: $w $h;
-    transition: transform;
-  }
-
-  &:hover:after {
-    animation: chevron-animation 500ms;
-  }
-}
-
-@keyframes chevron-animation {
-  0%   { transform: translate(0, 0); }
-  50%  { transform: translate(4px, 0); }
-  100% { transform: translate(0, 0); }
-}
-
 button {
   appearance: none;
   display: inline-block;
@@ -73,6 +38,14 @@ button {
         var(--electric-indigo--light), var(--electric-indigo--hover)  /* hover */
       )
       @include buttonChevron(5px, 8px, $electric-indigo);
+
+      &.inverted {
+        @include buttonColors(
+          var(--electric-indigo), var(--white), var(--white), /* regular */
+          var(--electric-indigo--hover), var(--white)         /* hover */
+        )
+        @include buttonChevron(8px, 12px, $white);
+      }
     }
 
     &.tertiary {
@@ -133,6 +106,14 @@ button {
         var(--electric-indigo--light), var(--electric-indigo--hover)  /* hover */
       )
       @include buttonChevron(8px, 12px, $electric-indigo);
+
+      &.inverted {
+        @include buttonColors(
+          var(--electric-indigo), var(--white), var(--white), /* regular */
+          var(--electric-indigo--hover), var(--white)         /* hover */
+        )
+        @include buttonChevron(8px, 12px, $white);
+      }
     }
 
     &.tertiary {
