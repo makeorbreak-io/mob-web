@@ -1,0 +1,34 @@
+.icon {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin: 0 16px 16px 0;
+  background: transparent no-repeat center center;
+
+  &--color--default {
+    background-color: var(--electric-indigo);
+
+    &:hover {
+      background-color: var(--electric-indigo--hover);
+    }
+
+    &.icon--email    { background-image: url("~assets/images/icon-email.svg");    -svg-mixer-fill: $white; }
+    &.icon--facebook { background-image: url("~assets/images/icon-facebook.svg"); -svg-mixer-fill: $white; }
+    &.icon--medium   { background-image: url("~assets/images/icon-medium.svg");   -svg-mixer-fill: $white; }
+    &.icon--twitter  { background-image: url("~assets/images/icon-twitter.svg");  -svg-mixer-fill: $white; }
+
+  }
+
+  &--color--footer {
+    background-color: var(--white--light);
+
+    &:hover {
+      background-color: var(--white);
+    }
+
+    &.icon--email    { background-image: url("~assets/images/icon-email.svg");    -svg-mixer-fill: $black; }
+    &.icon--facebook { background-image: url("~assets/images/icon-facebook.svg"); -svg-mixer-fill: $black; }
+    &.icon--medium   { background-image: url("~assets/images/icon-medium.svg");   -svg-mixer-fill: $black; }
+    &.icon--twitter  { background-image: url("~assets/images/icon-twitter.svg");  -svg-mixer-fill: $black; }
+  }
+}
