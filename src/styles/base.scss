@@ -7,13 +7,16 @@ $black           : #000000;
 $white           : #ffffff;
 $electric-indigo : #5d00f3;
 $coral-reef      : #ff7373;
+$vivid-sky-blue  : #00d7ff;
+$bright-turquoise: #26e7bc;
 
 :root {
   // colors
   --black : #{$black};
-  --black--light: rgba(#{$black}, 0.5);
+  --black--light: rgba(0, 0, 0, 0.5);
   --white : #{$white};
-  --white--light : rgba(#{$white}, 0.2);
+  // --white--light : rgba(#{$white}, 0.5);
+  --white--light : rgba(255, 255, 255, 0.5);
 
   // base colors
   --electric-indigo: #{$electric-indigo};
@@ -39,6 +42,14 @@ $coral-reef      : #ff7373;
 
 html, body, #root, #portals {
   height: 100%;
+}
+
+// FIXME: temporary
+section {
+  padding: 30px;
+  margin-bottom: 30px;
+
+  &.black { background: $black; }
 }
 
 .desktop { display: initial };

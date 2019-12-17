@@ -4,19 +4,69 @@ import Button from "components/2020/uikit/Button";
 
 export default { title: "Button" };
 
-export const regularPrimary   = () => (<Button size="regular" type="primary">Label</Button>);
-export const regularSecondary = () => (<Button size="regular" type="secondary">Label</Button>);
-export const regularSecondaryInverted = () => (<Button size="regular" type="secondary" inverted>Label</Button>);
-export const regularTertiary  = () => (<Button size="regular" type="tertiary">Label</Button>);
+export const Regular = () => (
+  <>
+    <section>
+      <Button size="regular" type="primary">Primary</Button>
+    </section>
 
-export const largePrimary     = () => (<Button size="large" type="primary">Label</Button>);
-export const largeSecondary   = () => (<Button size="large" type="secondary">Label</Button>);
-export const largeTertiary    = () => (<Button size="large" type="tertiary">Label</Button>);
+    <section>
+      <Button size="regular" type="secondary">Secondary</Button>
+    </section>
 
-export const smallPrimary     = () => (<Button size="small" type="primary">Label</Button>);
-export const smallSecondary   = () => (<Button size="small" type="secondary">Label</Button>);
-export const smallSecondaryInverted = () => (<Button size="small" type="secondary" inverted>Label</Button>);
-export const smallTertiary    = () => (<Button size="small" type="tertiary">Label</Button>);
+    <section>
+      <Button size="regular" type="secondary" inverted>Secondary inverted</Button>
+    </section>
 
-export const chevronPrimary   = () => (<Button size="chevron" type="primary" />);
-export const chevronSecondary = () => (<Button size="chevron" type="secondary" />);
+    <section className="black">
+      <Button size="regular" type="tertiary">Tertiary</Button>
+    </section>
+  </>
+);
+
+export const Large = () => (
+  <>
+    <section>
+      <Button size="large" type="primary">Primary</Button>
+    </section>
+
+    <section>
+      <Button size="large" type="secondary">Secondary</Button>
+    </section>
+
+    <section className="black">
+      <Button size="large" type="tertiary">Tertiary</Button>
+    </section>
+  </>
+);
+
+export const Small = () => (
+  <>
+    <section>
+      <Button size="small" type="primary">Primary</Button>
+    </section>
+
+    <section>
+      <Button size="small" type="secondary">Secondary</Button>
+    </section>
+
+    <section>
+      <Button size="small" type="secondary" inverted>Secondary inverted</Button>
+    </section>
+
+    <section className="black">
+      <Button size="small" type="tertiary">Tertiary</Button>
+    </section>
+  </>
+);
+
+export const chevronPrimary   = () => (
+  <section>
+    <Button size="chevron" type="primary" />
+  </section>
+);
+export const chevronSecondary = () => (
+  <section>
+    <Button size="chevron" type="secondary" />
+  </section>
+);
