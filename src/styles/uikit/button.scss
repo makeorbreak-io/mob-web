@@ -1,0 +1,145 @@
+button {
+  appearance: none;
+  display: inline-block;
+  font: 1rem/1 "Open Sans", sans-serif; // 16px/1
+
+  &:hover { cursor: pointer; }
+
+  &.regular, &.large, &.small {
+    &.tertiary {
+      @include buttonColors(
+        var(--outer-space), var(--white), var(--white), /* regular */
+        var(--white-light), var(--white)                /* hover */
+      )
+    }
+  }
+
+  &.regular {
+    padding: 12px 40px;
+    font-size: 1rem; // 16px
+
+    @include mobile {
+      width: 295px;
+      height: 50px;
+      padding: 0;
+    }
+
+    &.primary {
+      @include buttonColors(
+        var(--electric-indigo), var(--electric-indigo), var(--white), /* regular */
+        var(--electric-indigo--hover), var(--electric-indigo--hover)  /* hover */
+      )
+      @include buttonChevron(5px, 8px, $white);
+    }
+
+    &.secondary {
+      @include buttonColors(
+        var(--white), var(--electric-indigo), var(--electric-indigo), /* regular */
+        var(--electric-indigo--light), var(--electric-indigo--hover)  /* hover */
+      )
+      @include buttonChevron(5px, 8px, $electric-indigo);
+
+      &.inverted {
+        @include buttonColors(
+          var(--electric-indigo), var(--white), var(--white), /* regular */
+          var(--electric-indigo--hover), var(--white)         /* hover */
+        )
+        @include buttonChevron(8px, 12px, $white);
+      }
+    }
+
+    &.tertiary {
+      @include buttonChevron(5px, 8px, $white);
+    }
+  }
+
+  &.large {
+    padding: 16px 64px;
+    font-size: 1.125rem; // 18px
+
+    @include mobile {
+      width: 295px;
+      height: 60px;
+      padding: 0;
+    }
+
+    &.primary {
+      @include buttonColors(
+        var(--coral-reef), var(--coral-reef), var(--white), /* regular */
+        var(--coral-reef--hover), var(--coral-reef--hover)  /* hover */
+      )
+      @include buttonChevron(8px, 12px, $white);
+    }
+
+    &.secondary {
+      @include buttonColors(
+        var(--white), var(--coral-reef), var(--coral-reef), /* regular */
+        var(--coral-reef--light), var(--coral-reef--hover)  /* hover */
+      )
+      @include buttonChevron(8px, 12px, $coral-reef);
+    }
+
+    &.tertiary {
+      @include buttonChevron(8px, 12px, $white);
+    }
+  }
+
+  &.small {
+    padding: 8px 16px;
+    font-size: 1.125rem; // 18px
+
+    @include mobile {
+      padding: 10px 16px;
+    }
+
+    &.primary {
+      @include buttonColors(
+        var(--coral-reef), var(--coral-reef), var(--white), /* regular */
+        var(--coral-reef--hover), var(--coral-reef--hover)  /* hover */
+      )
+      @include buttonChevron(8px, 12px, $white);
+    }
+
+    &.secondary {
+      @include buttonColors(
+        var(--white), var(--electric-indigo), var(--electric-indigo), /* regular */
+        var(--electric-indigo--light), var(--electric-indigo--hover)  /* hover */
+      )
+      @include buttonChevron(8px, 12px, $electric-indigo);
+
+      &.inverted {
+        @include buttonColors(
+          var(--electric-indigo), var(--white), var(--white), /* regular */
+          var(--electric-indigo--hover), var(--white)         /* hover */
+        )
+        @include buttonChevron(8px, 12px, $white);
+      }
+    }
+
+    &.tertiary {
+      @include buttonChevron(8px, 12px, $white);
+    }
+  }
+
+  &.chevron {
+    width: 60px;
+    height: 60px;
+    background: transparent no-repeat url("~assets/images/chevron.svg") center center;
+
+    &.primary {
+      background-color: var(--electric-indigo);
+
+      &:hover {
+        background-color: var(--electric-indigo--hover);
+      }
+    }
+
+    &.secondary {
+      background-color: var(--black);
+
+      &:hover {
+        background-color: var(--outer-space);
+      }
+    }
+  }
+}

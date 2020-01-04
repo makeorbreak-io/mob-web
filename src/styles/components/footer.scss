@@ -1,0 +1,20 @@
+.footer {
+  grid-area: ft;
+  @include slopedBackground(var(--black), 4);
+  min-height: 200px;
+}
+
+.footer__logo {
+  @include squareWithBg(167px);
+
+  position: absolute;
+  top: 0;
+  left: 64px;
+  background: transparent url("~assets/images/logo-round.svg") no-repeat center center;
+
+
+  @include mobile {
+    left: 16px;
+    @include squareWithBg(100px);
+  }
+}

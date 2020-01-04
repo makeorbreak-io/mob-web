@@ -1,0 +1,117 @@
+.header {
+  grid-area: hd;
+  position: fixed;
+  height: $header-height;
+  width: $mobile;
+  background: var(--white);
+  padding: 0 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include mobile {
+    position: fixed;
+    width: 100%;
+    height: $header-height--mobile;
+    padding: 0 16px;
+    background: var(--electric-indigo);
+  }
+}
+
+.header__logo {
+  // display: inline-block;
+  // margin-right: auto;
+
+  &.desktop {
+    width: 180px;
+    height: 38px;
+    background: transparent url("~assets/images/logo-main.svg") no-repeat center center;
+    background-size: 180px 38px;
+  }
+
+  &.mobile {
+    width: 74px;
+    height: 35px;
+    background: transparent url("~assets/images/logo-abbr.svg") no-repeat center center;
+    background-size: 74px 35px;
+  }
+}
+
+.header__navigation {
+  .desktop a {
+    margin: 0 16px 0 0;
+  }
+}
+
+.header__mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--electric-indigo);
+  display: grid;
+  grid-template-rows: $header-height--mobile 1fr auto;
+  grid-template-columns: 1fr 295px 1fr;
+  grid-template-areas:
+    ". .      ."
+    ". nav-mn ."
+    ". nav-ft .";
+  clip-path: circle(0% at 100% 0);
+  transition: clip-path 1000ms ease-in-out;
+
+  &--open {
+    clip-path: circle(150% at 100% 0);
+  }
+
+
+  &__links {
+    grid-area: nav-mn;
+    @include linkColors(var(--white), var(--white))
+
+    a {
+      display: block;
+      margin: 0 0 32px 0;
+    }
+  }
+
+  &__actions {
+    grid-area: nav-ft;
+
+    button { margin: 0 0 16px 0; }
+  }
+
+  &__lenny {
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    color: var(--white);
+    font-size: 1.5rem;
+    text-indent: 10px;
+  }
+}
+
+.header__actions button {
+  margin-right: 16px;
+  vertical-align: middle;
+  &:last-of-type { margin-right: 0; }
+}
+
+.header__hamburger,
+.header__mobile__close {
+  display: inline-block;
+  border: none;
+  padding: 0;
+  @include squareWithBg(39px);
+}
+
+.header__hamburger {
+  background: transparent url("~assets/images/button-hamburger.svg") no-repeat center center;
+}
+
+.header__mobile__close {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  background: transparent url("~assets/images/button-close.svg") no-repeat center center;
+}

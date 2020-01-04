@@ -1,5 +1,7 @@
 module.exports = {
-  plugins: [
-    require("autoprefixer"),
-  ],
+  plugins: {
+    "postcss-preset-env": {},
+    "postcss-move-props-to-bg-image-query": {},
+  },
 };
+

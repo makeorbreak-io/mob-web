@@ -22,7 +22,14 @@ const merge = require("webpack-merge");
 
 const custom = require("../webpack.storybook.js");
 
-module.exports = async ({ config, mode }) => merge(
-  config,
-  custom,
-);
+module.exports = async ({ config, mode }) => {
+  // remove default svg loader
+  config.module.rules = config.module.rules.map( data => {
+    if (/svg\|/.test(String(data.test))) {
+      data.test = /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani)(\?.*)?$/;
+    }
+    return data;
+  });
+
+  return merge(config, custom);
+};

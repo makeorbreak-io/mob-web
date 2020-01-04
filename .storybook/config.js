@@ -1,7 +1,4 @@
-// styles
-import "assets/reset.css";
-import "react-select/dist/react-select.css";
-import "styles/application";
+import "styles/2020.scss";
 
 import { configure } from '@storybook/react';
 

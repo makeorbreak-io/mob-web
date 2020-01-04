@@ -15,14 +15,21 @@ module.exports = {
         ],
       },
       {
-        test: /\.woff(2)?$/,
+        test: /\.scss$/,
         use: [
-          { loader: "file-loader", options: { outputPath: "fonts/" } },
+          "style-loader",
+          { loader: "css-loader", options: { importLoaders: 1 } },
+          { loader: "postcss-loader", options: { sourceMap: true } },
+          "sass-loader",
         ],
       },
       {
         test: /\.svg$/,
-        use: [ "file-loader", "svgo-loader" ],
+        use: [
+          "file-loader",
+          "svgo-loader",
+          "svg-transform-loader",
+        ],
       },
       {
         test: /\.(jpe?g|png|gif)$/i,
