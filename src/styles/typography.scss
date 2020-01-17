@@ -62,26 +62,10 @@ a, a:link, a:visited, a:active {
   @include mobile { font: 1rem/1.625rem "Open Sans", sans-serif; } // 16px/26px
   text-decoration: none;
 
-  color: var(--electric-indigo);
+  @include linkColors();
 
-  // internal links
-  &:not(.external) {
-    @include buttonChevron(5px, 8px, $electric-indigo);
-  }
-
-  // external links
-  &.external {
-    text-decoration: underline
-  }
-
-  // anchor links
-  &[href^=\#] {
-    &:after { display: none; }
-  }
-}
-
-a:hover {
-  color: var(--electric-indigo--hover);
+  &.external { text-decoration: underline; }
+  &.anchor:after { display: none !important; }
 }
 
 // ---------------------------------------------------------------------------- Colors
