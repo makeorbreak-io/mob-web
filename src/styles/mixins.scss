@@ -1,3 +1,10 @@
+//
+
+@mixin grid() {
+  display: grid;
+  grid-template-columns: repeat($column-count, $column-width);
+  grid-column-gap: $column-gap;
+}
 // ---------------------------------------------------------------------------- Media Queries
 
 @mixin mobile {
@@ -66,7 +73,7 @@
 
 // ---------------------------------------------------------------------------- Sloped Backgrounds
 
-@mixin slopedBackground($color, $angle: 4) {
+@mixin slopedBackground($color, $topLeft: 0px, $topRight: 0px, $bottomRight: 0px, $bottomLeft: 0px) {
   position: relative;
   z-index: 1;
 
@@ -78,27 +85,76 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
-    // background: transparent url("~assets/images/slope-top-right.svg") no-repeat center top;
-    // -svg-mixer-fill: $color;
-    // background-size: 100% auto;
-    // transform: skew(0, $angle) translate(0, 11%);
+    z-index: -1;
     background: $color;
     clip-path: polygon(
-      // 0 calc(0% + #{$angle}vw) , 100% 0 ,
-      0 #{$angle * 2}vw, 100% 0 ,
-      100% 100% , 0 100%
+      0 #{$topLeft},
+      100% #{$topRight},
+      100% calc(100% - #{$bottomRight}),
+      0 calc(100% - #{$bottomLeft})
     );
   }
 }
 
-//
-@mixin linkColors($normal, $hover) {
-  a, a:link, a:visited, a:active {
-    color: $normal;
-  }
+// ---------------------------------------------------------------------------- Colors
 
-  a:hover {
-    color: $hover;
+$colors: (
+  "black": $black,
+  "white": $white,
+  "beige": $linen,
+  "purple": $electric-indigo,
+  "blue": $vivid-sky-blue,
+  "green": $bright-turquoise,
+  "gray": $outer-space,
+  "yellow": $stil-de-grain-yellow,
+  "pink": $razzle-dazzle-rose,
+  "red": $coral-reef,
+);
+
+$link-colors: (
+  "white": "white",
+  "purple": "electric-indigo",
+  "gray": "outer-space",
+);
+
+@mixin linkColors() {
+  @each $cx, $color in $link-colors {
+    &.link-color--#{$cx} {
+      color: var(--#{$color});
+
+      &:hover { color: var(--#{$color}--hover) }
+
+      &:not(.external) {
+        @include buttonChevron(5px, 8px, map-get($colors, $cx));
+      }
+    }
+  }
+}
+
+@mixin overrideLinkColors($normal, $hover) {
+  color: $normal;
+  &:hover { color: $hover; }
+}
+
+@mixin textColors($zigZag: false) {
+  @each $cx, $color in $colors {
+    &.text-color--#{$cx} {
+      color: $color;
+
+      @if $zigZag {
+        @include zigZag(55px, 15px, $color);
+        @include mobile {
+          @include zigZag(40px, 11px, $color);
+        }
+      }
+    }
+  }
+}
+
+@mixin backgroundColors() {
+  @each $cx, $color in $colors {
+    &.background--#{$cx} {
+      background-color: $color;
+    }
   }
 }

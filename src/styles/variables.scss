@@ -1,0 +1,49 @@
+$max-width: 1366px;
+$column-count: 16;
+$column-width: $max-width / $column-count;
+
+$mobile: 960px;
+
+// dimensions
+$header-height: 70px;
+$header-height--mobile: 55px;
+
+// colors
+$black                : #000000;
+$white                : #ffffff;
+$bright-turquoise     : #26e7bc;
+$coral-reef           : #ff7373;
+$electric-indigo      : #5d00f3;
+$linen                : #ffefe4;
+$outer-space          : #484848;
+$vivid-sky-blue       : #00d7ff;
+$stil-de-grain-yellow : #f9ca5a;
+$razzle-dazzle-rose   : #fe38c7;
+
+:root {
+  // colors
+  --black : #{$black};
+  --black--light: rgba(0, 0, 0, 0.5);
+  --white : #{$white};
+  // --white--light : rgba(#{$white}, 0.5);
+  --white--light : rgba(255, 255, 255, 0.5);
+
+  // base colors
+  --electric-indigo: #{$electric-indigo};
+  --electric-indigo--hover: #a255ff;
+  --electric-indigo--light: rgba(#{$electric-indigo}, 0.2);
+  --isabelline: #efefef;
+  --outer-space: #{$outer-space};
+  --outer-space--hover: #606060;
+
+  // complementary colors: 2020 edition
+  --vivid-sky-blue: #00d7ff;
+  --bright-turquoise: #5d00f3;
+  --stil-de-grain-yellow: #f9ca5a;
+  --linen: #{$linen};
+  --coral-reef: #{$coral-reef};
+  --coral-reef--hover: #ff8c93;
+  --coral-reef--light: rgba(#{$coral-reef}, 0.2);
+  --razzle-dazzle-rose: #fe38c7;
+}
+

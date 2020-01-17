@@ -1,72 +1,72 @@
 import React from "react";
 
-import Button from "components/2020/uikit/Button";
+import { Section, Button } from "components/2020/uikit";
 
 export default { title: "Button" };
 
 export const Regular = () => (
   <>
-    <section>
+    <Section>
       <Button size="regular" type="primary">Primary</Button>
-    </section>
+    </Section>
 
-    <section>
+    <Section>
       <Button size="regular" type="secondary">Secondary</Button>
-    </section>
+    </Section>
 
-    <section>
+    <Section>
       <Button size="regular" type="secondary" inverted>Secondary inverted</Button>
-    </section>
+    </Section>
 
-    <section className="black">
+    <Section background="black">
       <Button size="regular" type="tertiary">Tertiary</Button>
-    </section>
+    </Section>
   </>
 );
 
 export const Large = () => (
   <>
-    <section>
+    <Section>
       <Button size="large" type="primary">Primary</Button>
-    </section>
+    </Section>
 
-    <section>
+    <Section>
       <Button size="large" type="secondary">Secondary</Button>
-    </section>
+    </Section>
 
-    <section className="black">
+    <Section background="black">
       <Button size="large" type="tertiary">Tertiary</Button>
-    </section>
+    </Section>
   </>
 );
 
 export const Small = () => (
   <>
-    <section>
+    <Section>
       <Button size="small" type="primary">Primary</Button>
-    </section>
+    </Section>
 
-    <section>
+    <Section>
       <Button size="small" type="secondary">Secondary</Button>
-    </section>
+    </Section>
 
-    <section>
+    <Section>
       <Button size="small" type="secondary" inverted>Secondary inverted</Button>
-    </section>
+    </Section>
 
-    <section className="black">
+    <Section background="black">
       <Button size="small" type="tertiary">Tertiary</Button>
-    </section>
+    </Section>
   </>
 );
 
 export const chevronPrimary   = () => (
-  <section>
+  <Section>
     <Button size="chevron" type="primary" />
-  </section>
+  </Section>
 );
 export const chevronSecondary = () => (
-  <section>
+  <Section>
     <Button size="chevron" type="secondary" />
-  </section>
+  </Section>
 );

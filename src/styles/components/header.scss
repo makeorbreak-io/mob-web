@@ -1,28 +1,23 @@
 .header {
   grid-area: hd;
-  position: fixed;
-  height: $header-height;
-  width: $mobile;
   background: var(--white);
-  padding: 0 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 64px;
+  position: sticky;
+  top: 0;
 
   @include mobile {
-    position: fixed;
-    width: 100%;
-    height: $header-height--mobile;
     padding: 0 16px;
     background: var(--electric-indigo);
+    z-index: 100;
   }
 }
 
 .header__logo {
-  // display: inline-block;
-  // margin-right: auto;
-
   &.desktop {
+    grid-column: 2 / span 2;
     width: 180px;
     height: 38px;
     background: transparent url("~assets/images/logo-main.svg") no-repeat center center;
@@ -67,7 +62,6 @@
 
   &__links {
     grid-area: nav-mn;
-    @include linkColors(var(--white), var(--white))
 
     a {
       display: block;
