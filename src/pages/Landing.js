@@ -25,7 +25,7 @@ const Hero = () => (
       Make or Break, in the heart of Porto
     </P>
 
-    <Button size="large" type="primary">
+    <Button size="large" level="primary">
       Apply Now
     </Button>
   </Section>
@@ -83,8 +83,8 @@ const AICompetition = () => (
       Hop on to our rules page to know more!
     </P>
 
-    <Button size="regular" type="primary">Apply now</Button>
-    <Button size="regular" type="tertiary">Regulation</Button>
+    <Button size="regular" level="primary">Apply now</Button>
+    <Button size="regular" level="tertiary">Regulation</Button>
   </Section>
 );
 
@@ -129,7 +129,7 @@ const Sponsors = () => (
 
     <Heading size="xl" color="black" centered>We have some amazing sponsors</Heading>
 
-    <Button size="large" type="primary">
+    <Button size="large" level="primary">
       Become a sponsor
     </Button>
   </Section>

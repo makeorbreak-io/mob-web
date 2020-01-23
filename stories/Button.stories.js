@@ -7,19 +7,19 @@ export default { title: "Button" };
 export const Regular = () => (
   <>
     <Section>
-      <Button size="regular" type="primary">Primary</Button>
+      <Button size="regular" level="primary">Primary</Button>
     </Section>
 
     <Section>
-      <Button size="regular" type="secondary">Secondary</Button>
+      <Button size="regular" level="secondary">Secondary</Button>
     </Section>
 
     <Section>
-      <Button size="regular" type="secondary" inverted>Secondary inverted</Button>
+      <Button size="regular" level="secondary" inverted>Secondary inverted</Button>
     </Section>
 
     <Section background="black">
-      <Button size="regular" type="tertiary">Tertiary</Button>
+      <Button size="regular" level="tertiary">Tertiary</Button>
     </Section>
   </>
 );
@@ -27,15 +27,15 @@ export const Regular = () => (
 export const Large = () => (
   <>
     <Section>
-      <Button size="large" type="primary">Primary</Button>
+      <Button size="large" level="primary">Primary</Button>
     </Section>
 
     <Section>
-      <Button size="large" type="secondary">Secondary</Button>
+      <Button size="large" level="secondary">Secondary</Button>
     </Section>
 
     <Section background="black">
-      <Button size="large" type="tertiary">Tertiary</Button>
+      <Button size="large" level="tertiary">Tertiary</Button>
     </Section>
   </>
 );
@@ -43,30 +43,30 @@ export const Large = () => (
 export const Small = () => (
   <>
     <Section>
-      <Button size="small" type="primary">Primary</Button>
+      <Button size="small" level="primary">Primary</Button>
     </Section>
 
     <Section>
-      <Button size="small" type="secondary">Secondary</Button>
+      <Button size="small" level="secondary">Secondary</Button>
     </Section>
 
     <Section>
-      <Button size="small" type="secondary" inverted>Secondary inverted</Button>
+      <Button size="small" level="secondary" inverted>Secondary inverted</Button>
     </Section>
 
     <Section background="black">
-      <Button size="small" type="tertiary">Tertiary</Button>
+      <Button size="small" level="tertiary">Tertiary</Button>
     </Section>
   </>
 );
 
 export const chevronPrimary   = () => (
   <Section>
-    <Button size="chevron" type="primary" />
+    <Button size="chevron" level="primary" />
   </Section>
 );
 export const chevronSecondary = () => (
   <Section>
-    <Button size="chevron" type="secondary" />
+    <Button size="chevron" level="secondary" />
   </Section>
 );
