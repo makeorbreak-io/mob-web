@@ -10,7 +10,7 @@
 
   max-width: $max-width;
   margin: 0 auto;
-  height: 100%;
+  min-height: 100vh;
 
   @include mobile() {
     width: 100vw;
@@ -29,6 +29,8 @@
 
 section {
   padding: 80px 30px;
+
+  &:only-child { height: 100%; }
 
   &.center {
     text-align: center;

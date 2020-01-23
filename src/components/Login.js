@@ -1,7 +1,6 @@
 import React from "react";
 import { compose } from "recompose";
-import { Field, reduxForm } from "redux-form";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -12,12 +11,13 @@ import { handleGraphQLErrors } from "lib/graphql";
 //
 // Components
 import {
-  Button,
-  buttonPropsFromReduxForm,
-  ErrorMessage,
-  FormErrorMessage,
-} from "components/uikit";
-import { Tabs, Tab, Panel } from "components/uikit/tabs";
+  Field,
+  Form,
+  Heading,
+  Link,
+  Section,
+  P,
+} from "components/2020/uikit";
 
 //
 // Validation
@@ -33,12 +33,11 @@ const validate = (values) => {
 export const Login = ({
   authenticate,
   data,
-  handleSubmit,
 }) => {
   const history = useHistory();
 
   const submit = ({ email, password }) => (
-    authenticate({ variables: { email: email.trim().toLowerCase(), password} })
+    authenticate({ variables: { email: email.trim().toLowerCase(), password } })
       .then((response) => localStorage.setItem("jwt", response.data.authenticate))
       .then(() => data.refetch())
       .then(() => history.push("/dashboard"))
@@ -46,73 +45,37 @@ export const Login = ({
   );
 
   return (
-    <div className="content white">
-      <div className="narrow-container">
-        <Tabs>
-          <Tab><span>Sign In</span></Tab>
-          <Panel>
-            <div className="Login">
-              <form onSubmit={handleSubmit(submit)}>
-                <div>
-                  <label htmlFor="email">Email</label>
-                  <Field
-                    name="email"
-                    component="input"
-                    type="text"
-                    placeholder="Email"
-                    className="fullwidth"
-                  />
-                  <ErrorMessage form="login" field="email" />
-                </div>
+    <Section background="white" center>
+      <Heading size="xl" color="purple" centered>
+        Sign In
+      </Heading>
 
-                <div>
-                  <label htmlFor="password">Password</label>
-                  <Field
-                    name="password"
-                    component="input"
-                    type="password"
-                    placeholder="Password"
-                    className="fullwidth"
-                  />
-                  <ErrorMessage form="login" field="password" />
-                </div>
+      <Form onSubmit={submit} validate={validate} submitLabel="Sign In">
+        <Field
+          label="Email"
+          name="email"
+          placeholder="Email"
+          type="email"
+        />
 
-                <Button
-                  {...buttonPropsFromReduxForm(this.props)}
-                  type="submit"
-                  primary
-                  form
-                  centered
-                  fullwidth
-                  feedbackFailureLabel="Error signing in"
-                >
-                  Sign In
-                </Button>
-                <FormErrorMessage form="login" />
-              </form>
+        <Field
+          label="Password"
+          name="password"
+          placeholder="Password"
+          type="password"
+        />
+      </Form>
 
-              <p className="small-notice">
-                Don't have an account? <Link to="/signup">Sign up</Link>
-              </p>
-
-              <p className="small-notice">
-                Forgot your password? <Link to="/recover-password">Recover it</Link>
-              </p>
-
-            </div>
-          </Panel>
-        </Tabs>
-      </div>
-    </div>
+      <P additional>
+        Don't have an account? <Link to="/signup">Sign up</Link>
+        <br />
+        Forgot your password? <Link to="/recover-password">Recover it</Link>
+      </P>
+    </Section>
   );
 };
 
 export default compose(
-  reduxForm({
-    form: "login",
-    validate,
-  }),
-
   withCurrentUser,
 
   graphql(
