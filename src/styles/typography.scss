@@ -91,3 +91,9 @@ h1 {
 h2, h3, h4, p, figure figcaption, span.tag {
   @include textColors();
 }
+
+// ---------------------------------------------------------------------------- Margins
+
+h1, h2, h3, h4, p, span.tag {
+  margin-bottom: 30px;
+}

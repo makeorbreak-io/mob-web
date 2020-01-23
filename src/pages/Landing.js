@@ -22,7 +22,6 @@ const Hero = () => (
 
     <P>
       Three days hackathon, talks, stories and activities to
-      <br />
       Make or Break, in the heart of Porto
     </P>
 
