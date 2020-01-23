@@ -9,6 +9,7 @@ type Props = {
   level: "primary" | "secondary" | "tertiary",
   size: "regular" | "large" | "small" | "chevron",
   onClick: () => void,
+  type: "button" | "submit" | "reset",
 }
 
 const Button = ({
@@ -17,9 +18,10 @@ const Button = ({
   level,
   onClick = () => {},
   size,
+  type = "button",
 }: Props) => {
   return (
-    <button className={cx(size, level, { inverted })} onClick={onClick}>
+    <button type={type} className={cx(size, level, { inverted })} onClick={onClick}>
       {children}
     </button>
   );

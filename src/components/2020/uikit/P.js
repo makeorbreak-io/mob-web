@@ -4,6 +4,7 @@ import * as React from "react";
 import cx from "classnames";
 
 type Props = {
+  additional: bool,
   centered: bool,
   children: React.Node,
   color: "black" | "white",
@@ -11,12 +12,13 @@ type Props = {
 }
 
 const P = ({
+  additional = false,
   centered = false,
   children,
   color = "black",
   large = false,
 }: Props) => (
-  <p className={cx(`text-color--${color}`, { large, centered })}>
+  <p className={cx(`text-color--${color}`, { large, centered, additional })}>
     {children}
   </p>
 );
