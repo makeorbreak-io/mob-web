@@ -8,21 +8,30 @@
   position: sticky;
   top: 0;
   z-index: 1;
+  box-shadow: 0 0 3px -1px var(--black--light);
 
-  @include mobile {
+  @include desktopNarrow() { padding: 0 32px; }
+  @include mobile() {
     padding: 0 16px;
     background: var(--electric-indigo);
     z-index: 100;
+    box-shadow: none;
   }
 }
 
 .header__logo {
   &.desktop {
-    grid-column: 2 / span 2;
     width: 180px;
     height: 38px;
     background: transparent url("~assets/images/logo-main.svg") no-repeat center center;
     background-size: 180px 38px;
+
+    @media (max-width: 1048px) {
+      width: 74px;
+      height: 35px;
+      background: transparent url("~assets/images/logo-abbr-purple.svg") no-repeat left center;
+      background-size: 74px 35px;
+    }
   }
 
   &.mobile {
@@ -36,6 +45,8 @@
 .header__navigation {
   .desktop a {
     margin: 0 16px 0 0;
+
+    &:last-of-type { margin-right: 0; }
   }
 }
 

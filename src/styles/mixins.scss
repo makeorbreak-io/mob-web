@@ -1,11 +1,8 @@
-//
-
-@mixin grid() {
-  display: grid;
-  grid-template-columns: repeat($column-count, $column-width);
-  grid-column-gap: $column-gap;
-}
 // ---------------------------------------------------------------------------- Media Queries
+
+@mixin desktopNarrow {
+  @media (max-width: 1110px) { @content; }
+}
 
 @mixin mobile {
   @media (max-width: #{$mobile}) { @content; }
