@@ -1,7 +1,7 @@
 // styles
 import "assets/reset";
 import "react-select/dist/react-select.css";
-import "styles/application";
+import "styles/2020.scss";
 
 // shims
 import "core-js/es/array/flat-map";

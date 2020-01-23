@@ -1,27 +1,26 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 
-import Navbar from "components/Navbar";
-import Footer from "components/Footer";
+import Header from "components/2020/Header";
+import Footer from "components/2020/Footer";
+
 import { Toaster } from "components/uikit";
 
 const App = ({
   children,
 }) => {
-  const location = useLocation();
-
   return (
     <div className="App">
-      <Navbar
-        landing={location.pathname === "/"}
-        fly={location.pathname === "/fly"}
-      />
+      <div className="layout">
+        <Header />
 
-      {children}
+        <div className="layout__content">
+          {children}
+        </div>
 
-      <Toaster />
+        <Toaster />
 
-      <Footer />
+        <Footer />
+      </div>
     </div>
   );
 };

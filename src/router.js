@@ -12,8 +12,8 @@ import App from "components/App";
 import Authenticated from "components/Authenticated";
 import Authorized from "components/Authorized";
 
-//
-// Public components
+import Landing from "pages/Landing";
+
 // import Landing from "components/Landing";
 import Dashboard from "components/Dashboard.UnderConstruction";
 import Login from "components/Login";
@@ -21,7 +21,7 @@ import Signup from "components/Signup";
 import RecoverPassword from "components/RecoverPassword";
 import ResetPassword from "components/ResetPassword";
 
-import Fly from "components/Fly";
+// import Fly from "components/Fly";
 
 //
 // Participant components
@@ -61,8 +61,8 @@ const Router = () => (
   <BrowserRouter>
     <App>
       <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route path="/fly" component={Fly} />
+        <Route exact path="/" component={Landing} />
+        {/*<Route path="/fly" component={Fly} />*/}
 
         <Route path="/signin" component={Login} />
         <Route path="/signup" component={Signup} />

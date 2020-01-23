@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import cx from "classnames";
 
-import { Button } from "components/2020/uikit";
+import {
+  Button,
+  Link,
+} from "components/2020/uikit";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -18,22 +21,22 @@ const Header = () => {
 
       <div className="header__navigation">
         <div className="desktop">
-          <a href="#hackathon">Hackathon</a>
-          <a href="#ai-competition">AI Competition</a>
-          <a href="#location">Location</a>
-          <a href="#mob-sessions">Mob Sessions</a>
-          <a href="#news">News</a>
+          <Link color="purple" to="#hackathon">Hackathon</Link>
+          <Link color="purple" to="#ai-competition">AI Competition</Link>
+          <Link color="purple" to="#location">Location</Link>
+          <Link color="purple" to="#mob-sessions">Mob Sessions</Link>
+          <Link color="purple" to="#news">News</Link>
         </div>
 
         <div className={mobileCx}>
           <button className="header__mobile__close" onClick={closeMenu} />
 
           <div className="header__mobile__links">
-            <a onClick={closeMenu} href="#hackathon">Hackathon</a>
-            <a onClick={closeMenu} href="#ai-competition">AI Competition</a>
-            <a onClick={closeMenu} href="#location">Location</a>
-            <a onClick={closeMenu} href="#mob-sessions">Mob Sessions</a>
-            <a onClick={closeMenu} href="#news">News</a>
+            <Link color="white" onClick={closeMenu} to="#hackathon">Hackathon</Link>
+            <Link color="white" onClick={closeMenu} to="#ai-competition">AI Competition</Link>
+            <Link color="white" onClick={closeMenu} to="#location">Location</Link>
+            <Link color="white" onClick={closeMenu} to="#mob-sessions">Mob Sessions</Link>
+            <Link color="white" onClick={closeMenu} to="#news">News</Link>
           </div>
 
           <div className="header__mobile__actions">
@@ -43,27 +46,6 @@ const Header = () => {
               (^ᴗ^) /
             </p>
           </div>
-
-          {/*
-          <button className="header__navigation__close" onClick={() => setOpen(false)} />
-
-          <div className="header__navigation__mobile">
-            <div>
-              <a href="#hackathon">Hackathon</a>
-              <a href="#ai-competition">AI Competition</a>
-              <a href="#location">Location</a>
-              <a href="#mob-sessions">Mob Sessions</a>
-              <a href="#news">News</a>
-            </div>
-            <div>
-              <Button size="regular" type="primary" inverted>Sign In</Button>
-              <Button size="regular" type="primary" inverted>Apply Now</Button>
-              <div className="header__navigation__mobile__lenny">
-                (^ᴗ^) /
-              </div>
-            </div>
-          </div>
-          */}
         </div>
       </div>
 

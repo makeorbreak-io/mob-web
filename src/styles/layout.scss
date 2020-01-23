@@ -1,24 +1,21 @@
 .layout {
+  @extend %grid;
+
   position: relative;
-  display: grid;
-  grid-template-columns: repeat($column-count, $column-width);
-  grid-column-gap: $column-gap;
   grid-template-rows: 70px auto 390px;
   grid-template-areas:
-    "hd hd hd hd hd hd hd hd hd hd hd hd"
-    "mn mn mn mn mn mn mn mn mn mn mn mn"
-    "ft ft ft ft ft ft ft ft ft ft ft ft";
+    ". #{gridArea("hd", 12)} ."
+    ". #{gridArea("mn", 12)} ."
+    ". #{gridArea("ft", 12)} .";
 
-  width: ($column-count * $column-width) + (($column-count - 1) * $column-gap);
+  max-width: $max-width;
   margin: 0 auto;
   height: 100%;
 
-  @include mobile {
+  @include mobile() {
     width: 100vw;
     margin: 0 auto;
-    grid-template-columns: 1fr;
-    grid-template-rows: 55px auto auto;
-    grid-column-gap: 0;
+    grid-template-rows: $header-height--mobile auto auto;
     grid-template-areas:
       "hd"
       "mn"
@@ -28,8 +25,18 @@
 
 .layout__content {
   grid-area: mn;
+}
 
-  @include mobile {
-    padding: 0 16px;
+section {
+  padding: 80px 30px;
+
+  &.center {
+    text-align: center;
+  }
+
+  @include backgroundColors();
+
+  @include mobile() {
+    padding: 40px 0;
   }
 }

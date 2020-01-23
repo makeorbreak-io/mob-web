@@ -1,0 +1,16 @@
+ul.list,
+ol.list {
+  &.list--horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    list-style: none;
+    flex-wrap: wrap;
+
+    li {
+      margin-right: 32px;
+
+      &:last-child { margin-right: 0; }
+    }
+  }
+}
