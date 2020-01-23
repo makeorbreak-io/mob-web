@@ -8,6 +8,19 @@
   @media (max-width: #{$mobile}) { @content; }
 }
 
+// ---------------------------------------------------------------------------- z index management
+
+$z-index: (
+  "negative"       : -1,
+  "base"           : 0,
+  "default"        : 1,
+  "header--mobile" : 100,
+);
+
+@function z-index($key) {
+  @return map-get($z-index, $key);
+}
+
 // ---------------------------------------------------------------------------- Buttons / Links
 
 @mixin buttonColors($backgroundColor, $borderColor, $textColor, $hoverBackgroundColor, $hoverBorderColor) {
@@ -72,7 +85,7 @@
 
 @mixin slopedBackground($color, $topLeft: 0px, $topRight: 0px, $bottomRight: 0px, $bottomLeft: 0px) {
   position: relative;
-  z-index: 1;
+  z-index: z-index("default");
 
   &:before {
     content: "";
@@ -82,7 +95,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: z-index("negative");
     background: $color;
     clip-path: polygon(
       0 #{$topLeft},
