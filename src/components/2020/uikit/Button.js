@@ -6,20 +6,20 @@ import cx from "classnames";
 type Props = {
   children: string,
   inverted: bool,
+  level: "primary" | "secondary" | "tertiary",
   size: "regular" | "large" | "small" | "chevron",
-  type: "primary" | "secondary" | "tertiary",
   onClick: () => void,
 }
 
 const Button = ({
   children,
   inverted = false,
+  level,
   onClick = () => {},
   size,
-  type,
 }: Props) => {
   return (
-    <button className={cx(size, type, { inverted })} onClick={onClick}>
+    <button className={cx(size, level, { inverted })} onClick={onClick}>
       {children}
     </button>
   );

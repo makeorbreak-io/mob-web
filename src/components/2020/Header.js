@@ -40,8 +40,8 @@ const Header = () => {
           </div>
 
           <div className="header__mobile__actions">
-            <Button size="regular" type="primary" inverted>Sign In</Button>
-            <Button size="regular" type="primary" inverted>Apply Now</Button>
+            <Button size="regular" level="primary" inverted>Sign In</Button>
+            <Button size="regular" level="primary" inverted>Apply Now</Button>
             <p className="header__mobile__lenny">
               (^ᴗ^) /
             </p>
@@ -50,12 +50,12 @@ const Header = () => {
       </div>
 
       <div className="header__actions desktop">
-        <Button size="small" type="secondary">Sign In</Button>
-        <Button size="small" type="primary">Apply Now</Button>
+        <Button size="small" level="secondary">Sign In</Button>
+        <Button size="small" level="primary">Apply Now</Button>
       </div>
 
       <div className="header__actions mobile">
-        <Button size="small" type="secondary" inverted>Apply Now</Button>
+        <Button size="small" level="secondary" inverted>Apply Now</Button>
         <button className="header__hamburger" onClick={() => setOpen(true)} />
       </div>
     </div>
