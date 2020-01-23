@@ -1,7 +1,8 @@
 .footer {
-  @extend %grid;
-
   grid-area: ft;
+
+  display: grid;
+  grid-template-columns: repeat($column-count, 1fr);
   grid-template-rows: 190px 100px 100px;
   background: var(--white);
 
@@ -12,7 +13,7 @@
   @include mobile() {
     grid-template-columns: 16px 1fr 16px;
     grid-template-rows: 125px repeat(4, auto);
-    grid-gap: 36px;
+    grid-row-gap: 36px;
   }
 }
 
@@ -24,6 +25,9 @@
   left: 64px;
   background: transparent url("~assets/images/logo-round.svg") no-repeat center center;
 
+  @include desktopNarrow() {
+    left: 32px;
+  }
 
   @include mobile {
     left: 16px;
@@ -35,9 +39,9 @@
   &__resources, &__social, &__copyright, &__newsletter { align-self: start; }
   &__social, &__newsletter { justify-self: end; }
 
-  &__resources  { grid-row: 2; grid-column: 3 / -4; }
+  &__resources  { grid-row: 2; grid-column: 2 / -4; }
   &__social     { grid-row: 2; grid-column: 10 / -2; }
-  &__copyright  { grid-row: 3; grid-column: 3 / -6; }
+  &__copyright  { grid-row: 3; grid-column: 2 / -6; }
   &__newsletter { grid-row: 3; grid-column: 8 / -2; }
 
   @include mobile() {

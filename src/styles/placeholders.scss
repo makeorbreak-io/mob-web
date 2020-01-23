@@ -1,8 +1,0 @@
-%grid {
-  display: grid;
-  grid-template-columns: 64px repeat(12, 1fr) 64px;
-
-  @include mobile() {
-    grid-template-columns: 1fr;
-  }
-}
