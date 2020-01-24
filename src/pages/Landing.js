@@ -32,7 +32,7 @@ const Hero = () => (
 );
 
 const Prizes = () => (
-  <Section background="black" center>
+  <Section background="black" id="hackathon" center>
     <Heading size="xl" color="blue" centered>You can win amazing prizes</Heading>
 
     <P color="white">
@@ -50,7 +50,7 @@ const Prizes = () => (
 );
 
 const Workshops = () => (
-  <Section background="white" center>
+  <Section background="white" id="workshops" center>
     <Tag background="yellow" color="white">Workshops</Tag>
 
     <Heading size="xl" color="black" centered>Come learn with us!</Heading>
@@ -64,12 +64,12 @@ const Workshops = () => (
 );
 
 const Talks = () => (
-  <Section background="beige">
+  <Section background="beige" id="talks">
   </Section>
 );
 
 const AICompetition = () => (
-  <Section background="black">
+  <Section background="black" id="ai-competition">
     <Tag background="green" color="white">AI Competition</Tag>
 
     <Heading size="xl" color="white">One bot to rule the board!</Heading>
@@ -97,7 +97,7 @@ const AICompetitionPrizes = () => (
 );
 
 const Location = () => (
-  <Section background="white">
+  <Section background="white" id="location">
     <Tag background="red" color="white">Location</Tag>
 
     <Heading size="xl" color="black">
@@ -109,7 +109,7 @@ const Location = () => (
 );
 
 const Gallery = () => (
-  <Section background="white">
+  <Section background="white" id="gallery">
   </Section>
 );
 
@@ -118,13 +118,13 @@ const MobSessions = () => (
 );
 
 const News = () => (
-  <Section background="beige">
+  <Section background="beige" id="news">
     <Tag background="purple" color="white">Latest News</Tag>
   </Section>
 );
 
 const Sponsors = () => (
-  <Section background="white" center>
+  <Section background="white" id="sponsors" center>
     <Tag background="purple" color="white">Sponsors</Tag>
 
     <Heading size="xl" color="black" centered>We have some amazing sponsors</Heading>

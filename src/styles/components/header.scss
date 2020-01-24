@@ -20,6 +20,12 @@
 }
 
 .header__logo {
+  a {
+    display:  block;
+    width: 100%;
+    height: 100%;
+  }
+
   &.desktop {
     width: 180px;
     height: 38px;
@@ -84,7 +90,7 @@
   &__actions {
     grid-area: nav-ft;
 
-    button { margin: 0 0 16px 0; }
+    button, a { margin: 0 0 16px 0; }
   }
 
   &__lenny {
@@ -97,10 +103,12 @@
   }
 }
 
-.header__actions button {
-  margin-right: 16px;
-  vertical-align: middle;
-  &:last-of-type { margin-right: 0; }
+.header__actions {
+  a, button {
+    margin-right: 16px;
+    vertical-align: middle;
+    &:last-of-type { margin-right: 0; }
+  }
 }
 
 .header__hamburger,

@@ -79,7 +79,8 @@ a, a:link, a:visited, a:active {
   @include linkColors();
 
   &.external { text-decoration: underline; }
-  &.anchor:after { display: none !important; }
+  &.anchor:after, &.unstyled:after { display: none !important; }
+  &.unstyled { color: inherit; }
 }
 
 // ---------------------------------------------------------------------------- Form elements
