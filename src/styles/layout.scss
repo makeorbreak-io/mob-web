@@ -24,6 +24,7 @@
 }
 
 section {
+  position: relative;
   padding: 80px 30px;
 
   &:only-child { height: 100%; }
@@ -40,5 +41,14 @@ section {
     padding: 40px 16px;
 
     button + button { margin-left: 0; margin-top: 12px; }
+  }
+}
+
+.section__anchor {
+  position: absolute;
+  top: -$header-height;
+
+  @include mobile() {
+    top: -$header-height--mobile;
   }
 }
