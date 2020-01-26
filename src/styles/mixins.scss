@@ -11,10 +11,11 @@
 // ---------------------------------------------------------------------------- z index management
 
 $z-index: (
-  "negative"       : -1,
-  "base"           : 0,
-  "default"        : 1,
-  "header--mobile" : 100,
+  "negative"         : -1,
+  "base"             : 0,
+  "default"          : 1,
+  "prize-navigation" : 10,
+  "header"           : 100,
 );
 
 @function z-index($key) {

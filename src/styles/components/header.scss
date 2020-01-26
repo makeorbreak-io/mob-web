@@ -8,14 +8,13 @@
   position: sticky;
   top: 0;
   box-shadow: 0 0 3px -1px var(--black--light);
-  z-index: z-index("default");
+  z-index: z-index("header");
 
   @include desktopNarrow() { padding: 0 32px; }
   @include mobile() {
     padding: 0 16px;
     background: var(--electric-indigo);
     box-shadow: none;
-    z-index: z-index("header--mobile");
   }
 }
 
