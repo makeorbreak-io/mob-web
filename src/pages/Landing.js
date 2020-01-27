@@ -11,6 +11,13 @@ import {
   Tag,
 } from "components/2020/uikit";
 
+import PrizeGallery from "components/landing/PrizeGallery";
+const prizes = [
+  { category: "Fun"      , alt: "", image: "https://placehold.it/360x360" },
+  { category: "Useful"   , alt: "", image: "https://placehold.it/360x360" },
+  { category: "Creative" , alt: "", image: "https://placehold.it/360x360" },
+];
+
 const Hero = () => (
   <Section background="beige" center>
     <Tag background="white" color="purple">TBD 2020</Tag>
@@ -41,8 +48,10 @@ const Prizes = () => (
       (one per member of each category's winning team)
     </P>
 
+    <PrizeGallery prizes={prizes} />
+
     <P color="white" large>
-      More intered in an AI competition?
+      More interested in an AI competition?
       <br />
       No problem, we have special prizes for that!
     </P>
