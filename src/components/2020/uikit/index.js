@@ -8,3 +8,4 @@ export Icon from "./Icon";
 export P from "./P";
 export Section from "./Section";
 export Tag from "./Tag";
+export Accordion from "./Accordion";

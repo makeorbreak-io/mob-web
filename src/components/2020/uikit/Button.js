@@ -5,6 +5,7 @@ import cx from "classnames";
 
 type Props = {
   children: string,
+  className: string,
   inverted: bool,
   level: "primary" | "secondary" | "tertiary",
   size: "regular" | "large" | "small" | "chevron",

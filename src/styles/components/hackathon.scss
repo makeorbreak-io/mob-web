@@ -1,0 +1,85 @@
+.Hackathon {
+  @include backgroundColors();
+
+  max-width: 1074px;
+  display: grid;
+  grid-template-columns: calc(50% - 16px) calc(50% - 16px);
+  grid-template-areas:
+    "s1 s2"
+    "cta s2";
+  column-gap: 32px;
+  height: 483px;
+  padding: 64px;
+
+  h1, p {
+    margin-top: 16px;
+  }
+  h1 {
+    white-space: pre-line;
+  }
+
+  .Tag {
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+
+  @include mobile {
+    padding: 24px;
+    max-width: 343px;
+    grid-gap: unset;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto;
+    grid-template-areas:
+      "s1"
+      "s2"
+      "cta";
+
+    h1, p {
+      margin-bottom: 0;
+    }
+  }
+
+  .Cta {
+    display: flex;
+    grid-area: cta;
+
+    @include mobile {
+      flex-direction: column;
+      margin-top: 16px;
+    }
+
+    .Cta-Regulation {
+      @include mobile {
+        margin-top: 16px;
+      }
+    }
+  }
+
+
+  .Side1 {
+    grid-area: s1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .Side2 {
+    grid-area: s2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    & > p {
+      margin-top: 24px;
+      margin-bottom: 0px;
+
+      @include mobile {
+        margin-top: 16px;
+      }
+    }
+
+    @include mobile {
+      margin-top: 16px;
+    }
+  }
+}

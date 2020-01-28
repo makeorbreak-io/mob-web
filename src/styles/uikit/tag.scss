@@ -1,0 +1,11 @@
+.Tag {
+  @include backgroundColors();
+  @include textColors();
+
+  padding: 8px;
+  display: inline-block; // so it respects the damn padding :facepalm:
+
+  font: 1.375rem/2.125rem "Open Sans", sans-serif;                    // 22px/34px
+  @include mobile { font: 1.125rem/1.75rem "Open Sans", sans-serif; } // 18px/28px
+
+}
