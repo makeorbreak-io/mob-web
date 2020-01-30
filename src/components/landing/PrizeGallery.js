@@ -10,7 +10,7 @@ import {
 } from "components/2020/uikit";
 
 type Props = {
-  prizes: {},
+  prizes: [],
 };
 
 const PrizeGallery = ({
