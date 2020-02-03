@@ -29,6 +29,20 @@ const photos = [
   { caption: "MoB Sessions", image: "https://placehold.it/280x280" },
 ];
 
+import SponsorList from "components/landing/SponsorList";
+const sponsors = [
+  { image: "https://placehold.it/150x90", name: "Sponsor 1", url: "https://google.com" },
+  { image: "https://placehold.it/150x90", name: "Sponsor 2", url: "https://google.com" },
+  { image: "https://placehold.it/150x90", name: "Sponsor 3", url: "https://google.com" },
+  { image: "https://placehold.it/150x90", name: "Sponsor 4", url: "https://google.com" },
+  { image: "https://placehold.it/150x90", name: "Sponsor 5", url: "https://google.com" },
+  { image: "https://placehold.it/150x90", name: "Sponsor 6", url: "https://google.com" },
+  { image: "https://placehold.it/150x90", name: "Sponsor 7", url: "https://google.com" },
+  { image: "https://placehold.it/150x90", name: "Sponsor 8", url: "https://google.com" },
+  { image: "https://placehold.it/150x90", name: "Sponsor 9", url: "https://google.com" },
+  { image: "https://placehold.it/150x90", name: "Sponsor 10", url: "https://google.com" },
+];
+
 const Hero = () => (
   <Section background="beige" center>
     <Tag background="white" color="purple">TBD 2020</Tag>
@@ -149,6 +163,8 @@ const Sponsors = () => (
     <Tag background="purple" color="white">Sponsors</Tag>
 
     <Heading size="xl" color="black" centered>We have some amazing sponsors</Heading>
+
+    <SponsorList sponsors={sponsors} />
 
     <Button size="large" level="primary">
       Become a sponsor
