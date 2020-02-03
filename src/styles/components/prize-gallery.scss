@@ -54,7 +54,7 @@
       "i"
       "d";
     z-index: z-index("base");
-    transform: translateX(calc(var(--pos) * 75%)) scale(.85);
+    transform: translateX(calc(var(--pos, 0) * 75%)) scale(.85);
 
     &--current {
       z-index: z-index("default");
@@ -63,11 +63,7 @@
     }
   }
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  img { @extend %cover-image; }
 }
 
 
@@ -99,9 +95,8 @@
   cursor: pointer;
 
   img {
-    width: 140px;
+    @extend %cover-image;
     height: 130px;
-    object-fit: cover;
   }
 
   hr {

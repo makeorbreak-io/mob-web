@@ -18,6 +18,17 @@ const prizes = [
   { category: "Creative" , alt: "", image: "https://placehold.it/360x360" },
 ];
 
+import PhotoGallery from "components/landing/PhotoGallery";
+const photos = [
+  { caption: "Boardgames", image: "https://placehold.it/280x280" },
+  { caption: "Workshops", image: "https://placehold.it/280x280" },
+  { caption: "Talks", image: "https://placehold.it/280x280" },
+  { caption: "Food & Drinks", image: "https://placehold.it/280x280" },
+  { caption: "Videogames", image: "https://placehold.it/280x280" },
+  { caption: "Making", image: "https://placehold.it/280x280" },
+  { caption: "MoB Sessions", image: "https://placehold.it/280x280" },
+];
+
 const Hero = () => (
   <Section background="beige" center>
     <Tag background="white" color="purple">TBD 2020</Tag>
@@ -119,6 +130,7 @@ const Location = () => (
 
 const Gallery = () => (
   <Section background="white" id="gallery">
+    <PhotoGallery photos={photos} />
   </Section>
 );
 

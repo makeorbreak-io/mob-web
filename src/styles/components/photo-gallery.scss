@@ -1,0 +1,46 @@
+.photo-gallery {
+  max-width: 1280px;
+  margin: 0 auto;
+  overflow:  hidden;
+}
+
+.photo-gallery__photos {
+  height: 332px;
+  overflow: hidden;
+  overflow-x: auto;
+  padding: 3px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.photo-gallery__photo {
+  display: inline-block;
+  margin: 0 12px;
+  width: 326px;
+  height: 326px;
+  padding: 23px;
+  background:  var(--white);
+  box-shadow: 0 0 5px 1px rgba(0,0,0,0.2);
+
+  figure {
+    width: 280px;
+    height: 280px;
+    position: relative;
+    transform: rotate(var(--rot, 2deg));
+
+    figcaption {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    img { @extend %cover-image; }
+  }
+
+  &:nth-child(2n) figure { --rot: 0; }
+  &:nth-child(3n) figure { --rot: -1deg; }
+  &:nth-child(4n) figure { --rot: 1deg; }
+  &:nth-child(5n) figure { --rot: -2deg; }
+  &:nth-child(6n) figure { --rot: 1deg; }
+}
