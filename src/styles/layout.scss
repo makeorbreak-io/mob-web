@@ -1,7 +1,7 @@
 .layout {
   position: relative;
   display: grid;
-  grid-template-columns: auto;
+  grid-template-columns: minmax($min-width, $max-width);
   grid-template-rows: 70px auto 390px;
   grid-template-areas:
     "hd"
@@ -23,8 +23,9 @@
 }
 
 section {
+  width: 100%;
   position: relative;
-  padding: 80px 30px;
+  padding: 80px $section-padding;
 
   &:only-child { height: 100%; }
 
