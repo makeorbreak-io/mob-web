@@ -39,7 +39,7 @@ section {
 
   @include mobile() {
     max-width: 100vw;
-    padding: 40px 16px;
+    padding: 40px $section-padding--mobile;
 
     button + button { margin-left: 0; margin-top: 12px; }
   }

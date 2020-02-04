@@ -1,0 +1,43 @@
+.sponsor-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1040px;
+  margin: 0 auto 30px;
+
+  @include mobile {
+    max-width: 100%;
+    margin: 0 0 30px;
+  }
+}
+
+.sponsor-list__sponsor {
+  flex: 0 0 244px;
+  height: 133px;
+  margin: 8px;
+  border: 1px solid var(--isabelline);
+
+  a {
+    @extend %fullsize-link;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  img {
+    width: 150px;
+    transition: transform 300ms ease-in-out;
+  }
+
+  &:hover img { transform: scale(1.3); }
+
+  @include mobile {
+    flex: 0 0 calc(50vw - 24px);
+    height: 96px;
+    margin: 0 4px 8px;
+
+    img { width: 100px; }
+  }
+}
