@@ -1,6 +1,6 @@
 import React from "react";
 
-import Hackathon from "components/2020/Hackathon";
+import Hackathon from "components/landing/Hackathon";
 
 export default { title: "Hackathon" };
 
