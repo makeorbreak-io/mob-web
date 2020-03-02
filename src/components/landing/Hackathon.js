@@ -9,8 +9,8 @@ type Props = {
   background: "white" | "beige"
 };
 
-const Hackathon = ({ phase = "openRegistrations", background = "beige" }) => <section className={`Hackathon background--${background}`}>
-  <div className="Side1">
+const Hackathon = ({ phase = "openRegistrations", background = "beige" }) => <section className={`hackathon background--${background}`}>
+  <div className="side1">
     <div>
       <Tag color="white" background="blue">Hackathon</Tag>
     </div>
@@ -19,12 +19,12 @@ const Hackathon = ({ phase = "openRegistrations", background = "beige" }) => <se
   </div>
    {
     phase === "openRegistrations" &&
-      <div className="Cta">
+      <div className="cta">
         <Button size="regular" level="primary">Apply Now</Button>
         <Button size="regular" level="secondary">Regulation</Button>
       </div>
     }
-  <div className="Side2">
+  <div className="side2">
     {phase !== "postEvent" && <Accordion />}
     {phase === "openRegistrations" && <P>We've got great prizes, mentors, food, and a kickass chill-out zone!</P>}
     {phase === "postEvent" &&

@@ -16,7 +16,7 @@ const Tag = ({
   color = "black",
   background = "white",
 }: Props) => (
-  <span className={cx(`Tag background--${background} text-color--${color}`, { centered })}>
+  <span className={cx(`tag background--${background} text-color--${color}`, { centered })}>
     {children}
   </span>
 );
