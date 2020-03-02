@@ -18,13 +18,6 @@ const prizes = [
   { category: "Creative" , alt: "", image: "https://placehold.it/360x360" },
 ];
 
-import AIPrizes from "components/landing/AICompetitionPrizes";
-const aiPrizes = [
-  { title: "1st Place", image: "https://placehold.it/500x300", alt: "", details: ["Asus Tinker Board", "2.5\" 1Tb HDD Seagate Backup Plus Slim", "UE BOOM 2", "1 year of private github"] },
-  { title: "2nd Place", image: "https://placehold.it/500x300", alt: "", details: ["Asus Tinker Board", "2.5\" 1Tb HDD Seagate Backup Plus Slim", "1 year of private github"] },
-  { title: "3rd Place", image: "https://placehold.it/500x300", alt: "", details: ["Asus Tinker Board", "1 year of private github"]},
-];
-
 import PhotoGallery from "components/landing/PhotoGallery";
 const photos = [
   { caption: "Boardgames", image: "https://placehold.it/280x280" },
@@ -134,8 +127,6 @@ const AICompetitionPrizes = () => (
     <Heading size="xl" color="green" centered>
       AI Competition Prizes
     </Heading>
-
-    <AIPrizes prizes={aiPrizes} />
   </Section>
 );
 

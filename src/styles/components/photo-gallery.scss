@@ -1,17 +1,25 @@
 .photo-gallery {
-  margin: 0 -#{$section-padding - 20px};
+  max-width: 1280px;
+  margin: 0 auto;
+  overflow: hidden;
 
   @include mobile {
     max-width: 100%;
-    margin: 0;
   }
 }
 
 .photo-gallery__photos {
+  height: 332px;
+  overflow: hidden;
   overflow-x: auto;
-  padding: 5px 0;
+  padding: 3px;
   text-align: center;
   white-space: nowrap;
+
+  @include mobile {
+    height: 235px;
+    max-width: calc(100vw - 32px);
+  }
 }
 
 .photo-gallery__photo {

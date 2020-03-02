@@ -16,7 +16,7 @@ const Section = ({
   children,
   id,
 }: Props) => (
-  <section className={cx(`background--${background}`, { center, [`section-${id}`]: id })}>
+  <section className={cx(`background--${background}`, { center })}>
     {id && <div id={id} className="section__anchor" />}
     {children}
   </section>
