@@ -130,7 +130,7 @@ const AICompetition = () => (
 );
 
 const AICompetitionPrizes = () => (
-  <Section background="black" center>
+  <Section background="black" center id="ai-competition-prizes">
     <Heading size="xl" color="green" centered>
       AI Competition Prizes
     </Heading>

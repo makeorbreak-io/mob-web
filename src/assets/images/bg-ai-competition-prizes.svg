@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1324px" height="703px" viewBox="0 0 1324 703" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>shapes</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="homepage_2020" transform="translate(-84.000000, -6304.000000)">
+            <g transform="translate(-116.000000, 245.000000)" id="prizes_ai">
+                <g transform="translate(180.000000, 5221.000000)">
+                    <g id="shapes" transform="translate(32.000000, 838.000000)">
+                        <path d="M171,666.172043 L171,697.702162" id="shape_14" stroke="#FF7373" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M171,666.172043 L171,697.702162" id="shape_14" stroke="#FF7373" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(171.000000, 682.000000) rotate(-270.000000) translate(-171.000000, -682.000000) "></path>
+                        <path d="M1178,521 L1239,521" id="shape_13" stroke="#FE38C7" stroke-width="10" stroke-linecap="round"></path>
+                        <path d="M1298.89295,443.551994 L1298.89295,462.273002" id="shape_12" stroke="#5D00F3" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M1298.97516,443.629631 L1298.97516,462.350639" id="shape_12" stroke="#5D00F3" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(1298.975163, 452.990135) rotate(-270.000000) translate(-1298.975163, -452.990135) "></path>
+                        <polyline id="shape_11" stroke="#CBBAED" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points="1124 450 1143 431 1162 450 1181 431 1200 450 1219 431 1238 450"></polyline>
+                        <path d="M82,454.817204 L82,546.451611" id="shape_10" stroke="#FE38C7" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <circle id="shape_9" fill="#F9CA5A" cx="1170" cy="281" r="11"></circle>
+                        <rect id="shape_8" fill="#00D7FF" transform="translate(25.000000, 380.000000) rotate(14.000000) translate(-25.000000, -380.000000) " x="13" y="368" width="24" height="24"></rect>
+                        <path d="M1295,191.817204 L1295,283.451611" id="shape_7" stroke="#CBBAED" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M1233,178.416667 C1219.19298,178.416667 1208,167.130417 1208,153.208333 C1208,139.28625 1219.19298,128 1233,128" id="shape_6" stroke="#00E8BB" stroke-width="10" stroke-linecap="round"></path>
+                        <polyline id="shape_5" stroke="#FF7373" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points="6 239 25 220 44 239 63 220 82 239 101 220 120 239"></polyline>
+                        <polygon id="shape_4" fill="#F9CA5A" points="1146.5 2 1162 33 1131 33"></polygon>
+                        <circle id="shape_3" fill="#CBBAED" transform="translate(283.500000, 9.500000) scale(-1, -1) translate(-283.500000, -9.500000) " cx="283.5" cy="9.5" r="9.5"></circle>
+                        <rect id="shape_2" fill="#FF7373" x="104" y="57" width="32" height="32"></rect>
+                        <circle id="shape_1" stroke="#F9CA5A" stroke-width="24" cx="5" cy="49" r="5"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

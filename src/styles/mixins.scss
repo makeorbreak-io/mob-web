@@ -8,6 +8,10 @@
   @media (max-width: #{$mobile}) { @content; }
 }
 
+@mixin tablet {
+  @media (min-width: 640px) and (max-width: #{$mobile}) { @content; }
+}
+
 // ---------------------------------------------------------------------------- z index management
 
 $z-index: (
