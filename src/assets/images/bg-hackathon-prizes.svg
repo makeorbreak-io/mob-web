@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1287px" height="650px" viewBox="0 0 1287 650" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>shapes</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="homepage_2020" transform="translate(-108.000000, -1634.000000)">
+            <g transform="translate(-116.000000, 245.000000)" id="prize_hackathon">
+                <g transform="translate(229.000000, 1229.000000)">
+                    <g id="shapes" transform="translate(0.000000, 160.000000)">
+                        <path d="M19,552.817204 L19,644.451611" id="shape_19" stroke="#FE38C7" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M1171,521 L1232,521" id="shape_18" stroke="#FE38C7" stroke-width="10" stroke-linecap="round"></path>
+                        <path d="M1156.27829,401.102151 L1156.27829,419.823159" id="shape_17" stroke="#5D00F3" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M1156.3605,401.179787 L1156.3605,419.900795" id="shape_17" stroke="#5D00F3" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(1156.360504, 410.540291) rotate(-270.000000) translate(-1156.360504, -410.540291) "></path>
+                        <rect id="shape_16" fill="#00D7FF" transform="translate(964.000000, 448.000000) rotate(14.000000) translate(-964.000000, -448.000000) " x="952" y="436" width="24" height="24"></rect>
+                        <path d="M300,459 L361,459" id="shape_15" stroke="#FE38C7" stroke-width="10" stroke-linecap="round"></path>
+                        <circle id="shape_14" fill="#CBBAED" transform="translate(116.500000, 476.500000) scale(-1, -1) translate(-116.500000, -476.500000) " cx="116.5" cy="476.5" r="9.5"></circle>
+                        <path d="M142,384.172043 L142,415.702162" id="shape_13" stroke="#00E8BB" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M142,384.172043 L142,415.702162" id="shape_13" stroke="#00E8BB" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(142.000000, 400.000000) rotate(-270.000000) translate(-142.000000, -400.000000) "></path>
+                        <polyline id="Stroke_12" stroke="#00E8BB" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(23.712662, 358.040266) rotate(-360.000000) translate(-23.712662, -358.040266) " points="30.2126625 372.040266 17.2126625 358.040266 30.2126625 344.040266"></polyline>
+                        <polyline id="Stroke_11" stroke="#00E8BB" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(72.712662, 358.040266) scale(-1, 1) rotate(-360.000000) translate(-72.712662, -358.040266) " points="79.2126625 372.040266 66.2126625 358.040266 79.2126625 344.040266"></polyline>
+                        <polyline id="shape_10" stroke="#CBBAED" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points="1247 210 1277 210 1277 306 1247 306"></polyline>
+                        <path d="M1227,152.416667 C1213.19298,152.416667 1202,141.130417 1202,127.208333 C1202,113.28625 1213.19298,102 1227,102" id="shape_9" stroke="#00E8BB" stroke-width="10" stroke-linecap="round"></path>
+                        <circle id="shape_8" fill="#FE38C7" cx="1055" cy="177" r="11"></circle>
+                        <polyline id="shape_7" stroke="#8C84FF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points="0 213 19 194 38 213 57 194 76 213 95 194 114 213"></polyline>
+                        <rect id="shape_6" fill="#00D7FF" x="1072" y="84" width="18" height="18"></rect>
+                        <polygon id="shape_5" fill="#F9CA5A" points="1140.5 0 1156 31 1125 31"></polygon>
+                        <polyline id="shape_4" stroke="#CBBAED" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points="985 49 1003 31 1021 49 1039 31 1057 49 1075 31 1093 49"></polyline>
+                        <path d="M885.609171,82.9296746 L885.609171,114.459793" id="shape_3" stroke="#FF7373" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M885.609171,82.9296746 L885.609171,114.459793" id="shape_3" stroke="#FF7373" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(885.609171, 98.757632) rotate(-270.000000) translate(-885.609171, -98.757632) "></path>
+                        <circle id="shape_2" stroke="#F9CA5A" stroke-width="24" cx="274" cy="109" r="5"></circle>
+                        <rect id="shape_1" fill="#FF7373" x="98" y="31" width="32" height="32"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

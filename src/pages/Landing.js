@@ -51,7 +51,7 @@ const sponsors = [
 ];
 
 const Hero = () => (
-  <Section background="beige" center>
+  <Section background="beige" center id="hero">
     <Tag background="white" color="purple">TBD 2020</Tag>
 
     <Heading size="xl" color="purple" centered>

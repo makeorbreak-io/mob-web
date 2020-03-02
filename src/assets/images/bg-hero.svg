@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1285px" height="788px" viewBox="0 0 1285 788" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>shapes</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="homepage_2020" transform="translate(-93.000000, -358.000000)">
+            <g transform="translate(-116.000000, 245.000000)" id="header">
+                <g transform="translate(214.000000, 118.000000)">
+                    <g id="shapes">
+                        <path d="M41,778 C29.9543802,778 21,769.04562 21,758 C21,746.95438 29.9543802,738 41,738" id="shape_20" stroke="#FF7373" stroke-width="10" stroke-linecap="round"></path>
+                        <path d="M1275,686 C1254.5656,686 1238,669.434397 1238,649 C1238,628.565603 1254.5656,612 1275,612" id="shape_19" stroke="#00D7FF" stroke-width="10" stroke-linecap="round" transform="translate(1256.500000, 649.000000) rotate(-360.000000) translate(-1256.500000, -649.000000) "></path>
+                        <path d="M1213,441 L1262.19355,441" id="shape_18" stroke="#FD00FF" stroke-width="10" opacity="0.400000006" stroke-linecap="round"></path>
+                        <rect id="shape_17" fill="#00D7FF" x="872" y="458" width="26" height="26"></rect>
+                        <polyline id="shape_16" stroke="#00E8BB" stroke-width="10" opacity="0.400000006" stroke-linecap="round" transform="translate(673.500000, 490.000000) scale(-1, 1) rotate(-360.000000) translate(-673.500000, -490.000000) " points="680 504 667 490 680 476"></polyline>
+                        <path d="M421,471 L470.193548,471" id="shape_15" stroke="#FD00FF" stroke-width="10" stroke-linecap="round"></path>
+                        <polyline id="shape_14" stroke="#00E8BB" stroke-width="10" stroke-linecap="round" transform="translate(55.500000, 490.000000) rotate(-360.000000) translate(-55.500000, -490.000000) " points="62 504 49 490 62 476"></polyline>
+                        <polygon id="shape_13" fill="#F9CA5A" points="1045.5 325 1058 350 1033 350"></polygon>
+                        <path d="M983,391.854549 L983,464.767949" id="shape_12" stroke="#FD00FF" stroke-width="10" stroke-linecap="round"></path>
+                        <polyline id="shape_11" stroke="#8C84FF" stroke-width="10" opacity="0.400000006" stroke-linecap="round" stroke-linejoin="round" points="208 428 226.333333 410 244.666667 428 263 410 281.333333 428 299.666667 410 318 428"></polyline>
+                        <path d="M204,307.139785 L204,332.758006" id="shape_10" stroke="#FF7373" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M204.051104,307.190889 L204.051104,332.809111" id="shape_10" stroke="#FF7373" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(204.051104, 320.000000) rotate(-270.000000) translate(-204.051104, -320.000000) "></path>
+                        <polyline id="shape_9" stroke="#FF7373" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points="1097 267 1115.33333 249 1133.66667 267 1152 249 1170.33333 267 1188.66667 249 1207 267"></polyline>
+                        <polyline id="shape_8" stroke="#00E8BB" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points="240 249 240 266 286 266"></polyline>
+                        <path d="M6,266 L55.1935484,266" id="shape_7" stroke="#FD00FF" stroke-width="10" stroke-linecap="round"></path>
+                        <circle id="shape_6" stroke="#F9CA5A" stroke-width="10" cx="1181.5" cy="96.5" r="5.5"></circle>
+                        <path d="M141,100.854549 L141,173.767949" id="shape_5" stroke="#F9CA5A" stroke-width="10" opacity="0.400000006" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <polyline id="shape_4" stroke="#CBBAED" stroke-width="10" opacity="0.400000006" stroke-linecap="round" stroke-linejoin="round" points="1080 65 1080 43 1106.36169 43 1113 43"></polyline>
+                        <path d="M880,25 L929.193548,25" id="shape_3" stroke="#FD00FF" stroke-width="10" stroke-linecap="round"></path>
+                        <rect id="shape_2" fill="#00D7FF" x="321" y="18" width="15" height="15"></rect>
+                        <polyline id="shape_1" stroke="#8C84FF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points="0 18 18.3333333 0 36.6666667 18 55 0 73.3333333 18 91.6666667 0 110 18"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
