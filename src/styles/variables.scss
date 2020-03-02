@@ -14,6 +14,7 @@ $white                : #ffffff;
 $bright-turquoise     : #26e7bc;
 $coral-reef           : #ff7373;
 $electric-indigo      : #5d00f3;
+$grey                 : #b2b2b2;
 $linen                : #ffefe4;
 $outer-space          : #484848;
 $vivid-sky-blue       : #00d7ff;
@@ -24,6 +25,7 @@ $razzle-dazzle-rose   : #fe38c7;
   // colors
   --black : #{$black};
   --black--light: rgba(0, 0, 0, 0.5);
+  --grey: #b2b2b2;
   --white : #{$white};
   // --white--light : rgba(#{$white}, 0.5);
   --white--light : rgba(255, 255, 255, 0.5);

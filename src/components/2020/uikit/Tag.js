@@ -6,9 +6,10 @@ import cx from "classnames";
 type Props = {
   children: React.Node,
   color: "black" | "white" | "purple" | "cyan" | "aqua",
-  background: "white" | "yellow" | "pink" | "green" | "red",
+  background: "white" | "yellow" | "pink" | "green" | "red" | "blue",
 }
 
+// wrapped span with a div due to flexbox shenanigans
 const Tag = ({
   centered = false,
   children,

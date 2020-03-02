@@ -99,12 +99,12 @@ h1 {
   @include textColors($zigZag: true);
 }
 
-h2, h3, h4, p, figure figcaption, span.tag {
+h2, h3, h4, p, figure figcaption, span {
   @include textColors();
 }
 
 // ---------------------------------------------------------------------------- Margins
 
-h1, h2, h3, h4, p, span.tag {
+h1, h2, h3, h4, p, span {
   margin-bottom: 30px;
 }
