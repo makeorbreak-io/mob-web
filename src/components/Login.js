@@ -36,13 +36,16 @@ export const Login = ({
 }) => {
   const history = useHistory();
 
-  const submit = ({ email, password }) => (
-    authenticate({ variables: { email: email.trim().toLowerCase(), password } })
+  const submit = ({ email, password }) => {
+    return authenticate({ variables: { email: email.trim().toLowerCase(), password } })
       .then((response) => localStorage.setItem("jwt", response.data.authenticate))
       .then(() => data.refetch())
-      .then(() => history.push("/dashboard"))
-      .catch(handleGraphQLErrors)
-  );
+      .then(() => {
+        history.push("/dashboard");
+        return null;
+      })
+      .catch(handleGraphQLErrors);
+  };
 
   return (
     <Section background="white" center>

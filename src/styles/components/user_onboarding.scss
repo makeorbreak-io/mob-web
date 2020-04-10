@@ -1,0 +1,70 @@
+@import "~styles/variables";
+
+.UserOnboarding {
+  position: relative;
+
+  .content {
+    padding-top: 20px;
+  }
+
+  &.name, &.team, &.invites {
+    margin: 0 -20px; // compensate for TabPanel padding
+    padding: 0 100px;
+  }
+
+  &.name {
+    .hackathon-participant {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &.privacy {
+    max-width: 560px;
+    margin: 0 auto;
+
+    h2 {
+      margin-top: 50px;
+      font-size: 18px;
+      text-align: left;
+    }
+
+    ul {
+      list-style: disc;
+
+      &.settings {
+        margin-top: 30px;
+      }
+
+      &.settings li {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > span {
+          width: calc(100% - 120px);
+        }
+      }
+
+      li {
+        font-size: 16px;
+        margin: 10px 0;
+      }
+    }
+  }
+
+  form {
+    width: 360px;
+    margin: 30px auto;
+  }
+
+  .Panel {
+    border: none;
+
+    .Button ~ .Button {
+      margin-top: 10px;
+    }
+  }
+}

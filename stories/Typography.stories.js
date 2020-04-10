@@ -5,7 +5,7 @@ import {
   Heading,
   Link,
   P,
-  Section
+  Section,
 } from "components/2020/uikit";
 
 export default { title: "Typography" };

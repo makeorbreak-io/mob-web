@@ -10,22 +10,23 @@ const Form = ({
   onSubmit,
   submitLabel = "Submit",
   validate,
-}) => {
-  return (
-    <FinalForm
-      onSubmit={onSubmit}
-      validate={validate}
-      render={({ handleSubmit }) => (
-        <form className="form" onSubmit={handleSubmit}>
-          {children}
+  ...props
+}) => (
+  <FinalForm
+    onSubmit={onSubmit}
+    validate={validate}
+    render={({ handleSubmit }) => (
+      <form className="form" onSubmit={handleSubmit}>
+        {children}
 
-          <Button type="submit" level="primary" size="large">
-            {submitLabel}
-          </Button>
-        </form>
-      )}
-    />
-  );
-};
+        <Button type="submit" level="primary" size="large">
+          {submitLabel}
+        </Button>
+      </form>
+    )}
+
+    {...props}
+  />
+);
 
 export default Form;

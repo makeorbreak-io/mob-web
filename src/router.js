@@ -15,7 +15,7 @@ import Authorized from "components/Authorized";
 import Landing from "pages/Landing";
 
 // import Landing from "components/Landing";
-import Dashboard from "components/Dashboard.UnderConstruction";
+import Dashboard from "components/Dashboard";
 import Login from "components/Login";
 import Signup from "components/Signup";
 import RecoverPassword from "components/RecoverPassword";
@@ -26,8 +26,9 @@ import ResetPassword from "components/ResetPassword";
 //
 // Participant components
 import UserOnboarding from "components/UserOnboarding";
-import UserChrome from "components/UserChrome";
+// import UserChrome from "components/UserChrome";
 import AccountTeam from "components/AccountTeam";
+import AccountSettings from "components/AccountSettings";
 // import Team from "components/Team";
 // import ParticipationCertificate from "components/ParticipationCertificate";
 import Privacy from "components/UserOnboarding.Privacy";
@@ -70,9 +71,11 @@ const Router = () => (
         <Route path="/recover-password/:token" component={ResetPassword} />
 
         <Route path="/welcome" component={nest(Authenticated, UserOnboarding)} />
-        <Route path="/dashboard" component={nest(Authenticated, UserChrome, Dashboard)} />
-        <Route path="/account/team" component={nest(Authenticated, UserChrome, AccountTeam)} />
-        <Route path="/account/privacy" component={nest(Authenticated, UserChrome, Privacy)} />
+
+        <Route path="/dashboard" component={nest(Authenticated, Dashboard)} />
+        <Route path="/profile" component={nest(Authenticated, AccountSettings)} />
+        <Route path="/account/team" component={nest(Authenticated, AccountTeam)} />
+        <Route path="/account/privacy" component={nest(Authenticated, Privacy)} />
 
         <Route exact path="/admin" component={nest(Authorized, Admin, AdminDashboard)} />
         <Route path="/admin/users" component={nest(Authorized, Admin, AdminUsers)} />
@@ -94,27 +97,27 @@ const Router = () => (
 //       <Route path="/" component={App} >
 //         <Switch>
 //           <Route exact path="/" component={Landing} />
-// 
+//
 //           <Route path="/fly" component={Fly} />
-// 
+//
 //           <Route component={Authenticated}>
 //             <Switch>
 //               <Route path="welcome" component={UserOnboarding} />
-// 
+//
 //               <Route component={UserChrome}>
 //                 <Route path="dashboard" component={Dashboard} />
-// 
+//
 //                 <Route path="account">
 //                   <Route path="team" component={AccountTeam} />
 //                   <Route path="privacy" component={Privacy} />
 //                 </Route>
 //               </Route>
-// 
+//
 //               {/* Admin routes */}
 //               <Route component={Authorized}>
 //                 <Route path="admin" component={Admin}>
 //                   {/* <IndexRedirect to="/admin/dashboard" /> */}
-// 
+//
 //                   <Route path="dashboard" component={AdminDashboard} />
 //                   <Route path="users" component={AdminUsers} />
 //                   <Route path="teams" component={AdminTeams} />
@@ -124,11 +127,11 @@ const Router = () => (
 //                   <Route path="workshops/:slug" component={AdminEditWorkshop} />
 //                   <Route path="emails" component={AdminEmails} />
 //                   <Route path="emails/:id" component={AdminEditEmail} />
-// 
+//
 //                   <Route path="checkin" component={AdminCheckIn} />
 //                   <Route path="checkin/workshop/:slug" component={WorkshopCheckIn} />
 //                   <Route path="paper-votes" component={PaperVotes} />
-// 
+//
 //                   <Route path="missing-voters" component={AdminMissingVoters} />
 //                   <Route path="bots" component={AdminBots} />
 //                   <Route path="bots/:day" component={AdminBotsRun} />
@@ -137,29 +140,29 @@ const Router = () => (
 //                 </Route>
 //               </Route>
 //             </Switch>
-// 
+//
 //           </Route>
-// 
+//
 //           {/* Public routes */}
 //           <Route path="team/:id" component={({ params }) => (
 //             <Team id={params.id} />
 //           )} />
-// 
+//
 //           <Route path="signin" component={Login} />
 //           <Route path="signup" component={Signup} />
 //           <Route path="recover-password" component={RecoverPassword} />
 //           <Route path="recover-password/:token" component={ResetPassword} />
 //         </Switch>
 //       </Route>
-// 
+//
 //       <Route path="/participation-certificate" component={(props) =>
 //         <ParticipationCertificate idNumber={props.location.query.id_number} print />
 //       }/>
-// 
+//
 //       <Route path="/print-paper-vote" component={({ location: { query }})=>
 //         <PrintablePaperVote id={query.id} category={query.category} />
 //       }/>
-// 
+//
 //     </Switch>
 //   </BrowserRouter>
 // );

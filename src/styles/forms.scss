@@ -52,6 +52,18 @@ form.form {
   color: $error-red;
 }
 
+.form__field__select {
+  display: inline-block;
+  min-width: 140px;
+  height: 50px;
+  margin: 5px 0;
+  border: 1px solid $grey;
+  background: none;
+  border-radius: 3px;
+  text-indent: 6px;
+  width: 100%;
+}
+
 .form__field--checkbox {
   display: flex;
   align-items: center;

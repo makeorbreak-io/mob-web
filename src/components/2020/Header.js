@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { compose } from "recompose";
 import cx from "classnames";
 
 import {
@@ -6,7 +7,10 @@ import {
   Link,
 } from "components/2020/uikit";
 
-const Header = () => {
+import { withCurrentUser, waitForData } from "enhancers";
+
+const Header = ({ data }) => {
+
   const [open, setOpen] = useState(false);
   const mobileCx = cx("mobile", "header__mobile", {
     "header__mobile--open": open,
@@ -16,6 +20,11 @@ const Header = () => {
   const closeAndScrollToTop = () => {
     setOpen(false);
     document.scrollingElement.scrollTop = 0;
+  };
+
+  const logout = () => {
+    delete localStorage["jwt"];
+    window.location.assign("/");
   };
 
   return (
@@ -54,8 +63,18 @@ const Header = () => {
       </div>
 
       <div className="header__actions desktop">
-        <Link unstyled to="/signin"><Button size="small" level="secondary">Sign In</Button></Link>
-        <Link unstyled to="/signup"><Button size="small" level="primary">Apply Now</Button></Link>
+        {data.me
+          ? <>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link unstyled to="">
+              <Button size="small" level="secondary" onClick={logout}>Logout</Button>
+            </Link>
+          </>
+          : <>
+            <Link unstyled to="/signin"><Button size="small" level="secondary">Sign In</Button></Link>
+            <Link unstyled to="/signup"><Button size="small" level="primary">Apply Now</Button></Link>
+          </>
+        }
       </div>
 
       <div className="header__actions mobile">
@@ -66,4 +85,7 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default compose(
+  withCurrentUser,
+  waitForData,
+)(Header);

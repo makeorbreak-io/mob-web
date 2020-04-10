@@ -49,10 +49,13 @@ export const Signup = ({
   const history = useHistory();
 
   const submit = ({ email, password }) => (
-    register({ variables: { email: email.trim.toLowerCase(), password } })
+    register({ variables: { email: email.trim().toLowerCase(), password } })
       .then((response) => localStorage.setItem("jwt", response.data.register))
       .then(() => data.refetch())
-      .then(() => history.push("/welcome"))
+      .then(() => {
+        history.push("/welcome");
+        return null;
+      })
       .catch(handleGraphQLErrors)
   );
 
@@ -68,6 +71,7 @@ export const Signup = ({
           name="email"
           placeholder="Email"
           type="email"
+          tabIndex="0"
         />
 
         <Field
@@ -75,6 +79,7 @@ export const Signup = ({
           name="password"
           placeholder="Password"
           type="password"
+          tabIndex="0"
         />
 
         <Field
@@ -82,12 +87,14 @@ export const Signup = ({
           name="password_confirmation"
           placeholder="Password confirmation"
           type="password"
+          tabIndex="0"
         />
 
         <Field
-          label={<>I have read and accepted the general <Link external to="https://makeorbreak.io/terms-of-service/">Terms of Use</Link></>}
+          label={<>I have read and accepted the general <Link tarbIndex="1" external to="https://makeorbreak.io/terms-of-service/">Terms of Use</Link></>}
           type="checkbox"
           name="tos"
+          tabIndex="0"
         />
       </Form>
 
