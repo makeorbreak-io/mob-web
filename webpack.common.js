@@ -86,7 +86,7 @@ module.exports = {
       "node_modules",
     ],
 
-    extensions: [ ".js", ".json", ".css", ".styl" ],
+    extensions: [ ".mjs", ".js", ".json", ".css", ".styl" ],
   },
 
   plugins: [

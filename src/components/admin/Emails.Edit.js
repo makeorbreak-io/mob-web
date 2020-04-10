@@ -1,15 +1,19 @@
+/* eslint-disable */
+
 import React, { Component } from "react";
-import { compose, setDisplayName, withProps } from "recompose";
-import { graphql } from "react-apollo";
-import { reduxForm } from "redux-form";
-import { connect } from "react-redux";
+// import { compose, setDisplayName, withProps } from "recompose";
+// import { graphql } from "react-apollo";
+// import { reduxForm } from "redux-form";
+// import { connect } from "react-redux";
+import { useQuery } from "@apollo/react-hooks";
 import { omit } from "lodash";
 import gql from "graphql-tag";
 
 //
 // gql
+
 import { email } from "fragments";
-import { waitForData } from "enhancers";
+// import { waitForData } from "enhancers";
 
 //
 // components
@@ -18,6 +22,9 @@ import { waitForData } from "enhancers";
 // } from "components/uikit";
 import EmailForm, { validate } from "components/admin/Emails.Form";
 import EmailTemplate from "./EmailTemplate";
+
+// const ADMIN_EMAIL = gql`
+// `;
 
 export class AdminEditEmail extends Component {
 
@@ -42,61 +49,65 @@ export class AdminEditEmail extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { handleSubmit, submitting, submitSucceeded, formValues } = this.props;
+    return null;
+    // const { handleSubmit, submitting, submitSucceeded, formValues } = this.props;
 
-    return (
-      <div className="admin--container admin--emails">
-        <div className="admin--emails--new">
-          <div>
-            <h3>Create new Email</h3>
+    // return (
+    //   <div className="admin--container admin--emails">
+    //     <div className="admin--emails--new">
+    //       <div>
+    //         <h3>Create new Email</h3>
 
-            <EmailForm
-              {...{ handleSubmit, submitting, submitSucceeded }}
-              buttonLabel="Update Email"
-              form="updateEmail"
-              save={this.updateEmail}
-            />
-          </div>
+    //         <EmailForm
+    //           {...{ handleSubmit, submitting, submitSucceeded }}
+    //           buttonLabel="Update Email"
+    //           form="updateEmail"
+    //           save={this.updateEmail}
+    //         />
+    //       </div>
 
-          <div className="preview">
-            <EmailTemplate email={formValues} />
-          </div>
-        </div>
-      </div>
-    );
+    //       <div className="preview">
+    //         <EmailTemplate email={formValues} />
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
   }
 
 }
 
-export default compose(
-  setDisplayName("AdminEditEmail"),
+// export default compose(
+  // setDisplayName("AdminEditEmail"),
 
-  graphql(gql`query email($id: String!) {
-    email(id: $id) { ...email }
-  } ${email}`,
-  {
-    options: (props) => ({ variables: { id: props.params.id }}),
-  }),
+  // graphql(gql`query email($id: String!) {
+  //   email(id: $id) { ...email }
+  // } ${email}`,
+  // {
+  //   options: (props) => ({ variables: { id: props.params.id }}),
+  // }),
 
-  waitForData,
+  // waitForData,
 
-  withProps(
-    (props) => ({ initialValues: omit(props.data.email, ["__typename", "id"]) })
-  ),
+  // withProps(
+  //   (props) => ({ initialValues: omit(props.data.email, ["__typename", "id"]) })
+  // ),
 
-  reduxForm({
-    form: "updateEmail",
-    validate,
-  }),
+  // reduxForm({
+  //   form: "updateEmail",
+  //   validate,
+  // }),
 
-  connect(state => ({
-    formValues: state.form.updateEmail.values || {},
-  })),
+  // connect(state => ({
+  //   formValues: state.form.updateEmail.values || {},
+  // })),
 
-  graphql(
-    gql`mutation updateEmail($id: String!, $email: EmailInput!) {
-      updateEmail(id: $id, email: $email) { ...email }
-    } ${email}`,
-    { name: "updateEmail" }
-  ),
-)(AdminEditEmail);
+  // graphql(
+  //   gql`mutation updateEmail($id: String!, $email: EmailInput!) {
+  //     updateEmail(id: $id, email: $email) { ...email }
+  //   } ${email}`,
+  //   { name: "updateEmail" }
+  // ),
+// )(AdminEditEmail);
+export default AdminEditEmail;
+
+/* eslint-enable */

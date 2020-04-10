@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { compose } from "recompose";
 import cx from "classnames";
 
 import {
@@ -7,9 +6,10 @@ import {
   Link,
 } from "components/2020/uikit";
 
-import { withCurrentUser, waitForData } from "enhancers";
+import { useCurrentUser } from "hooks";
 
-const Header = ({ data }) => {
+const Header = () => {
+  const { loading, data } = useCurrentUser();
 
   const [open, setOpen] = useState(false);
   const mobileCx = cx("mobile", "header__mobile", {
@@ -23,7 +23,7 @@ const Header = ({ data }) => {
   };
 
   const logout = () => {
-    delete localStorage["jwt"];
+    localStorage.removeItem("jwt");
     window.location.assign("/");
   };
 
@@ -62,20 +62,22 @@ const Header = ({ data }) => {
         </div>
       </div>
 
-      <div className="header__actions desktop">
-        {data.me
-          ? <>
-            <Link to="/dashboard">Dashboard</Link>
-            <Link unstyled to="">
-              <Button size="small" level="secondary" onClick={logout}>Logout</Button>
-            </Link>
-          </>
-          : <>
-            <Link unstyled to="/signin"><Button size="small" level="secondary">Sign In</Button></Link>
-            <Link unstyled to="/signup"><Button size="small" level="primary">Apply Now</Button></Link>
-          </>
-        }
-      </div>
+      {!loading &&
+        <div className="header__actions desktop">
+          {data?.me
+            ? <>
+              <Link to="/dashboard">Dashboard</Link>
+              <Link unstyled onClick={logout}>
+                <Button size="small" level="secondary">Logout</Button>
+              </Link>
+            </>
+            : <>
+              <Link unstyled to="/signin"><Button size="small" level="secondary">Sign In</Button></Link>
+              <Link unstyled to="/signup"><Button size="small" level="primary">Apply Now</Button></Link>
+            </>
+          }
+        </div>
+      }
 
       <div className="header__actions mobile">
         <Link unstyled to="/signup"><Button size="small" level="secondary" inverted>Apply Now</Button></Link>
@@ -85,7 +87,9 @@ const Header = ({ data }) => {
   );
 };
 
-export default compose(
-  withCurrentUser,
-  waitForData,
-)(Header);
+export default Header;
+
+// export default compose(
+//   withCurrentUser,
+//   waitForData,
+// )(Header);

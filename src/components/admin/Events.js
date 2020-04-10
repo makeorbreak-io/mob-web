@@ -8,24 +8,24 @@ import gql from "graphql-tag";
 
 //
 // gql
-import { workshop } from "fragments";
+import { event } from "fragments";
 import { waitForData } from "enhancers";
 
 //
 // components
-import WorkshopForm, { validate } from "./Workshops.Form";
+import EventForm, { validate } from "./Events.Form";
 import { DataTable, Btn } from "components/uikit";
-import Workshop from "components/Workshop";
+import Event from "components/Event";
 
-export class AdminWorkshops extends Component {
+export class AdminEvents extends Component {
 
   //----------------------------------------------------------------------------
   // Event Handlers
   //----------------------------------------------------------------------------
-  createWorkshop = (workshop) => {
-    const { data, createWorkshop, reset } = this.props;
+  createEvent = (event) => {
+    const { data, createEvent, reset } = this.props;
 
-    return createWorkshop({ variables: { workshop } })
+    return createEvent({ variables: { event } })
     .then(() => {
       reset();
       data.refetch();
@@ -39,7 +39,7 @@ export class AdminWorkshops extends Component {
           confirmation={`Really delete ${selected.length} users?`}
           onClick={() => selected.forEach(console.log)} // eslint-disable-line
       >
-        Delete {selected.length} workshops
+        Delete {selected.length} events
       </Btn>
     </Fragment>
   )
@@ -48,47 +48,47 @@ export class AdminWorkshops extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { data: { workshops }, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
+    const { data: { events }, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
 
     return (
       <div className="admin--container">
         <DataTable
           filter
-          source={workshops}
+          source={events}
           labels={[ "Year" , "Slug" , "Name" , "Date"      , "Signed Up" , "Limit" ]}
           sorter={[ "year" , "slug" , "name" , "shortDate" ]}
           search={[ "year" , "slug" , "name" ]}
           defaultSort="desc"
           actions={this.renderActions}
-          render={(workshop, select) => (
-            <tr key={workshop.id}>
+          render={(event, select) => (
+            <tr key={event.id}>
               {select}
-              <td>{workshop.year}</td>
-              <td><Link to={`/admin/workshops/${workshop.slug}`}>{workshop.slug}</Link></td>
-              <td>{workshop.name}</td>
-              <td>{workshop.shortDate}</td>
-              <td>{workshop.attendances.length}</td>
-              <td>{workshop.participantLimit}</td>
+              <td>{event.year}</td>
+              <td><Link to={`/admin/events/${event.slug}`}>{event.slug}</Link></td>
+              <td>{event.name}</td>
+              <td>{event.shortDate}</td>
+              <td>{event.attendances.length}</td>
+              <td>{event.participantLimit}</td>
             </tr>
           )}
         />
 
-        <div className="admin--workshops--new">
+        <div className="admin--events--new">
           <div>
-            <h3>Create new workshop</h3>
-            <WorkshopForm
+            <h3>Create new event</h3>
+            <EventForm
               {...{ handleSubmit, submitting, submitSucceeded }}
-              buttonLabel="Create Workshop"
-              form="newWorkshop"
-              save={this.createWorkshop}
+              buttonLabel="Create Event"
+              form="newEvent"
+              save={this.createEvent}
             />
           </div>
 
           <div className="preview">
             <h3>Preview</h3>
 
-            <Workshop
-              workshop={{ ...formValues, attendances: [] }}
+            <Event
+              event={{ ...formValues, attendances: [] }}
               showSummary
               showDescription
               showSpeaker
@@ -103,28 +103,28 @@ export class AdminWorkshops extends Component {
 }
 
 export default compose(
-  setDisplayName("AdminWorkshops"),
+  setDisplayName("AdminEvents"),
 
   reduxForm({
-    form: "newWorkshop",
+    form: "newEvent",
     validate,
   }),
 
   connect(({ form }) => ({
-    formValues: form.newWorkshop.values || {},
+    formValues: form.newEvent.values || {},
   })),
 
-  graphql(gql`{ workshops {
-    ...workshop
+  graphql(gql`{ events {
+    ...event
     users { id name email }
-  } } ${workshop}`),
+  } } ${event}`),
 
   waitForData,
 
   graphql(
-    gql`mutation createWorkshop($workshop: WorkshopInput!){
-      createWorkshop(workshop: $workshop) { ...workshop }
-    } ${workshop}`,
-    { name: "createWorkshop"},
+    gql`mutation createEvent($event: EventInput!){
+      createEvent(event: $event) { ...event }
+    } ${event}`,
+    { name: "createEvent"},
   )
-)(AdminWorkshops);
+)(AdminEvents);

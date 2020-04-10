@@ -22,12 +22,17 @@ const Link = ({
   to,
   unstyled = false,
 }: Props) => {
-  const anchor = to.includes("#");
+  const anchor = to && to.includes("#");
 
   const props = {
     className: cx(`link-color--${color}`, { external, anchor, unstyled }),
     onClick,
   };
+
+  if (!to) {
+    return <a {...props}>{children}</a>;
+  }
+
 
   if (anchor) {
     return <HashLink smooth {...props} to={to}>{children}</HashLink>;

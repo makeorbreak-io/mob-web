@@ -1,12 +1,9 @@
 import React from "react";
-import { compose } from "recompose";
 import { useHistory } from "react-router-dom";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
 
-//
-// Enhancers
-import { withCurrentUser } from "enhancers";
+import { REGISTER } from "mutations";
+import { useCurrentUser } from "hooks";
 
 //
 // Components
@@ -42,16 +39,15 @@ const validate = (values) => {
   )(values);
 };
 
-export const Signup = ({
-  data,
-  register,
-}) => {
+export const Signup = () => {
   const history = useHistory();
+  const { refetch } = useCurrentUser();
+  const [register] = useMutation(REGISTER);
 
   const submit = ({ email, password }) => (
     register({ variables: { email: email.trim().toLowerCase(), password } })
       .then((response) => localStorage.setItem("jwt", response.data.register))
-      .then(() => data.refetch())
+      .then(() => refetch())
       .then(() => {
         history.push("/welcome");
         return null;
@@ -105,14 +101,4 @@ export const Signup = ({
   );
 };
 
-export default compose(
-  withCurrentUser,
-
-  graphql(
-    gql`mutation register($email: String!, $password: String!) {
-      register(email: $email, password: $password)
-    }
-    `,
-    { name: "register" },
-  ),
-)(Signup);
+export default Signup;

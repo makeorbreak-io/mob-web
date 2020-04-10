@@ -88,7 +88,9 @@ export class AdminUsers extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const users = this.props.data.users.edges.map(e => e.node);
+    const { users } = this.props.data;
+
+    // const users = this.props.data.users.edges.map(e => e.node);
 
     return (
       <div className="admin--container admin--users">
@@ -133,7 +135,8 @@ export default compose(
   setDisplayName("AdminUsers"),
 
   graphql(gql`{
-    users(first: 1000) { edges { node { ...fullUser } } }
+    # users(first: 1000) { edges { node { ...fullUser } } }
+    users(first: 1000) { ...fullUser }
   } ${fullUser}`),
 
   graphql(

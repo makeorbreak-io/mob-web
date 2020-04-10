@@ -4,7 +4,7 @@ import classnames from "classnames";
 import { compose, setDisplayName, setPropTypes, defaultProps } from "recompose";
 
 export const Panel = ({ isSelected, children, className }) => {
-  const cx = classnames("Panel", className, { selected: isSelected });
+  const cx = classnames("panel", className, { selected: isSelected });
 
   return (
     <div className={cx}>

@@ -4,14 +4,14 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { last, every } from "lodash";
 
-import { competition, fullUser } from "fragments";
-import { withCompetitionSelector, waitForData } from "enhancers";
+import { edition, fullUser } from "fragments";
+import { withEditionSelector, waitForData } from "enhancers";
 import { DataTable, CollapsibleContainer, Btn } from "components/uikit";
 
 export class AdminCheckIn extends Component {
   componentDidMount() {
-    const { data: { competitions }, competitionId, setCompetitionId } = this.props;
-    if (!competitionId) setCompetitionId(competitions.find(c => c.isDefault).id);
+    const { data: { editions }, editionId, setEditionId } = this.props;
+    if (!editionId) setEditionId(editions.find(c => c.isDefault).id);
   }
 
   toggleUserCheckin = ({ id }) => {
@@ -47,7 +47,7 @@ export class AdminCheckIn extends Component {
   render() {
     const { data } = this.props;
 
-    const attendees = data.competition.attendances.map(a => a.attendee);
+    const attendees = data.edition.attendances.map(a => a.attendee);
     const users = data.users.edges.map(e => e.node).filter(user => attendees.includes(user.id));
 
     return (
@@ -92,12 +92,12 @@ export class AdminCheckIn extends Component {
 export default compose(
   setDisplayName("AdminCheckIn"),
 
-  withCompetitionSelector,
+  withEditionSelector,
 
-  graphql(gql`query checkIn($competitionId: String!) {
+  graphql(gql`query checkIn($editionId: String!) {
     users(first: 1000) { edges { node { ...fullUser } } }
 
-    competition(id: $competitionId) {
+    edition(id: $editionId) {
       id
       attendances {
         id
@@ -105,9 +105,9 @@ export default compose(
         attendee
       }
     }
-  } ${fullUser} ${competition}`,
+  } ${fullUser} ${edition}`,
   {
-    options: ({ competitionId }) => ({ variables: { competitionId }}),
+    options: ({ editionId }) => ({ variables: { editionId }}),
   }),
 
   waitForData,

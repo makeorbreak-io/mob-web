@@ -10,7 +10,7 @@ export const Avatar = ({ user }) => {
   const url = gravatarUrl(user);
 
   return (
-    <object data={url} type="image/jpeg" className="Avatar" />
+    <img data={url} type="image/jpeg" className="Avatar" />
   );
 };
 

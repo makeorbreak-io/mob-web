@@ -5,6 +5,10 @@ $error-red: #d9534f;
 form.form {
   max-width: 420px;
   margin: 0 auto 30px;
+
+  button + button {
+    margin: 12px 0 0;
+  }
 }
 
 .form__field {

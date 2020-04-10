@@ -150,9 +150,9 @@ export class DataTable extends Component {
       <td className="select">
         <span
           onClick={() => this.toggleList("selected", item.id)}
-          className={classnames("icon", {
-            "icon--check-box-empty": !selected,
-            "icon--check-box": selected,
+          className={classnames("bg-icon", {
+            "bg-icon--check-box-empty": !selected,
+            "bg-icon--check-box": selected,
           })}
         />
       </td>
@@ -166,9 +166,9 @@ export class DataTable extends Component {
       <td className="edit">
         <span
           onClick={() => this.toggleList("editing", item.id)}
-          className={classnames("icon", {
-            "icon--edit": !editing,
-            "icon--cancel": editing,
+          className={classnames("bg-icon", {
+            "bg-icon--edit": !editing,
+            "bg-icon--cancel": editing,
           })}
         />
       </td>
@@ -182,7 +182,7 @@ export class DataTable extends Component {
   render() {
     const {
       labels,
-      mobile,
+      mobile: _mobile,
       sorter,
       filter,
       headcx,
@@ -240,10 +240,10 @@ export class DataTable extends Component {
               <th className="select">
                 <span
                   onClick={this.toggleAllVisible}
-                  className={classnames("icon", {
-                    "icon--check-box-indeterminate": !allVisibleUnselected && !allVisibleSelected,
-                    "icon--check-box-empty": allVisibleUnselected,
-                    "icon--check-box": allVisibleSelected,
+                  className={classnames("bg-icon", {
+                    "bg-icon--check-box-indeterminate": !allVisibleUnselected && !allVisibleSelected,
+                    "bg-icon--check-box-empty": allVisibleUnselected,
+                    "bg-icon--check-box": allVisibleSelected,
                   })}
                 />
               </th>
@@ -251,12 +251,12 @@ export class DataTable extends Component {
               {labels.map((label, i) => {
                 const s = sorter[i];
                 const f = filter[i];
-                const m = mobile[i];
+                // const m = mobile[i];
 
                 // if this.props.mobile is an empty array, show all columns, regardless of device
                 const cx = classnames(headcx[i], {
-                  desktop: m === undefined || m === false,
-                  mobile:  m === undefined || m === true,
+                  // desktop: m === undefined || m === false,
+                  // mobile:  m === undefined || m === true,
                 });
 
                 return (
@@ -266,22 +266,21 @@ export class DataTable extends Component {
                       <span
                         onClick={() => this.setSort(s, sort[s] === "asc" ? "desc" : "asc")}
                         className={classnames("data-table--control--sort", {
-                          "icon icon--small icon--arrow-upward":   sort[s] === "asc",
-                          "icon icon--small icon--arrow-downward": sort[s] === "desc",
+                          "bg-icon bg-icon--small bg-icon--arrow-upward":   sort[s] === "asc",
+                          "bg-icon bg-icon--small bg-icon--arrow-downward": sort[s] === "desc",
                         })}
-                      />
+                      >
+                        {label}
+                      </span>
                     )}
 
                     { /* visibility controls */ }
                     {f && (
                       <span
                         onClick={() => this.toggleFilter(f, !filters[f])}
-                        className={classnames("data-table--control--filter", "icon", "icon--filter-list", {
-                        })}
+                        className="data-table--control--filter bg-icon bg-icon--filter-list"
                       />
                     )}
-
-                    {label}
                   </th>
                 );
               })}
@@ -303,8 +302,8 @@ export class DataTable extends Component {
                       validate={validate}
                     />
                     <td className="edit">
-                      <span className="icon icon--save" onClick={() => store.dispatch(submit(`resource-editor-${item.id}`))} />
-                      <span className="icon icon--cancel" onClick={() => this.toggleList("editing", item.id)} />
+                      <span className="bg-icon bg-icon--save" onClick={() => store.dispatch(submit(`resource-editor-${item.id}`))} />
+                      <span className="bg-icon bg-icon--cancel" onClick={() => this.toggleList("editing", item.id)} />
                     </td>
                   </tr>
                 );

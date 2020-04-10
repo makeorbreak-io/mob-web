@@ -23,8 +23,13 @@ import { performSetup } from "actions/setup";
 
 //
 // Apollo
-import gqlClient from "gqlClient";
-import { ApolloProvider } from "react-apollo";
+import graphqlClient from "gqlClient";
+import { ApolloProvider } from "@apollo/react-hooks";
+
+//
+// urql
+// import graphqlClient from "graphql-client";
+// import { Provider as GraphqlProvider } from "urql";
 
 //
 // Config
@@ -45,7 +50,7 @@ if (process.env.NODE_ENV === "production") {
 render(
   (
     <Provider store={store}>
-      <ApolloProvider client={gqlClient}>
+      <ApolloProvider client={graphqlClient}>
         <AppLoader>
           <Router />
         </AppLoader>

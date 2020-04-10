@@ -10,18 +10,21 @@ const Form = ({
   onSubmit,
   submitLabel = "Submit",
   validate,
+  withoutSubmitButton,
   ...props
 }) => (
   <FinalForm
     onSubmit={onSubmit}
     validate={validate}
-    render={({ handleSubmit }) => (
-      <form className="form" onSubmit={handleSubmit}>
-        {children}
+    render={(props) => (
+      <form className="form" onSubmit={props.handleSubmit}>
+        {typeof children === "function" ? children(props) : children }
 
-        <Button type="submit" level="primary" size="large">
-          {submitLabel}
-        </Button>
+        {!withoutSubmitButton &&
+          <Button type="submit" level="primary" size="large">
+            {submitLabel}
+          </Button>
+        }
       </form>
     )}
 

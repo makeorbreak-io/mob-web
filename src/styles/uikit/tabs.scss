@@ -1,0 +1,106 @@
+$transition-duration: 400ms;
+
+.tabs {
+  width: 100%;
+  position: relative;
+
+  & ~ * {
+    margin-top: 20px;
+  }
+
+  &.show-index .tab {
+    flex-direction: row;
+
+    &:before { display: inline-block; }
+  }
+
+  &.tabs-disabled .tab { cursor: auto }
+
+  &.green {
+    .selected-indicator,
+    .tab:before {
+      background: $bright-turquoise;
+    }
+  }
+
+  &.small {
+    .tab > * {
+      &:first-child, &:last-child {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .tab-list {
+    position: relative;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 5px -2px rgba($grey, 0.3);
+
+    .selected-indicator {
+      position: absolute;
+      bottom: 0;
+      height: 4px;
+      background: $electric-indigo;
+      transition: left $transition-duration ease-in-out;
+    }
+
+    .tab {
+      flex-grow: 1;
+      flex-basis: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 100%;
+      cursor: pointer;
+      text-align: center;
+      color: $label-grey;
+      padding-bottom: 4px; // compensate for the .selected-indicator element
+      transition: color $transition-duration ease-in-out;
+
+      // index indicator
+      &:before {
+        display: none;
+        content: attr(data-step);
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: $white;
+        background: $electric-indigo;
+        border-radius: 50%;
+        margin-right: 10px;
+        vertical-align: baseline;
+      }
+
+      &.selected {
+        color: $outer-space;
+        // border-bottom-color: $mob-purple
+      }
+
+      > * {
+        display: block;
+
+        &:first-child {
+          font: normal normal 300 12px Poppins, sans-serif;
+        }
+
+        &:last-child {
+          font: normal normal 600 20px Poppins, sans-serif;
+        }
+      }
+    }
+  }
+
+  .panel {
+    display: none;
+    padding: 20px;
+    border: 1px solid $grey;
+    border-top: none;
+
+    &.selected { display: block; }
+  }
+}

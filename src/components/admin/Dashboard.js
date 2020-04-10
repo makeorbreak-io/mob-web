@@ -3,7 +3,7 @@ import { compose, setDisplayName } from "recompose";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
-import { waitForData, withCompetitionSelector } from "enhancers";
+import { waitForData, withEditionSelector } from "enhancers";
 
 export const DasboardCard = ({
   title,
@@ -30,8 +30,8 @@ export class Dashboard extends Component {
 
   render() {
     const {
-      adminStats: { workshops },
-      competition: { attendances, teams, suffrages },
+      adminStats: { events },
+      edition: { attendances, teams, suffrages },
     } = this.props.data;
 
     return (
@@ -63,9 +63,9 @@ export class Dashboard extends Component {
         />
 
         <DasboardCard
-          title={`${workshops.length} Workshops`}
+          title={`${events.length} Events`}
           icon="work"
-          items={workshops.map(w => [w.name, `${w.participants} / ${w.participant_limit}`])}
+          items={events.map(w => [w.name, `${w.participants} / ${w.participant_limit}`])}
         />
       </div>
     );
@@ -75,12 +75,12 @@ export class Dashboard extends Component {
 export default compose(
   setDisplayName("Dashboard"),
 
-  withCompetitionSelector,
+  withEditionSelector,
 
-  graphql(gql`query stats($competitionId: String!) {
-    adminStats { workshops }
+  graphql(gql`query stats($editionId: String!) {
+    adminStats { events }
 
-    competition(id: $competitionId) {
+    edition(id: $editionId) {
       id
       attendances { id checkedIn user { id role currentTeam { id } } }
       suffrages { id name teams { id } }
@@ -88,7 +88,7 @@ export default compose(
     }
   }`,
   {
-    options: ({ competitionId }) => ({ variables: { competitionId } }),
+    options: ({ editionId }) => ({ variables: { editionId } }),
   }),
 
   waitForData,

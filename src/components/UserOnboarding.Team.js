@@ -1,20 +1,22 @@
 import React from "react";
-import { compose, mapProps } from "recompose";
-import { reduxForm, Field } from "redux-form";
-import { get, isEmpty } from "lodash";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import { compose } from "recompose";
+import { useMutation } from "@apollo/react-hooks";
 
-import { withCurrentUser, waitForData, multistep } from "enhancers";
+import { multistep } from "enhancers";
 
-import { fullTeam, fullUser } from "fragments";
+import { CREATE_TEAM } from "mutations";
+import { useCurrentUser } from "hooks";
+import { handleGraphQLErrors } from "lib/graphql";
 
 //
 // Components
 import {
   Button,
-  ErrorMessage,
-} from "components/uikit";
+  Field,
+  Form,
+  Heading,
+  P,
+} from "components/2020/uikit";
 import Invites from "components/UserOnboarding.Invites";
 
 //
@@ -22,113 +24,65 @@ import Invites from "components/UserOnboarding.Invites";
 import { composeValidators, validatePresence } from "validators";
 
 const validate = composeValidators(
-  validatePresence("githubHandle", "GitHub handle"),
   validatePresence("name", "Team name"),
 );
 
 export const UserOnboardingTeam = ({
-  createTeam,
-  data,
-  data: { me },
-  handleSubmit,
   next,
-  submitting,
-  updateMe,
 }) => {
-  const submit = ({ githubHandle, ...team }) => {
-    const { name, email, tshirtSize } = data.me;
+  const { loading, data, refetch } = useCurrentUser();
+  const [createTeam] = useMutation(CREATE_TEAM);
 
-    return updateMe({ variables: { user: { name, email, tshirtSize, githubHandle } } })
-      .then(() => createTeam({ variables: { team } }))
-      .then(() => data.refetch());
+  const submit = (team) => {
+    return createTeam({ variables: { team } })
+      .then(() => refetch())
+      .catch(handleGraphQLErrors);
   };
+
+  const team = data.me.currentTeam;
+
+  if (loading) return "Loading...";
 
   return (
     <div className="UserOnboarding team">
-      <h1>Nice to meet you, {me.displayName}</h1>
-      <h5>Set up the team you'll be working in at the Make or Break hackathon.</h5>
+      <Heading size="l" centered>Your Team</Heading>
 
-      <form onSubmit={handleSubmit(submit)}>
-        <label htmlFor="githubHandle">GitHub Handle</label>
+      <Form
+        onSubmit={submit}
+        validate={validate}
+        initialValues={{ name: team?.name }}
+        withoutSubmitButton
+      >
         <Field
-          id="githubHandle"
-          name="githubHandle"
-          component="input"
-          type="text"
-          placeholder="Your GitHub handle"
-          className="fullwidth"
-        >
-        </Field>
-
-        <label htmlFor="name">Team name</label>
-        <Field
-          id="name"
+          label="Team Name"
           name="name"
-          component="input"
+          placeholder="Team Name"
           type="text"
-          placeholder="Type your team name"
-          className="fullwidth"
-          autoComplete="off"
-          disabled={!isEmpty(me.currentTeam)}
         />
-        <ErrorMessage form="user-onboarding-team" field="name" />
 
-        {isEmpty(me.currentTeam) &&
-          <div>
-            <Button
-              type="submit"
-              disabled={submitting}
-              loading={submitting}
-              primary form centered fullwidth
-            >
-              Create Team
-            </Button>
+        <Button type="submit" size="large" level="primary">
+          {team ? "Update Team" : "Create Team"}
+        </Button>
 
-            <Button form centered fullwidth primary hollow onClick={next}>
+        {!data.me.currentTeam &&
+          <>
+            <Button size="large" level="secondary" onClick={next}>
               Skip this step
             </Button>
-            <p className="small-notice">You can always create a team or wait for an invitation to one at a later time</p>
-          </div>
-        }
-      </form>
 
-      {!isEmpty(me.currentTeam) && <Invites />}
+            <P additional>You can always create a team or wait for an invitation to one at a later time</P>
+          </>
+        }
+      </Form>
+
+
+      {data.me.currentTeam && <Invites />}
     </div>
   );
 };
 
 export default compose(
-  withCurrentUser,
-  waitForData,
-
   multistep({
     name: "user-onboarding",
   }),
-
-  mapProps(props => ({
-    ...props,
-    initialValues: {
-      githubHandle: props.data.me.githubHandle,
-      name: get(props, "data.me.currentTeam.name"),
-    },
-  })),
-
-  reduxForm({
-    form: "user-onboarding-team",
-    validate,
-  }),
-
-  graphql(
-    gql`mutation createTeam($team: TeamInput!) {
-      createTeam(team: $team) { ...fullTeam }
-    } ${fullTeam}`,
-    { name: "createTeam" },
-  ),
-
-  graphql(
-    gql`mutation updateMe($user: UserInput!) {
-      updateMe(user: $user) { ...fullUser }
-    } ${fullUser}`,
-    { name: "updateMe" },
-  ),
 )(UserOnboardingTeam);

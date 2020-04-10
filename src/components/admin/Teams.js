@@ -5,8 +5,8 @@ import gql from "graphql-tag";
 import { get, every } from "lodash";
 import classnames from "classnames";
 
-import { fullTeam, competition } from "fragments";
-import { withCompetitionSelector, waitForData } from "enhancers";
+import { fullTeam, edition } from "fragments";
+import { withEditionSelector, waitForData } from "enhancers";
 
 //
 // components
@@ -15,9 +15,9 @@ import { DataTable, CollapsibleContainer, Btn } from "components/uikit";
 export class AdminTeams extends Component {
 
   componentDidMount() {
-    const { data: { competitions }, competitionId, setCompetitionId } = this.props;
+    const { data: { editions }, editionId, setEditionId } = this.props;
 
-    if (!competitionId) setCompetitionId(competitions.find(c => c.isDefault).id);
+    if (!editionId) setEditionId(editions.find(c => c.isDefault).id);
   }
 
   mutate = (name, variables) => {
@@ -111,7 +111,7 @@ export class AdminTeams extends Component {
   // Render
   //----------------------------------------------------------------------------
   render() {
-    const { teams } = this.props.data.competition;
+    const { teams } = this.props.data.edition;
 
     return (
       <div className="admin--teams">
@@ -187,20 +187,20 @@ export class AdminTeams extends Component {
 export default compose(
   setDisplayName("AdminTeams"),
 
-  withCompetitionSelector,
+  withEditionSelector,
 
-  graphql(gql`query teams($competitionId: String!) {
-    competition(id: $competitionId) {
-      ...competition
+  graphql(gql`query teams($editionId: String!) {
+    edition(id: $editionId) {
+      ...edition
 
       teams {
         ...fullTeam
         suffrages { id name }
       }
     }
-  } ${fullTeam} ${competition}`,
+  } ${fullTeam} ${edition}`,
   {
-    options: ({ competitionId }) => ({ variables: { competitionId } }),
+    options: ({ editionId }) => ({ variables: { editionId } }),
   }),
 
   waitForData,
