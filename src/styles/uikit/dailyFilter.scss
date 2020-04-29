@@ -1,0 +1,36 @@
+.dailyFilter {
+  .dayIndicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .day {
+    margin-left: 16px;
+    padding: 16px;
+    display: inline-block;
+    border: 1px solid grey;
+    opacity: 0.5;
+    cursor: pointer;
+
+    &.active {
+      border: 1px solid black;
+      opacity: 1;
+    }
+  }
+
+  .talksList {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 996px; // 3 * width of card + 3 * 32px margin
+    > * {
+      margin: 16px;
+    }
+  }
+}

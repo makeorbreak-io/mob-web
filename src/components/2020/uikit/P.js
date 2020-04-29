@@ -7,7 +7,7 @@ type Props = {
   additional: bool,
   centered: bool,
   children: React.Node,
-  color: "black" | "white",
+  color: "black" | "white" | "gray",
   large: bool,
 }
 

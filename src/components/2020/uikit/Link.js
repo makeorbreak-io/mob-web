@@ -7,7 +7,7 @@ import cx from "classnames";
 
 type Props = {
   children: string,
-  color: "gray" | "white" | "purple",
+  color: "gray" | "white" | "purple" | "black",
   external: bool,
   onClick: () => void,
   to: string,
