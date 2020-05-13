@@ -8,7 +8,7 @@ import cx from "classnames";
 
 //
 // gql
-import { competition, suffrage } from "fragments";
+import { edition, suffrage } from "fragments";
 import { waitForData } from "enhancers";
 
 //
@@ -33,12 +33,12 @@ const suffrageFields = [
 const formatDate = date => date && [distanceInWords(parse(`${date}Z`), Date()), "ago"].join(" ");
 
 export class AdminSuffrages extends Component {
-  create = (suffrage, competition) => {
+  create = (suffrage, edition) => {
     const { createSuffrage, data } = this.props;
 
     return createSuffrage({ variables: {
       suffrage,
-      competitionId: competition.id,
+      editionId: edition.id,
     }})
     .then(() => data.refetch());
   }
@@ -114,24 +114,24 @@ export class AdminSuffrages extends Component {
   }
 
   render() {
-    const { competitions } = this.props.data;
-    const defaultCompetition = competitions.find(c => c.isDefault);
+    const { editions } = this.props.data;
+    const defaultEdition = editions.find(c => c.isDefault);
     const empty = true;
 
     return (
       <div className="admin--container admin--suffrages">
         <ul>
-          {[ defaultCompetition, ...competitions.filter(c => !c.isDefault)].map(competition => (
+          {[ defaultEdition, ...editions.filter(c => !c.isDefault)].map(edition => (
             <li
-              key={competition.id}
-              className={cx({ "competition--default": competition.isDefault })}
+              key={edition.id}
+              className={cx({ "edition--default": edition.isDefault })}
             >
               <CollapsibleContainer
-                preview={<h3>{competition.isDefault && <span className="icon icon--star" />} {competition.name}</h3>}
-                defaultExpanded={competition.isDefault}
+                preview={<h3>{edition.isDefault && <span className="icon icon--star" />} {edition.name}</h3>}
+                defaultExpanded={edition.isDefault}
               >
                 <DataTable
-                  source={competition.suffrages}
+                  source={edition.suffrages}
                   labels={[ "Name" , "slug" , "Voting Started"  , "Voting Ended"  , "Podium" ]}
                   sorter={[ "name" , "slug" , "votingStartedAt" , "votingEndedAt" , "podium" ]}
                   search={[ "name" , "slug" , "votingStartedAt" , "votingEndedAt" , "podium" ]}
@@ -141,23 +141,23 @@ export class AdminSuffrages extends Component {
                   validate={validate}
                   onUpdateSubmit={this.update}
                   actions={this.suffragesActions}
-                  render={(competition, select, edit) => (
-                    <tr key={competition.id}>
+                  render={(edition, select, edit) => (
+                    <tr key={edition.id}>
                       {select}
-                      <td>{competition.name}</td>
-                      <td>{competition.slug}</td>
-                      <td>{formatDate(competition.votingStartedAt)}</td>
-                      <td>{formatDate(competition.votingEndedAt)}</td>
-                      <td>{competition.podium && competition.podium.toString()}</td>
+                      <td>{edition.name}</td>
+                      <td>{edition.slug}</td>
+                      <td>{formatDate(edition.votingStartedAt)}</td>
+                      <td>{formatDate(edition.votingEndedAt)}</td>
+                      <td>{edition.podium && edition.podium.toString()}</td>
                       {edit}
                     </tr>
                   )}
                 />
 
                 <ResourceCreator
-                  form={`newSuffrage-${competition.id}`}
+                  form={`newSuffrage-${edition.id}`}
                   fields={suffrageFields}
-                  onSubmit={suffrage => this.create(suffrage, competition)}
+                  onSubmit={suffrage => this.create(suffrage, edition)}
                   validate={validate}
                   label="Create Category"
                 />
@@ -175,18 +175,18 @@ export default compose(
 
   graphql(
     gql`{
-      competitions {
-        ...competition
+      editions {
+        ...edition
         suffrages { ...suffrage }
       }
-    } ${suffrage} ${competition}`
+    } ${suffrage} ${edition}`
   ),
 
   waitForData,
 
   graphql(
-    gql`mutation createSuffrage($suffrage: SuffrageInput!, $competitionId: String!) {
-      createSuffrage(suffrage: $suffrage, competitionId: $competitionId) { ...suffrage }
+    gql`mutation createSuffrage($suffrage: SuffrageInput!, $editionId: String!) {
+      createSuffrage(suffrage: $suffrage, editionId: $editionId) { ...suffrage }
     } ${suffrage}`,
     { name: "createSuffrage" }
   ),

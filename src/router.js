@@ -39,21 +39,21 @@ import Admin from "components/Admin";
 import AdminDashboard from "components/admin/Dashboard";
 import AdminUsers from "components/admin/Users";
 import AdminTeams from "components/admin/Teams";
-import AdminCompetitions from "components/admin/Competitions";
+import AdminEditions from "components/admin/Editions";
 import AdminVoting from "components/admin/Voting";
 import AdminEmails from "components/admin/Emails";
 
 //
 import AdminEditEmail from "components/admin/Emails.Edit";
-import AdminWorkshops from "components/admin/Workshops";
-import AdminEditWorkshop from "components/admin/Workshops.Edit";
+import AdminEvents from "components/admin/Events";
+import AdminEditEvent from "components/admin/Events.Edit";
 
 // import AdminMissingVoters from "components/admin/MissingVoters";
 // import AdminBots from "components/admin/Bots";
 // import AdminBotsRun from "components/admin/Bots.Run";
 // import AdminGamesRun from "components/admin/Games";
 // import AdminCheckIn from "components/admin/CheckIn";
-// import WorkshopCheckIn from "components/admin/WorkshopCheckIn";
+// import EventCheckIn from "components/admin/EventCheckIn";
 // import PaperVotes from "components/admin/PaperVotes";
 // import PrintablePaperVote from "components/admin/PaperVotes.Printable";
 // import AdminAIGameViewer from "components/admin/AIGameViewer.js";
@@ -80,10 +80,10 @@ const Router = () => (
         <Route exact path="/admin" component={nest(Authorized, Admin, AdminDashboard)} />
         <Route path="/admin/users" component={nest(Authorized, Admin, AdminUsers)} />
         <Route path="/admin/teams" component={nest(Authorized, Admin, AdminTeams)} />
-        <Route path="/admin/competitions" component={nest(Authorized, Admin, AdminCompetitions)} />
+        <Route path="/admin/editions" component={nest(Authorized, Admin, AdminEditions)} />
         <Route path="/admin/voting" component={nest(Authorized, Admin, AdminVoting)} />
-        <Route path="/admin/workshops" component={nest(Authorized, Admin, AdminWorkshops)} />
-        <Route path="/admin/workshops/:slug" component={nest(Authorized, Admin, AdminEditWorkshop)} />
+        <Route path="/admin/events" component={nest(Authorized, Admin, AdminEvents)} />
+        <Route path="/admin/events/:slug" component={nest(Authorized, Admin, AdminEditEvent)} />
         <Route path="/admin/emails" component={nest(Authorized, Admin, AdminEmails)} />
         <Route path="/admin/emails/:id" component={nest(Authorized, Admin, AdminEditEmail)} />
       </Switch>
@@ -121,15 +121,15 @@ const Router = () => (
 //                   <Route path="dashboard" component={AdminDashboard} />
 //                   <Route path="users" component={AdminUsers} />
 //                   <Route path="teams" component={AdminTeams} />
-//                   <Route path="competitions" component={AdminCompetitions} />
+//                   <Route path="editions" component={AdminEditions} />
 //                   <Route path="voting" component={AdminVoting} />
-//                   <Route path="workshops" component={AdminWorkshops} />
-//                   <Route path="workshops/:slug" component={AdminEditWorkshop} />
+//                   <Route path="events" component={AdminEvents} />
+//                   <Route path="events/:slug" component={AdminEditEvent} />
 //                   <Route path="emails" component={AdminEmails} />
 //                   <Route path="emails/:id" component={AdminEditEmail} />
 //
 //                   <Route path="checkin" component={AdminCheckIn} />
-//                   <Route path="checkin/workshop/:slug" component={WorkshopCheckIn} />
+//                   <Route path="checkin/event/:slug" component={EventCheckIn} />
 //                   <Route path="paper-votes" component={PaperVotes} />
 //
 //                   <Route path="missing-voters" component={AdminMissingVoters} />

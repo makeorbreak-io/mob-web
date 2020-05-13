@@ -33,3 +33,73 @@ $icons: "email", "facebook", "medium", "twitter";
     @each $icon in $icons { @include iconImage($icon, $black) }
   }
 }
+
+// @mixin backgroundIcon($fill, $pos) {
+//   &.bg-icon.bg-icon--#{$icon} {
+//     // background-image: url("~assets/images_old/icons/#{$icon}.svg");
+//     background-position: $pos;
+//     -svg-mixer-fill: $fill;
+//   }
+// }
+
+.bg-icon {
+  display: inline-block;
+  min-width: 20px;
+  min-height: 20px;
+  background: transparent no-repeat center center;
+  background-size: 20px 20px;
+}
+
+.bg-icon--add                     { background-image: url("~assets/images_old/icons/add.svg") }
+.bg-icon--add-circle              { background-image: url("~assets/images_old/icons/add-circle.svg") }
+.bg-icon--arrow-downward          { background-image: url("~assets/images_old/icons/arrow-downward.svg") }
+.bg-icon--arrow-drop-down         { background-image: url("~assets/images_old/icons/arrow-drop-down.svg") }
+.bg-icon--arrow-drop-up           { background-image: url("~assets/images_old/icons/arrow-drop-up.svg") }
+.bg-icon--arrow-upward            { background-image: url("~assets/images_old/icons/arrow-upward.svg") }
+.bg-icon--cancel                  { background-image: url("~assets/images_old/icons/cancel.svg") }
+.bg-icon--check                   { background-image: url("~assets/images_old/icons/check.svg") }
+.bg-icon--check-box               { background-image: url("~assets/images_old/icons/check-box.svg") }
+.bg-icon--check-box-empty         { background-image: url("~assets/images_old/icons/check-box-empty.svg") }
+.bg-icon--check-box-indeterminate { background-image: url("~assets/images_old/icons/check-box-indeterminate.svg") }
+.bg-icon--check-circle            { background-image: url("~assets/images_old/icons/check-circle.svg") }
+.bg-icon--close                   { background-image: url("~assets/images_old/icons/close.svg") }
+.bg-icon--code                    { background-image: url("~assets/images_old/icons/code.svg") }
+.bg-icon--dashboard               { background-image: url("~assets/images_old/icons/dashboard.svg") }
+.bg-icon--delete                  { background-image: url("~assets/images_old/icons/delete.svg") }
+.bg-icon--delete-forever          { background-image: url("~assets/images_old/icons/delete-forever.svg") }
+.bg-icon--edit                    { background-image: url("~assets/images_old/icons/edit.svg") }
+.bg-icon--email                   { background-image: url("~assets/images_old/icons/email.svg") }
+.bg-icon--error                   { background-image: url("~assets/images_old/icons/error.svg") }
+.bg-icon--expand-less             { background-image: url("~assets/images_old/icons/expand-less.svg") }
+.bg-icon--expand-more             { background-image: url("~assets/images_old/icons/expand-more.svg") }
+.bg-icon--fast-forward            { background-image: url("~assets/images_old/icons/fast-forward.svg"); }
+.bg-icon--fast-rewind             { background-image: url("~assets/images_old/icons/fast-rewind.svg"); }
+.bg-icon--filter-list             { background-image: url("~assets/images_old/icons/filter-list.svg") }
+.bg-icon--folder                  { background-image: url("~assets/images_old/icons/folder.svg") }
+.bg-icon--github                  { background-image: url("~assets/images_old/icons/github.svg") }
+.bg-icon--group                   { background-image: url("~assets/images_old/icons/group.svg") }
+.bg-icon--group-add               { background-image: url("~assets/images_old/icons/group-add.svg") }
+.bg-icon--how-to-vote             { background-image: url("~assets/images_old/icons/how-to-vote.svg") }
+.bg-icon--memory                  { background-image: url("~assets/images_old/icons/memory.svg") }
+.bg-icon--menu                    { background-image: url("~assets/images_old/icons/menu.svg") }
+.bg-icon--pause                   { background-image: url("~assets/images_old/icons/pause.svg"); }
+.bg-icon--person                  { background-image: url("~assets/images_old/icons/person.svg") }
+.bg-icon--play                    { background-image: url("~assets/images_old/icons/play.svg"); }
+.bg-icon--radio-button-checked    { background-image: url("~assets/images_old/icons/radio-button-checked.svg") }
+.bg-icon--radio-button-unchecked  { background-image: url("~assets/images_old/icons/radio-button-unchecked.svg") }
+.bg-icon--save                    { background-image: url("~assets/images_old/icons/save.svg") }
+.bg-icon--save                    { background-image: url("~assets/images_old/icons/save.svg"); }
+.bg-icon--school                  { background-image: url("~assets/images_old/icons/school.svg") }
+.bg-icon--search                  { background-image: url("~assets/images_old/icons/search.svg") }
+.bg-icon--share                   { background-image: url("~assets/images_old/icons/share.svg") }
+.bg-icon--speaker-group           { background-image: url("~assets/images_old/icons/speaker-group.svg") }
+.bg-icon--star                    { background-image: url("~assets/images_old/icons/star.svg") }
+.bg-icon--star-border             { background-image: url("~assets/images_old/icons/star-border.svg") }
+.bg-icon--stop                    { background-image: url("~assets/images_old/icons/stop.svg"); }
+.bg-icon--thumb-down              { background-image: url("~assets/images_old/icons/thumb-down.svg") }
+.bg-icon--thumb-up                { background-image: url("~assets/images_old/icons/thumb-up.svg") }
+.bg-icon--verified-user           { background-image: url("~assets/images_old/icons/verified-user.svg") }
+.bg-icon--visibility              { background-image: url("~assets/images_old/icons/visibility.svg") }
+.bg-icon--visibility-off          { background-image: url("~assets/images_old/icons/visibility-off.svg") }
+.bg-icon--work                    { background-image: url("~assets/images_old/icons/work.svg") }
+

@@ -20,6 +20,10 @@ import {
   BinaryToggle,
 } from "components/uikit";
 
+import {
+  Heading,
+} from "components/2020/uikit";
+
 export const UserOnboardingPrivacy = ({
   data: { me },
   updateMe,
@@ -39,9 +43,9 @@ export const UserOnboardingPrivacy = ({
 
   return (
     <div className="UserOnboarding privacy">
-      <h1>Your privacy and personal data</h1>
+      <Heading size="l" centered>Privacy and personal data</Heading>
 
-      <h2>Personal data we store</h2>
+      <Heading size="m">Personal data we store</Heading>
       <ul>
         <li>Name</li>
         <li>Email</li>
@@ -49,7 +53,7 @@ export const UserOnboardingPrivacy = ({
         <li>GitHub username</li>
       </ul>
 
-      <h2>How we use your data during the main event</h2>
+      <Heading size="m">How we use your data during the main event</Heading>
       <ul>
         <li>We use your name to create a credential to identify you;</li>
         <li>We use your t-shirt size to estimate the size distribution of the t-shirts given to participants;</li>
@@ -66,7 +70,7 @@ export const UserOnboardingPrivacy = ({
         </li>
       </ul>
 
-      <h2>How we use your data to communicate with you</h2>
+      <Heading size="m">How we use your data to communicate with you</Heading>
       <ul>
         <li>We use your name and email to send you email updates related to Make or Break, its main event, satellite events (like MoB Sessions), or other information we might consider relevant to the Make or Break community.</li>
       </ul>
@@ -81,7 +85,7 @@ export const UserOnboardingPrivacy = ({
         </li>
       </ul>
 
-      <h2>How we share your data with our sponsors or partners</h2>
+      <Heading size="m">How we share your data with our sponsors or partners</Heading>
       <ul>
         <li>We share your name and email with our sponsors or partners so they can get involved with the Make or Break community, by informing you about opportunities (like job offers) or important updates related to their company, institution, or core business;</li>
       </ul>
@@ -96,7 +100,7 @@ export const UserOnboardingPrivacy = ({
         </li>
       </ul>
 
-      <Button primary centered form onClick={updatePrivacyPreferences}>
+      <Button level="primary" onClick={updatePrivacyPreferences}>
         Save privacy settings
       </Button>
     </div>

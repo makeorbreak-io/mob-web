@@ -4,10 +4,10 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
 import { waitForData } from "enhancers";
-import { competition } from "fragments";
+import { edition } from "fragments";
 
-export const withCompetitionSelector = (WrappedComponent) => {
-  class WithCompetitionSelector extends Component {
+export const withEditionSelector = (WrappedComponent) => {
+  class WithEditionSelector extends Component {
     static defaultProps = {
       onChange: () => {},
     };
@@ -21,25 +21,25 @@ export const withCompetitionSelector = (WrappedComponent) => {
     }
 
     render() {
-      const { data: { competitions }, selected } = this.props;
+      const { data: { editions }, selected } = this.props;
 
       return (
         <div className="admin--container">
           <div className="admin--container--header">
             <h3>
-              Competition:
+              Edition:
               <select value={selected} onChange={this.handleChange}>
-                <option value="" disabled>Choose a competition</option>
-                {competitions.map(competition => (
-                  <option key={competition.id} value={competition.id}>
-                    {competition.name}{competition.isDefault && " (default)"}
+                <option value="" disabled>Choose a edition</option>
+                {editions.map(edition => (
+                  <option key={edition.id} value={edition.id}>
+                    {edition.name}{edition.isDefault && " (default)"}
                   </option>
                 ))}
               </select>
             </h3>
           </div>
 
-          <WrappedComponent {...this.props} competitionId={selected} />
+          <WrappedComponent {...this.props} editionId={selected} />
         </div>
       );
     }
@@ -47,13 +47,13 @@ export const withCompetitionSelector = (WrappedComponent) => {
 
   return compose(
     graphql(gql`{
-      competitions { ...competition }
-    } ${competition}`),
+      editions { ...edition }
+    } ${edition}`),
 
     waitForData,
 
-    withState("selected", "setSelected", props => props.data.competitions.find(c => c.isDefault).id),
-  )(WithCompetitionSelector);
+    withState("selected", "setSelected", props => props.data.editions.find(c => c.isDefault).id),
+  )(WithEditionSelector);
 };
 
-export default withCompetitionSelector;
+export default withEditionSelector;

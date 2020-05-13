@@ -6,16 +6,16 @@ import { connect } from "react-redux";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
-import { workshop } from "fragments";
+import { event } from "fragments";
 import { waitForData } from "enhancers";
 
 //
 // components
-import WorkshopForm, { validate } from "components/admin/Workshops.Form";
-import Workshop from "components/Workshop";
+import EventForm, { validate } from "components/admin/Events.Form";
+import Event from "components/Event";
 import { omit } from "lodash";
 
-export class AdminEditWorkshop extends Component {
+export class AdminEditEvent extends Component {
 
   state = {
     openModal: null,
@@ -25,33 +25,33 @@ export class AdminEditWorkshop extends Component {
   // Lifecycle
   //----------------------------------------------------------------------------
   componentWillMount() {
-    const { data: { workshop }, initialize } = this.props;
+    const { data: { event }, initialize } = this.props;
 
-    initialize(omit(workshop, "__typename", "id", "users", "attendances"));
+    initialize(omit(event, "__typename", "id", "users", "attendances"));
   }
 
   //----------------------------------------------------------------------------
   // Event Handlers
   //----------------------------------------------------------------------------
-  updateWorkshop = (workshop) => {
-    const { updateWorkshop, router } = this.props;
+  updateEvent = (event) => {
+    const { updateEvent, router } = this.props;
 
-    return updateWorkshop({ variables: { slug: workshop.slug, workshop } })
+    return updateEvent({ variables: { slug: event.slug, event } })
     .then(response => {
-      const { slug } = response.data.updateWorkshop;
+      const { slug } = response.data.updateEvent;
 
-      if (slug !== this.props.data.workshop.slug)
-        router.push(`/admin/workshops/${slug}`);
+      if (slug !== this.props.data.event.slug)
+        router.push(`/admin/events/${slug}`);
 
       return null;
     });
   }
 
-  deleteWorkshop = () => {
-    const { deleteWorkshop, router, data: { workshop: { slug } } } = this.props;
+  deleteEvent = () => {
+    const { deleteEvent, router, data: { event: { slug } } } = this.props;
 
-    return deleteWorkshop({ variables: { slug } })
-    .then(() => router.push("/admin/workshops"));
+    return deleteEvent({ variables: { slug } })
+    .then(() => router.push("/admin/events"));
   }
 
   openModal = (id) => {
@@ -66,29 +66,29 @@ export class AdminEditWorkshop extends Component {
   // Event Handlers
   //----------------------------------------------------------------------------
   render() {
-    const { data: { workshop }, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
+    const { data: { event }, formValues, handleSubmit, submitting, submitSucceeded } = this.props;
 
     return (
-      <div className="admin--container admin--workshops--edit">
+      <div className="admin--container admin--events--edit">
         <div>
           <h3>
-            Edit workshop
+            Edit event
           </h3>
 
-          <WorkshopForm
+          <EventForm
             {...{ handleSubmit, submitting, submitSucceeded }}
-            buttonLabel="Update Workshop"
-            form="editWorkshop"
-            save={this.updateWorkshop}
-            remove={this.deleteWorkshop}
+            buttonLabel="Update Event"
+            form="editEvent"
+            save={this.updateEvent}
+            remove={this.deleteEvent}
           />
         </div>
 
         <div className="preview">
           <h1>Preview</h1>
 
-          <Workshop
-            workshop={{ ...workshop, ...formValues }}
+          <Event
+            event={{ ...event, ...formValues }}
             showSummary
             showDescription
             showSpeaker
@@ -101,24 +101,24 @@ export class AdminEditWorkshop extends Component {
 }
 
 export default compose(
-  setDisplayName("AdminEditWorkshop"),
+  setDisplayName("AdminEditEvent"),
 
   getContext({
     router: PropTypes.object.isRequired,
   }),
 
   reduxForm({
-    form: "editWorkshop",
+    form: "editEvent",
     validate,
   }),
 
   graphql(
-    gql`query workshop($slug: String!) {
-      workshop(slug: $slug) {
-        ...workshop
+    gql`query event($slug: String!) {
+      event(slug: $slug) {
+        ...event
         users { id name email }
       }
-    } ${workshop}`,
+    } ${event}`,
     {
       skip: props => !props.params.slug,
       options: props => ({
@@ -130,20 +130,20 @@ export default compose(
   waitForData,
 
   graphql(
-    gql`mutation updateWorkshop($slug: String!, $workshop: WorkshopInput!) {
-      updateWorkshop(slug: $slug, workshop: $workshop) { ...workshop }
-    } ${workshop}`,
-    { name: "updateWorkshop" },
+    gql`mutation updateEvent($slug: String!, $event: EventInput!) {
+      updateEvent(slug: $slug, event: $event) { ...event }
+    } ${event}`,
+    { name: "updateEvent" },
   ),
 
   graphql(
-    gql`mutation deleteWorkshop($slug: String!) {
-      deleteWorkshop(slug: $slug) { slug }
+    gql`mutation deleteEvent($slug: String!) {
+      deleteEvent(slug: $slug) { slug }
     }`,
-    { name: "deleteWorkshop" },
+    { name: "deleteEvent" },
   ),
 
   connect(({ form }) => ({
-    formValues: form.editWorkshop.values || {},
+    formValues: form.editEvent.values || {},
   })),
-)(AdminEditWorkshop);
+)(AdminEditEvent);

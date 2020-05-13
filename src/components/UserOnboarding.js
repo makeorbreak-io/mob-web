@@ -1,68 +1,110 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { compose, setDisplayName } from "recompose";
 
-import { withCurrentUser, waitForData, multistep } from "enhancers";
+import {  multistep } from "enhancers";
+
+import { useCurrentUser } from "hooks";
 
 import { Tabs, Tab, Panel } from "components/uikit/tabs";
+import { Section } from "components/2020/uikit";
+
 import Name from "./UserOnboarding.Name";
 import Team from "./UserOnboarding.Team";
 import Privacy from "./UserOnboarding.Privacy";
 
-export class UserOnboarding extends Component {
+const UserOnboarding = ({
+  currentStep,
+  next,
+  setSteps,
+}) => {
+  const { loading, data } = useCurrentUser();
 
-  state = {
-    hackathonParticipant: this.props.data.me.currentTeam ? true : false,
-  }
+  if (loading) return null;
 
-  componentWillMount() {
-    const { setSteps, data: { me } } = this.props;
+  const [hackathonParticipant, setHackathonParticipant] = useState(data.me.currentTeam ? true : false);
 
-    setSteps(me.currentTeam ? 3 : 2);
-    // this.setState({ hackathonParticipant: me.currentTeam ? true : false });
-  }
+  useEffect(() => {
+    setSteps(hackathonParticipant ? 3 : 2);
+  }, [hackathonParticipant]);
 
-  setHackathonParticipant = (value) => {
-    const { setSteps, steps } = this.props;
-    this.setState({ hackathonParticipant: value });
+  return (
+    <Section id="user-onboarding">
+      <Tabs green small showIndex selected={currentStep}>
+        <Tab><span>Your Information</span></Tab>
 
-    setSteps(value ? steps + 1 : steps - 1);
-  }
+        {hackathonParticipant &&
+          <Tab><span>{data.me.currentTeam ? "Update" : "Create"} Your Team</span></Tab>
+        }
 
-  render() {
-    const { hackathonParticipant } = this.state;
-    const { next, currentStep, data: { me } } = this.props;
+        <Tab><span>Your privacy</span></Tab>
 
-    return (
-      <div className="UserOnboarding">
-        <div className="content white">
-          <Tabs green small showIndex selected={currentStep}>
-            <Tab><span>Your Information</span></Tab>
-            {hackathonParticipant &&
-              <Tab><span>{me.currentTeam ? "Update" : "Create"} Your Team</span></Tab>
-            }
-            <Tab><span>Your privacy</span></Tab>
+        <Panel>
+          <Name
+            next={next}
+            setHackathonParticipant={setHackathonParticipant}
+          />
+        </Panel>
 
-            <Panel>
-              <Name
-                next={next}
-                setHackathonParticipant={this.setHackathonParticipant}
-              />
-            </Panel>
-            {hackathonParticipant && <Panel><Team /></Panel>}
-            <Panel><Privacy /></Panel>
-          </Tabs>
-        </div>
-      </div>
-    );
-  }
+        {hackathonParticipant && <Panel><Team /></Panel>}
 
-}
+        <Panel><Privacy /></Panel>
+      </Tabs>
+    </Section>
+  );
+};
+
+// export class UserOnboardingComponent extends Component {
+//
+//   state = {
+//     hackathonParticipant: this.props.data.me.currentTeam ? true : false,
+//   }
+//
+//   componentWillMount() {
+//     const { setSteps, data: { me } } = this.props;
+//
+//     setSteps(me.currentTeam ? 3 : 2);
+//     // this.setState({ hackathonParticipant: me.currentTeam ? true : false });
+//   }
+//
+//   setHackathonParticipant = (value) => {
+//     const { setSteps, steps } = this.props;
+//     this.setState({ hackathonParticipant: value });
+//
+//     setSteps(value ? steps + 1 : steps - 1);
+//   }
+//
+//   render() {
+//     const { hackathonParticipant } = this.state;
+//     const { next, currentStep, data: { me } } = this.props;
+//
+//     return (
+//       <div className="UserOnboarding">
+//         <div className="content white">
+//           <Tabs green small showIndex selected={currentStep}>
+//             <Tab><span>Your Information</span></Tab>
+//             {hackathonParticipant &&
+//               <Tab><span>{me.currentTeam ? "Update" : "Create"} Your Team</span></Tab>
+//             }
+//             <Tab><span>Your privacy</span></Tab>
+//
+//             <Panel>
+//               <Name
+//                 next={next}
+//                 setHackathonParticipant={this.setHackathonParticipant}
+//               />
+//             </Panel>
+//             {hackathonParticipant && <Panel><Team /></Panel>}
+//             <Panel><Privacy /></Panel>
+//           </Tabs>
+//         </div>
+//       </div>
+//     );
+//   }
+//
+// }
 
 export default compose(
   setDisplayName("UserOnboarding"),
-
-  withCurrentUser,
-  waitForData,
 
   multistep({
     name: "user-onboarding",

@@ -8,7 +8,7 @@ export const Tab = ({
   setSelected,
   children,
 }) => {
-  const cx = classnames("Tab", { selected: isSelected });
+  const cx = classnames("tab", { selected: isSelected });
 
   return (
     <div className={cx} data-step={index + 1} onClick={() => setSelected(index)}>

@@ -1,154 +1,122 @@
-import React, { useState } from "react";
-import { compose, setDisplayName } from "recompose";
-import { reduxForm, Field, getFormValues } from "redux-form";
-import { connect } from "react-redux";
-import { get, isEmpty } from "lodash";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import React from "react";
+import { compose } from "recompose";
+import { useMutation } from "@apollo/react-hooks";
 
-import { withCurrentUser, waitForData, multistep } from "enhancers";
+import { multistep } from "enhancers";
 
-import { fullTeam } from "fragments";
-
+import { INVITE, REVOKE_INVITE } from "mutations";
+import { useCurrentUser } from "hooks";
 import { handleGraphQLErrors } from "lib/graphql";
 
 //
 // Components
 import {
+  Avatar,
   Button,
-  buttonPropsFromReduxForm,
-} from "components/uikit";
-import { Multiselect } from "components/fields";
-
-//
-// Constants
-import { EMAIL_REGEX } from "constants/validators";
+  Form,
+  Field,
+  Heading,
+  P,
+} from "components/2020/uikit";
 
 //
 // Validation
-import { composeValidators, validatePresence } from "validators";
+import { composeValidators, validateEmail } from "validators";
 
 const validate = composeValidators(
-  validatePresence("members", "Team members"),
+  validateEmail("email", "Member email address"),
 );
 
 const UserOnboardingInvites = ({
-  data: { me },
-  formValues,
-  handleSubmit,
-  invite,
   next,
-  submitFailed,
-  submitSucceeded,
-  submitting,
-  valid,
 }) => {
-  const [multipleSelected, setMultipleSelected] = useState(false);
+  const { data, refetch } = useCurrentUser();
+  const [inviteMember] = useMutation(INVITE);
+  const [revokeInvite] = useMutation(REVOKE_INVITE);
 
-  const submit = (values) => (
-    invite({ variables: { id: me.currentTeam.id, emails: values.members.map((m) => m.value) } })
-      .then(next)
+  const team = data.me.currentTeam;
+
+  const submit = ({ email }) => (
+    console.log(email),
+    inviteMember({ variables: { teamId: team.id, emails: [email] } })
+      .then(() => refetch())
       .catch(handleGraphQLErrors)
   );
 
-  const updateMultipleSelected = (ev) => setMultipleSelected(!isEmpty(ev[1]));
+  const revoke = (id) => (
+    revokeInvite({ variables: { id }})
+      .then(() => refetch())
+      .catch(handleGraphQLErrors)
+  );
 
-  const team = me.currentTeam;
-  const memberLimitReached = team
-    ? (team.invites.length + team.memberships.length + formValues.members.length) > 4
-    : false;
+  const limitReached = team.members.length + team.invites.length >= 4;
+
+  console.log({ limitReached });
 
   return (
-    <>
-      <h1>Get the ball rolling</h1>
-      <h5>
-        Start by adding all of your team members to your "{get(me, "currentTeam.name")}" team.
-        <br />
-        They'll receive a notification the next time they log in to the platform.
-      </h5>
+    <Form
+      onSubmit={submit}
+      validate={validate}
+      withoutSubmitButton
+    >
+      <Heading size="l" centered>Team Members</Heading>
 
-      <form onSubmit={handleSubmit(submit)}>
-        <label htmlFor="members">Add team members</label>
-        <Field
-          id="members"
-          name="members"
-          component={Multiselect}
-          placeholder="Invite users by email..."
-          onChange={updateMultipleSelected}
-          isValidNewOption={({ label }) => EMAIL_REGEX.test(label)}
-          noResultsText={null}
-          arrowRenderer={() => {}}
-          promptTextCreator={label => `Add ${label}`}
-          options={[]}
-          creatable
-        />
-        <Button
-          {...buttonPropsFromReduxForm({ submitting, submitSucceeded, submitFailed })}
-          type="submit"
-          form
-          centered
-          fullwidth
-          primary
-          disabled={submitting || !valid || memberLimitReached}
-          feedbackSuccessLabel="Members invited!"
-          feedbackFailureLabel="Error inviting members"
-        >
-          Invite {multipleSelected ? "members" : "member"}
+      <ul>
+        {team.members.map((member) => (
+          <li key={member.id}>
+            <Avatar user={member} />
+            <span>{member.displayName}</span>
+          </li>
+        ))}
+      </ul>
+
+      {team.invites.length > 0 &&
+        <>
+          <Heading size="l" centered>Pending Invites</Heading>
+
+          <ul>
+            {team.invites.map((invite) => (
+              <li key={invite.id}>
+                <Avatar user={invite} />
+                <span>{invite.displayName}</span>
+                <Button size="small" level="secondary" onClick={() => revoke(invite.id)}>Cancel Invite</Button>
+              </li>
+            ))}
+          </ul>
+        </>
+      }
+
+      <Field
+        label="Member email address"
+        name="email"
+        placeholder="Member email address"
+        type="email"
+        disabled={limitReached}
+      />
+
+      {!limitReached &&
+        <Button type="submit" size="large" level="primary">
+          Invite
         </Button>
+      }
 
-        {!isEmpty(team.memberships) && <label>Members</label>}
-        <ul className="Members">
-          {team.memberships.map(({ user }) => (
-            <li className="Member" key={user.id}>
-              {user.displayName}
-            </li>
-          ))}
-        </ul>
+      {limitReached &&
+        <P additional>A team can only have 4 elements at most</P>
+      }
 
-        {!isEmpty(team.invites) && <label>Pending Invites</label>}
-        <ul className="Invites">
-          {team.invites.map(invite => (
-            <li className="Invite" key={invite.id}>
-              {invite.displayName}
-            </li>
-          ))}
-        </ul>
+      <Button size="large" level="secondary" onClick={next}>
+        {limitReached ? "Next" : "Skip this step"}
+      </Button>
 
-        <Button form centered fullwidth primary hollow onClick={next}>
-          Skip this step
-        </Button>
-
-        <p className="small-notice">You can always invite more members at a later time</p>
-      </form>
-    </>
+      {!limitReached &&
+        <P additional>You can always invite more members at a later time</P>
+      }
+    </Form>
   );
 };
 
 export default compose(
-  setDisplayName("UserOnboardingInvites"),
-
-  withCurrentUser,
-  waitForData,
-
   multistep({
     name: "user-onboarding",
   }),
-
-  reduxForm({
-    form: "user-onboarding-invites",
-    validate,
-  }),
-
-  graphql(
-    gql`mutation invite($id: String!, $emails: [String]!) {
-      invite(id: $id, emails: $emails) { ...fullTeam }
-    } ${fullTeam}`,
-    { name: "invite" },
-  ),
-
-  connect(state => ({
-    formValues: getFormValues("user-onboarding-invites")(state) || { members: [] },
-  })),
 )(UserOnboardingInvites);
-
-

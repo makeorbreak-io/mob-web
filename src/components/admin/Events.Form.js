@@ -27,7 +27,7 @@ export const validate = (values) => {
   )(values);
 };
 
-export const WorkshopForm = ({
+export const EventForm = ({
   handleSubmit,
   save,
   remove,
@@ -101,17 +101,17 @@ export const WorkshopForm = ({
         form
         centered
         fullwidth
-        confirmation="Really delete workshop?"
+        confirmation="Really delete event?"
         onClick={remove}
       >
-        Delete workshop
+        Delete event
       </Button>
     }
   </form>
 );
 
 export default compose(
-  setDisplayName("WorkshopForm"),
+  setDisplayName("EventForm"),
 
   setPropTypes({
     handleSubmit: PropTypes.func.isRequired,
@@ -122,4 +122,4 @@ export default compose(
     buttonLabel: PropTypes.string.isRequired,
     form: PropTypes.string.isRequired,
   }),
-)(WorkshopForm);
+)(EventForm);

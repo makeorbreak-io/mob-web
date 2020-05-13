@@ -1,24 +1,5 @@
-import React, { Component } from "react";
-import { compose, setDisplayName } from "recompose";
-// import {, reduxForm } from "redux-form";
-// import { omit } from "lodash";
-// import classnames from "classnames";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
-
-//
-// Enhancers
-import { withCurrentUser, waitForData } from "enhancers";
-
-import { fullUser } from "fragments";
-
-//
-// Components
-// import {
-//   Button,
-//   buttonPropsFromReduxForm,
-//   ErrorMessage,
-// } from "components/uikit";
+import React from "react";
+import { useMutation } from "@apollo/react-hooks";
 
 import {
   Heading,
@@ -27,6 +8,9 @@ import {
   Form,
   Section,
 } from "components/2020/uikit";
+
+import { UPDATE_ME } from "mutations";
+import { useCurrentUser } from "hooks";
 
 //
 // Constants
@@ -50,229 +34,71 @@ const validate = composeValidators(
   validatePresence("tshirtSize", "T-Shirt size"),
 );
 
-export class AccountSettings extends Component {
+export const AccountSettings = () => {
+  const { loading, data, refetch } = useCurrentUser();
+  const [updateMe] = useMutation(UPDATE_ME);
 
-  state = {
-    editing: false,
-  }
+  if (loading) return null;
 
-  handleToggle = () => {
-    const { editing } = this.state;
+  const initialValues = {
+    name: data.me.name,
+    email: data.me.email,
+    tshirtSize: data.me.tshirtSize,
+    githubHandle: data.me.githubHandle,
+  };
 
-    if (editing) {
-      this.submitButton.click();
-    }
-    else {
-      this.setState({ editing: true });
-    }
+  const submit = (user) => (
+    updateMe({ variables: { user } })
+      .then(() => refetch())
+      .catch(handleGraphQLErrors)
+  );
 
-  }
+  return (
+    <Section center>
+      <Heading size="xl" color="green" centered>Your Account</Heading>
 
-  onSubmit = (user) => {
-    return this.props.updateMe({
-      variables: { user },
-    })
-    .then(() => this.setState({ editing: false }))
-    .catch(handleGraphQLErrors);
-  }
+      <Form
+        onSubmit={submit}
+        initialValues={initialValues}
+        validate={validate}
+      >
+        <Field
+          label="Name"
+          name="name"
+          placeholder="Name"
+          type="text"
+        />
 
-  get initialValues() {
-    const { name, email, tshirtSize, githubHandle } = this.props.data.me;
+        <Field
+          label="Email"
+          name="email"
+          placeholder="Email"
+          type="email"
+        />
 
-    return {
-      name,
-      email,
-      tshirtSize,
-      githubHandle,
-    };
-  }
-
-  render() {
-    // const { data: { me } } = this.props;
-    // const { editing } = this.state;
-
-    // const formCx = classnames({ editing });
-
-    return (
-      <Section center>
-        <Heading size="xl" color="green" centered>Your Account</Heading>
-
-        <Form
-          onSubmit={this.onSubmit}
-          initialValues={this.initialValues}
-          validate={validate}
+        <Field
+          label="T-Shirt size"
+          name="tshirtSize"
+          component="select"
         >
-          <Field
-            label="Name"
-            name="name"
-            placeholder="Name"
-            type="text"
-          />
+          <option value="" disabled>Select a size</option>
+          {TSHIRT_SIZES.map(size =>
+            <option key={size} value={size}>{size}</option>
+          )}
+        </Field>
 
-          <Field
-            label="Email"
-            name="email"
-            placeholder="Email"
-            type="email"
-          />
+        <Field
+          label="GitHub username"
+          name="githubHandle"
+          placeholder="GitHub username"
+          type="text"
+        />
+      </Form>
 
-          <Field
-            label="T-Shirt size"
-            name="tshirtSize"
-            component="select"
-          >
-            {TSHIRT_SIZES.map(size =>
-              <option key={size} value={size}>{size}</option>
-            )}
-          </Field>
+      <Link to="/dashboard">Back to dashboard</Link>
 
-          <Field
-            label="GitHub username"
-            name="githubHandle"
-            placeholder="GitHub username"
-            type="text"
-          />
-        </Form>
+    </Section>
+  );
+};
 
-        <Link to="/dashboard">Back to dashboard</Link>
-
-      </Section>
-    );
-
-    // return (
-    //   <div className="AccountSettings">
-    //     <h2>
-    //       <span>You</span>
-
-    //       {editing &&
-    //         <Button
-    //           small
-    //           onClick={() => this.setState({ editing: false })}
-    //         >
-    //           Cancel
-    //         </Button>
-    //       }
-
-    //       <Button
-    //         {...buttonPropsFromReduxForm(this.props)}
-    //         primary
-    //         small
-    //         feedbackSuccessLabel="Updated!"
-    //         feedbackFailureLabel="Error updating"
-    //         onClick={this.handleToggle}
-    //       >
-    //         {editing ? "Update" : "Edit"}
-    //       </Button>
-    //     </h2>
-
-    //     {editing &&
-    //       <form onSubmit={handleSubmit(this.onSubmit)} className={formCx}>
-    //         {/* Personal Info */}
-    //         <div className="form-row">
-    //           <label htmlFor="name">Name</label>
-    //           <Field id="name" name="name" component="input" type="text" placeholder="Name" className="fullwidth" disabled={!editing}/>
-    //           <ErrorMessage form="account-settings" field="name" />
-    //         </div>
-
-    //         <div className="form-row">
-    //           <label htmlFor="email">Email</label>
-    //           <Field id="email" name="email" component="input" type="text" placeholder="Email" className="fullwidth" disabled={!editing} />
-    //           <ErrorMessage form="account-settings" field="email" />
-    //         </div>
-
-    //         <div className="form-row">
-    //           <label htmlFor="tshirtSize">T-Shirt Size</label>
-    //           <Field id="tshirtSize" name="tshirtSize" component="select" className="fullwidth" disabled={!editing}>
-    //             <option value="" disabled>Choose your t-shirt size</option>
-    //             {TSHIRT_SIZES.map(size =>
-    //               <option key={size} value={size}>{size}</option>
-    //             )}
-    //           </Field>
-    //           <ErrorMessage form="account-settings" field="tshirtSize" />
-    //         </div>
-
-    //         {/* Social Media */}
-    //         <div className="form-row">
-    //           <label htmlFor="githubHandle">GitHub</label>
-    //           <Field id="githubHandle" name="githubHandle" component="input" type="text" placeholder="Github handle" className="fullwidth icon github" disabled={!editing} />
-    //           <ErrorMessage form="account-settings" field="githubHandle" />
-    //         </div>
-
-    //         {editing &&
-    //           <Button
-    //             {...buttonPropsFromReduxForm(this.props)}
-    //             type="submit"
-    //             primary
-    //             form
-    //             centered
-    //             fullwidth
-    //             buttonRef={ref => this.submitButton = ref}
-    //           >
-    //             Update
-    //           </Button>
-    //         }
-    //       </form>
-    //     }
-
-    //     {!editing &&
-    //       <div>
-    //         <label>Name</label>
-    //         <p>{me.name}</p>
-
-    //         <label>Email</label>
-    //         <p>{me.email}</p>
-
-    //         {me.tshirtSize &&
-    //           <Fragment>
-    //             <label>T-shirt size</label>
-    //             <p>{me.tshirtSize}</p>
-    //           </Fragment>
-    //         }
-
-    //         {me.githubHandle &&
-    //           <Fragment>
-    //             <label>GitHub</label>
-    //             <p className="github">{me.githubHandle}</p>
-    //           </Fragment>
-    //         }
-    //       </div>
-    //     }
-
-    //   </div>
-    // );
-  }
-
-}
-
-export default compose(
-  setDisplayName("AccountSettings"),
-
-  withCurrentUser,
-
-  waitForData,
-
-  // mapProps(props => ({
-  //   ...props,
-  //   initialValues: omit(
-  //     props.data.me,
-  //     "__typename",
-  //     "id",
-  //     "invitations",
-  //     "teams",
-  //     "displayName",
-  //     "gravatarHash",
-  //     "currentAttendance",
-  //     "currentBot",
-  //     "currentTeam",
-  //     "workshops",
-  //     "favorites",
-  //   ),
-  // })),
-
-  graphql(
-    gql`mutation updateMe($user: UserInput!) {
-      updateMe(user: $user) { ...fullUser }
-    } ${fullUser}`,
-    { name: "updateMe" },
-  ),
-)(AccountSettings);
+export default AccountSettings;

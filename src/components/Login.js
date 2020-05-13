@@ -1,12 +1,12 @@
 import React from "react";
-import { compose } from "recompose";
 import { useHistory } from "react-router-dom";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
 
-import { withCurrentUser } from "enhancers";
+import { AUTHENTICATE } from "mutations";
+import { useCurrentUser } from "hooks";
 
 import { handleGraphQLErrors } from "lib/graphql";
+
 
 //
 // Components
@@ -30,16 +30,16 @@ const validate = (values) => {
   )(values);
 };
 
-export const Login = ({
-  authenticate,
-  data,
-}) => {
+export const Login = () => {
   const history = useHistory();
 
+  const { refetch } = useCurrentUser();
+  const [authenticate] = useMutation(AUTHENTICATE);
+
   const submit = ({ email, password }) => {
-    return authenticate({ variables: { email: email.trim().toLowerCase(), password } })
+    return authenticate({ variables: { email: email.trim().toLowerCase(), password }})
       .then((response) => localStorage.setItem("jwt", response.data.authenticate))
-      .then(() => data.refetch())
+      .then(refetch)
       .then(() => {
         history.push("/dashboard");
         return null;
@@ -78,13 +78,14 @@ export const Login = ({
   );
 };
 
-export default compose(
-  withCurrentUser,
-
-  graphql(
-    gql`mutation authenticate($email: String!, $password: String!) {
-      authenticate(email: $email, password: $password)
-    }`,
-    { name: "authenticate" },
-  ),
-)(Login);
+export default Login;
+// export default compose(
+//   withCurrentUser,
+//
+//   graphql(
+//     gql`mutation authenticate($email: String!, $password: String!) {
+//       authenticate(email: $email, password: $password)
+//     }`,
+//     { name: "authenticate" },
+//   ),
+// )(Login);

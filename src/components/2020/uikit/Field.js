@@ -5,6 +5,7 @@ import { Field as FinalField } from "react-final-form";
 import cx from "classnames";
 
 const Field = ({
+  disabled,
   label,
   name,
   placeholder,
@@ -26,6 +27,7 @@ const Field = ({
             React.createElement(Component, {
               ...input,
               id,
+              disabled,
               type,
               placeholder,
               className: cx(`form__field__${Component}`, { "form__field__input--error": meta.touched && meta.error }),

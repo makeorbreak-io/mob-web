@@ -1,3 +1,5 @@
+// @flow
+
 import React from "react";
 import PropTypes from "prop-types";
 import { compose, setDisplayName, setPropTypes } from "recompose";
@@ -11,12 +13,22 @@ import { Button, ErrorMessage } from "components/uikit";
 // Validation
 import { composeValidators, validatePresence } from "validators";
 
-export const validate = (values) => {
+export const validate = (values: {}) => {
   return composeValidators(
     validatePresence("name", "Name"),
     validatePresence("subject", "Subject"),
   )(values);
 };
+
+type Props = {
+  handleSubmit: () => void,
+  save: () => void,
+  remove: () => void,
+  submitting: boolean,
+  submitSucceeded: boolean,
+  buttonLabel: string,
+  form: string,
+}
 
 export const EmailForm = ({
   handleSubmit,
@@ -26,7 +38,7 @@ export const EmailForm = ({
   submitSucceeded,
   buttonLabel,
   form,
-}) => (
+}: Props) => (
   <form onSubmit={handleSubmit(save)}>
     <label htmlFor="name">Identifier</label>
     <Field id="name" name="name" component="input" type="text" placeholder="Identifier" className="fullwidth" />

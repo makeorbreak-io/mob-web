@@ -1,4 +1,4 @@
 export multistep from "./multistep";
 export waitForData from "./waitForData";
-export withCompetitionSelector from "./withCompetitionSelector";
+export withEditionSelector from "./withEditionSelector";
 export withCurrentUser from "./withCurrentUser";

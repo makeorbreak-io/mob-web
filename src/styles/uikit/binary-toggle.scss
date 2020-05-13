@@ -1,0 +1,40 @@
+.BinaryToggle {
+  position: relative;
+  display: inline-block;
+  height: 30px;
+  min-width: 100px;
+  border-radius: 5px;
+  border: 1px solid $electric-indigo;
+  touch-callout: none;
+  user-select: none;
+  cursor: pointer;
+
+  .option {
+    position: relative;
+    display: inline-block;
+    line-height: 28px;
+    text-align: center;
+    width: 50%;
+    height: calc(100% - 2px);
+    font-weight: bold;
+    color: $electric-indigo;
+    z-index: 10;
+    transition: color 150ms ease-in-out;
+
+    &.selected { color: $white; }
+  }
+
+  .indicator {
+    position: absolute;
+    width: 50%;
+    height: calc(100% - 4px);
+    background: $electric-indigo;
+    border-radius: 3px;
+    top: 2px;
+    left: 2px;
+    z-index: 1;
+    transition: left 150ms ease-in-out;
+
+    &.toggled { left: calc(50% - 2px); }
+  }
+}

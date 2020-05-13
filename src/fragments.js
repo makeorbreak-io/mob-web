@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
-export const competition = gql`
-  fragment competition on Competition {
+export const edition = gql`
+  fragment edition on Edition {
     id
     name
     status
@@ -32,8 +32,8 @@ export const fullUser = gql`
       accepted
       projectName
 
-      memberships { user { id displayName gravatarHash } }
-      invites { id gravatarHash displayName }
+      members { id displayName gravatarHash }
+      invites { id displayName gravatarHash }
     }
 
     invitations {
@@ -42,13 +42,13 @@ export const fullUser = gql`
       team { id name }
     }
 
-    workshops { id slug name }
+    events { id slug name type }
 
     favorites { id teamId }
 
-    currentBot: currentAiCompetitionBot {
-      id title revision sdk
-    }
+    # currentBot: currentAiEditionBot {
+    #   id title revision sdk
+    # }
   }
 `;
 
@@ -65,12 +65,12 @@ export const fullTeam = gql`
     invites { id gravatarHash displayName }
     members { id displayName gravatarHash }
     memberships { user { id displayName gravatarHash githubHandle } }
-    competition { id name status }
+    edition { id name status }
   }
 `;
 
-export const aiCompetitionBot = gql`
-  fragment aiCompetitionBot on AiCompetitionBot {
+export const aiEditionBot = gql`
+  fragment aiEditionBot on AiEditionBot {
     id
     title
     revision
@@ -91,8 +91,8 @@ export const email = gql`
   }
 `;
 
-export const workshop = gql`
-  fragment workshop on Workshop {
+export const event = gql`
+  fragment event on Event {
     id
     slug
     shortDate

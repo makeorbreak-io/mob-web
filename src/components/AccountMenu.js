@@ -1,26 +1,25 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { compose } from "recompose";
 import classnames from "classnames";
 
 //
 // hooks
-import useOnClickOutside from "hooks/onClickOutside";
-
-//
-// enhancers
-import { withCurrentUser, waitForData } from "enhancers";
+import {
+  useCurrentUser,
+  useOnClickOutside,
+} from "hooks";
 
 //
 // constants
 import { ADMIN } from "constants/roles";
 
-export const AccountMenu = ({
-  data,
-  data: { me },
-}) => {
+export const AccountMenu = () => {
   const ref = useRef();
   const [isOpen, setIsOpen] = useState(false);
+
+  const { loading, data } = useCurrentUser();
+
+  if (loading) return null;
 
   const close = () => setIsOpen(false);
   const logout = () => {
@@ -43,14 +42,12 @@ export const AccountMenu = ({
 
         <Link to="/account/privacy" onClick={close}>Privacy</Link>
 
-        {me.role === ADMIN && <Link to="/admin" onClick={close}>Admin</Link>}
+        {data.me.role === ADMIN && <Link to="/admin" onClick={close}>Admin</Link>}
 
         <a onClick={logout}>Logout</a>
       </div>
     </div>
   );
 };
-export default compose(
-  withCurrentUser,
-  waitForData,
-)(AccountMenu);
+
+export default AccountMenu;

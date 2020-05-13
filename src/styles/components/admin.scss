@@ -1,0 +1,191 @@
+$sidebar-width: 200px;
+
+.admin--wrapper {
+  width: 100%;
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  background: white;
+
+  @include mobile {
+    min-height: calc(100vh - #{$header-height--mobile} - #{$footer-height});
+  }
+}
+
+.admin--navigation {
+  position: relative;
+  background: rgba(black, 0.04);
+  flex-basis: $sidebar-width;
+  flex-shrink: 0;
+  padding: 20px 0;
+  border-right: 1px solid $grey;
+
+  a, a:link, a:active, a:visited {
+    text-decoration: none;
+    color: black;
+  }
+
+  ul {
+    list-style: none;
+    position: sticky;
+    top: 0;
+
+    li {
+      position: relative;
+      padding: 15px 20px;
+      font-size: 18px;
+      border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent;
+
+      &.active {
+        font-weight: bold;
+        background: white;
+        border-color: $grey;
+
+        &:after {
+          content: "";
+          display: block;
+          position: absolute;
+          width: 1px;
+          height: 100%;
+          top: 0;
+          right: -1px;
+          background: white;
+        }
+      }
+
+      .icon {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.admin--content {
+  width: calc(100vw - #{$sidebar-width});
+}
+
+.admin--container {
+  padding: 30px;
+  min-height: 100%;
+
+  h1, h2, h3, h4, h5, h6 {
+    text-align: left;
+    margin: 0 0 30px;
+  }
+
+  .data-table {
+    margin-bottom: 30px;
+  }
+}
+
+.admin--container--header {
+  margin-bottom: 30px;
+
+  h3 { margin: 0; }
+  select { margin-left: 15px; }
+}
+
+// page-specific styles
+.admin--dashboard {
+  display: grid;
+
+  // grid-template-rows: 200px 200px
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 15px;
+}
+
+.admin--dashboard--card {
+  position: relative;
+  border: 1px solid $grey;
+  border-radius: 3px;
+  font-size: 18px;
+
+  $header-height: 70px;
+
+  .header {
+    position: relative;
+    height: $header-height;
+    padding: 0 $header-height + 20px 0 20px;
+    margin: 0;
+    line-height: $header-height;
+    font-size: 18px;
+    border-bottom: 1px solid $grey;
+  }
+
+  .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: $header-height;
+    height: 100%;
+    background-color: rgba(black, 0.04);
+    background-position: center center;
+    background-size: 36px 36px;
+    border-left: 1px solid $grey;
+  }
+
+  ul {
+    li {
+      display: grid;
+      grid-template-columns: 1fr $header-height;
+      padding: 15px 20px;
+      border-bottom: 1px solid $grey;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      span:last-child {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.admin--workshops--new,
+.admin--workshops--edit,
+.admin--emails--new,
+.admin--emails--edit {
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  h3 {
+    text-align: left;
+  }
+
+  > div {
+    flex-basis: calc(50% - 10px);
+  }
+}
+
+.admin--workshops--new,
+.admin--emails--new {
+  margin-top: 60px;
+  border: 1px solid #e0e0e0;
+}
+
+.admin--suffrages {
+  ul li {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-bottom: 1px solid $grey;
+
+    &.competition--default {
+      background: rgba(black, 0.04);
+    }
+  }
+}
+
+.admin--competitions {
+  tr.default td {
+    background: rgba(black, 0.04);
+  }
+}

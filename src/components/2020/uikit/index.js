@@ -1,3 +1,6 @@
+export Accordion from "./Accordion";
+export Avatar from "./Avatar";
+export BinaryToggle from "./BinaryToggle";
 export Button from "./Button";
 export Field from "./Field";
 export Form from "./Form";
@@ -8,4 +11,3 @@ export Icon from "./Icon";
 export P from "./P";
 export Section from "./Section";
 export Tag from "./Tag";
-export Accordion from "./Accordion";

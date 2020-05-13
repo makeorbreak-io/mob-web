@@ -55,7 +55,7 @@ export class Tabs extends Component {
       left: `${indicatorWidth * selected}%`,
     };
 
-    const cx = classnames("Tabs", className, {
+    const cx = classnames("tabs", className, {
       green,
       small,
       "show-index": showIndex,
@@ -64,7 +64,7 @@ export class Tabs extends Component {
 
     return (
       <div className={cx}>
-        <div className="TabList">
+        <div className="tab-list">
           {this.Tabs}
           <div className="selected-indicator" style={style} />
         </div>

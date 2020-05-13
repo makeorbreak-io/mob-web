@@ -9,14 +9,14 @@ import gql from "graphql-tag";
 
 //
 // gql
-import { workshop } from "fragments";
+import { event } from "fragments";
 import { withCurrentUser, waitForData } from "enhancers";
 
 //
 // components
 import { Button, ErrorMessage } from "components/uikit";
 
-export class Workshop extends Component {
+export class Event extends Component {
 
   state = {
     showForm: false,
@@ -32,9 +32,9 @@ export class Workshop extends Component {
   toggleAttendance = (e) => {
     e.preventDefault();
 
-    const { workshop: { slug }, data, joinWorkshop, leaveWorkshop } = this.props;
+    const { event: { slug }, data, joinEvent, leaveEvent } = this.props;
 
-    const func = this.inWorkshop() ? leaveWorkshop : joinWorkshop;
+    const func = this.inEvent() ? leaveEvent : joinEvent;
 
     this.setState({
       updating: true,
@@ -55,14 +55,14 @@ export class Workshop extends Component {
     });
   }
 
-  inWorkshop = () => {
-    const { data: { me }, workshop: { slug } } = this.props;
-    return me && me.workshops.map(w => w.slug).includes(slug);
+  inEvent = () => {
+    const { data: { me }, event: { slug } } = this.props;
+    return me && me.events.map(w => w.slug).includes(slug);
   }
 
   limitReached = () => {
     const { data: { me } } = this.props;
-    return me && me.currentTeam && me.currentTeam.applied && me.workshops.length >= 2;
+    return me && me.currentTeam && me.currentTeam.applied && me.events.length >= 2;
   }
 
   //----------------------------------------------------------------------------
@@ -72,40 +72,40 @@ export class Workshop extends Component {
 
     const {
       data: { me },
-      workshop,
+      event,
       showSummary,
       showDescription,
       showSpeaker,
       debug,
     } = this.props;
 
-    if (!workshop) return null;
+    if (!event) return null;
 
-    const { name, summary, description, speaker, attendances, participantLimit, bannerImage } = workshop;
+    const { name, summary, description, speaker, attendances, participantLimit, bannerImage } = event;
 
     const { updating, showForm, disclaimer1, disclaimer2 } = this.state;
 
-    const inWorkshop = this.inWorkshop();
+    const inEvent = this.inEvent();
     const spotsRemaining = attendances.length < participantLimit;
     const limitReached = this.limitReached();
-    const canJoin = (spotsRemaining && !inWorkshop && !limitReached && disclaimer1 && disclaimer2) || inWorkshop;
+    const canJoin = (spotsRemaining && !inEvent && !limitReached && disclaimer1 && disclaimer2) || inEvent;
 
     const formCx = classnames("actions", {
-      hidden: !showForm && !inWorkshop,
+      hidden: !showForm && !inEvent,
     });
 
     const checkboxCx = classnames("checkbox", {
-      hidden: inWorkshop,
+      hidden: inEvent,
     });
 
     return (
-      <div className="Workshop" ref={ref => this.container = ref}>
+      <div className="Event" ref={ref => this.container = ref}>
         {bannerImage &&
           <div className="banner" style={{ backgroundImage: `url(${bannerImage})`}}/>
         }
         <h2>
           {name}
-          {inWorkshop && <span className="attending-badge">You're in!</span>}
+          {inEvent && <span className="attending-badge">You're in!</span>}
         </h2>
 
         {showSummary && debug && <h6>Summary</h6>}
@@ -117,9 +117,9 @@ export class Workshop extends Component {
         {showSpeaker && debug && <h6>Speaker</h6>}
         {showSpeaker && speaker && <ReactMarkdown source={speaker} />}
 
-        {me && !inWorkshop && !showForm &&
+        {me && !inEvent && !showForm &&
           <Button fakelink primary centered onClick={this.showForm}>
-            I want to participate in this workshop
+            I want to participate in this event
           </Button>
         }
 
@@ -127,7 +127,7 @@ export class Workshop extends Component {
           <div className="actions">
             <Link to="signup" className="signup">
               <Button primary centered>
-                Sign up to attend this workshop
+                Sign up to attend this event
               </Button>
             </Link>
           </div>
@@ -137,36 +137,36 @@ export class Workshop extends Component {
           <label className={checkboxCx}>
             <span className="required">*</span>
             <input type="checkbox" id="disclaimer1" name="disclaimer1" checked={disclaimer1} onChange={e => this.setState({ disclaimer1: e.target.checked })} />
-            <span>I am committing to attend this workshop and will do everything in my power to do so</span>
+            <span>I am committing to attend this event and will do everything in my power to do so</span>
           </label>
 
           <label className={checkboxCx}>
             <span className="required">*</span>
             <input type="checkbox" id="disclaimer2" name="disclaimer2" checked={disclaimer2} onChange={e => this.setState({ disclaimer2: e.target.checked })} />
-            <span>I will give up my spot in the workshop as soon as possible if for some reason I can't make it</span>
+            <span>I will give up my spot in the event as soon as possible if for some reason I can't make it</span>
           </label>
 
           <Button
             type="submit"
-            primary={!inWorkshop}
-            danger={inWorkshop}
+            primary={!inEvent}
+            danger={inEvent}
             centered
             disabled={updating || debug || !canJoin}
             loading={updating }
-            confirmation={inWorkshop ? "Really leave workshop?" : null}
+            confirmation={inEvent ? "Really leave event?" : null}
           >
-            {!inWorkshop ? "Join workshop" : "Leave workshop"}
+            {!inEvent ? "Join event" : "Leave event"}
           </Button>
-          <ErrorMessage form="joinWorkshop" field="disclaimer" />
+          <ErrorMessage form="joinEvent" field="disclaimer" />
 
-          {limitReached && <p>As a hackathon participant, you are limited to attending 2 workshops</p>}
-          {inWorkshop && <p>You are registered in this workshop. </p>}
-          {!spotsRemaining && <p>Workshop is full</p>}
+          {limitReached && <p>As a hackathon participant, you are limited to attending 2 events</p>}
+          {inEvent && <p>You are registered in this event. </p>}
+          {!spotsRemaining && <p>Event is full</p>}
           {spotsRemaining && <p>Remaining spots: {participantLimit - attendances.length} of {participantLimit}</p>}
 
-          {!inWorkshop &&
+          {!inEvent &&
             <p className="notice">
-              Our workshops are fun to prepare, and a lot of work.
+              Our events are fun to prepare, and a lot of work.
               This means we need to know in advance how many people will be participating.
               Because there's limited availability, please don't register unless you're sure you can attend.
             </p>
@@ -179,10 +179,10 @@ export class Workshop extends Component {
 }
 
 export default compose(
-  setDisplayName("Workshop"),
+  setDisplayName("Event"),
 
   setPropTypes({
-    workshop        : PropTypes.object,
+    event        : PropTypes.object,
     showSummary     : PropTypes.bool.isRequired,
     showDescription : PropTypes.bool.isRequired,
     showSpeaker     : PropTypes.bool.isRequired,
@@ -197,19 +197,19 @@ export default compose(
   }),
 
   graphql(
-    gql`mutation joinWorkshop($slug: String!) {
-      joinWorkshop(slug: $slug) { ...workshop }
-    } ${workshop}`,
-    { name: "joinWorkshop" },
+    gql`mutation joinEvent($slug: String!) {
+      joinEvent(slug: $slug) { ...event }
+    } ${event}`,
+    { name: "joinEvent" },
   ),
 
   graphql(
-    gql`mutation leaveWorkshop($slug: String!) {
-      leaveWorkshop(slug: $slug) { ...workshop }
-    } ${workshop}`,
-    { name: "leaveWorkshop" },
+    gql`mutation leaveEvent($slug: String!) {
+      leaveEvent(slug: $slug) { ...event }
+    } ${event}`,
+    { name: "leaveEvent" },
   ),
 
   withCurrentUser,
   waitForData,
-)(Workshop);
+)(Event);
