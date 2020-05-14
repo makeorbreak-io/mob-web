@@ -27,7 +27,7 @@ import { Multiselect } from "components/fields";
 
 //
 // Constants
-import { EMAIL_REGEX } from "constants/validators";
+import { EMAIL_REGEX } from "validators";
 
 //
 // Validation

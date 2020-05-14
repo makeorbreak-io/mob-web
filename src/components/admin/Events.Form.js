@@ -1,125 +1,167 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { compose, setDisplayName, setPropTypes } from "recompose";
-import { Field } from "redux-form";
+import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
 
-import { toInt } from "lib/redux-form";
+// import { toInt } from "lib/redux-form";
 
 //
 // components
-import { Button, ErrorMessage } from "components/uikit";
+import {
+  Field,
+  Form,
+  Heading,
+} from "components/2020/uikit";
+
+import FormikEscapeHatch from "components/FormikEscapeHatch";
+// import Event from "components/Event";
 
 //
 // Validation
-import { composeValidators, validatePresence } from "validators";
+import { validatePresence, validateInt, validateSlug } from "validators";
 
-export const validate = (values) => {
-  return composeValidators(
-    validatePresence("slug", "Slug"),
-    validatePresence("short_date", "Short date"),
-    validatePresence("shortSpeaker", "Short speaker"),
-    validatePresence("name", "Name"),
-    validatePresence("summary", "Summary"),
-    validatePresence("description", "Description"),
-    validatePresence("speaker", "Speaker"),
-    validatePresence("participantLimit", "Participant Limit"),
-    validatePresence("year", "Year"),
-  )(values);
+const emptyInitialValues = {
+  slug: "",
+  shortDate: "",
+  shortSpeaker: "",
+  name: "",
+  summary: "",
+  description: "",
+  speaker: "",
+  participantLimit: "",
+  year: "",
+  type: "",
+  speakerImage: "",
+  bannerImage: "",
+};
+
+const Event = ({ event }) => {
+  return (
+    <div className="event">
+      {event.bannerImage &&
+        <div className="event__banner">
+          <img src={event.bannerImage} alt={event.name} />
+        </div>
+      }
+
+      <Heading size="xl" color="purple">{event.name || "Event Name"}</Heading>
+
+      <Heading size="s">Summary</Heading>
+      <ReactMarkdown source={event.summary || ""} />
+
+      <Heading size="s">Description</Heading>
+      <ReactMarkdown source={event.description || ""} />
+
+      <Heading size="s">Speaker</Heading>
+      <ReactMarkdown source={event.speaker|| ""} />
+    </div>
+  );
 };
 
 export const EventForm = ({
-  handleSubmit,
   save,
-  remove,
-  submitting,
-  submitSucceeded,
-  buttonLabel,
-  form,
-}) => (
-  <form onSubmit={handleSubmit(save)}>
-    <label htmlFor="slug">Slug</label>
-    <Field id="slug" name="slug" component="input" type="text" placeholder="Slug" className="fullwidth" />
-    <ErrorMessage form={form} field="slug" />
+  initialValues,
+}) => {
+  const [event, setEvent] = useState({});
 
-    <label htmlFor="shortDate">Short Date</label>
-    <Field id="shortDate" name="shortDate" component="input" type="text" placeholder="Short Date" className="fullwidth" />
-    <ErrorMessage form={form} field="shortDate" />
-
-    <label htmlFor="shortSpeaker">ShortSpeaker</label>
-    <Field id="shortSpeaker" name="shortSpeaker" component="input" type="text" placeholder="ShortSpeaker" className="fullwidth" />
-    <ErrorMessage form={form} field="shortSpeaker" />
-
-    <label htmlFor="name">Name</label>
-    <Field id="name" name="name" component="input" type="text" placeholder="Name"  className="fullwidth"/>
-    <ErrorMessage form={form} field="name" />
-
-    <label htmlFor="summary">Summary (markdown)</label>
-    <Field id="summary" name="summary" component="textarea" placeholder="Summary"  className="fullwidth"/>
-    <ErrorMessage form={form} field="summary" />
-
-    <label htmlFor="description">Description (markdown)</label>
-    <Field id="description" name="description" component="textarea" placeholder="Description"  className="fullwidth"/>
-    <ErrorMessage form={form} field="description" />
-
-    <label htmlFor="speaker">Speaker (markdown)</label>
-    <Field id="speaker" name="speaker" component="textarea" placeholder="Speaker"  className="fullwidth"/>
-    <ErrorMessage form={form} field="speaker" />
-
-    <label htmlFor="participantLimit">Participant Limit</label>
-    <Field id="participantLimit" name="participantLimit" component="input" type="number" placeholder="Participant Limit"  className="fullwidth" parse={toInt}/>
-    <ErrorMessage form={form} field="participantLimit" />
-
-    <label htmlFor="year">Year</label>
-    <Field id="year" name="year" component="input" type="text" placeholder="Year"  className="fullwidth" parse={toInt} />
-    <ErrorMessage form={form} field="year" />
-
-    <label htmlFor="speaker_image">Speaker Image (url)</label>
-    <Field id="speakerImage" name="speakerImage" component="input" type="text" placeholder="Speaker Image"  className="fullwidth"/>
-    <ErrorMessage form={form} field="speakerImage" />
-
-    <label htmlFor="banner_image">Banner Image (url)</label>
-    <Field id="bannerImage" name="bannerImage" component="input" type="text" placeholder="Banner Image"  className="fullwidth"/>
-    <ErrorMessage form={form} field="bannerImage" />
-
-    <Button
-      type="submit"
-      primary
-      form
-      centered
-      fullwidth
-      disabled={submitting}
-      loading={submitting}
-      submitSucceeded={submitSucceeded}
-    >
-      {buttonLabel}
-    </Button>
-
-    {remove &&
-      <Button
-        type="button"
-        danger
-        form
-        centered
-        fullwidth
-        confirmation="Really delete event?"
-        onClick={remove}
+  return (
+    <div className="admin-form-with-preview">
+      <Form
+        onSubmit={save}
+        submitLabel="Create Event"
+        initialValues={initialValues || emptyInitialValues}
       >
-        Delete event
-      </Button>
-    }
-  </form>
-);
+        <FormikEscapeHatch onChange={({ values }) => setEvent(values)} />
 
-export default compose(
-  setDisplayName("EventForm"),
+        <Heading size="s">Create New Event</Heading>
 
-  setPropTypes({
-    handleSubmit: PropTypes.func.isRequired,
-    save: PropTypes.func.isRequired,
-    remove: PropTypes.func,
-    submitting: PropTypes.bool.isRequired,
-    submitSucceeded: PropTypes.bool.isRequired,
-    buttonLabel: PropTypes.string.isRequired,
-    form: PropTypes.string.isRequired,
-  }),
-)(EventForm);
+        <Field
+          name="slug"
+          label="Slug"
+          placeholder="Slug"
+          validate={validateSlug}
+        />
+
+        <Field
+          name="shortDate"
+          label="Short Date"
+          placeholder="Short Date"
+          validate={validatePresence}
+        />
+
+        <Field
+          name="shortSpeaker"
+          placeholder="Short Speaker"
+          label="Short Speaker"
+          validate={validatePresence}
+        />
+
+        <Field
+          name="name"
+          placeholder="Event name"
+          label="Event name"
+          validate={validatePresence}
+        />
+
+        <Field
+          name="summary"
+          placeholder="Event summary (markdown)"
+          label="Event summary (markdown)"
+          component="textarea"
+          validate={validatePresence}
+        />
+
+        <Field
+          name="description"
+          placeholder="Event description (markdown)"
+          label="Event description (markdown)"
+          component="textarea"
+          validate={validatePresence}
+        />
+
+        <Field
+          name="speaker"
+          label="Speaker (markdown)"
+          placeholder="Speaker (markdown)"
+          component="textarea"
+          validate={validatePresence}
+        />
+
+        <Field
+          name="participantLimit"
+          type="number"
+          label="Participant Limit"
+          placeholder="Participant Limit"
+          validate={validateInt}
+        />
+
+        <Field
+          name="year"
+          type="number"
+          label="Year"
+          placeholder="Year"
+          validate={validateInt}
+        />
+
+        <Field
+          name="speakerImage"
+          label="Speaker Image (url)"
+          placeholder="Speaker Image (url)"
+          validate={validatePresence}
+        />
+
+        <Field
+          name="bannerImage"
+          label="Banner Image"
+          placeholder="Banner Image"
+          validate={validatePresence}
+        />
+      </Form>
+
+      <div>
+        <Heading size="s">Preview</Heading>
+        <Event event={event} />
+      </div>
+    </div>
+  );
+};
+
+export default EventForm;

@@ -1,35 +1,40 @@
-// @flow
-
 import React from "react";
-import { Form as FinalForm } from "react-final-form";
+import cx from "classnames";
+import { Formik } from "formik";
 
 import { Button } from "components/2020/uikit";
 
 const Form = ({
   children,
+  initialValues = {},
+  inline = false,
   onSubmit,
   submitLabel = "Submit",
   validate,
   withoutSubmitButton,
-  ...props
+  ...formProps
 }) => (
-  <FinalForm
+  <Formik
+    initialValues={initialValues}
     onSubmit={onSubmit}
     validate={validate}
-    render={(props) => (
-      <form className="form" onSubmit={props.handleSubmit}>
+    {...formProps}
+  >
+    {(props) => (
+      <form
+        className={cx("form", { "form--inline": inline })}
+        onSubmit={props.handleSubmit}
+      >
         {typeof children === "function" ? children(props) : children }
 
         {!withoutSubmitButton &&
-          <Button type="submit" level="primary" size="large">
+          <Button type="submit" level={inline ? "secondary" : "primary"} size={inline ? "small" : "large"}>
             {submitLabel}
           </Button>
         }
       </form>
     )}
-
-    {...props}
-  />
+  </Formik>
 );
 
 export default Form;

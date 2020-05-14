@@ -1,101 +1,85 @@
-// @flow
+import React, { useState } from "react";
 
-import React from "react";
-import PropTypes from "prop-types";
-import { compose, setDisplayName, setPropTypes } from "recompose";
-import { Field } from "redux-form";
 
 //
 // components
-import { Button, ErrorMessage } from "components/uikit";
+import {
+  Form,
+  Field,
+  Heading,
+} from "components/2020/uikit";
+
+import FormikEscapeHatch from "components/FormikEscapeHatch";
+import EmailTemplate from "./EmailTemplate";
 
 //
 // Validation
-import { composeValidators, validatePresence } from "validators";
+import { validatePresence } from "validators";
 
-export const validate = (values: {}) => {
-  return composeValidators(
-    validatePresence("name", "Name"),
-    validatePresence("subject", "Subject"),
-  )(values);
+// type Props = {
+//   handleSubmit: () => void,
+//   save: () => void,
+//   remove: () => void,
+//   submitting: boolean,
+//   submitSucceeded: boolean,
+//   buttonLabel: string,
+//   form: string,
+// }
+
+const emailInitialValues = {
+  name: "",
+  subject: "",
+  title: "",
+  content: "",
 };
 
-type Props = {
-  handleSubmit: () => void,
-  save: () => void,
-  remove: () => void,
-  submitting: boolean,
-  submitSucceeded: boolean,
-  buttonLabel: string,
-  form: string,
-}
+const EmailForm = ({
+  initialValues = emailInitialValues,
+  onSubmit,
+  submitLabel,
+}) => {
+  const [email, setEmail] = useState({});
 
-export const EmailForm = ({
-  handleSubmit,
-  save,
-  remove,
-  submitting,
-  submitSucceeded,
-  buttonLabel,
-  form,
-}: Props) => (
-  <form onSubmit={handleSubmit(save)}>
-    <label htmlFor="name">Identifier</label>
-    <Field id="name" name="name" component="input" type="text" placeholder="Identifier" className="fullwidth" />
-    <ErrorMessage form={form} field="name" />
+  return (
+    <div className="admin-form-with-preview">
+      <Form {...{ onSubmit, initialValues, submitLabel }}>
+        <FormikEscapeHatch onChange={({ values }) => setEmail(values)} />
 
-    <label htmlFor="subject">Subject</label>
-    <Field id="subject" name="subject" component="input" type="text" placeholder="Subject" className="fullwidth" />
-    <ErrorMessage form={form} field="subject" />
+        <Heading size="s">{submitLabel}</Heading>
 
-    <label htmlFor="title">Title</label>
-    <Field id="title" name="title" component="input" type="text" placeholder="Title" className="fullwidth" />
-    <ErrorMessage form={form} field="title" />
+        <Field
+          name="name"
+          label="Name"
+          placeholder="Name (internal only)"
+          validate={validatePresence}
+        />
 
-    <label htmlFor="content">Content (html)</label>
-    <Field id="content" name="content" component="textarea" placeholder="Content"  className="fullwidth"/>
-    <ErrorMessage form={form} field="content" />
+        <Field
+          name="subject"
+          label="Subject"
+          placeholder="Subject"
+          validate={validatePresence}
+        />
 
-    <Button
-      type="submit"
-      primary
-      form
-      centered
-      fullwidth
-      disabled={submitting}
-      loading={submitting}
-      submitSucceeded={submitSucceeded}
-    >
-      {buttonLabel}
-    </Button>
+        <Field
+          name="title"
+          label="Title"
+          placeholder="Title"
+          validate={validatePresence}
+        />
 
-    {remove &&
-      <Button
-        type="button"
-        danger
-        form
-        centered
-        fullwidth
-        confirmation="Really delete email?"
-        onClick={remove}
-      >
-        Delete email
-      </Button>
-    }
-  </form>
-);
+        <Field
+          name="content"
+          label="Content (markdown)"
+          placeholder="Content (markdown)"
+          component="textarea"
+          validate={validatePresence}
+        />
+      </Form>
 
-export default compose(
-  setDisplayName("EmailForm"),
+      <EmailTemplate email={email} />
+    </div>
+  );
+};
 
-  setPropTypes({
-    handleSubmit: PropTypes.func.isRequired,
-    save: PropTypes.func.isRequired,
-    remove: PropTypes.func,
-    submitting: PropTypes.bool.isRequired,
-    submitSucceeded: PropTypes.bool.isRequired,
-    buttonLabel: PropTypes.string.isRequired,
-    form: PropTypes.string.isRequired,
-  }),
-)(EmailForm);
-
+export default EmailForm;

@@ -1,113 +1,47 @@
-/* eslint-disable */
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
-import React, { Component } from "react";
-// import { compose, setDisplayName, withProps } from "recompose";
-// import { graphql } from "react-apollo";
-// import { reduxForm } from "redux-form";
-// import { connect } from "react-redux";
-import { useQuery } from "@apollo/react-hooks";
-import { omit } from "lodash";
-import gql from "graphql-tag";
+import { ADMIN_EMAIL } from "queries";
+import {
+  ADMIN_UPDATE_EMAIL,
+  ADMIN_DELETE_EMAIL,
+} from "mutations";
 
-//
-// gql
+import {
+  Button,
+  Heading,
+  Section,
+} from "components/2020/uikit";
 
-import { email } from "fragments";
-// import { waitForData } from "enhancers";
+import EmailForm from "components/admin/Emails.Form";
 
-//
-// components
-// import {
-//   Btn,
-// } from "components/uikit";
-import EmailForm, { validate } from "components/admin/Emails.Form";
-import EmailTemplate from "./EmailTemplate";
+const AdminEditEmail = () => {
+  const { id } = useParams();
+  const { loading, data } = useQuery(ADMIN_EMAIL, { variables: { id } });
+  const [updateEmail] = useMutation(ADMIN_UPDATE_EMAIL);
+  const [deleteEmail] = useMutation(ADMIN_DELETE_EMAIL);
 
-// const ADMIN_EMAIL = gql`
-// `;
+  const update = (email) => updateEmail({ variables: { id, email } });
+  const remove = () => deleteEmail({ variables: { id }}).then(() => window.location.assign("/admin/emails"));
 
-export class AdminEditEmail extends Component {
+  if (loading) return null;
 
-  updateEmail = (email) => {
-    const { updateEmail } = this.props;
+  return (
+    <Section>
+      <Heading size="xl">Emails</Heading>
+      <EmailForm onSubmit={update} initialValues={data.email} submitLabel="Edit Email" />
 
-    return updateEmail({ variables: { email, id: this.props.params.id }});
-  }
-  // createEmail = (email) => {
-  //   const { createEmail, data, reset } = this.props;
+      <Button
+        size="large"
+        level="secondary"
+        confirmation={`Really delete ${data.email.name}?`}
+        onClick={remove}
+      >
+        Delete Email
+      </Button>
+    </Section>
+  );
+};
 
-  //   return createEmail({ variables: { email } })
-  //     .then(() => {
-  //       data.refetch();
-  //       reset();
-
-  //       return true;
-  //     });
-  // }
-
-  //----------------------------------------------------------------------------
-  // Render
-  //----------------------------------------------------------------------------
-  render() {
-    return null;
-    // const { handleSubmit, submitting, submitSucceeded, formValues } = this.props;
-
-    // return (
-    //   <div className="admin--container admin--emails">
-    //     <div className="admin--emails--new">
-    //       <div>
-    //         <h3>Create new Email</h3>
-
-    //         <EmailForm
-    //           {...{ handleSubmit, submitting, submitSucceeded }}
-    //           buttonLabel="Update Email"
-    //           form="updateEmail"
-    //           save={this.updateEmail}
-    //         />
-    //       </div>
-
-    //       <div className="preview">
-    //         <EmailTemplate email={formValues} />
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
-  }
-
-}
-
-// export default compose(
-  // setDisplayName("AdminEditEmail"),
-
-  // graphql(gql`query email($id: String!) {
-  //   email(id: $id) { ...email }
-  // } ${email}`,
-  // {
-  //   options: (props) => ({ variables: { id: props.params.id }}),
-  // }),
-
-  // waitForData,
-
-  // withProps(
-  //   (props) => ({ initialValues: omit(props.data.email, ["__typename", "id"]) })
-  // ),
-
-  // reduxForm({
-  //   form: "updateEmail",
-  //   validate,
-  // }),
-
-  // connect(state => ({
-  //   formValues: state.form.updateEmail.values || {},
-  // })),
-
-  // graphql(
-  //   gql`mutation updateEmail($id: String!, $email: EmailInput!) {
-  //     updateEmail(id: $id, email: $email) { ...email }
-  //   } ${email}`,
-  //   { name: "updateEmail" }
-  // ),
-// )(AdminEditEmail);
 export default AdminEditEmail;
-
-/* eslint-enable */

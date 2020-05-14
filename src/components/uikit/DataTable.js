@@ -274,6 +274,8 @@ export class DataTable extends Component {
                       </span>
                     )}
 
+                    {!s && <span>{label}</span>}
+
                     { /* visibility controls */ }
                     {f && (
                       <span

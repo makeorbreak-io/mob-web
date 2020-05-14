@@ -105,6 +105,7 @@ export const event = gql`
     year
     speakerImage
     bannerImage
+    editionId
 
     attendances { checkedIn user { id } }
   }
@@ -117,6 +118,8 @@ export const suffrage = gql`
     name
     votingStartedAt
     votingEndedAt
+    editionId
+    podium
 
     teams { id projectName }
   }

@@ -9,6 +9,19 @@ form.form {
   button + button {
     margin: 12px 0 0;
   }
+
+  &.form--inline {
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+
+    > * {
+      // height: 100%;
+      margin: 0 10px;
+    }
+  }
 }
 
 .form__field {
@@ -22,13 +35,15 @@ form.form {
 
 .form__field__error,
 .form__field__input,
-.form__field__label {
+.form__field__label,
+.form__field__textarea {
   display: block;
   text-align: left;
 }
 
 .form__field__label,
-.form__field__input {
+.form__field__input,
+.form__field__textarea {
   width: 100%;
 }
 
@@ -38,7 +53,8 @@ form.form {
   text-transform: uppercase;
 }
 
-.form__field__input {
+.form__field__input,
+.form__field__textarea {
   padding: 15px;
   border-radius: 5px;
   border: 1px solid $border-grey;
@@ -46,6 +62,10 @@ form.form {
   &--error {
     border-color: $error-red;
   }
+}
+
+.form__field__textarea {
+  min-height: 140px;
 }
 
 .form__field__error {

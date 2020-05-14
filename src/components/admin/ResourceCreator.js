@@ -1,45 +1,36 @@
 import React from "react";
-import { compose } from "recompose";
-import { reduxForm, Field } from "redux-form";
 
-import { Btn, ErrorMessage } from "components/uikit";
+import {
+  Form,
+  Field,
+} from "components/2020/uikit";
 
 export const ResourceCreator = ({
-  form,
   fields,
-  handleSubmit,
+  submitLabel,
   onSubmit,
-  label,
-  reset,
-}) => {
-  const submit = (values) => { onSubmit(values); reset(); };
+}) => (
+  <div className="resource-creator">
+    <Form
+      inline
+      initialValues={fields.reduce((all, f) => ({ [f.name]: "", ...all }), {})}
+      onSubmit={(values, actions) => onSubmit(values).then(actions.resetForm)}
+      submitLabel={submitLabel}
+    >
+      {fields.map(({ options, ...field }) => (
+        <Field key={field.name} {...field}>
+          {options &&
+            <>
+              <option value="" disabled>{field.placeholder}</option>
+              {options.map(({ value, label }) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </>
+          }
+        </Field>
+      ))}
+    </Form>
+  </div>
+);
 
-  return (
-    <div className="resource-creator">
-      <form className="form form--inline" onSubmit={handleSubmit(submit)}>
-        {fields.map(({ options, ...field }) => (
-          <div key={field.name}>
-            {field.component === "select" &&
-              <Field {...field}>
-                <option value="" disabled>{field.placeholder}</option>
-                {options.map(({ value, label }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </Field>
-            }
-
-            {field.component !== "select" && <Field {...field} />}
-
-            <ErrorMessage form={form} field={field.name} />
-          </div>
-        ))}
-
-        <Btn type="submit" className="btn btn--submit icon icon--add-circle">{label || "Create"}</Btn>
-      </form>
-    </div>
-  );
-};
-
-export default compose(
-  reduxForm({}),
-)(ResourceCreator);
+export default ResourceCreator;

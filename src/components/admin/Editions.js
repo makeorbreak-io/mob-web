@@ -1,26 +1,30 @@
-import React, { Component, Fragment } from "react";
-import { compose } from "recompose";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import React, { useCallback } from "react";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import cx from "classnames";
 
-import { edition } from "fragments";
-import { waitForData } from "enhancers";
+import { EDITIONS } from "queries";
+import {
+  ADMIN_CREATE_EDITION,
+  ADMIN_UPDATE_EDITION,
+  ADMIN_SET_DEFAULT_EDITION,
+  ADMIN_DELETE_EDITION,
+} from "mutations";
 
-import { DataTable, Btn } from "components/uikit";
+import { DataTable } from "components/uikit";
+import {
+  Button,
+  Heading,
+  Section,
+} from "components/2020/uikit";
+
 import ResourceCreator from "components/admin/ResourceCreator";
 
-import { validatePresence, composeValidators } from "validators";
-
-const validate = composeValidators(
-  validatePresence("name", "Name"),
-  validatePresence("status", "Status"),
-);
+import { validatePresence } from "validators";
 
 const editionFields = [
-  { component: "input", type: "text", name: "name", placeholder: "Name" },
+  { component: "input", type: "text", name: "name", placeholder: "Name", validate: validatePresence },
   {
-    component: "select", name: "status", placeholder: "Status", options: [
+    component: "select", name: "status", placeholder: "Status", validate: validatePresence, options: [
       { value: "created" , label: "Created" },
       { value: "started" , label: "Started" },
       { value: "ended"   , label: "Ended" },
@@ -28,126 +32,82 @@ const editionFields = [
   },
 ];
 
-export class AdminEditions extends Component {
-  createEdition = (edition) => {
-    const { createEdition, data } = this.props;
+export const AdminEditions = () => {
+  const { data, refetch } = useQuery(EDITIONS);
 
-    return createEdition({ variables: { edition } })
-    .then(() => data.refetch());
-  }
+  const [createEdition] = useMutation(ADMIN_CREATE_EDITION);
+  const [updateEdition] = useMutation(ADMIN_UPDATE_EDITION);
+  const [setDefaultEdition] = useMutation(ADMIN_SET_DEFAULT_EDITION);
+  const [deleteEdition] = useMutation(ADMIN_DELETE_EDITION);
 
-  updateEdition = ({ id }, edition) => {
-    return this.props.updateEdition({ variables: { id, edition }});
-  }
+  const create = useCallback((edition) => createEdition({ variables: { edition }}).then(refetch));
+  const update = useCallback(({ id }, edition) => updateEdition({ variables: { id, edition }}).then(refetch));
+  const setDefault = useCallback(({ id }) => setDefaultEdition({ variables: { id }}).then(refetch));
+  const remove = useCallback(({ id }) => deleteEdition({ variables: { id }}).then(refetch));
 
-  setEditionAsDefault = ({ id }) => {
-    const { setEditionAsDefault, data } = this.props;
-
-    return setEditionAsDefault({ variables: { id }})
-    .then(() => data.refetch());
-  }
-
-  deleteEdition = ({ id }) => {
-    const { deleteEdition, data } = this.props;
-
-    return deleteEdition({ variables: { id } })
-    .then(() => data.refetch());
-  }
-
-  renderActions = (selected) => (
-    <Fragment>
+  const renderActions = (selected) => (
+    <>
       {selected.length === 1 &&
-        <Btn
-          className="icon icon--small icon--star"
+        <Button
+          size="small"
+          level="secondary"
+          // className="icon icon--small icon--star"
           confirmation={`Really make "${selected[0].name}" the default edition?`}
-          onClick={() => this.setEditionAsDefault(selected[0])}
+          onClick={() => setDefault(selected[0])}
         >
           Set as default edition
-        </Btn>
+        </Button>
       }
 
-      <Btn
-        className="icon icon--small icon--delete"
-        confirmation={`Really delete ${selected.length} users?`}
-        onClick={() => selected.forEach(this.deleteEdition)}
-      >
-        Delete {selected.length} editions
-      </Btn>
-    </Fragment>
+      {data.editions.length > 1 &&
+        <Button
+          size="small"
+          level="secondary"
+          // className="icon icon--small icon--delete"
+          confirmation={`Really delete ${selected.length} editions?`}
+          onClick={() => Promise.all(selected.map(remove)).then(refetch)}
+        >
+          Delete {selected.length} editions
+        </Button>
+      }
+    </>
   );
 
-  render() {
-    const { editions } = this.props.data;
-    const empty = true;
+  return (
+    <Section>
+      <Heading size="xl">Editions</Heading>
 
-    return (
-      <div className="admin--container admin--editions">
-        <DataTable
-          source={editions}
-          labels={[ "Default" , "Name" , "Status" ]}
-          sorter={[ "default" , "name" , "status" ]}
-          search={[ "default" , "name" , "status" ]}
-          actions={this.renderActions}
-          editable
-          sourceFields={[{ empty }, ...editionFields]}
-          onUpdateSubmit={this.updateEdition}
-          fixed
-          render={(edition, select, edit) => (
-            <tr
-              key={edition.id}
-              className={cx({ status: edition.status, default: edition.isDefault })}
-            >
-              {select}
-              <td className="mobile">{edition.isDefault.toString()}</td>
-              <td className="mobile">{edition.name}</td>
-              <td className="mobile">{edition.status}</td>
-              {edit}
-            </tr>
-          )}
-        />
+      <DataTable
+        source={data?.editions}
+        labels={[ "Default" , "Name" , "Status" ]}
+        sorter={[ "default" , "name" , "status" ]}
+        search={[ "default" , "name" , "status" ]}
+        actions={renderActions}
+        editable
+        sourceFields={[{ empty: true }, ...editionFields]}
+        onUpdateSubmit={update}
+        fixed
+        render={(edition, select, edit) => (
+          <tr
+            key={edition.id}
+            className={cx({ status: edition.status, default: edition.isDefault })}
+          >
+            {select}
+            <td>{edition.isDefault.toString()}</td>
+            <td>{edition.name}</td>
+            <td>{edition.status}</td>
+            {edit}
+          </tr>
+        )}
+      />
 
-        <ResourceCreator
-          form="newEdition"
-          fields={editionFields}
-          onSubmit={this.createEdition}
-          validate={validate}
-          label="Create Edition"
-        />
-      </div>
-    );
-  }
-}
+      <ResourceCreator
+        fields={editionFields}
+        onSubmit={create}
+        label="Create Edition"
+      />
+    </Section>
+  );
+};
 
-export default compose(
-  graphql(gql`{ editions { ...edition } } ${edition}`),
-
-  waitForData,
-
-  graphql(
-    gql`mutation createEdition($edition: EditionInput!) {
-      createEdition(edition: $edition) { ...edition }
-    } ${edition}`,
-    { name: "createEdition" },
-  ),
-
-  graphql(
-    gql`mutation updateEdition($id: String!, $edition: EditionInput!) {
-      updateEdition(id: $id, edition: $edition) { ...edition }
-    } ${edition}`,
-    { name: "updateEdition" },
-  ),
-
-  graphql(
-    gql`mutation setEditionAsDefault($id: String!) {
-      setEditionAsDefault(id: $id) { ...edition }
-    } ${edition}`,
-    { name: "setEditionAsDefault" },
-  ),
-
-  graphql(
-    gql`mutation deleteEdition($id: String!) {
-      deleteEdition(id: $id)
-    }`,
-    { name: "deleteEdition" },
-  ),
-)(AdminEditions);
+export default AdminEditions;

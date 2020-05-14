@@ -1,85 +1,50 @@
-import React, { Component } from "react";
-import { arrayOf, object } from "prop-types";
-import { compose } from "recompose";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import React, { useState } from "react";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
-import { email } from "fragments";
-import { waitForData } from "enhancers";
+import { EMAILS } from "queries/admin";
+import { SEND_EMAIL } from "mutations/admin";
 
-import { Btn } from "components/uikit";
+import { Button } from "components/2020/uikit";
 
-export class EmailSender extends Component {
-  static propTypes = {
-    recipients: arrayOf(object).isRequired,
-  }
+const EmailSender = ({
+  recipients,
+}) => {
+  const { data } = useQuery(EMAILS);
+  const [id, setId] = useState("");
+  const [sendEmail] = useMutation(SEND_EMAIL);
 
-  state = {
-    email: "",
-  }
+  const emails = data?.emails || [];
 
-  handleEmailChange = (ev) => {
-    this.setState({ email: ev.target.value });
-  }
+  return (
+    <div className="email-sender">
+      <div className="form__field">
+        <div className="form__field__label" htmlFor="email-sender">
+          Email:
+        </div>
 
-  sendEmail = () => {
-    const { email } = this.state;
-    const { recipients } = this.props;
-
-    return this.props.sendEmail({variables: {
-      id: email,
-      recipients: recipients.map(r => r.id),
-    }})
-    .then(() => this.setState({ email: "" }));
-  }
-
-  render() {
-    const { email } = this.state;
-    const { recipients, data: { emails } } = this.props;
-
-    const options = emails.edges.map(e => ({ value: e.node.id, label: e.node.name }));
-
-    return (
-      <div className="email--sender">
-        <select onChange={this.handleEmailChange}>
-          <option value="" disabled selected={!email}>Choose Email...</option>
-          {options.map(opt => (
-            <option
-              key={opt.value}
-              value={opt.value}
-              selected={opt.value === email}
-            >
-              {opt.label}
-            </option>
+        <select
+          value={id}
+          onChange={(ev) => setId(ev.target.value)}
+          id="email-sender"
+          className="form__field__select"
+        >
+          <option value="" disabled>Select email</option>
+          {emails.map(({ id, name }) => (
+            <option key={id} value={id}>{name}</option>
           ))}
         </select>
 
-        <Btn
-          className="icon icon--email"
-          confirmation={`Really send ${(options.find(o => o.value === email) || {}).label} email to ${recipients.length} people?`}
-          onClick={this.sendEmail}
-          disabled={!email}
-          feedbackSuccessLabel={`Sent ${recipients.length} emails`}
-          feedbackFailureLabel="Sending failed"
+        <Button
+          size="small"
+          level="primary"
+          disabled={!id}
+          onClick={() => sendEmail({ variables: { id, recipients }}).then(() => setId(""))}
         >
-          Send&nbsp;
-        </Btn>
+          Send email to {recipients.length} recipients
+        </Button>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default compose(
-  graphql(gql`{
-    emails(first: 1000) { edges { node { ...email } } }
-  } ${email}`),
-
-  waitForData,
-
-  graphql(
-    gql`mutation sendEmail($id: String!, $recipients: [String]!) {
-      sendEmail(id: $id, recipients: $recipients)
-    }`,
-    { name: "sendEmail" },
-  ),
-)(EmailSender);
+export default EmailSender;

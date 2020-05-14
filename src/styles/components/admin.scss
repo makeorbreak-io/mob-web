@@ -29,7 +29,7 @@ $sidebar-width: 200px;
   ul {
     list-style: none;
     position: sticky;
-    top: 0;
+    top: 90px;
 
     li {
       position: relative;
@@ -145,6 +145,17 @@ $sidebar-width: 200px;
         text-align: right;
       }
     }
+  }
+}
+
+.admin-form-with-preview {
+  display: flex;
+  justify-content: space-between;
+
+  > form, > div {
+    flex: 0 0 calc(50% - 10px);
+    width: auto;
+    margin: 0;
   }
 }
 

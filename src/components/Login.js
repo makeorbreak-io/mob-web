@@ -21,14 +21,8 @@ import {
 
 //
 // Validation
-import { composeValidators, validatePresence, validateEmail } from "validators";
-
-const validate = (values) => {
-  return composeValidators(
-    validateEmail("email", "Email"),
-    validatePresence("password", "Password"),
-  )(values);
-};
+// import { composeValidators, validatePresence, validateEmail } from "validators";
+import { validatePresence, validateEmail } from "validators";
 
 export const Login = () => {
   const history = useHistory();
@@ -46,6 +40,7 @@ export const Login = () => {
       })
       .catch(handleGraphQLErrors);
   };
+  // const submit = (a,b,c,d) => console.log(a,b,c,d);
 
   return (
     <Section background="white" center>
@@ -53,12 +48,17 @@ export const Login = () => {
         Sign In
       </Heading>
 
-      <Form onSubmit={submit} validate={validate} submitLabel="Sign In">
+      <Form
+        onSubmit={submit}
+        submitLabel="Sign In"
+        initialValues={{ email: "", password: "" }}
+      >
         <Field
           label="Email"
           name="email"
           placeholder="Email"
-          type="email"
+          type="text"
+          validate={validateEmail}
         />
 
         <Field
@@ -66,6 +66,7 @@ export const Login = () => {
           name="password"
           placeholder="Password"
           type="password"
+          validate={validatePresence}
         />
       </Form>
 

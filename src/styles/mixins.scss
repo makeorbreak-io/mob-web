@@ -33,7 +33,7 @@ $z-index: (
   border: 1px solid $borderColor;
   color: $textColor;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: $hoverBackgroundColor;
     border: 1px solid $hoverBorderColor;
   }
@@ -52,7 +52,7 @@ $z-index: (
     transition: transform;
   }
 
-  &:hover:after {
+  &:hover:after:not(:disabled) {
     animation: chevron-animation 500ms;
   }
 }

@@ -1,83 +1,39 @@
 import { isValid, parse } from "date-fns";
-import { map, reduce, merge, isNumber, isEmpty, template } from "lodash";
+import { isEmpty } from "lodash";
 
 //
 // Constants
-import { EMAIL_REGEX } from "constants/validators";
+export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-// Tidily compose validators for a whole set of inputs
-//
-// Example:
-//
-// const validate = (values) => {
-//   return composeValidators(
-//     validatePresence("email", "Email"),
-//     validatePresence("password", "Password"),
-//   )(values);
-// }
-export const composeValidators = (...validators) => {
-  return (values) => {
-    const results = map(validators, v => v(values));
-    return reduce(results, merge, {});
-  };
+export const validatePresence = (value) => {
+  if (isEmpty(value)) return "Required";
 };
 
-// Helper method to abstract validator creation implementation details,
-// and focusing on actual validation logic
-export const createValidator = (test, message) => {
-  return (field, label, opts = {}) => {
-    return (values) => {
-      return test(values[field], opts)
-        ? {}
-        : { [field]: template(message)({ label, ...opts })};
-    };
-  };
+export const validateInt = (value) => {
+  if (!value) return "Required";
+  if (parseInt(value, 10) === "NaN") return "Must be a number";
 };
 
-//
-// Validators
+export const validateChecked = (value) => {
+  if (value !== true) return "Required";
+};
 
-// createValidator is used as a shortcut to achieve more readable validators.
-// The 2 code snippets below achieve the same results
-//
-// const validatePresence = (field, label) => {
-//   return (values) => {
-//     return !isEmpty(values[field])
-//       ? {}
-//       : { [field]: template("${label} is required")({ label }) }
-//   }
-// }
-//
-// const validatePresence = createValidator(
-//   v => !isEmpty(v),
-//   "${label} is required",
-// )
+export const validateMatch = (matchValue, matchLabel) => (value) => {
+  if (isEmpty(value)) return "Required";
+  if (matchValue !== value) return `Must match ${matchLabel}`;
+};
 
-// Presence
-export const validatePresence = createValidator(
-  v => isNumber(v) || !isEmpty(v),
-  "${label} is required",
-);
+export const validateEmail = (value) => {
+  if (isEmpty(value)) return "Required";
+  if (!EMAIL_REGEX.test(value)) return "Invalid email address";
+};
 
-export const validateChecked = createValidator(
-  v => v === true,
-  "${label} must be checked",
-);
+export const validateDateFormat = (format) => (value) => {
+  if (!isEmpty(value) && !isValid(parse(value))) return `Invalid date format, expected ${format}`;
+};
 
-// Password confirmation
-export const validateMatch = createValidator(
-  (v, opts) => v === opts.match,
-  "Passwords do not match",
-);
+export const validateSlug = (value) => {
+  if (!/^[a-z0-9-]+$/.test(value)) return "Only lowercase, numbers, and dashes";
+};
 
-// Non-required date format validation
-export const validateDateFormat = createValidator(
-  v => isEmpty(v) ? true : isValid(parse(v)),
-  "${label} is not a valid date, use ${format} format",
-);
-
-// Required email address
-export const validateEmail = createValidator(
-  v => EMAIL_REGEX.test(v),
-  "${label} is not valid",
-);
+export const composeValidators = () => {};
