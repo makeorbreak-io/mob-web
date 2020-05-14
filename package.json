@@ -103,7 +103,7 @@
     "react-final-form": "^6.3.5",
     "react-markdown": "^2.5.0",
     "react-qr-reader": "^2.1.0",
-    "react-redux": "^7.1.1",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-router-hash-link": "^1.2.2",
     "react-select": "^1.0.0-rc.5",
