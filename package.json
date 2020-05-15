@@ -93,7 +93,7 @@
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "jsbarcode": "^3.8.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.15",
     "prop-types": "^15.5.10",
     "qrcode": "^0.9.0",
     "raven-js": "3.17.0",
