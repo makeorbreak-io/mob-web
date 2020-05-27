@@ -116,6 +116,6 @@
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
     "urql": "^1.9.6",
-    "uuid": "^3.0.1"
+    "uuid": "^8.1.0"
   }
 }
