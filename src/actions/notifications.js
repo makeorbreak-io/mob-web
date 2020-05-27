@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import { createAction } from "redux-actions";
 
 import {
@@ -14,7 +14,7 @@ export const addNotification = createAction(ADD_NOTIFICATION, (params = {}) => {
     message: "",
     link: null,
     sticky: false,
-    id: uuid.v4(),
+    id: uuidv4(),
 
     // user options
     ...params,
@@ -22,4 +22,3 @@ export const addNotification = createAction(ADD_NOTIFICATION, (params = {}) => {
 });
 export const removeNotification = createAction(REMOVE_NOTIFICATION);
 export const clearNotifications = createAction(CLEAR_NOTIFICATIONS);
-
