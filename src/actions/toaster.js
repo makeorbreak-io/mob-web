@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import { createAction } from "redux-actions";
 
 import {
@@ -11,13 +11,13 @@ export const removeToast = createAction(REMOVE_TOAST);
 export const clearToasts = createAction(CLEAR_TOASTS);
 
 export const addToast = (params = {}) => {
-  return dispatch => {
+  return (dispatch) => {
     const toast = {
       // defaults
       content: "",
       sticky: false,
       duration: 2000,
-      id: uuid.v4(),
+      id: uuidv4(),
 
       // user options
       ...params,
