@@ -2422,9 +2422,10 @@ aws4@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
 
-axe-core@^3.3.2:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-3.4.0.tgz#a57ee620c182d5389aff229586aaae06bc541abe"
+axe-core@^3.5.0:
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-3.5.3.tgz#5b7c0ee7c5197d546bd3a07c3ef701896f5773e9"
+  integrity sha512-HZpLE7xu05+8AbpqXITGdxp1Xwk8ysAXrg7MiKRY27py3DAyEJpoJQo1727pWF3F+O79V3r+cTWhOzfB49P89w==
 
 axios@^0.18.1:
   version "0.18.1"
@@ -8633,11 +8634,12 @@ react-apollo@^3.1.4:
     "@apollo/react-hooks" "^3.1.4"
     "@apollo/react-ssr" "^3.1.4"
 
-react-axe@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/react-axe/-/react-axe-3.3.0.tgz#b87bff644ed3ed6f1ca12bcc64c00000e359c25b"
+react-axe@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/react-axe/-/react-axe-3.4.1.tgz#8874ca48b5af71452d97c2991d37cdcbba6c3a48"
+  integrity sha512-1UDeqesgb5gCj2XPE5WXqKv2xcwGGeWIock3uBVtZSVGbZGVzjmgYf4eRyNJ8BNnHpPQKUs4Ro5jW2+V037deg==
   dependencies:
-    axe-core "^3.3.2"
+    axe-core "^3.5.0"
     requestidlecallback "^0.3.0"
 
 react-clientside-effect@^1.2.0:
