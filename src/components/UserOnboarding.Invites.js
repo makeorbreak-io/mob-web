@@ -37,21 +37,18 @@ const UserOnboardingInvites = ({
   const team = data.me.currentTeam;
 
   const submit = ({ email }) => (
-    console.log(email),
     inviteMember({ variables: { teamId: team.id, emails: [email] } })
       .then(() => refetch())
       .catch(handleGraphQLErrors)
   );
 
   const revoke = (id) => (
-    revokeInvite({ variables: { id }})
+    revokeInvite({ variables: { id } })
       .then(() => refetch())
       .catch(handleGraphQLErrors)
   );
 
   const limitReached = team.members.length + team.invites.length >= 4;
-
-  console.log({ limitReached });
 
   return (
     <Form
