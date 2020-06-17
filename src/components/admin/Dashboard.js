@@ -1,9 +1,14 @@
-import React, { Component } from "react";
-import { compose, setDisplayName } from "recompose";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import React from "react";
+import { useQuery } from "@apollo/react-hooks";
 
-import { waitForData, withEditionSelector } from "enhancers";
+import { useEditionSelector } from "hooks";
+
+import { STATS } from "queries/admin";
+
+import {
+  Heading,
+  Section,
+} from "components/2020/uikit";
 
 export const DasboardCard = ({
   title,
@@ -26,15 +31,23 @@ export const DasboardCard = ({
   </div>
 );
 
-export class Dashboard extends Component {
+export const AdminDashboard = () => {
+  const { selectedEdition, EditionSelector } = useEditionSelector();
+  const { data } = useQuery(STATS, { variables: { editionId: selectedEdition?.id }});
 
-  render() {
-    const {
-      adminStats: { events },
-      edition: { attendances, teams, suffrages },
-    } = this.props.data;
+  if (!data) return null;
 
-    return (
+  const {
+    adminStats: { events },
+    edition: { attendances, teams, suffrages },
+  } = data;
+
+  return (
+    <Section>
+      <Heading size="xl">Stats</Heading>
+
+      <EditionSelector />
+
       <div className="admin--dashboard">
         <DasboardCard
           title={`${attendances.length} Users`}
@@ -68,28 +81,8 @@ export class Dashboard extends Component {
           items={events.map(w => [w.name, `${w.participants} / ${w.participant_limit}`])}
         />
       </div>
-    );
-  }
-}
+    </Section>
+  );
+};
 
-export default compose(
-  setDisplayName("Dashboard"),
-
-  withEditionSelector,
-
-  graphql(gql`query stats($editionId: String!) {
-    adminStats { events }
-
-    edition(id: $editionId) {
-      id
-      attendances { id checkedIn user { id role currentTeam { id } } }
-      suffrages { id name teams { id } }
-      teams { id applied accepted eligible }
-    }
-  }`,
-  {
-    options: ({ editionId }) => ({ variables: { editionId } }),
-  }),
-
-  waitForData,
-)(Dashboard);
+export default AdminDashboard;

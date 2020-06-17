@@ -21,11 +21,7 @@ import {
 
 //
 // Validation
-import { composeValidators, validateEmail } from "validators";
-
-const validate = composeValidators(
-  validateEmail("email", "Member email address"),
-);
+import { validateEmail } from "validators";
 
 const UserOnboardingInvites = ({
   next,
@@ -36,9 +32,10 @@ const UserOnboardingInvites = ({
 
   const team = data.me.currentTeam;
 
-  const submit = ({ email }) => (
+  const submit = ({ email }, actions) => (
     inviteMember({ variables: { teamId: team.id, emails: [email] } })
       .then(() => refetch())
+      .then(() => actions.resetForm())
       .catch(handleGraphQLErrors)
   );
 
@@ -53,7 +50,6 @@ const UserOnboardingInvites = ({
   return (
     <Form
       onSubmit={submit}
-      validate={validate}
       withoutSubmitButton
     >
       <Heading size="l" centered>Team Members</Heading>
@@ -89,6 +85,7 @@ const UserOnboardingInvites = ({
         placeholder="Member email address"
         type="email"
         disabled={limitReached}
+        validate={validateEmail}
       />
 
       {!limitReached &&

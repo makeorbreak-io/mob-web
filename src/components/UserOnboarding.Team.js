@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/react-hooks";
 
 import { multistep } from "enhancers";
 
-import { CREATE_TEAM } from "mutations";
+import { CREATE_TEAM, UPDATE_TEAM } from "mutations";
 import { useCurrentUser } from "hooks";
 import { handleGraphQLErrors } from "lib/graphql";
 
@@ -21,23 +21,26 @@ import Invites from "components/UserOnboarding.Invites";
 
 //
 // Validation
-import { composeValidators, validatePresence } from "validators";
-
-const validate = composeValidators(
-  validatePresence("name", "Team name"),
-);
+import { validatePresence } from "validators";
 
 export const UserOnboardingTeam = ({
   next,
 }) => {
   const { loading, data, refetch } = useCurrentUser();
   const [createTeam] = useMutation(CREATE_TEAM);
+  const [updateTeam] = useMutation(UPDATE_TEAM);
 
-  const submit = (team) => {
-    return createTeam({ variables: { team } })
+  const create = (team) => (
+    createTeam({ variables: { team } })
       .then(() => refetch())
-      .catch(handleGraphQLErrors);
-  };
+      .catch(handleGraphQLErrors)
+  );
+
+  const update = (team) => (
+    updateTeam({ variables: { id: data.me.currentTeam.id, team } })
+      .then(() => refetch())
+      .catch(handleGraphQLErrors)
+  );
 
   const team = data.me.currentTeam;
 
@@ -48,8 +51,7 @@ export const UserOnboardingTeam = ({
       <Heading size="l" centered>Your Team</Heading>
 
       <Form
-        onSubmit={submit}
-        validate={validate}
+        onSubmit={team ? update : create}
         initialValues={{ name: team?.name }}
         withoutSubmitButton
       >
@@ -58,6 +60,7 @@ export const UserOnboardingTeam = ({
           name="name"
           placeholder="Team Name"
           type="text"
+          validate={validatePresence}
         />
 
         <Button type="submit" size="large" level="primary">

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { compose } from "recompose";
 import { useHistory } from "react-router-dom";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
 
-import { withCurrentUser, waitForData } from "enhancers";
-
-import { fullUser } from "fragments";
+import { UPDATE_ME } from "mutations";
+import { useCurrentUser } from "hooks";
+import { handleGraphQLErrors } from "lib/graphql";
 
 const binaryToggleOptions = [
   { label: "No", value: false },
@@ -18,27 +16,27 @@ const binaryToggleOptions = [
 import {
   Button,
   BinaryToggle,
-} from "components/uikit";
-
-import {
   Heading,
 } from "components/2020/uikit";
 
-export const UserOnboardingPrivacy = ({
-  data: { me },
-  updateMe,
-}) => {
-  const [dataUsageConsent, setDataUsageConsent] = useState(me.dataUsageConsent);
-  const [spamConsent, setSpamConsent] = useState(me.spamConsent);
-  const [shareConsent, setShareConsent] = useState(me.shareConsent);
+export const UserOnboardingPrivacy = () => {
+  const { loading, data } = useCurrentUser();
+  const [updateMe] = useMutation(UPDATE_ME);
+
+  if (loading) return "Loading...";
+
+  const [dataUsageConsent, setDataUsageConsent] = useState(data.me.dataUsageConsent);
+  const [spamConsent, setSpamConsent] = useState(data.me.spamConsent);
+  const [shareConsent, setShareConsent] = useState(data.me.shareConsent);
 
   const history = useHistory();
 
-  useEffect(() => localStorage.setItem("checked-privacy", "true"));
+  useEffect(() => localStorage.setItem("checked-privacy", "true"), []);
 
   const updatePrivacyPreferences = () => (
     updateMe({ variables: { user: { dataUsageConsent, spamConsent, shareConsent } }})
       .then(() => history.push("/dashboard"))
+      .catch(handleGraphQLErrors)
   );
 
   return (
@@ -100,21 +98,11 @@ export const UserOnboardingPrivacy = ({
         </li>
       </ul>
 
-      <Button level="primary" onClick={updatePrivacyPreferences}>
+      <Button size="large" level="primary" onClick={updatePrivacyPreferences}>
         Save privacy settings
       </Button>
     </div>
   );
 };
 
-export default compose(
-  withCurrentUser,
-  waitForData,
-
-  graphql(
-    gql`mutation updateMe($user: UserInput!) {
-      updateMe(user: $user) { ...fullUser }
-    } ${fullUser}`,
-    { name: "updateMe" },
-  ),
-)(UserOnboardingPrivacy);
+export default UserOnboardingPrivacy;

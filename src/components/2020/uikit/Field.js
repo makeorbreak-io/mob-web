@@ -1,58 +1,40 @@
-// @flow
-
 import React from "react";
-import { Field as FinalField } from "react-final-form";
+import { useField } from "formik";
 import cx from "classnames";
 
 const Field = ({
+  children,
+  component = "input",
   disabled,
   label,
   name,
   placeholder,
-  component: Component = "input",
   type = "text",
   validate = () => {},
-  children,
-  ...props
 }) => {
   const id = `form-field-${name}`;
+  const [field, meta] = useField({ name, validate });
 
   return (
-    <FinalField type={type} name={name} validate={validate} {...props}>
-      {({ input, meta }) => (
-        <div className={`form__field form__field--${type}`}>
-          <label className="form__field__label" htmlFor={id}>{label}</label>
+    <div className={`form__field form__field--${type}`}>
+      <label className="form__field__label" htmlFor={id}>{label}</label>
 
-          {typeof Component === "string" &&
-            React.createElement(Component, {
-              ...input,
-              id,
-              disabled,
-              type,
-              placeholder,
-              className: cx(`form__field__${Component}`, { "form__field__input--error": meta.touched && meta.error }),
-            },
-            children,
-          )}
+      {
+        React.createElement(component, {
+          id,
+          disabled,
+          type,
+          placeholder,
+          className: cx(`form__field__${component}`, { "form__field__input--error": meta.touched && meta.error }),
+          ...field,
+        }, children)
+      }
 
-          {typeof Component === "function" &&
-            <Component
-              {...input}
-              id={id}
-              placeholder={placeholder}
-            >
-              {children}
-            </Component>
-          }
-
-          {meta.error && meta.touched &&
-            <span className="form__field__error">{meta.error}</span>
-          }
-        </div>
-      )}
-    </FinalField>
+      {meta.error && meta.touched &&
+        <span className="form__field__error">{meta.error}</span>
+      }
+    </div>
   );
 };
 
 export default Field;
-

@@ -12,7 +12,7 @@ type Props = {
   onClick: () => void,
   to: string,
   unstyled: bool,
-}
+};
 
 const Link = ({
   children,
@@ -21,10 +21,12 @@ const Link = ({
   onClick = () => {},
   to,
   unstyled = false,
+  ...rest
 }: Props) => {
   const anchor = to && to.includes("#");
 
   const props = {
+    ...rest,
     className: cx(`link-color--${color}`, { external, anchor, unstyled }),
     onClick,
   };
@@ -35,7 +37,7 @@ const Link = ({
 
 
   if (anchor) {
-    return <HashLink smooth {...props} to={to}>{children}</HashLink>;
+    return <HashLink {...props} smooth to={to}>{children}</HashLink>;
   }
 
   return external

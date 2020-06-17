@@ -23,21 +23,11 @@ import { handleGraphQLErrors } from "lib/graphql";
 //
 // Validation
 import {
-  composeValidators,
   validateEmail,
   validatePresence,
   validateMatch,
   validateChecked,
 } from "validators";
-
-const validate = (values) => {
-  return composeValidators(
-    validateEmail("email", "Email"),
-    validatePresence("password", "Password"),
-    validateMatch("password_confirmation", "Password confirmation", { match: values.password }),
-    validateChecked("tos", "Terms of Use"),
-  )(values);
-};
 
 export const Signup = () => {
   const history = useHistory();
@@ -61,37 +51,49 @@ export const Signup = () => {
         Sign Up
       </Heading>
 
-      <Form onSubmit={submit} validate={validate} submitLabel="Sign Up">
-        <Field
-          label="Email"
-          name="email"
-          placeholder="Email"
-          type="email"
-          tabIndex="0"
-        />
+      <Form
+        onSubmit={submit}
+        submitLabel="Sign Up"
+        initialValues={{ email: "", password: "", password_confirmation: "" }}
+      >
+        {({ values }) => (
+          <>
+            <Field
+              label="Email"
+              name="email"
+              placeholder="Email"
+              type="email"
+              tabIndex="0"
+              validate={validateEmail}
+            />
 
-        <Field
-          label="Password"
-          name="password"
-          placeholder="Password"
-          type="password"
-          tabIndex="0"
-        />
+            <Field
+              label="Password"
+              name="password"
+              placeholder="Password"
+              type="password"
+              tabIndex="0"
+              validate={validatePresence}
+            />
 
-        <Field
-          label="Password confirmation"
-          name="password_confirmation"
-          placeholder="Password confirmation"
-          type="password"
-          tabIndex="0"
-        />
+            <Field
+              label="Password confirmation"
+              name="password_confirmation"
+              placeholder="Password confirmation"
+              type="password"
+              tabIndex="0"
+              validate={validateMatch(values.password, "password")}
+            />
 
-        <Field
-          label={<>I have read and accepted the general <Link tarbIndex="1" external to="https://makeorbreak.io/terms-of-service/">Terms of Use</Link></>}
-          type="checkbox"
-          name="tos"
-          tabIndex="0"
-        />
+            <Field
+              label={<>I have read and accepted the general <Link tabIndex="-1" external to="https://makeorbreak.io/terms-of-service/">Terms of Use</Link></>}
+              type="checkbox"
+              name="tos"
+              tabIndex="0"
+              validate={validateChecked}
+            />
+          </>
+        )}
       </Form>
 
       <P additional>

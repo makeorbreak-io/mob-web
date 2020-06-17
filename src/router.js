@@ -67,8 +67,8 @@ const Router = () => (
 
         <Route path="/signin" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/recover-password" component={RecoverPassword} />
         <Route path="/recover-password/:token" component={ResetPassword} />
+        <Route path="/recover-password" component={RecoverPassword} />
 
         <Route path="/welcome" component={nest(Authenticated, UserOnboarding)} />
 
@@ -82,10 +82,10 @@ const Router = () => (
         <Route path="/admin/teams" component={nest(Authorized, Admin, AdminTeams)} />
         <Route path="/admin/editions" component={nest(Authorized, Admin, AdminEditions)} />
         <Route path="/admin/voting" component={nest(Authorized, Admin, AdminVoting)} />
-        <Route path="/admin/events" component={nest(Authorized, Admin, AdminEvents)} />
         <Route path="/admin/events/:slug" component={nest(Authorized, Admin, AdminEditEvent)} />
-        <Route path="/admin/emails" component={nest(Authorized, Admin, AdminEmails)} />
+        <Route path="/admin/events" component={nest(Authorized, Admin, AdminEvents)} />
         <Route path="/admin/emails/:id" component={nest(Authorized, Admin, AdminEditEmail)} />
+        <Route path="/admin/emails" component={nest(Authorized, Admin, AdminEmails)} />
       </Switch>
     </App>
   </BrowserRouter>

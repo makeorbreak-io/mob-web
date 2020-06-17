@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 
 import {
@@ -11,30 +12,18 @@ import {
 
 import { UPDATE_ME } from "mutations";
 import { useCurrentUser } from "hooks";
+import { handleGraphQLErrors } from "lib/graphql";
 
 //
 // Constants
 import { TSHIRT_SIZES } from "constants/user";
 
 //
-// Util
-import { handleGraphQLErrors } from "lib/graphql";
-
-//
 // Validation
-import {
-  composeValidators,
-  validatePresence,
-  validateEmail,
-} from "validators";
-
-const validate = composeValidators(
-  validatePresence("name", "Name"),
-  validateEmail("email", "Email"),
-  validatePresence("tshirtSize", "T-Shirt size"),
-);
+import { validatePresence, validateEmail } from "validators";
 
 export const AccountSettings = () => {
+  const history = useHistory();
   const { loading, data, refetch } = useCurrentUser();
   const [updateMe] = useMutation(UPDATE_ME);
 
@@ -50,6 +39,7 @@ export const AccountSettings = () => {
   const submit = (user) => (
     updateMe({ variables: { user } })
       .then(() => refetch())
+      .then(() => history.push("/dashboard"))
       .catch(handleGraphQLErrors)
   );
 
@@ -59,14 +49,15 @@ export const AccountSettings = () => {
 
       <Form
         onSubmit={submit}
+        submitLabel="Update profile"
         initialValues={initialValues}
-        validate={validate}
       >
         <Field
           label="Name"
           name="name"
           placeholder="Name"
           type="text"
+          validate={validatePresence}
         />
 
         <Field
@@ -74,12 +65,14 @@ export const AccountSettings = () => {
           name="email"
           placeholder="Email"
           type="email"
+          validate={validateEmail}
         />
 
         <Field
           label="T-Shirt size"
           name="tshirtSize"
           component="select"
+          validate={validatePresence}
         >
           <option value="" disabled>Select a size</option>
           {TSHIRT_SIZES.map(size =>

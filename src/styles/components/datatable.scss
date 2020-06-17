@@ -12,7 +12,6 @@
       position: sticky;
       top: 130px;
       z-index: 10;
-      box-shadow: 0 1px 6px -4px rgba(black, 0.9);
       font-weight: 600;
     }
 
@@ -21,11 +20,14 @@
       vertical-align: top;
       text-align: left;
       padding: 12px 6px;
+      height: auto;
 
       &.right { text-align: right; }
       &.select, &.edit { cursor: pointer; }
       &.select { width: 26px; }
       &.edit { width: 50px; }
+
+      span { margin: 0; }
     }
 
     tr td,
@@ -34,6 +36,8 @@
       &:last-child { padding-right: 0; }
     }
   }
+
+  margin: 50px 0;
 }
 
 .data-table--tools {

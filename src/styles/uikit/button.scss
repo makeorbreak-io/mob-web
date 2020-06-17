@@ -127,17 +127,23 @@ button {
     &.primary {
       background-color: var(--electric-indigo);
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: var(--electric-indigo--hover);
+
+        &[disabled] { background-color: var(--electric-indigo); }
       }
     }
 
     &.secondary {
       background-color: var(--black);
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: var(--outer-space);
       }
     }
+  }
+
+  &[disabled] {
+    opacity: 0.3;
   }
 }
