@@ -28,7 +28,12 @@ const Form = ({
         {typeof children === "function" ? children(props) : children }
 
         {!withoutSubmitButton &&
-          <Button type="submit" level={inline ? "secondary" : "primary"} size={inline ? "small" : "large"}>
+          <Button
+            type="submit"
+            level={inline ? "secondary" : "primary"}
+            size={inline ? "small" : "large"}
+            disabled={Object.values(props.touched).length === 0 || !props.isValid || props.isSubmitting}
+          >
             {submitLabel}
           </Button>
         }
