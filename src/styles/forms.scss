@@ -74,6 +74,12 @@ form.form {
   right: 0;
   font-size: 0.8rem;
   color: $error-red;
+
+  &--wide {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 .form__field__select {

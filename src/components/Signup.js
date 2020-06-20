@@ -34,7 +34,7 @@ export const Signup = () => {
   const { refetch } = useCurrentUser();
   const [register] = useMutation(REGISTER);
 
-  const submit = ({ email, password }) => (
+  const submit = ({ email, password }, actions) => (
     register({ variables: { email: email.trim().toLowerCase(), password } })
       .then((response) => localStorage.setItem("jwt", response.data.register))
       .then(() => refetch())
@@ -42,7 +42,7 @@ export const Signup = () => {
         history.push("/welcome");
         return null;
       })
-      .catch(handleGraphQLErrors)
+      .catch(handleGraphQLErrors(actions))
   );
 
   return (

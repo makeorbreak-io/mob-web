@@ -30,7 +30,7 @@ export const Login = () => {
   const { refetch } = useCurrentUser();
   const [authenticate] = useMutation(AUTHENTICATE);
 
-  const submit = ({ email, password }) => {
+  const submit = ({ email, password }, actions) => {
     return authenticate({ variables: { email: email.trim().toLowerCase(), password }})
       .then((response) => localStorage.setItem("jwt", response.data.authenticate))
       .then(refetch)
@@ -38,7 +38,7 @@ export const Login = () => {
         history.push("/dashboard");
         return null;
       })
-      .catch(handleGraphQLErrors);
+      .catch(handleGraphQLErrors(actions));
   };
   // const submit = (a,b,c,d) => console.log(a,b,c,d);
 

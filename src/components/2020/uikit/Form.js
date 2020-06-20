@@ -27,6 +27,12 @@ const Form = ({
       >
         {typeof children === "function" ? children(props) : children }
 
+        {props.errors._error &&
+          <div className="form__field form__field--text">
+            <span className="form__field__error form__field__error--wide">{props.errors._error}</span>
+          </div>
+        }
+
         {!withoutSubmitButton &&
           <Button
             type="submit"
