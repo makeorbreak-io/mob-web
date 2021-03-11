@@ -61,7 +61,7 @@
     "postcss-move-props-to-bg-image-query": "^2.0.0",
     "postcss-preset-env": "^6.7.0",
     "react-axe": "^3.4.1",
-    "react-hot-loader": "^4.12.21",
+    "react-hot-loader": "^4.13.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "stylus": "^0.54.7",
