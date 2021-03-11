@@ -33,7 +33,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-react": "^7.6.3",
-    "@babel/register": "^7.6.2",
+    "@babel/register": "^7.13.8",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.2.4",
